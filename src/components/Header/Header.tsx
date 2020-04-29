@@ -86,6 +86,7 @@ const Header: React.FunctionComponent = () => {
     },
     {
       ...data.img2500.childImageSharp.fluid,
+      media: `(min-width: 2000px)`,
     },
   ]
 
