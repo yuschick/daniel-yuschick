@@ -73,6 +73,7 @@ const Header: React.FunctionComponent = () => {
   const sources = [
     {
       ...data.img2500.childImageSharp.fluid,
+      media: `(min-width: 2500px)`,
     },
     {
       ...data.img2000.childImageSharp.fluid,
