@@ -1,5 +1,5 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
 import { Link } from "gatsby"
@@ -110,29 +110,33 @@ const Header: React.FunctionComponent = () => {
 }
 
 const ResponsiveImage = styled(Img)<{ sources: any }>`
-  ${({ sources }) => `
-    & > div:first-child {
-      @media (max-width: 500px) {
-        padding-bottom: ${100 / sources[0].aspectRatio}% !important;
-      }
-
-      @media (min-width: 501px and max-width: 1000px) {
-        padding-bottom: ${100 / sources[1].aspectRatio}% !important;
-      }
-
-      @media (min-width: 1001px and max-width: 1500px) {
-        padding-bottom: ${100 / sources[2].aspectRatio}% !important;
-      }
-
-      @media (min-width: 1501px and max-width: 2000px) {
-        padding-bottom: ${100 / sources[3].aspectRatio}% !important;
-      }
-
-      @media (min-width: 2001px) {
-        padding-bottom: ${100 / sources[4].aspectRatio}% !important;
-      }
+  > div:first-child {
+    @media (max-width: 500px) {
+      background: red;
+      padding-bottom: ${props =>
+        `${100 / props.sources[0].aspectRatio}% !important`};
     }
-  `}
+    @media (min-width: 501px) and (max-width: 1000px) {
+      background: green;
+      padding-bottom: ${props =>
+        `${100 / props.sources[1].aspectRatio}% !important`};
+    }
+    @media (min-width: 1001px) and (max-width: 1500px) {
+      background: blue;
+      padding-bottom: ${props =>
+        `${100 / props.sources[2].aspectRatio}% !important`};
+    }
+    @media (min-width: 1501px) and (max-width: 2000px) {
+      background: pink;
+      padding-bottom: ${props =>
+        `${100 / props.sources[3].aspectRatio}% !important`};
+    }
+    @media (min-width: 2001px) {
+      background: pink;
+      padding-bottom: ${props =>
+        `${100 / props.sources[4].aspectRatio}% !important`};
+    }
+  }
 `
 
 const HeaderContainer = styled.header`
