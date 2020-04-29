@@ -113,7 +113,7 @@ const HeaderContainer = styled.header`
   background: ${ThemeColors.core.black};
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 95%, 50% 100%, 0 95%);
   clip-path: polygon(0 0, 100% 0, 100% 95%, 50% 100%, 0 95%);
-  max-height: 100vh;
+  max-height: 80vh;
   overflow: hidden;
   position: relative;
   text-align: center;
