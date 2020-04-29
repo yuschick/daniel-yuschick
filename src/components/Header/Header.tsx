@@ -71,23 +71,22 @@ const Header: React.FunctionComponent = () => {
     }
   `)
   const sources = [
-    { ...data.img500.childImageSharp.fluid, media: `(max-width: 500px)` },
     {
-      ...data.img1000.childImageSharp.fluid,
-      media: `(max-width: 1000px)`,
-    },
-    {
-      ...data.img1500.childImageSharp.fluid,
-      media: `(max-width: 1500px)`,
+      ...data.img2500.childImageSharp.fluid,
     },
     {
       ...data.img2000.childImageSharp.fluid,
       media: `(max-width: 2000px)`,
     },
     {
-      ...data.img2500.childImageSharp.fluid,
-      media: `(min-width: 2000px)`,
+      ...data.img1500.childImageSharp.fluid,
+      media: `(max-width: 1500px)`,
     },
+    {
+      ...data.img1000.childImageSharp.fluid,
+      media: `(max-width: 1000px)`,
+    },
+    { ...data.img500.childImageSharp.fluid, media: `(max-width: 500px)` },
   ]
 
   return (
@@ -118,6 +117,11 @@ const HeaderContainer = styled.header`
   position: relative;
   text-align: center;
   width: 100%;
+
+  img {
+    max-width: 100%;
+    width: 100%;
+  }
 `
 
 const NavContainer = styled.section`

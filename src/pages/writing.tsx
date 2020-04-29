@@ -39,10 +39,7 @@ const WritingPage: React.FunctionComponent = () => {
   useEffect(() => {
     const getUrl = (): string => {
       let url = `https://www.goodreads.com/author/list/19160978?format=xml&key=${process.env.GATSBY_GOODREADS_KEY}`
-
-      if (process.env.NODE_ENV === "development") {
-        url = `https://cors-anywhere.herokuapp.com/${url}`
-      }
+      url = `https://cors-anywhere.herokuapp.com/${url}`
 
       return url
     }

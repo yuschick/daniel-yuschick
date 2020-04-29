@@ -23,10 +23,7 @@ const GoodreadsFeed: React.FunctionComponent = () => {
   useEffect(() => {
     const getUrl = (shelf: string): string => {
       let url = `https://www.goodreads.com/review/list/35914801.xml?key=${process.env.GATSBY_GOODREADS_KEY}&v=2&shelf=${shelf}`
-
-      if (process.env.NODE_ENV === "development") {
-        url = `https://cors-anywhere.herokuapp.com/${url}`
-      }
+      url = `https://cors-anywhere.herokuapp.com/${url}`
 
       return url
     }
