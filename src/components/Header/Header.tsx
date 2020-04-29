@@ -77,15 +77,15 @@ const Header: React.FunctionComponent = () => {
     },
     {
       ...data.img2000.childImageSharp.fluid,
-      media: `(max-width: 2000px)`,
+      media: "(min-width: 1501px) and (max-width: 2000px)",
     },
     {
       ...data.img1500.childImageSharp.fluid,
-      media: `(max-width: 1500px)`,
+      media: "(min-width: 1001px) and (max-width: 1500px)",
     },
     {
       ...data.img1000.childImageSharp.fluid,
-      media: `(max-width: 1000px)`,
+      media: "(min-width: 501px) and (max-width: 1000px)",
     },
     { ...data.img500.childImageSharp.fluid, media: `(max-width: 500px)` },
   ]
@@ -113,7 +113,7 @@ const HeaderContainer = styled.header`
   background: ${ThemeColors.core.black};
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 95%, 50% 100%, 0 95%);
   clip-path: polygon(0 0, 100% 0, 100% 95%, 50% 100%, 0 95%);
-  max-height: 80vh;
+  max-height: 100vh;
   overflow: hidden;
   position: relative;
   text-align: center;
