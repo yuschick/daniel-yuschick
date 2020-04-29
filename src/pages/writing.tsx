@@ -13,7 +13,6 @@ import Book from "components/Writing/Book"
 
 import formatXML from "utils/formatXML"
 import { BookChild } from "types/Goodreads"
-import Signup from "components/Writing/SIgnup"
 
 // TODO: Once a second book is added, this will need to be modified
 const WritingPage: React.FunctionComponent = () => {
@@ -23,7 +22,7 @@ const WritingPage: React.FunctionComponent = () => {
 
   const theMinesCover = useStaticQuery(graphql`
     query CoverQuery {
-      file(relativePath: { eq: "official-the-mines-cover.jpg" }) {
+      file(relativePath: { eq: "writing/official-the-mines-cover.jpg" }) {
         childImageSharp {
           fluid(toFormat: WEBP) {
             aspectRatio
