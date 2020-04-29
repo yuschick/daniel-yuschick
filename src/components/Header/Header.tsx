@@ -91,7 +91,8 @@ const Header: React.FunctionComponent = () => {
 
   return (
     <HeaderContainer>
-      <Img
+      <ResponsiveImage
+        sources={sources}
         fluid={sources}
         alt="Daniel Yuschick by @nome_sapien"
         style={{ opacity: 0.5 }}
@@ -111,7 +112,9 @@ const Header: React.FunctionComponent = () => {
 const ResponsiveImage = styled(Img)<{ sources: any }>`
   ${({ sources }) => `
     & > div:first-child {
-      padding-bottom: ${100 / sources[0].aspectRatio}% !important;
+      @media (max-width: 500px) {
+        padding-bottom: ${100 / sources[0].aspectRatio}% !important;
+      }
 
       @media (min-width: 501px and max-width: 1000px) {
         padding-bottom: ${100 / sources[1].aspectRatio}% !important;
