@@ -1,25 +1,45 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "daniel-yuschick",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "The personal website of developer and author, Daniel Yuschick",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Daniel Yuschick",
   "dependencies": {
+    "@types/uuid": "^7.0.3",
+    "babel-plugin-styled-components": "^1.10.7",
     "gatsby": "^2.20.35",
     "gatsby-image": "^2.3.5",
+    "gatsby-plugin-google-fonts": "^1.0.1",
     "gatsby-plugin-manifest": "^2.3.7",
     "gatsby-plugin-offline": "^3.1.5",
     "gatsby-plugin-react-helmet": "^3.2.5",
+    "gatsby-plugin-react-svg": "^3.0.0",
     "gatsby-plugin-sharp": "^2.5.7",
+    "gatsby-plugin-styled-components": "^3.2.4",
+    "gatsby-plugin-typescript": "^2.3.5",
     "gatsby-source-filesystem": "^2.2.5",
     "gatsby-transformer-sharp": "^2.4.7",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.0.0"
+    "react-helmet": "^6.0.0",
+    "react-lazyload": "^2.6.7",
+    "react-spotify-api": "^3.0.0",
+    "react-twitter-embed": "^3.0.3",
+    "styled-components": "^5.1.0",
+    "uuid": "^7.0.3",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "prettier": "2.0.4"
+    "@types/react-helmet": "^5.0.15",
+    "@types/react-lazyload": "^2.6.0",
+    "@types/styled-components": "^5.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "gatsby-plugin-root-import": "^2.0.5",
+    "prettier": "2.0.4",
+    "typescript": "^3.8.3"
   },
   "keywords": [
     "gatsby"
@@ -32,13 +52,14 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "type-check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/yuschick/daniel-yuschick"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/yuschick/daniel-yuschick/issues"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-prettier",
+    "plugin:cypress/recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": ["cypress", "react", "react-hooks"],
+  "rules": {
+    "no-console": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off"
+  }
+}
