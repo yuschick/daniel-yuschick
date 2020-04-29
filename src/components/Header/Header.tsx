@@ -12,7 +12,6 @@ import Nav from "components/Nav"
 const Header: React.FunctionComponent = () => {
   const data = useStaticQuery(graphql`
     query HeaderImageQuery {
-      __typename
       img500: file(relativePath: { eq: "header-500.jpg" }) {
         childImageSharp {
           fluid(maxWidth: 500, toFormat: WEBP) {
@@ -86,7 +85,7 @@ const Header: React.FunctionComponent = () => {
     },
     {
       ...data.img2500.childImageSharp.fluid,
-      media: `(min-width: 2500px)`,
+      media: `(min-width: 2001px)`,
     },
   ]
 
@@ -108,6 +107,30 @@ const Header: React.FunctionComponent = () => {
     </HeaderContainer>
   )
 }
+
+const ResponsiveImage = styled(Img)<{ sources: any }>`
+  ${({ sources }) => `
+    & > div:first-child {
+      padding-bottom: ${100 / sources[0].aspectRatio}% !important;
+
+      @media (min-width: 501px and max-width: 1000px) {
+        padding-bottom: ${100 / sources[1].aspectRatio}% !important;
+      }
+
+      @media (min-width: 1001px and max-width: 1500px) {
+        padding-bottom: ${100 / sources[2].aspectRatio}% !important;
+      }
+
+      @media (min-width: 1501px and max-width: 2000px) {
+        padding-bottom: ${100 / sources[3].aspectRatio}% !important;
+      }
+
+      @media (min-width: 2001px) {
+        padding-bottom: ${100 / sources[4].aspectRatio}% !important;
+      }
+    }
+  `}
+`
 
 const HeaderContainer = styled.header`
   background: ${ThemeColors.core.black};
