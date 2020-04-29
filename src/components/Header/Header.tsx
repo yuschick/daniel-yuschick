@@ -71,23 +71,23 @@ const Header: React.FunctionComponent = () => {
     }
   `)
   const sources = [
+    { ...data.img500.childImageSharp.fluid, media: `(max-width: 500px)` },
     {
-      ...data.img2500.childImageSharp.fluid,
-      media: `(min-width: 2500px)`,
-    },
-    {
-      ...data.img2000.childImageSharp.fluid,
-      media: "(min-width: 1501px) and (max-width: 2000px)",
+      ...data.img1000.childImageSharp.fluid,
+      media: "(min-width: 501px) and (max-width: 1000px)",
     },
     {
       ...data.img1500.childImageSharp.fluid,
       media: "(min-width: 1001px) and (max-width: 1500px)",
     },
     {
-      ...data.img1000.childImageSharp.fluid,
-      media: "(min-width: 501px) and (max-width: 1000px)",
+      ...data.img2000.childImageSharp.fluid,
+      media: "(min-width: 1501px) and (max-width: 2000px)",
     },
-    { ...data.img500.childImageSharp.fluid, media: `(max-width: 500px)` },
+    {
+      ...data.img2500.childImageSharp.fluid,
+      media: `(min-width: 2500px)`,
+    },
   ]
 
   return (
