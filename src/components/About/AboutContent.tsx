@@ -73,7 +73,7 @@ const AboutContent: React.FunctionComponent = () => {
         <ListContent.Content>
           <ul>
             <li>
-              <Strikethrough>Finish this new website</Strikethrough>
+              <Strikethrough>Finish this website</Strikethrough>
             </li>
             <li>Write my second, not-a-sequel, novel</li>
             <li>Climb a mountain in Antarctica</li>

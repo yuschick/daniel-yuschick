@@ -1,6 +1,5 @@
 import React from "react"
 import { createGlobalStyle } from "styled-components"
-import { SpotifyApiContext } from "react-spotify-api"
 
 import Header from "./Header"
 import Footer from "./Footer"
@@ -81,12 +80,12 @@ const GlobalStyle = createGlobalStyle`
 
 const Layout: React.FunctionComponent = ({ children }) => {
   return (
-    <SpotifyApiContext.Provider value={process.env.GATSBY_SPOTIFY_TOKEN}>
+    <>
       <GlobalStyle />
       <Header />
       {children}
       <Footer />
-    </SpotifyApiContext.Provider>
+    </>
   )
 }
 

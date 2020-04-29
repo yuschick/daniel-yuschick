@@ -1,59 +1,31 @@
-import React, { KeyboardEvent } from "react"
+import React from "react"
 import styled, { css } from "styled-components"
-import { navigate } from "gatsby"
+import { Link } from "gatsby"
 
 import ThemeColors from "theme/colors"
 import ThemeFonts from "theme/fonts"
 
-const Nav: React.FunctionComponent = () => {
-  const handleNav = (
-    id: string,
-    e?: React.KeyboardEvent<HTMLButtonElement>
-  ) => {
-    if (e && e.key !== "enter") return
-    navigate(id)
-  }
-
-  return (
-    <nav>
-      <Navigation>
-        <Item>
-          <NavButton
-            onClick={() => handleNav("about")}
-            onKeyPress={(e: KeyboardEvent<HTMLButtonElement>) =>
-              handleNav("about", e)
-            }
-            fromLeft
-          >
-            <span data-item="About">About</span>
-          </NavButton>
-        </Item>
-        <Item>
-          <NavButton
-            onClick={() => handleNav("development")}
-            onKeyPress={(e: KeyboardEvent<HTMLButtonElement>) =>
-              handleNav("development", e)
-            }
-            fromTop
-          >
-            <span data-item="Development">Development</span>
-          </NavButton>
-        </Item>
-        <Item>
-          <NavButton
-            onClick={() => handleNav("writing")}
-            onKeyPress={(e: KeyboardEvent<HTMLButtonElement>) =>
-              handleNav("writing", e)
-            }
-            fromLeft
-          >
-            <span data-item="Writing">Writing</span>
-          </NavButton>
-        </Item>
-      </Navigation>
-    </nav>
-  )
-}
+const Nav: React.FunctionComponent = () => (
+  <nav>
+    <Navigation>
+      <Item>
+        <LinkText to="about" data-item="About" fromLeft>
+          About
+        </LinkText>
+      </Item>
+      <Item>
+        <LinkText to="development" data-item="Development" fromTop>
+          Development
+        </LinkText>
+      </Item>
+      <Item>
+        <LinkText to="writing" data-item="Writing" fromLeft>
+          Writing
+        </LinkText>
+      </Item>
+    </Navigation>
+  </nav>
+)
 
 const Navigation = styled.ul`
   align-items: center;
@@ -71,42 +43,42 @@ const Item = styled.li`
   margin: 0 0.5em;
 `
 
-const NavButton = styled.button.attrs(() => ({
-  type: "button",
-}))<{ fromLeft?: boolean; fromRight?: boolean; fromTop?: boolean }>`
-  background: transparent;
-  border: 0;
-  box-shadow: 0;
-  cursor: pointer;
-  margin: 0;
-  outline: 0;
+const LinkText = styled(Link)<{ fromLeft?: boolean; fromTop?: boolean }>`
+  display: block;
   overflow: hidden;
-  padding: 0;
   position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
 
-  span {
+  &:focus {
+    outline: 1px solid ${ThemeColors.core.lightGrey};
+  }
+
+  &:visited,
+  :active,
+  :hover {
     color: ${ThemeColors.core.lightGrey};
-    text-transform: uppercase;
+    text-decoration: none;
+  }
 
-    &:before {
-      color: ${ThemeColors.core.white};
-      content: attr(data-item);
-      overflow: hidden;
-      position: absolute;
-      top: 0;
-    }
+  &:before {
+    color: ${ThemeColors.core.white};
+    content: attr(data-item);
+    overflow: hidden;
+    position: absolute;
+    top: 0;
   }
 
   ${props =>
     props.fromLeft &&
     css`
-      span:before {
+      :before {
         left: 0;
         transition: width 0.25s ease-in;
         width: 0;
       }
 
-      &:hover span:before {
+      &:hover:before {
         width: 100%;
       }
     `}
@@ -114,13 +86,13 @@ const NavButton = styled.button.attrs(() => ({
   ${props =>
     props.fromTop &&
     css`
-      span:before {
+      :before {
         left: 0;
         max-height: 0;
         transition: max-height 0.25s ease-in;
       }
 
-      &:hover span:before {
+      &:hover :before {
         max-height: 100%;
       }
     `}
