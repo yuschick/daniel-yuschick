@@ -127,7 +127,9 @@ const IconsWrapper = styled.section`
   padding-top: 0.5rem;
 `
 
-const IconContainer = styled.div`
+const IconContainer = styled.div.attrs(() => ({
+  tabIndex: 0,
+}))`
   cursor: pointer;
   height: 22px;
   margin-right: 1rem;
@@ -135,6 +137,10 @@ const IconContainer = styled.div`
   transform: scale(1);
   transition: all 0.15s ease;
   width: 22px;
+
+  :focus {
+    outline: 1px solid ${ThemeColors.core.lightGrey};
+  }
 
   &:hover {
     opacity: 1;

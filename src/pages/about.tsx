@@ -27,16 +27,16 @@ const AboutPage: React.FunctionComponent = () => (
         <GridContainer>
           <AboutContent />
           <SubGrid>
-            <LazyLoad height={230} once>
+            <LazyLoad height={230} offset={100} once>
               <TwitterFeed />
             </LazyLoad>
-            <LazyLoad height={250} once>
+            <LazyLoad height={250} offset={100} once>
               <GoodreadsFeed />
             </LazyLoad>
-            <LazyLoad height={250} once>
+            <LazyLoad height={250} offset={100} once>
               <SpotifyFeed />
             </LazyLoad>
-            <LazyLoad height={200} once>
+            <LazyLoad height={200} offset={100} once>
               <PSNFeed />
             </LazyLoad>
           </SubGrid>
