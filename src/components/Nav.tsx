@@ -1,5 +1,5 @@
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { Link } from "gatsby"
 
 import ThemeColors from "theme/colors"
@@ -9,17 +9,17 @@ const Nav: React.FunctionComponent = () => (
   <nav>
     <Navigation>
       <Item>
-        <LinkText to="about" data-item="About" fromLeft>
+        <LinkText to="/about" data-item="About" data-dir="left">
           About
         </LinkText>
       </Item>
       <Item>
-        <LinkText to="development" data-item="Development" fromTop>
+        <LinkText to="/development" data-item="Development" data-dir="top">
           Development
         </LinkText>
       </Item>
       <Item>
-        <LinkText to="writing" data-item="Writing" fromLeft>
+        <LinkText to="/writing" data-item="Writing" data-dir="left">
           Writing
         </LinkText>
       </Item>
@@ -69,33 +69,29 @@ const LinkText = styled(Link)<{ fromLeft?: boolean; fromTop?: boolean }>`
     top: 0;
   }
 
-  ${props =>
-    props.fromLeft &&
-    css`
-      :before {
-        left: 0;
-        transition: width 0.25s ease-in;
-        width: 0;
-      }
+  &[data-dir="left"] {
+    :before {
+      left: 0;
+      transition: width 0.25s ease-in;
+      width: 0;
+    }
 
-      &:hover:before {
-        width: 100%;
-      }
-    `}
+    &:hover:before {
+      width: 100%;
+    }
+  }
 
-  ${props =>
-    props.fromTop &&
-    css`
-      :before {
-        left: 0;
-        max-height: 0;
-        transition: max-height 0.25s ease-in;
-      }
+  &[data-dir="top"] {
+    :before {
+      left: 0;
+      max-height: 0;
+      transition: max-height 0.25s ease-in;
+    }
 
-      &:hover :before {
-        max-height: 100%;
-      }
-    `}
+    &:hover :before {
+      max-height: 100%;
+    }
+  }
 `
 
 export default Nav

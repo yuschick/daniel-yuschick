@@ -5,32 +5,21 @@ import { format } from "date-fns"
 import ThemeColors from "theme/colors"
 import { IPost } from "types/Development"
 
+import getReadingTime from "utils/getReadingTime"
+
 interface Props {
   data: IPost
 }
 
 const Post: React.FunctionComponent<Props> = ({ data }) => {
-  const strip = (html: string): string => {
-    var doc = new DOMParser().parseFromString(html, "text/html")
-    return doc.body.textContent || ""
-  }
-
-  const getReadingTime = (content: string): number => {
-    const wordsPerMinute = 250
-    const text: string = strip(content)
-    const wordcount = text.split(" ").length
-
-    return Math.ceil(wordcount / wordsPerMinute)
-  }
-
   return (
     <PostItem key={data.pubDate}>
-      <a href={data.link} dangerouslySetInnerHTML={{ __html: data.title }} />
+      <a href={data.link}>{data.title.replace("&amp;", "&")}</a>
       <PostDetailsContainer>
         <PostDetails>
           {format(new Date(data.pubDate), "dd/MM/yyyy")}
         </PostDetails>
-        <PostDetails>{getReadingTime(data.content)} min. read</PostDetails>
+        <PostDetails>{getReadingTime(data)} min. read</PostDetails>
       </PostDetailsContainer>
     </PostItem>
   )

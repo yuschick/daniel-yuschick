@@ -1,38 +1,35 @@
 import React, { useState, useEffect } from "react"
 import { v4 as uuidv4 } from "uuid"
 
+import { useStoreActions, useStoreState } from "store"
+
 import H3 from "components/H3"
 import Error from "components/Error"
 import LoadingIcon from "components/LoadingIcon"
 
 import Post from "./Post"
 
-import getRssToJson from "utils/getRssToJson"
-import { PostsResponse, IPost } from "types/Development"
+import { IPost } from "types/Development"
 
 const Posts: React.FunctionComponent = () => {
-  const [error, setError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [posts, setPosts] = useState<IPost[]>([])
+  const error: boolean = useStoreState(state => state.development.error)
+  const posts: IPost[] | null = useStoreState(state => state.development.posts)
+  const fetchPosts = useStoreActions(actions => actions.development.fetchPosts)
 
   useEffect(() => {
-    setLoading(true)
+    if (posts && posts.length) return
 
-    getRssToJson(`https://medium.com/feed/@Yuschick`)
-      .then((data: PostsResponse) => {
-        setPosts(data.items.filter((post: IPost) => post.categories.length))
-      })
-      .then(() => setLoading(false))
-      .catch(() => {
-        setError(true)
-        setLoading(false)
-      })
-  }, [setPosts])
+    setLoading(true)
+    fetchPosts().then(() => {
+      setLoading(false)
+    })
+  }, [posts, fetchPosts, setLoading])
 
   return (
     <section>
       <H3>Posts</H3>
-      {(loading || !posts) && !error ? (
+      {(loading || (posts && !posts.length)) && !error ? (
         <LoadingIcon />
       ) : error ? (
         <Error />

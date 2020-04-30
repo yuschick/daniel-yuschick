@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
+import { useStoreActions, useStoreState } from "store"
+
 import Layout from "components/Layout"
 import SEO from "components/SEO"
 import LoadingIcon from "components/LoadingIcon"
@@ -11,14 +13,14 @@ import ContentContainer from "components/ContentContainer"
 
 import Book from "components/Writing/Book"
 
-import formatXML from "utils/formatXML"
 import { BookChild } from "types/Goodreads"
 
 // TODO: Once a second book is added, this will need to be modified
 const WritingPage: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<boolean>(false)
-  const [data, setData] = useState<BookChild>()
+  const error: boolean = useStoreState(state => state.writing.error)
+  const books: BookChild | null = useStoreState(state => state.writing.books)
+  const fetchBooks = useStoreActions(actions => actions.writing.fetchBooks)
 
   const theMinesCover = useStaticQuery(graphql`
     query CoverQuery {
@@ -37,36 +39,13 @@ const WritingPage: React.FunctionComponent = () => {
   `)
 
   useEffect(() => {
-    const getUrl = (): string => {
-      let url = `https://www.goodreads.com/author/list/19160978?format=xml&key=${process.env.GATSBY_GOODREADS_KEY}`
-      url = `https://cors-anywhere.herokuapp.com/${url}`
-
-      return url
-    }
-    const fetchAuthor = async () => {
-      try {
-        const url = getUrl()
-        const response = await fetch(url)
-        const xmlText = await response.text()
-        const {
-          GoodreadsResponse: {
-            author: { books },
-          },
-        } = await formatXML(xmlText)
-
-        if (!books) return
-
-        setData(books.book)
-      } catch {
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
+    if (books) return
 
     setLoading(true)
-    fetchAuthor()
-  }, [setData])
+    fetchBooks().then(() => {
+      setLoading(false)
+    })
+  }, [books, fetchBooks, setLoading])
 
   return (
     <>
@@ -78,14 +57,14 @@ const WritingPage: React.FunctionComponent = () => {
         <ViewSection>
           <H2>Writing</H2>
           <ContentContainer>
-            {(loading || !data) && !error ? (
+            {(loading || !books) && !error ? (
               <LoadingIcon />
             ) : error ? (
               <Error />
             ) : (
-              data && (
+              books && (
                 <Book
-                  data={data}
+                  data={books}
                   cover={theMinesCover.file.childImageSharp.fluid}
                   amazon="https://www.amazon.com/Mines-Daniel-Yuschick-ebook/dp/B07RRQ3F58"
                 />
