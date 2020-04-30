@@ -12,6 +12,7 @@ import MediumIcon from "assets/icons/icon-medium.svg"
 import PlaystationIcon from "assets/icons/icon-playstation.svg"
 import SpotifyIcon from "assets/icons/icon-spotify.svg"
 import TwitterIcon from "assets/icons/icon-twitter.svg"
+import AtlasObscuraIcon from "assets/icons/icon-atlas-obscura.svg"
 
 const Footer: React.FunctionComponent = () => {
   return (
@@ -32,6 +33,11 @@ const Footer: React.FunctionComponent = () => {
           <IconContainer>
             <a href="https://twitter.com/Yuschick">
               <img src={TwitterIcon} alt="Twitter" />
+            </a>
+          </IconContainer>
+          <IconContainer>
+            <a href="https://www.atlasobscura.com/users/yuschick">
+              <img src={AtlasObscuraIcon} alt="Atlas Obscura" />
             </a>
           </IconContainer>
           <IconContainer>

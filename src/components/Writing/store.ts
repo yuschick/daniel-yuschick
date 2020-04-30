@@ -1,14 +1,15 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
+import { useStaticQuery, graphql } from "gatsby"
 
 import { BookChild } from "types/Goodreads"
 import formatXML from "utils/formatXML"
 
 export interface WritingModel {
   error: boolean
-  books: BookChild | null
+  books: BookChild[] | null
 
   setError: Action<WritingModel, boolean>
-  setBooks: Action<WritingModel, BookChild>
+  setBooks: Action<WritingModel, BookChild[]>
 
   fetchBooks: Thunk<WritingModel>
 }
@@ -45,7 +46,11 @@ const storeModel: WritingModel = {
 
       if (!books) return
 
-      actions.setBooks(books.book)
+      if (Array.isArray(books.book)) {
+        actions.setBooks([...books.book])
+      } else {
+        actions.setBooks([books.book])
+      }
     } catch (error) {
       actions.setError(true)
     }

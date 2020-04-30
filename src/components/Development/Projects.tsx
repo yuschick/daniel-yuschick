@@ -50,6 +50,8 @@ const Projects: React.FunctionComponent = () => {
               (p: any) => p.node.name === project.image
             )
 
+            if (!img) return
+
             return (
               <Project
                 key={uuidv4()}

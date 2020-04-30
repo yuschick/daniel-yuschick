@@ -1,7 +1,17 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+const writingLinks = {
+  themines: {
+    amazon: "https://www.amazon.com/Mines-Daniel-Yuschick-ebook/dp/B07RRQ3F58",
+  },
+}
 
-// You can delete this file if you're not using it
+exports.onCreateNode = ({ node, actions }) => {
+  if (node.internal.type === "File" && node.name in writingLinks) {
+    console.log(node)
+    const { createNodeField } = actions
+    createNodeField({
+      node,
+      name: "amazon",
+      value: writingLinks[node.name].amazon,
+    })
+  }
+}

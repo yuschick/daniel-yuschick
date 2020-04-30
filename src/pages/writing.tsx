@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useStaticQuery, graphql } from "gatsby"
+import { v4 as uuidv4 } from "uuid"
 
 import { useStoreActions, useStoreState } from "store"
 
@@ -15,23 +16,37 @@ import Book from "components/Writing/Book"
 
 import { BookChild } from "types/Goodreads"
 
-// TODO: Once a second book is added, this will need to be modified
 const WritingPage: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const error: boolean = useStoreState(state => state.writing.error)
-  const books: BookChild | null = useStoreState(state => state.writing.books)
+  const books: BookChild[] | null = useStoreState(state => state.writing.books)
   const fetchBooks = useStoreActions(actions => actions.writing.fetchBooks)
 
-  const theMinesCover = useStaticQuery(graphql`
-    query CoverQuery {
-      file(relativePath: { eq: "writing/official-the-mines-cover.jpg" }) {
-        childImageSharp {
-          fluid(toFormat: WEBP) {
-            aspectRatio
-            base64
-            sizes
-            src
-            srcSet
+  const {
+    allFile: { edges: bookCovers },
+  } = useStaticQuery(graphql`
+    query bookCovers {
+      allFile(
+        filter: {
+          extension: { eq: "jpg" }
+          relativeDirectory: { eq: "writing" }
+        }
+      ) {
+        edges {
+          node {
+            childImageSharp {
+              fluid(toFormat: WEBP) {
+                aspectRatio
+                base64
+                sizes
+                src
+                srcSet
+              }
+            }
+            fields {
+              amazon
+            }
+            name
           }
         }
       }
@@ -62,13 +77,25 @@ const WritingPage: React.FunctionComponent = () => {
             ) : error ? (
               <Error />
             ) : (
-              books && (
-                <Book
-                  data={books}
-                  cover={theMinesCover.file.childImageSharp.fluid}
-                  amazon="https://www.amazon.com/Mines-Daniel-Yuschick-ebook/dp/B07RRQ3F58"
-                />
-              )
+              books &&
+              books.length &&
+              books.map((book: BookChild) => {
+                const { 0: img } = bookCovers.filter(
+                  (p: any) =>
+                    p.node.name === book.title.replace(/\s+/g, "").toLowerCase()
+                )
+
+                if (!img) return
+
+                return (
+                  <Book
+                    key={uuidv4()}
+                    data={book}
+                    cover={img.node.childImageSharp.fluid}
+                    amazon={img.node.fields.amazon}
+                  />
+                )
+              })
             )}
           </ContentContainer>
         </ViewSection>
