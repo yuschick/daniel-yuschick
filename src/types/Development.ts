@@ -15,9 +15,11 @@ export interface IProject {
   title: string
   subtitle: string
   image: string
-  live: string
-  github?: string
-  codepen?: string
+  links: {
+    live: string
+    github?: string
+    codepen?: string
+  }
 }
 
 export interface ICover {

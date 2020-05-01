@@ -16,43 +16,28 @@ const Project: React.FunctionComponent<Props> = ({ data, cover }) => {
   const buildLinksList = (project: IProject): JSX.Element[] => {
     const links: JSX.Element[] = []
 
-    if (project.live) {
+    for (let [key, value] of Object.entries(project.links)) {
       links.push(
-        <a key={uuidv4()} href={project.live}>
-          Live
-        </a>
-      )
-    }
-
-    if (project.github) {
-      links.push(
-        <a key={uuidv4()} href={project.github}>
-          Github
-        </a>
-      )
-    }
-
-    if (project.codepen) {
-      links.push(
-        <a key={uuidv4()} href={project.codepen}>
-          Codepen
+        <a key={uuidv4()} href={value}>
+          {key}
         </a>
       )
     }
 
     return links
   }
+  const { title, subtitle, id, links } = data
 
   return (
-    <ProjectItem key={data.id}>
-      <a href={data.live}>
-        <Img fluid={cover} alt={`${data.title}`} fadeIn />
+    <ProjectItem key={id}>
+      <a href={links.live}>
+        <Img fluid={cover} alt={`${title}`} fadeIn />
       </a>
       <ProjectInfo>
         <ProjectTitle>
-          <a href={data.live}>
-            {data.title}
-            <ProjectSubTitle>{data.subtitle}</ProjectSubTitle>
+          <a href={links.live}>
+            {title}
+            <ProjectSubTitle>{subtitle}</ProjectSubTitle>
           </a>
         </ProjectTitle>
         {buildLinksList(data)}
@@ -81,6 +66,7 @@ const ProjectInfo = styled.div`
   a {
     color: ${ThemeColors.texts.darkSecondary};
     font-size: 0.9rem;
+    text-transform: capitalize;
   }
 
   a + a:before {

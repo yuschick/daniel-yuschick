@@ -47,24 +47,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-prefetch-google-fonts`,
-      options: {
-        fonts: [
-          {
-            family: `Barlow`,
-            variants: [`300`, `500`, `700`],
-          },
-          {
-            family: `Quicksand`,
-            variants: [`400`, `500`],
-          },
-          {
-            family: `Indie Flower`,
-          },
-        ],
-      },
-    },
-    {
       resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {

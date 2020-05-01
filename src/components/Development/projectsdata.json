@@ -3,58 +3,71 @@
     "id": 1,
     "title": "31 Nights of Horror",
     "subtitle": "2016",
-    "live": "http://www.danyuschick.com/31-nights-of-horror/",
-    "github": "https://github.com/yuschick/31-Nights-of-Horror-2016",
-    "image": "horror-calendar-2016"
+    "image": "horror-calendar-2016",
+    "links": {
+      "live": "http://www.danyuschick.com/31-nights-of-horror/",
+      "github": "https://github.com/yuschick/31-Nights-of-Horror-2016"
+    }
   },
   "horror-calendar-2017": {
     "id": 2,
     "title": "31 Nights of Horror",
     "subtitle": "2017",
-    "live": "https://yuschick.github.io/31-Nights-of-Horror-2017/",
-    "github": "https://github.com/yuschick/31-Nights-of-Horror-2017",
-    "image": "horror-calendar-2017"
+    "image": "horror-calendar-2017",
+    "links": {
+      "live": "https://yuschick.github.io/31-Nights-of-Horror-2017/",
+      "github": "https://github.com/yuschick/31-Nights-of-Horror-2017"
+    }
   },
   "horror-calendar-2018": {
     "id": 3,
     "title": "31 Nights of Horror",
     "subtitle": "2018",
-    "live": "https://yuschick.github.io/31-Nights-of-Horror-2018/",
-    "github": "https://github.com/yuschick/31-Nights-of-Horror-2018",
-    "image": "horror-calendar-2018"
+    "image": "horror-calendar-2018",
+    "links": {
+      "live": "https://yuschick.github.io/31-Nights-of-Horror-2018/",
+      "github": "https://github.com/yuschick/31-Nights-of-Horror-2018"
+    }
   },
   "horror-calendar-2019": {
     "id": 4,
     "title": "31 Nights of Horror",
     "subtitle": "2019",
-    "live": "https://yuschick.github.io/31-Nights-of-Horror-2019/",
-    "github": "https://github.com/yuschick/31-Nights-of-Horror-2019",
-    "image": "horror-calendar-2019"
+    "image": "horror-calendar-2019",
+    "links": {
+      "live": "https://yuschick.github.io/31-Nights-of-Horror-2019/",
+      "github": "https://github.com/yuschick/31-Nights-of-Horror-2019"
+    }
   },
   "ticktock": {
     "id": 5,
     "title": "TickTock JS",
     "subtitle": "Watch animation library",
-    "live": "http://yuschick.github.io/TickTock/",
-    "github": "https://github.com/yuschick/TickTock",
-    "image": "ticktock-js"
+    "image": "ticktock-js",
+    "links": {
+      "live": "http://yuschick.github.io/TickTock/",
+      "github": "https://github.com/yuschick/TickTock"
+    }
   },
   "zeitwerk": {
     "id": 6,
     "title": "A. Lange & Söhne Zeitwerk",
     "subtitle": "SVG animated watch",
-    "live": "https://codepen.io/Yuschick/full/zYvdxoY",
-    "github": "",
-    "codepen": "https://codepen.io/Yuschick/zYvdxoY",
-    "image": "zeitwerk"
+    "image": "zeitwerk",
+    "links": {
+      "live": "https://codepen.io/Yuschick/full/zYvdxoY",
+      "codepen": "https://codepen.io/Yuschick/zYvdxoY"
+    }
   },
   "daredevil": {
     "id": 7,
     "title": "Sarpaneva K0 Daredevil",
     "subtitle": "Landing page",
-    "live": "https://www.sarpanevawatches.com/latest-release/",
     "github": "",
-    "codepen": "https://codepen.io/Yuschick/full/OWRXwL",
-    "image": "daredevil"
+    "image": "daredevil",
+    "links": {
+      "live": "https://www.sarpanevawatches.com/latest-release/",
+      "codepen": "https://codepen.io/Yuschick/full/OWRXwL"
+    }
   }
 }
