@@ -41,9 +41,14 @@ const Item = styled.li`
   font-size: clamp(1rem, 2vw, 1.15rem);
   font-weight: 300;
   margin: 0 0.5em;
+
+  @supports not (clamp()) {
+    font-size: min(max(1rem, 2vw), 1.15rem);
+  }
 `
 
 const LinkText = styled(Link)<{ fromLeft?: boolean; fromTop?: boolean }>`
+  color: ${ThemeColors.core.lightGrey};
   display: block;
   overflow: hidden;
   position: relative;

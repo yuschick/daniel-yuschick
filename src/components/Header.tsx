@@ -14,7 +14,8 @@ const Header: React.FunctionComponent = () => {
     query HeaderImageQuery {
       img500: file(relativePath: { eq: "header-500.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 500, toFormat: WEBP) {
+          fluid(maxWidth: 500) {
+            ...GatsbyImageSharpFluid_withWebp
             aspectRatio
             base64
             sizes
@@ -25,7 +26,8 @@ const Header: React.FunctionComponent = () => {
       }
       img1000: file(relativePath: { eq: "header-1000.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1000, toFormat: WEBP) {
+          fluid(maxWidth: 1000) {
+            ...GatsbyImageSharpFluid_withWebp
             aspectRatio
             base64
             sizes
@@ -36,7 +38,8 @@ const Header: React.FunctionComponent = () => {
       }
       img1500: file(relativePath: { eq: "header-1500.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 1500, toFormat: WEBP) {
+          fluid(maxWidth: 1500) {
+            ...GatsbyImageSharpFluid_withWebp
             aspectRatio
             base64
             sizes
@@ -47,7 +50,8 @@ const Header: React.FunctionComponent = () => {
       }
       img2000: file(relativePath: { eq: "header-2000.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 2000, toFormat: WEBP) {
+          fluid(maxWidth: 2000) {
+            ...GatsbyImageSharpFluid_withWebp
             aspectRatio
             base64
             sizes
@@ -58,7 +62,8 @@ const Header: React.FunctionComponent = () => {
       }
       img2500: file(relativePath: { eq: "header-2500.jpg" }) {
         childImageSharp {
-          fluid(toFormat: WEBP) {
+          fluid {
+            ...GatsbyImageSharpFluid_withWebp
             aspectRatio
             base64
             sizes

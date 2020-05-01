@@ -24,11 +24,15 @@ const Headline = styled.h2`
   font-family: ${ThemeFonts.secondary};
   font-size: clamp(1.25rem, 2vw, 1.5rem);
   font-weight: 700;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   line-height: 1;
   margin: 0 auto;
   padding: 0.45rem 1rem;
   text-transform: uppercase;
+
+  @supports not (clamp()) {
+    font-size: min(max(1.25rem, 2vw), 1.5rem);
+  }
 `
 
 export default H2

@@ -24,7 +24,8 @@ const Projects: React.FunctionComponent = () => {
         edges {
           node {
             childImageSharp {
-              fluid(toFormat: WEBP) {
+              fluid {
+                ...GatsbyImageSharpFluid_withWebp
                 aspectRatio
                 base64
                 sizes

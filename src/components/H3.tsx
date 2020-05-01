@@ -20,17 +20,9 @@ const Headline = styled.h3`
   position: relative;
   width: 100%;
 
-  /* &:before {
-    border: 1px solid ${ThemeColors.core.orange};
-    border-right: 0;
-    content: "";
-    height: 16px;
-    opacity: 0.5;
-    position: absolute;
-    top: calc(50% - 8px);
-    right: 0;
-    width: 50px;
-  } */
+  @supports not (clamp()) {
+    font-size: min(max(1.15rem, 2vw), 1.25rem);
+  }
 
   &:after {
     border-top: 1px solid ${ThemeColors.core.orange};

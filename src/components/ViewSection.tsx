@@ -9,6 +9,10 @@ const Section = styled.section`
   padding-top: 2rem;
   margin: 0 auto;
   max-width: clamp(350px, 100vw, 100%);
+
+  @supports not (clamp()) {
+    max-width: min(max(350px, 100vw), 100%);
+  }
 `
 
 export default ViewSection

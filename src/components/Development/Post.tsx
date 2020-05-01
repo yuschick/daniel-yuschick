@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 
 import ThemeColors from "theme/colors"
 import { IPost } from "types/Development"
@@ -17,7 +17,7 @@ const Post: React.FunctionComponent<Props> = ({ data }) => {
       <a href={data.link}>{data.title.replace("&amp;", "&")}</a>
       <PostDetailsContainer>
         <PostDetails>
-          {format(new Date(data.pubDate), "dd/MM/yyyy")}
+          {format(parseISO(data.pubDate), "dd/MM/yyyy")}
         </PostDetails>
         <PostDetails>{getReadingTime(data)} min. read</PostDetails>
       </PostDetailsContainer>

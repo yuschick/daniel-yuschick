@@ -17,6 +17,10 @@ const Headline = styled.h1`
   line-height: 1.5em;
   text-transform: uppercase;
 
+  @supports not (clamp()) {
+    font-size: min(max(1.75rem, 3vw), 2.1rem);
+  }
+
   a,
   a:hover,
   a:active,

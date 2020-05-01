@@ -18,6 +18,12 @@ const GlobalStyle = createGlobalStyle`
   }
   html, body {
     --borderWidth: clamp(4px, 1vw, 8px);
+
+    @supports not (clamp()) {
+      --borderWidth: min(max(4px, 1vw), 8px);
+      font-size: min(max(15px, 2vw), 18px);
+    }
+
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
     background: ${ThemeColors.backgrounds.primary};
@@ -48,6 +54,8 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${ThemeColors.core.orange};
     border-radius: 6px;
   }
+
+  scrollbar-color: ${ThemeColors.core.darkGrey} ${ThemeColors.core.orange};
 
   ::selection {
     background: ${ThemeColors.core.darkGrey};
