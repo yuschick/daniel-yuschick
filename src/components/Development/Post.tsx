@@ -11,19 +11,15 @@ interface Props {
   data: IPost
 }
 
-const Post: React.FunctionComponent<Props> = ({ data }) => {
-  return (
-    <PostItem key={data.pubDate}>
-      <a href={data.link}>{data.title.replace("&amp;", "&")}</a>
-      <PostDetailsContainer>
-        <PostDetails>
-          {format(parseISO(data.pubDate), "dd/MM/yyyy")}
-        </PostDetails>
-        <PostDetails>{getReadingTime(data)} min. read</PostDetails>
-      </PostDetailsContainer>
-    </PostItem>
-  )
-}
+const Post: React.FunctionComponent<Props> = ({ data }) => (
+  <PostItem key={data.pubDate}>
+    <a href={data.link}>{data.title.replace("&amp;", "&")}</a>
+    <PostDetailsContainer>
+      <PostDetails>{format(parseISO(data.pubDate), "dd/MM/yyyy")}</PostDetails>
+      <PostDetails>{getReadingTime(data)} min. read</PostDetails>
+    </PostDetailsContainer>
+  </PostItem>
+)
 
 const PostDetailsContainer = styled.div`
   display: flex;

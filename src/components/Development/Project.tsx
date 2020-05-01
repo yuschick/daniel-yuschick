@@ -14,7 +14,7 @@ interface Props {
 
 const Project: React.FunctionComponent<Props> = ({ data, cover }) => {
   const buildLinksList = (project: IProject): JSX.Element[] => {
-    const links = []
+    const links: JSX.Element[] = []
 
     if (project.live) {
       links.push(

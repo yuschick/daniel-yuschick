@@ -9,22 +9,20 @@ interface Props {
   book: Book
 }
 
-const CurrentlyReadingBook = ({ book }: Props) => {
-  return (
-    <StyledItem>
-      <div>
-        <Title
-          href={book.book.link}
-          title={`View ${book.book.title} on Goodreads`}
-        >
-          {book.book.title_without_series}
-        </Title>
-        <Description>{book.book.authors.author.name}</Description>
-        <Description>{book.book.description.split("<")[0]}</Description>
-      </div>
-    </StyledItem>
-  )
-}
+const CurrentlyReadingBook = ({ book }: Props) => (
+  <StyledItem>
+    <div>
+      <Title
+        href={book.book.link}
+        title={`View ${book.book.title} on Goodreads`}
+      >
+        {book.book.title_without_series}
+      </Title>
+      <Description>{book.book.authors.author.name}</Description>
+      <Description>{book.book.description.split("<")[0]}</Description>
+    </div>
+  </StyledItem>
+)
 
 const StyledItem = styled.div`
   font-size: 0.9rem;

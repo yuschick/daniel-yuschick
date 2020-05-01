@@ -8,27 +8,25 @@ interface Props {
   book: Book
 }
 
-const ReadBook = ({ book }: Props) => {
-  return (
-    <StyledItem>
-      <div>
-        <Title
-          href={book.book.link}
-          title={`View ${book.book.title} on Goodreads`}
-        >
-          {book.book.title_without_series}
-        </Title>
-        <Author>{book.book.authors.author.name}</Author>
-      </div>
-      <span>
-        {book.rating}{" "}
-        <span role="img" aria-label={`A rating ${book.rating} out of 5`}>
-          ⭐
-        </span>
+const ReadBook = ({ book }: Props) => (
+  <StyledItem>
+    <div>
+      <Title
+        href={book.book.link}
+        title={`View ${book.book.title} on Goodreads`}
+      >
+        {book.book.title_without_series}
+      </Title>
+      <Author>{book.book.authors.author.name}</Author>
+    </div>
+    <span>
+      {book.rating}{" "}
+      <span role="img" aria-label={`A rating ${book.rating} out of 5`}>
+        ⭐
       </span>
-    </StyledItem>
-  )
-}
+    </span>
+  </StyledItem>
+)
 
 const StyledItem = styled.li`
   border-bottom: 1px solid rgba(15, 70, 100, 0.12);

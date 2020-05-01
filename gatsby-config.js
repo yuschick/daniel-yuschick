@@ -37,6 +37,7 @@ module.exports = {
         assets: path.join(__dirname, "src/assets"),
         components: path.join(__dirname, "src/components"),
         icons: path.join(__dirname, "src/assets/icons"),
+        gql: path.join(__dirname, "src/gql"),
         images: path.join(__dirname, "src/images"),
         pages: path.join(__dirname, "src/pages"),
         store: path.join(__dirname, "src/store"),

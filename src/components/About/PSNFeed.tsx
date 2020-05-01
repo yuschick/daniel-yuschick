@@ -5,6 +5,7 @@ import LoadingIcon from "components/LoadingIcon"
 
 const PSNFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(true)
+
   return (
     <section>
       <H3>PSN</H3>
@@ -12,7 +13,7 @@ const PSNFeed: React.FunctionComponent = () => {
       <a href="https://psnprofiles.com/yuschick">
         <img
           src="https://card.psnprofiles.com/2/yuschick.png"
-          alt="Visit Yuschick on PSN Profiles"
+          alt="Visit @Yuschick on PSN Profiles"
           onLoad={() => setLoading(false)}
         />
       </a>
