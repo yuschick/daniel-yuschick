@@ -46,10 +46,21 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-fonts`,
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
-        fonts: [`Barlow\:300,500,700`, `Quicksand\:400,500`, `Indie Flower`],
-        display: "swap",
+        fonts: [
+          {
+            family: `Barlow`,
+            variants: [`300`, `500`, `700`],
+          },
+          {
+            family: `Quicksand`,
+            variants: [`400`, `500`],
+          },
+          {
+            family: `Indie Flower`,
+          },
+        ],
       },
     },
     {

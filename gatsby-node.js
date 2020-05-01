@@ -6,7 +6,6 @@ const writingLinks = {
 
 exports.onCreateNode = ({ node, actions }) => {
   if (node.internal.type === "File" && node.name in writingLinks) {
-    console.log(node)
     const { createNodeField } = actions
     createNodeField({
       node,
