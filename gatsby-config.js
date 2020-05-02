@@ -1,3 +1,6 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
 const path = require("path")
 
 module.exports = {
@@ -30,6 +33,7 @@ module.exports = {
         icon: `src/images/dy-logo.png`,
       },
     },
+    `gatsby-plugin-offline`,
     {
       resolve: "gatsby-plugin-root-import",
       options: {
