@@ -31,6 +31,7 @@ module.exports = {
         background_color: `#f0f0f0`,
         theme_color: `#d45f37`,
         icon: `src/images/dy-logo.png`,
+        display: "minimal-ui",
       },
     },
     `gatsby-plugin-offline`,
