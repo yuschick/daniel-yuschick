@@ -84,9 +84,7 @@ const TwitterFeedGatsby: React.FunctionComponent = () => {
     }
 
     const entitiesArr = []
-      .concat(media)
-      .concat(hashtags)
-      .concat(user_mentions)
+      .concat(media, hashtags, user_mentions)
       .filter((e: any) => e)
 
     entitiesArr?.map((entity: any) => {
