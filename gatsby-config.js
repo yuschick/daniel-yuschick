@@ -58,9 +58,9 @@ module.exports = {
       resolve: `gatsby-source-twitter`,
       options: {
         credentials: {
-          consumer_key: "",
-          consumer_secret: "",
-          bearer_token: "",
+          consumer_key: process.env.GATSBY_TWITTER_KEY,
+          consumer_secret: process.env.GATSBY_TWITTER_SECRET,
+          bearer_token: process.env.GATSBY_TWITTER_TOKEN,
         },
         queries: {
           query: {
