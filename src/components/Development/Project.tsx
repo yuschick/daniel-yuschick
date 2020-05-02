@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid"
 import { IProject, ICover } from "types/Development"
 
 import ThemeColors from "theme/colors"
+import trackEvent from "utils/trackEvent"
 
 interface Props {
   data: IProject
@@ -18,7 +19,15 @@ const Project: React.FunctionComponent<Props> = ({ data, cover }) => {
 
     for (let [key, value] of Object.entries(project.links)) {
       links.push(
-        <a key={uuidv4()} href={value}>
+        <a
+          key={uuidv4()}
+          href={value}
+          onClick={() =>
+            trackEvent(`${data.title} - Clicked ${key} link`, {
+              category: "Projects",
+            })
+          }
+        >
           {key}
         </a>
       )
@@ -49,7 +58,7 @@ const Project: React.FunctionComponent<Props> = ({ data, cover }) => {
 const ProjectItem = styled.section`
   overflow: hidden;
 
-  @media (hover: hover) {
+  @media (min-width: 750px) {
     img {
       filter: blur(1px) grayscale(0.5);
       transform: scale(1);

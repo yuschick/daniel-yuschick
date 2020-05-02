@@ -10,6 +10,7 @@ import GoodreadsIcon from "assets/icons/icon-goodreads-alt.jpg"
 
 import { BookChild } from "types/Goodreads"
 import { ICover } from "types/Development"
+import trackEvent from "utils/trackEvent"
 
 interface Props {
   data: BookChild
@@ -35,15 +36,29 @@ const Book: React.FunctionComponent<Props> = ({ data, amazon, cover }) => {
   return (
     <GridContainer>
       <div>
-        <Img fluid={cover} alt={`${data?.title} cover`} fadeIn />
+        <Img fluid={cover} alt={`${data.title} cover`} fadeIn />
         <LinksContainer>
           <div>
-            <a href={amazon}>
+            <a
+              href={amazon}
+              onClick={() =>
+                trackEvent(`${data.title} - Clicked Amazon link`, {
+                  category: "Writing",
+                })
+              }
+            >
               <img src={AmazonIcon} alt={`Order ${data?.title} on Amazon`} />
             </a>
           </div>
           <div>
-            <a href={data?.link}>
+            <a
+              href={data?.link}
+              onClick={() =>
+                trackEvent(`${data.title} - Clicked Goodreads link`, {
+                  category: "Writing",
+                })
+              }
+            >
               <img
                 src={GoodreadsIcon}
                 alt={`View ${data?.title} on Goodreads`}

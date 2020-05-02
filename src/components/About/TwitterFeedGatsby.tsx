@@ -7,6 +7,7 @@ import LoadingIcon from "components/LoadingIcon"
 import H3 from "components/H3"
 
 import ThemeColors from "theme/colors"
+import { Tweet, Media, Hashtags, UserMentions } from "types/Twitter"
 
 const TwitterFeedGatsby: React.FunctionComponent = () => {
   const {
@@ -19,7 +20,6 @@ const TwitterFeedGatsby: React.FunctionComponent = () => {
             created_at
             entities {
               media {
-                media_url_https
                 indices
               }
               hashtags {
@@ -29,8 +29,6 @@ const TwitterFeedGatsby: React.FunctionComponent = () => {
               user_mentions {
                 id
                 indices
-                name
-                screen_name
               }
             }
             user {
@@ -70,24 +68,23 @@ const TwitterFeedGatsby: React.FunctionComponent = () => {
     )
   }
 
-  // TODO: Type out the tweets
-  const formatTweetWithEntities = (tweet: any) => {
+  const formatTweetWithEntities = (tweet: Tweet) => {
     const {
       entities: { media, hashtags, user_mentions },
     } = tweet
-    const tweetText = tweet.full_text
+    const tweetText: string = tweet.full_text
     const entities: { text: string; el: JSX.Element }[] = []
-    let formattedText = tweet.full_text
+    let formattedText: any = tweet.full_text
 
-    if (!media && !hashtags.length && !user_mentions.length) {
+    if (!media && !hashtags?.length && !user_mentions?.length) {
       return <div>{formattedText}</div>
     }
 
-    const entitiesArr = []
+    const entitiesArr = ([] as any[])
       .concat(media, hashtags, user_mentions)
       .filter((e: any) => e)
 
-    entitiesArr?.map((entity: any) => {
+    entitiesArr?.map((entity: Media | Hashtags | UserMentions) => {
       const [start, end] = entity.indices
       const entityText = tweetText.slice(start, end)
       const entityType =
@@ -134,7 +131,7 @@ const TwitterFeedGatsby: React.FunctionComponent = () => {
             let formattedTweet = formatTweetWithEntities(t)
 
             return (
-              <TweetContainer>
+              <TweetContainer key={uuidv4()}>
                 <Avatar
                   src={t.user.profile_image_url_https}
                   alt={t.user.screen_name}

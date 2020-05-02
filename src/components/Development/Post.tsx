@@ -6,6 +6,7 @@ import ThemeColors from "theme/colors"
 import { IPost } from "types/Development"
 
 import getReadingTime from "utils/getReadingTime"
+import trackEvent from "utils/trackEvent"
 
 interface Props {
   data: IPost
@@ -13,7 +14,16 @@ interface Props {
 
 const Post: React.FunctionComponent<Props> = ({ data }) => (
   <PostItem key={data.pubDate}>
-    <a href={data.link}>{data.title.replace("&amp;", "&")}</a>
+    <a
+      href={data.link}
+      onClick={() =>
+        trackEvent(`${data.title} - Clicked to read`, {
+          category: "Posts",
+        })
+      }
+    >
+      {data.title.replace("&amp;", "&")}
+    </a>
     <PostDetailsContainer>
       <PostDetails>{format(parseISO(data.pubDate), "dd/MM/yyyy")}</PostDetails>
       <PostDetails>{getReadingTime(data)} min. read</PostDetails>
