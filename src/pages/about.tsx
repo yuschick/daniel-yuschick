@@ -10,7 +10,7 @@ import H2 from "components/H2"
 import ContentContainer from "components/ContentContainer"
 
 import AboutContent from "components/About/AboutContent"
-import TwitterFeed from "components/About/TwitterFeed"
+import TwitterFeedGatsby from "components/About/TwitterFeedGatsby"
 import GoodreadsFeed from "components/About/GoodreadsFeed"
 import SpotifyFeed from "components/About/SpotifyFeed"
 import PSNFeed from "components/About/PSNFeed"
@@ -28,7 +28,7 @@ const AboutPage: React.FunctionComponent = () => (
           <AboutContent />
           <SubGrid>
             <LazyLoad height={230} offset={100} once>
-              <TwitterFeed />
+              <TwitterFeedGatsby />
             </LazyLoad>
             <LazyLoad height={250} offset={100} once>
               <GoodreadsFeed />

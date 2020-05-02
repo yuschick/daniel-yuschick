@@ -19,6 +19,7 @@
     "gatsby-plugin-styled-components": "^3.2.4",
     "gatsby-plugin-typescript": "^2.3.5",
     "gatsby-source-filesystem": "^2.2.5",
+    "gatsby-source-twitter": "^3.2.1",
     "gatsby-transformer-sharp": "^2.4.7",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

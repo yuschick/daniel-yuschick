@@ -86,12 +86,12 @@ const SpotifyFeed: React.FunctionComponent = () => {
   return (
     <section>
       <H3>Spotify</H3>
-      {fetching ? (
-        <LoadingIcon />
-      ) : error ? (
-        <Error />
-      ) : (
-        <ScrollContainer>
+      <ScrollContainer>
+        {fetching ? (
+          <LoadingIcon />
+        ) : error ? (
+          <Error />
+        ) : (
           <ScrollContainer>
             <ListContent.Block>
               <ListContent.Header>Recent top artists</ListContent.Header>
@@ -114,14 +114,14 @@ const SpotifyFeed: React.FunctionComponent = () => {
               </ListContent.Content>
             </ListContent.Block>
           </ScrollContainer>
-        </ScrollContainer>
-      )}
+        )}
+      </ScrollContainer>
     </section>
   )
 }
 
 const ScrollContainer = styled.div`
-  height: 225px;
+  height: 250px;
   overflow: scroll;
   padding-right: 0.5rem;
 `

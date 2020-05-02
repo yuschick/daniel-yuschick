@@ -54,5 +54,27 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: `gatsby-source-twitter`,
+      options: {
+        credentials: {
+          consumer_key: "Ua9cn8DQZWRe52SSxP9UzHRCc",
+          consumer_secret: "k8ZUlLY3UFasBF8qwqvPl0WPUOkDTf5fJ8HHm4MYSzoRPD7K3B",
+          bearer_token:
+            "AAAAAAAAAAAAAAAAAAAAAMUEEAEAAAAAlNhDPAT1zNq9OHG34Jbwv1ibmwU%3DWygBepmxCOB9qCmJYbWafjb4ly6Pd2tFR2ahXAo2rCGgd0UXRQ",
+        },
+        queries: {
+          query: {
+            endpoint: "statuses/user_timeline",
+            params: {
+              screen_name: "yuschick",
+              include_rts: false,
+              exclude_replies: true,
+              tweet_mode: "extended",
+            },
+          },
+        },
+      },
+    },
   ],
 }

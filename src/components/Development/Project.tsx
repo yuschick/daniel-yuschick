@@ -48,15 +48,18 @@ const Project: React.FunctionComponent<Props> = ({ data, cover }) => {
 
 const ProjectItem = styled.section`
   overflow: hidden;
-  img {
-    filter: blur(1px) grayscale(0.5);
-    transform: scale(1);
-    transition: all 0.15s ease-in;
-  }
 
-  &:hover img {
-    filter: blur(0) grayscale(0);
-    transform: scale(1.01);
+  @media (hover: hover) {
+    img {
+      filter: blur(1px) grayscale(0.5);
+      transform: scale(1);
+      transition: all 0.15s ease-in;
+    }
+
+    &:hover img {
+      filter: blur(0) grayscale(0);
+      transform: scale(1.01);
+    }
   }
 `
 

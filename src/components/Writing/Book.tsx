@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Img from "gatsby-image"
+import { v4 as uuidv4 } from "uuid"
 
 import H3 from "components/H3"
 
@@ -17,6 +18,20 @@ interface Props {
 }
 
 const Book: React.FunctionComponent<Props> = ({ data, amazon, cover }) => {
+  const formatBookDescription = (): JSX.Element => {
+    let textArr: string[] = data.description.split("<br />")
+    textArr = textArr
+      .filter((item: string) => !item.includes("<br />"))
+      .filter((t: string) => t)
+
+    return (
+      <div>
+        {textArr.map((t: string) => (
+          <DescriptionP key={uuidv4()}>{t}</DescriptionP>
+        ))}
+      </div>
+    )
+  }
   return (
     <GridContainer>
       <div>
@@ -39,7 +54,7 @@ const Book: React.FunctionComponent<Props> = ({ data, amazon, cover }) => {
       </div>
       <section>
         <H3>{data?.title}</H3>
-        {data && <div dangerouslySetInnerHTML={{ __html: data.description }} />}
+        {data && formatBookDescription()}
       </section>
     </GridContainer>
   )
@@ -68,6 +83,12 @@ const LinksContainer = styled.div`
 
   div + div {
     margin-left: 0.5rem;
+  }
+`
+
+const DescriptionP = styled.p`
+  + p {
+    margin-top: 1rem;
   }
 `
 
