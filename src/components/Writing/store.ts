@@ -41,7 +41,9 @@ const storeModel: WritingModel = {
       }
 
       const url = getUrl()
-      const response = await fetch(url)
+      const response = await fetch(url, {
+        mode: "no-cors",
+      })
       const xmlText = await response.text()
       const {
         GoodreadsResponse: {

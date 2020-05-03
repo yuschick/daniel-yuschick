@@ -70,7 +70,9 @@ const storeModel: AboutModel = {
 
     try {
       const url = getUrl()
-      const response = await fetch(url)
+      const response = await fetch(url, {
+        mode: "no-cors",
+      })
       const xmlText = await response.text()
       const {
         GoodreadsResponse: {
@@ -105,6 +107,7 @@ const storeModel: AboutModel = {
         }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=true&include_rts=false`,
         {
           headers,
+          mode: "no-cors",
         }
       )
 
@@ -136,6 +139,7 @@ const storeModel: AboutModel = {
               grant_type: "refresh_token",
               refresh_token: process.env.GATSBY_SPOTIFY_REFRESH_TOKEN || "",
             }),
+            mode: "no-cors",
           }
         )
 
