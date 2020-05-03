@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { format } from "date-fns"
 
 import { useStoreActions, useStoreState } from "store"
+import { ErrorTypes } from "./store"
 
 import CurrentlyReadingBook from "./CurrentlyReadingBook"
 import ReadBook from "./ReadBook"
@@ -16,7 +17,7 @@ import { Book } from "types/Goodreads"
 
 const GoodreadsFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const error: boolean = useStoreState(state => state.about.error)
+  const error: ErrorTypes = useStoreState(state => state.about.error)
   const read: Book[] | null = useStoreState(state => state.about.read)
   const reading: Book | null = useStoreState(state => state.about.reading)
   const fetchBooks = useStoreActions(actions => actions.about.fetchBooks)
@@ -39,7 +40,7 @@ const GoodreadsFeed: React.FunctionComponent = () => {
       <ScrollContainer>
         {loading ? (
           <LoadingIcon />
-        ) : error ? (
+        ) : error === "goodreads" ? (
           <Error />
         ) : (
           <Fragment>

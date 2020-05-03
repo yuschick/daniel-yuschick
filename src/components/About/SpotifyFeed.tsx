@@ -1,95 +1,36 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
+import { useStoreActions, useStoreState } from "store"
+import { ErrorTypes } from "./store"
+
 import H3 from "components/H3"
 import LoadingIcon from "components/LoadingIcon"
 import ListContent from "components/ListContent"
 import Error from "components/Error"
 
-import { ArtistData, Artist } from "types/Spotify"
+import { Artist } from "types/Spotify"
 
 const SpotifyFeed: React.FunctionComponent = () => {
-  const [fetching, setFetching] = useState<boolean>()
-  const [error, setError] = useState<boolean>()
-  const [token, setToken] = useState<string>()
-  const [artists, setArtists] = useState<Artist[]>()
+  const [loading, setLoading] = useState<boolean>(false)
+  const error: ErrorTypes = useStoreState(state => state.about.error)
+  const artists: Artist[] | null = useStoreState(state => state.about.artists)
+  const fetchArtists = useStoreActions(actions => actions.about.fetchArtists)
 
   useEffect(() => {
-    const getToken = async () => {
-      const response = await fetch(
-        "https://cors-anywhere.herokuapp.com/https://accounts.spotify.com/api/token",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Basic ${new Buffer(
-              `${process.env.GATSBY_SPOTIFY_CLIENT}:${process.env.GATSBY_SPOTIFY_SECRET}`
-            ).toString("base64")}`,
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            grant_type: "refresh_token",
-            refresh_token: process.env.GATSBY_SPOTIFY_REFRESH_TOKEN || "",
-          }),
-        }
-      )
+    if (artists) return
 
-      if (response.ok) {
-        const data = await response.json()
-        return data
-      }
-    }
-
-    setFetching(true)
-    getToken()
-      .then((data: any) => {
-        setToken(data.access_token)
-      })
-      .catch(() => {
-        setError(true)
-      })
-      .finally(() => {
-        setFetching(false)
-      })
-  }, [setFetching, setError, setToken])
-
-  useEffect(() => {
-    if (!token) return
-
-    const getTopArtists = async () => {
-      const response = await fetch(
-        "https://api.spotify.com/v1/me/top/artists",
-        {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        }
-      )
-
-      if (response.ok) {
-        const data = response.json()
-        return data
-      }
-    }
-
-    setFetching(true)
-    getTopArtists()
-      .then((data: ArtistData) => {
-        setArtists(data.items.slice(0, 9))
-        setFetching(false)
-      })
-      .catch(() => {
-        setFetching(false)
-        setError(true)
-      })
-  }, [token])
+    setLoading(true)
+    fetchArtists().then(() => setLoading(false))
+  }, [artists, fetchArtists])
 
   return (
     <section>
       <H3>Spotify</H3>
       <ScrollContainer>
-        {fetching ? (
+        {loading ? (
           <LoadingIcon />
-        ) : error ? (
+        ) : error === "spotify" ? (
           <Error />
         ) : (
           <ScrollContainer>

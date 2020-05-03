@@ -29,8 +29,12 @@ const storeModel: WritingModel = {
   fetchBooks: thunk(async actions => {
     try {
       const getUrl = (): string => {
-        let url = `https://www.goodreads.com/author/list/19160978?format=xml&key=${process.env.GATSBY_GOODREADS_KEY}`
-        url = `https://cors-anywhere.herokuapp.com/${url}`
+        const url = `${
+          process.env.NODE_ENV === "development" &&
+          "https://cors-anywhere.herokuapp.com/"
+        }https://www.goodreads.com/author/list/19160978?format=xml&key=${
+          process.env.GATSBY_GOODREADS_KEY
+        }`
 
         return url
       }

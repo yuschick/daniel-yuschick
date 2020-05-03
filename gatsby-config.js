@@ -60,27 +60,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-source-twitter`,
-      options: {
-        credentials: {
-          consumer_key: process.env.GATSBY_TWITTER_KEY,
-          consumer_secret: process.env.GATSBY_TWITTER_SECRET,
-          bearer_token: process.env.GATSBY_TWITTER_TOKEN,
-        },
-        queries: {
-          query: {
-            endpoint: "statuses/user_timeline",
-            params: {
-              screen_name: "yuschick",
-              include_rts: false,
-              exclude_replies: true,
-              tweet_mode: "extended",
-            },
-          },
-        },
-      },
-    },
-    {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: process.env.GATSBY_GA_TRACKING_ID,
