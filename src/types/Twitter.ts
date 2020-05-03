@@ -9,6 +9,7 @@ export interface Entities {
   hashtags?: Hashtags[]
   user_mentions?: UserMentions[]
   media?: Media[]
+  urls?: Url[]
 }
 
 export interface Hashtags {
@@ -29,9 +30,7 @@ export interface UserMentions {
   indices: number[]
 }
 
-export interface Urls {
-  url: string
-  expanded_url: string
+export interface Url {
   display_url: string
   indices: number[]
 }

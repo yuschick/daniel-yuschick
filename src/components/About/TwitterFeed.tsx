@@ -10,7 +10,7 @@ import H3 from "components/H3"
 import Error from "components/Error"
 
 import ThemeColors from "theme/colors"
-import { Tweet, Urls, Media, Hashtags, UserMentions } from "types/Twitter"
+import { Tweet, Url, Media, Hashtags, UserMentions } from "types/Twitter"
 
 const TwitterFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -51,21 +51,21 @@ const TwitterFeed: React.FunctionComponent = () => {
 
   const formatTweetWithEntities = (tweet: Tweet) => {
     const {
-      entities: { media, hashtags, user_mentions },
+      entities: { urls, media, hashtags, user_mentions },
     } = tweet
     const tweetText: string = tweet.full_text
     const entities: { text: string; el: JSX.Element }[] = []
     let formattedText: any = tweet.full_text
 
-    if (!media && !hashtags?.length && !user_mentions?.length) {
+    if (!media && !urls && !hashtags?.length && !user_mentions?.length) {
       return <div>{formattedText}</div>
     }
 
     const entitiesArr = ([] as any[])
-      .concat(media, hashtags, user_mentions)
+      .concat(urls, media, hashtags, user_mentions)
       .filter((e: any) => e)
 
-    entitiesArr?.map((entity: Urls | Hashtags | UserMentions) => {
+    entitiesArr?.map((entity: Url | Hashtags | UserMentions | Media) => {
       const [start, end] = entity.indices
       const entityText = tweetText.slice(start, end)
       const entityType =
