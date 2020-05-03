@@ -1,0 +1,4 @@
+/goodreads/*  https://www.goodreads.com/:splat
+/twitter/*  https://api.twitter.com/:splat
+/accounts.spotify/*  https://accounts.spotify.com/:splat
+/spotify/*  https://api.spotify.com/:splat
