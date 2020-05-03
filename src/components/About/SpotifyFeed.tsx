@@ -13,7 +13,7 @@ import { Artist } from "types/Spotify"
 
 const SpotifyFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const error: ErrorTypes = useStoreState(state => state.about.error)
+  const error: ErrorTypes[] | null = useStoreState(state => state.about.error)
   const artists: Artist[] | null = useStoreState(state => state.about.artists)
   const fetchArtists = useStoreActions(actions => actions.about.fetchArtists)
 
@@ -30,7 +30,7 @@ const SpotifyFeed: React.FunctionComponent = () => {
       <ScrollContainer>
         {loading ? (
           <LoadingIcon />
-        ) : error === "spotify" ? (
+        ) : error?.includes("spotify") ? (
           <Error />
         ) : (
           <ScrollContainer>

@@ -8,10 +8,10 @@ import { TokenResponse, ArtistData, Artist } from "types/Spotify"
 import formatXML from "utils/formatXML"
 import createOAuthSignature from "utils/createOAuthSignature"
 
-export type ErrorTypes = "twitter" | "goodreads" | "spotify" | null
+export type ErrorTypes = "twitter" | "goodreads" | "spotify"
 
 export interface AboutModel {
-  error: ErrorTypes
+  error: ErrorTypes[] | null
   read: Book[] | null
   reading: Book | null
   tweets: Tweet[] | null
@@ -36,7 +36,7 @@ const storeModel: AboutModel = {
   artists: null,
 
   setError: action((state, payload) => {
-    state.error = payload
+    state.error ? state.error.push(payload) : (state.error = [payload])
   }),
 
   setRead: action((state, payload) => {
@@ -105,7 +105,6 @@ const storeModel: AboutModel = {
         }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=true&include_rts=false`,
         {
           headers,
-          mode: "no-cors",
         }
       )
 

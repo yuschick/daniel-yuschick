@@ -17,7 +17,7 @@ import { Book } from "types/Goodreads"
 
 const GoodreadsFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const error: ErrorTypes = useStoreState(state => state.about.error)
+  const error: ErrorTypes[] | null = useStoreState(state => state.about.error)
   const read: Book[] | null = useStoreState(state => state.about.read)
   const reading: Book | null = useStoreState(state => state.about.reading)
   const fetchBooks = useStoreActions(actions => actions.about.fetchBooks)
@@ -40,7 +40,7 @@ const GoodreadsFeed: React.FunctionComponent = () => {
       <ScrollContainer>
         {loading ? (
           <LoadingIcon />
-        ) : error === "goodreads" ? (
+        ) : error?.includes("goodreads") ? (
           <Error />
         ) : (
           <Fragment>

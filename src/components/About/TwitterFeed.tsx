@@ -14,7 +14,7 @@ import { Tweet, Urls, Media, Hashtags, UserMentions } from "types/Twitter"
 
 const TwitterFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const error: ErrorTypes = useStoreState(state => state.about.error)
+  const error: ErrorTypes[] | null = useStoreState(state => state.about.error)
   const tweets: Tweet[] | null = useStoreState(state => state.about.tweets)
   const fetchTweets = useStoreActions(actions => actions.about.fetchTweets)
 
@@ -106,7 +106,7 @@ const TwitterFeed: React.FunctionComponent = () => {
       <ScrollContainer>
         {loading ? (
           <LoadingIcon />
-        ) : error === "twitter" ? (
+        ) : error?.includes("twitter") ? (
           <Error />
         ) : (
           tweets?.map((tweet: Tweet) => {
