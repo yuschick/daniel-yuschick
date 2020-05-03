@@ -30,8 +30,9 @@ const storeModel: WritingModel = {
     try {
       const getUrl = (): string => {
         const url = `${
-          process.env.NODE_ENV === "development" &&
-          "https://cors-anywhere.herokuapp.com/"
+          process.env.NODE_ENV === "development"
+            ? "https://cors-anywhere.herokuapp.com/"
+            : ""
         }https://www.goodreads.com/author/list/19160978?format=xml&key=${
           process.env.GATSBY_GOODREADS_KEY
         }`
