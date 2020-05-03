@@ -105,6 +105,7 @@ const storeModel: AboutModel = {
         }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=true&include_rts=false`,
         {
           headers,
+          mode: "no-cors",
         }
       )
 
