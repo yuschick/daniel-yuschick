@@ -57,10 +57,9 @@ const storeModel: AboutModel = {
 
   fetchBooks: thunk(async (actions, payload) => {
     const getUrl = (): string => {
+      // TODO: Figure out how to bypass CORS so this is only needed for dev
       const url = `${
-        process.env.NODE_ENV === "development"
-          ? "https://cors-anywhere.herokuapp.com/"
-          : ""
+        true ? "https://cors-anywhere.herokuapp.com/" : ""
       }https://www.goodreads.com/review/list/35914801.xml?key=${
         process.env.GATSBY_GOODREADS_KEY
       }&v=2&shelf=${payload}`
@@ -99,9 +98,7 @@ const storeModel: AboutModel = {
       const headers = createOAuthSignature()
       const data = await fetch(
         `${
-          process.env.NODE_ENV === "development"
-            ? "https://cors-anywhere.herokuapp.com/"
-            : ""
+          true ? "https://cors-anywhere.herokuapp.com/" : ""
         }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=true&include_rts=false`,
         {
           headers,
@@ -120,9 +117,7 @@ const storeModel: AboutModel = {
       const getToken = async (): Promise<TokenResponse> => {
         const response = await fetch(
           `${
-            process.env.NODE_ENV === "development"
-              ? "https://cors-anywhere.herokuapp.com/"
-              : ""
+            true ? "https://cors-anywhere.herokuapp.com/" : ""
           }https://accounts.spotify.com/api/token`,
           {
             method: "POST",
