@@ -56,20 +56,12 @@ const storeModel: AboutModel = {
   }),
 
   fetchBooks: thunk(async (actions, payload) => {
-    const getUrl = (): string => {
-      // TODO: Figure out how to bypass CORS so this is only needed for dev
-      const url = `${
-        true ? "https://cors-anywhere.herokuapp.com/" : ""
-      }https://www.goodreads.com/review/list/35914801.xml?key=${
-        process.env.GATSBY_GOODREADS_KEY
-      }&v=2&shelf=${payload}`
-
-      return url
-    }
-
     try {
-      const url = getUrl()
-      const response = await fetch(url)
+      const response = await fetch("/.netlify/functions/node-fetch-goodreads", {
+        headers: {
+          shelf: payload,
+        },
+      })
       const xmlText = await response.text()
       const {
         GoodreadsResponse: {
@@ -96,14 +88,20 @@ const storeModel: AboutModel = {
   fetchTweets: thunk(async actions => {
     try {
       const headers = createOAuthSignature()
-      const data = await fetch(
-        `${
-          true ? "https://cors-anywhere.herokuapp.com/" : ""
-        }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=true&include_rts=false`,
-        {
+      let data
+
+      if (process.env.NODE_ENV === "development") {
+        data = await fetch(
+          "https://cors-anywhere.herokuapp.com/https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=true&include_rts=false",
+          {
+            headers,
+          }
+        )
+      } else {
+        data = await fetch("/.netlify/functions/node-fetch-twitter", {
           headers,
-        }
-      )
+        })
+      }
 
       const tweets: Tweet[] = await data.json()
       actions.setTweets(tweets)
@@ -117,7 +115,9 @@ const storeModel: AboutModel = {
       const getToken = async (): Promise<TokenResponse> => {
         const response = await fetch(
           `${
-            true ? "https://cors-anywhere.herokuapp.com/" : ""
+            process.env.NODE_ENV === "development"
+              ? "https://cors-anywhere.herokuapp.com/"
+              : ""
           }https://accounts.spotify.com/api/token`,
           {
             method: "POST",

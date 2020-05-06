@@ -28,18 +28,7 @@ const storeModel: WritingModel = {
 
   fetchBooks: thunk(async actions => {
     try {
-      const getUrl = (): string => {
-        const url = `${
-          true ? "https://cors-anywhere.herokuapp.com/" : ""
-        }https://www.goodreads.com/author/list/19160978?format=xml&key=${
-          process.env.GATSBY_GOODREADS_KEY
-        }`
-
-        return url
-      }
-
-      const url = getUrl()
-      const response = await fetch(url)
+      const response = await fetch("/.netlify/functions/node-fetch-author")
       const xmlText = await response.text()
       const {
         GoodreadsResponse: {

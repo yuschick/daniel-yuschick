@@ -70,3 +70,6 @@ yarn-error.log
 
 *.env
 *.psd
+
+# Local Netlify folder
+.netlify
