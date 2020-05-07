@@ -45,22 +45,28 @@ const Projects: React.FunctionComponent = () => {
       <H3>Projects</H3>
       <GridContainer>
         {ProjectsData &&
-          Object.keys(ProjectsData).map((name: string) => {
-            const project: IProject = (ProjectsData as any)[name]
-            const { 0: img } = projectImages.filter(
-              (p: any) => p.node.name === project.image
+          Object.keys(ProjectsData)
+            .sort((a: string, b: string): number =>
+              (ProjectsData as any)[a].title < (ProjectsData as any)[b].title
+                ? -1
+                : 1
             )
+            .map((name: string) => {
+              const project: IProject = (ProjectsData as any)[name]
+              const { 0: img } = projectImages.filter(
+                (p: any) => p.node.name === project.image
+              )
 
-            if (!img) return
+              if (!img) return
 
-            return (
-              <Project
-                key={uuidv4()}
-                data={project}
-                cover={img.node.childImageSharp.fluid}
-              />
-            )
-          })}
+              return (
+                <Project
+                  key={uuidv4()}
+                  data={project}
+                  cover={img.node.childImageSharp.fluid}
+                />
+              )
+            })}
       </GridContainer>
     </section>
   )
