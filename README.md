@@ -14,7 +14,7 @@ That said, with a clear primary goal, my developer sense tingled and I was ready
 
 ### Tech Stack
 
-It must have been muscle memory because once I decided to create my repo and architect the site, I opened my terminal and started typing `create-react-app`. When I built my last site, I was quite new to React. Three (!?!?!) years later and its apparently second nature.
+It must have been muscle memory because once I decided to create my repo and architect the site, I opened my terminal and started typing `create-react-app`. When I built my last site, I was quite new to React. Three (_!?!?!_) years later and its apparently second nature.
 
 I wanted to change it up, but like, only a bit.
 
@@ -27,7 +27,7 @@ That feeling is the reason I got into development all those years ago and still 
 
 With the framework in place, adding in other familiar pieces like **Netlify**, **GraphQl**, **TypeScript**, and **Styled Components** gave me a chance to get more experience with tools I already use.
 
-The initial MVP took a week(ish) of all-consumed development, and now that the proverbial dust is settling, it’s nice taking a step back to digest what just happened.
+The initial MVP took a week(_ish_) of all-consumed development, and now that the proverbial dust is settling, it’s nice taking a step back to digest what just happened.
 
 ### Takeaways
 
@@ -42,9 +42,9 @@ Read more about my experience with Gatsby Image:
 
 #### CSS Clamp()
 
-I stumbled across `clamp()` while looking into fluid typography options. The main process I was familiar with involves writing `calc` equations against the display width that, for me, made the code hard to read. The result wasn’t visible in the code and I felt helpless when it came to extreme display sizes. However, using `clamp()` addressed both of those concerns by allowing me to define minimum and maximum font-sizes and let the font scale fluidly between the two. I may not know the exact font-size on a specific phone or 24" monitor but I do know it’ll be within that range and that’s good enough for me.
+I stumbled across `clamp()` while looking into fluid typography options. The main process I was familiar with involves writing `calc` equations against the display width that, for me, made the code hard to read. The result wasn’t visible in the code and I felt helpless when it came to extreme display sizes. However, using `clamp()` addressed both of those concerns by allowing me to define minimum and maximum font-sizes and let the font scale fluidly between the two. I may not know the exact font-size on a specific phone or 24" monitor but I do know it’ll be within that range and that’s good enough for me.
 
-Read more about how I used `clamp()`:
+Read more about how I used `clamp()`:
 [Fluid Typography with CSS Clamp() is My New Favorite Thing](https://medium.com/@Yuschick/fluid-typography-with-css-clamp-is-my-new-favorite-thing-573d0b8d7bfc)
 
 #### Fighting CORS with Netlify Functions
