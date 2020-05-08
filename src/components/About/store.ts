@@ -73,7 +73,7 @@ const storeModel: AboutModel = {
         },
       } = await formatXML(xmlText)
 
-      if (!!data.length) {
+      if (!data.length) {
         payload === "read" ? actions.setRead([]) : actions.setReading([])
         return
       }
