@@ -13,13 +13,13 @@ export type ErrorTypes = "twitter" | "goodreads" | "spotify"
 export interface AboutModel {
   error: ErrorTypes[] | null
   read: Book[] | null
-  reading: Book | null
+  reading: Book[] | null
   tweets: Tweet[] | null
   artists: Artist[] | null
 
   setError: Action<AboutModel, ErrorTypes>
   setRead: Action<AboutModel, Book[]>
-  setReading: Action<AboutModel, Book>
+  setReading: Action<AboutModel, Book[]>
   setTweets: Action<AboutModel, Tweet[]>
   setArtists: Action<AboutModel, Artist[]>
 
@@ -57,7 +57,11 @@ const storeModel: AboutModel = {
 
   fetchBooks: thunk(async (actions, payload) => {
     try {
-      const response = await fetch("/.netlify/functions/node-fetch-goodreads", {
+      const url =
+        process.env.NODE_ENV === "development"
+          ? `https://cors-anywhere.herokuapp.com/https://www.goodreads.com/review/list/35914801.xml?key=${process.env.GATSBY_GOODREADS_KEY}&v=2&shelf=${payload}`
+          : "/.netlify/functions/node-fetch-goodreads"
+      const response = await fetch(url, {
         headers: {
           shelf: payload,
         },
@@ -65,11 +69,14 @@ const storeModel: AboutModel = {
       const xmlText = await response.text()
       const {
         GoodreadsResponse: {
-          reviews: { review: data },
+          reviews: { review: data = [] },
         },
       } = await formatXML(xmlText)
 
-      if (!data) return
+      if (!!data.length) {
+        payload === "read" ? actions.setRead([]) : actions.setReading([])
+        return
+      }
 
       if (payload === "read") {
         actions.setRead(

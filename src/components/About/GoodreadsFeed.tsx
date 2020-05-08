@@ -19,12 +19,12 @@ const GoodreadsFeed: React.FunctionComponent = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const error: ErrorTypes[] | null = useStoreState(state => state.about.error)
   const read: Book[] | null = useStoreState(state => state.about.read)
-  const reading: Book | null = useStoreState(state => state.about.reading)
+  const reading: Book[] | null = useStoreState(state => state.about.reading)
   const fetchBooks = useStoreActions(actions => actions.about.fetchBooks)
   const now = new Date()
 
   useEffect(() => {
-    if (read && reading) return
+    if (read || reading) return
 
     setLoading(true)
     Promise.all([fetchBooks("read"), fetchBooks("currently-reading")]).then(
@@ -47,8 +47,10 @@ const GoodreadsFeed: React.FunctionComponent = () => {
             <ListContent.Block>
               <ListContent.Header>Currently reading</ListContent.Header>
               <ListContent.Content>
-                {reading ? (
-                  <CurrentlyReadingBook book={reading} />
+                {reading && !!reading.length ? (
+                  reading.map((book: Book) => (
+                    <CurrentlyReadingBook book={book} />
+                  ))
                 ) : (
                   <span>
                     Nothing at the moment. Sometimes decisions are hard!
@@ -60,17 +62,17 @@ const GoodreadsFeed: React.FunctionComponent = () => {
               <ListContent.Header>
                 Read in {format(now, "yyyy")}
               </ListContent.Header>
-              {read && !!read.length ? (
-                <ListContent.Content>
+              <ListContent.Content>
+                {read && !!read.length ? (
                   <ul>
-                    {read.map((book: any) => (
+                    {read.map((book: Book) => (
                       <ReadBook key={book.id} book={book} />
                     ))}
                   </ul>
-                </ListContent.Content>
-              ) : (
-                <span>Nothing yet this year but it's early. Hopefully.</span>
-              )}
+                ) : (
+                  <span>Nothing yet this year but it's early. Hopefully.</span>
+                )}
+              </ListContent.Content>
             </ListContent.Block>
           </Fragment>
         )}
