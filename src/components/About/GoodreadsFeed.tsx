@@ -49,7 +49,7 @@ const GoodreadsFeed: React.FunctionComponent = () => {
               <ListContent.Content>
                 {reading && !!reading.length ? (
                   reading.map((book: Book) => (
-                    <CurrentlyReadingBook book={book} />
+                    <CurrentlyReadingBook key={book.id} book={book} />
                   ))
                 ) : (
                   <span>

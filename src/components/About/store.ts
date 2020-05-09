@@ -73,7 +73,7 @@ const storeModel: AboutModel = {
         },
       } = await formatXML(xmlText)
 
-      if (!data.length) {
+      if ((Array.isArray(data) && !data.length) || !data) {
         payload === "read" ? actions.setRead([]) : actions.setReading([])
         return
       }
@@ -85,7 +85,7 @@ const storeModel: AboutModel = {
           )
         )
       } else {
-        actions.setReading(data)
+        actions.setReading([data])
       }
     } catch (error) {
       actions.setError("goodreads")
