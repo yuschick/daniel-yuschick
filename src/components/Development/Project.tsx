@@ -2,11 +2,11 @@ import React from "react"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { v4 as uuidv4 } from "uuid"
+import { OutboundLink } from "gatsby-plugin-google-analytics"
 
 import { IProject, ICover } from "types/Development"
 
 import ThemeColors from "theme/colors"
-import trackEvent from "utils/trackEvent"
 
 interface Props {
   data: IProject
@@ -19,17 +19,9 @@ const Project: React.FunctionComponent<Props> = ({ data, cover }) => {
 
     for (let [key, value] of Object.entries(project.links)) {
       links.push(
-        <a
-          key={uuidv4()}
-          href={value}
-          onClick={() =>
-            trackEvent(`${data.title} - Clicked ${key} link`, {
-              category: "Projects",
-            })
-          }
-        >
+        <OutboundLink key={uuidv4()} href={value}>
           {key}
-        </a>
+        </OutboundLink>
       )
     }
 

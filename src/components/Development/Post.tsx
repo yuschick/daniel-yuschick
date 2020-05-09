@@ -1,12 +1,12 @@
 import React from "react"
 import styled from "styled-components"
 import { format, parseISO } from "date-fns"
+import { OutboundLink } from "gatsby-plugin-google-analytics"
 
 import ThemeColors from "theme/colors"
 import { IPost } from "types/Development"
 
 import getReadingTime from "utils/getReadingTime"
-import trackEvent from "utils/trackEvent"
 
 interface Props {
   data: IPost
@@ -14,16 +14,9 @@ interface Props {
 
 const Post: React.FunctionComponent<Props> = ({ data }) => (
   <PostItem key={data.pubDate}>
-    <a
-      href={data.link}
-      onClick={() =>
-        trackEvent(`${data.title} - Clicked to read`, {
-          category: "Posts",
-        })
-      }
-    >
+    <OutboundLink href={data.link}>
       {data.title.replace("&amp;", "&")}
-    </a>
+    </OutboundLink>
     <PostDetailsContainer>
       <PostDetails>{format(parseISO(data.pubDate), "dd/MM/yyyy")}</PostDetails>
       <PostDetails>{getReadingTime(data)} min. read</PostDetails>

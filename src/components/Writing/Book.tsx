@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { v4 as uuidv4 } from "uuid"
+import { OutboundLink } from "gatsby-plugin-google-analytics"
 
 import H3 from "components/H3"
 
@@ -10,7 +11,6 @@ import GoodreadsIcon from "assets/icons/icon-goodreads-alt.jpg"
 
 import { BookChild } from "types/Goodreads"
 import { ICover } from "types/Development"
-import trackEvent from "utils/trackEvent"
 
 interface Props {
   data: BookChild
@@ -39,31 +39,17 @@ const Book: React.FunctionComponent<Props> = ({ data, amazon, cover }) => {
         <Img fluid={cover} alt={`${data.title} cover`} fadeIn />
         <LinksContainer>
           <div>
-            <a
-              href={amazon}
-              onClick={() =>
-                trackEvent(`${data.title} - Clicked Amazon link`, {
-                  category: "Writing",
-                })
-              }
-            >
+            <OutboundLink href={amazon}>
               <img src={AmazonIcon} alt={`Order ${data?.title} on Amazon`} />
-            </a>
+            </OutboundLink>
           </div>
           <div>
-            <a
-              href={data?.link}
-              onClick={() =>
-                trackEvent(`${data.title} - Clicked Goodreads link`, {
-                  category: "Writing",
-                })
-              }
-            >
+            <OutboundLink href={data?.link}>
               <img
                 src={GoodreadsIcon}
                 alt={`View ${data?.title} on Goodreads`}
               />
-            </a>
+            </OutboundLink>
           </div>
         </LinksContainer>
       </div>
