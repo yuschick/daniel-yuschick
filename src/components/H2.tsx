@@ -22,7 +22,7 @@ const Headline = styled.h2`
   color: ${ThemeColors.texts.headline};
   display: inline-block;
   font-family: ${ThemeFonts.secondary};
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: min(max(1.25rem, 2vw), 1.5rem);
   font-weight: 700;
   letter-spacing: -1px;
   line-height: 1;
@@ -30,8 +30,8 @@ const Headline = styled.h2`
   padding: 0.45rem 1rem;
   text-transform: uppercase;
 
-  @supports not (clamp()) {
-    font-size: min(max(1.25rem, 2vw), 1.5rem);
+  @supports (font-size: clamp(1.25rem, 2vw, 1.5rem)) {
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
   }
 `
 

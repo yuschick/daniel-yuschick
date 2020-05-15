@@ -12,13 +12,13 @@ const Headline = styled.h1`
   -webkit-text-stroke: 0.005em ${ThemeColors.core.darkGrey};
   color: ${ThemeColors.core.white};
   font-family: ${ThemeFonts.secondary};
-  font-size: clamp(1.75rem, 3vw, 2.1rem);
+  font-size: min(max(1.75rem, 3vw), 2.1rem);
   font-weight: 300;
   line-height: 1.5em;
   text-transform: uppercase;
 
-  @supports not (clamp()) {
-    font-size: min(max(1.75rem, 3vw), 2.1rem);
+  @supports (font-size: clamp(1.75rem, 3vw, 2.1rem)) {
+    font-size: clamp(1.75rem, 3vw, 2.1rem);
   }
 
   a,

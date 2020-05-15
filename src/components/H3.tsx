@@ -11,7 +11,7 @@ const H3: React.FunctionComponent = ({ children }) => {
 const Headline = styled.h3`
   color: ${ThemeColors.texts.headline};
   font-family: ${ThemeFonts.secondary};
-  font-size: clamp(1.15rem, 2vw, 1.25rem);
+  font-size: min(max(1.15rem, 2vw), 1.25rem);
   font-weight: 500;
   line-height: 1.5;
   margin-bottom: 1rem;
@@ -20,8 +20,8 @@ const Headline = styled.h3`
   position: relative;
   width: 100%;
 
-  @supports not (clamp()) {
-    font-size: min(max(1.15rem, 2vw), 1.25rem);
+  @supports (font-size: clamp(1.15rem, 2vw, 1.25rem)) {
+    font-size: clamp(1.15rem, 2vw, 1.25rem);
   }
 
   &:after {

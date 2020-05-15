@@ -53,10 +53,10 @@ const Title = styled.a`
 
 const Author = styled.span`
   color: ${ThemeColors.texts.darkSecondary};
-  font-size: clamp(14px, 0.7rem, 18px);
+  font-size: min(max(14px, 0.7rem), 18px);
 
-  @supports not (clamp()) {
-    font-size: min(max(14px, 0.7rem), 18px);
+  @supports (font-size: clamp(14px, 0.7rem, 18px)) {
+    font-size: clamp(14px, 0.7rem, 18px);
   }
 `
 

@@ -17,11 +17,11 @@ const GlobalStyle = createGlobalStyle`
 	  vertical-align: baseline
   }
   html, body {
-    --borderWidth: clamp(4px, 1vw, 8px);
+    --borderWidth: min(max(4px, 1vw), 8px);
 
-    @supports not (clamp()) {
-      --borderWidth: min(max(4px, 1vw), 8px);
-      font-size: min(max(15px, 2vw), 18px);
+    @supports (font-size: clamp(15px, 2vw, 18px)) {
+      --borderWidth: clamp(4px, 1vw, 8px);
+      font-size: clamp(15px, 2vw, 18px)
     }
 
     -webkit-font-smoothing: antialiased;
@@ -32,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
     border-bottom: 0;
     color: ${ThemeColors.texts.darkBody};
     font-family: ${ThemeFonts.primary};
-    font-size: clamp(15px, 2vw, 18px);
+    font-size: min(max(15px, 2vw), 18px);
     font-weight: 400;
     line-height: 1.75;
     min-height: calc(100vh - var(--borderWidth));

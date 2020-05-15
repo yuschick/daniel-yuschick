@@ -38,12 +38,12 @@ const Navigation = styled.ul`
 
 const Item = styled.li`
   font-family: ${ThemeFonts.secondary};
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: min(max(1rem, 2vw), 1.15rem);
   font-weight: 300;
   margin: 0 0.5em;
 
-  @supports not (clamp()) {
-    font-size: min(max(1rem, 2vw), 1.15rem);
+  @supports (font-size: clamp(1rem, 2vw, 1.15rem)) {
+    font-size: clamp(1rem, 2vw, 1.15rem);
   }
 `
 

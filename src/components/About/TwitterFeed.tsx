@@ -173,12 +173,13 @@ const ScreenName = styled.p`
 `
 
 const TweetBody = styled.div`
-  @supports not (clamp()) {
-    font-size: min(max(0.9rem, 2vw), 1rem);
-  }
   line-height: 1.25rem;
-  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-size: min(max(0.9rem, 2vw), 1rem);
   padding: 0.5rem 0;
+
+  @supports (font-size: clamp(0.9rem, 2vw, 1rem)) {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
 
   a,
   a:visited,
