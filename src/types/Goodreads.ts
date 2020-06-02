@@ -2,7 +2,16 @@ export interface Book {
   id: string
   book: BookChild
   rating: string
-  read_at?: string
+  read_at: string
+  url: string
+  link: string
+}
+
+export interface ReadBook {
+  id: string
+  book: BookChild
+  rating: string
+  read_at: string
   url: string
   link: string
 }

@@ -1,5 +1,5 @@
 import { Action, action, Thunk, thunk } from "easy-peasy"
-import { isThisYear } from "date-fns"
+import { isThisYear, isBefore } from "date-fns"
 
 import { Book } from "types/Goodreads"
 import { Tweet } from "types/Twitter"
@@ -80,9 +80,13 @@ const storeModel: AboutModel = {
 
       if (payload === "read") {
         actions.setRead(
-          data.filter(
-            (book: Book) => book.read_at && isThisYear(new Date(book.read_at))
-          )
+          data
+            .filter(
+              (book: Book) => book.read_at && isThisYear(new Date(book.read_at))
+            )
+            .sort((a: Book, b: Book) =>
+              isBefore(new Date(a.read_at), new Date(b.read_at)) ? 1 : -1
+            )
         )
       } else {
         actions.setReading([data])
