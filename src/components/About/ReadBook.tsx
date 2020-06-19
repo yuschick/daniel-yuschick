@@ -48,7 +48,6 @@ const StyledItem = styled.li`
 
 const Title = styled.a`
   display: block;
-  }
 `
 
 const Author = styled.span`

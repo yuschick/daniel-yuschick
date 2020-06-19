@@ -140,7 +140,7 @@ const TwitterFeed: React.FunctionComponent = () => {
 
 const ScrollContainer = styled.div`
   height: 225px;
-  overflow: scroll;
+  overflow: hidden auto;
   padding-right: 0.5rem;
 `
 

@@ -63,7 +63,7 @@ const SpotifyFeed: React.FunctionComponent = () => {
 
 const ScrollContainer = styled.div`
   height: 250px;
-  overflow: scroll;
+  overflow: hidden auto;
   padding-right: 0.5rem;
 `
 
