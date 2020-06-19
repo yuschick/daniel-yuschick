@@ -7,7 +7,7 @@ exports.handler = async function (event, context) {
         process.env.NODE_ENV === "development"
           ? "https://cors-anywhere.herokuapp.com/"
           : ""
-      }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended`,
+      }https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended&exclude_replies=false&include_rts=true`,
       {
         headers: { ...event.headers, Accept: "application/json" },
       }
