@@ -87,8 +87,6 @@ const createOAuthSignature = () => {
       username: "yuschick",
       count: 10,
       tweet_mode: "extended",
-      exclude_replies: true,
-      include_rts: false,
     },
     consumerKey,
     accessToken,
@@ -107,6 +105,8 @@ const createOAuthSignature = () => {
     "Cookie",
     'personalization_id="v1_WnrLt1ga8HShhPQZThpPdw=="; guest_id=v1%3A158848941581923308; lang=en'
   )
+
+  console.log(headers)
 
   return headers
 }
