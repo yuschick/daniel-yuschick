@@ -66,4 +66,4 @@ Creativity, challenge, and change are why I enjoy development and this project c
 ### Credits
 
 - Thanks for [@nome_sapien](https://www.instagram.com/nome_sapien/) for the incredible header photo
-- Created OAuth signatures based on [this post](https://imagineer.in/blog/authorizing-twitter-api-calls-in-javascript/)
+- Created Twitter OAuth signatures based on [this post](https://imagineer.in/blog/authorizing-twitter-api-calls-in-javascript/)
