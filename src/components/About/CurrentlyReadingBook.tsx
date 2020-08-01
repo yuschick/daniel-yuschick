@@ -10,12 +10,10 @@ interface Props {
 }
 
 const CurrentlyReadingBook = ({ book }: Props) => {
-  let desc = book.book.description
-    .split("<br />")
-    .join(" ")
-    .split(" ")
-    .slice(0, 49)
-    .join(" ")
+  const temp = document.createElement("div")
+  temp.innerHTML = book.book.description
+  let desc = temp.textContent || temp.innerText
+  desc = desc.split(" ").slice(0, 49).join(" ")
 
   return (
     <StyledItem>
