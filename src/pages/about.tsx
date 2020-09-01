@@ -27,9 +27,9 @@ const AboutPage: React.FunctionComponent = () => (
         <GridContainer>
           <AboutContent />
           <SubGrid>
-            <LazyLoad height={230} offset={100} once>
+            {/* <LazyLoad height={230} offset={100} once>
               <TwitterFeed />
-            </LazyLoad>
+            </LazyLoad> */}
             <LazyLoad height={250} offset={100} once>
               <GoodreadsFeed />
             </LazyLoad>
