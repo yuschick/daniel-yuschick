@@ -1,5 +1,5 @@
 [build]
-  command = "gatsby build && cd functions/node-fetch-goodreads && yarn && cd ../node-fetch-author && yarn && cd ../node-fetch-twitter && yarn"
+  command = "gatsby build && cd functions/node-fetch-goodreads && npm i && cd ../node-fetch-author && npm i && cd ../node-fetch-twitter && npm i"
   functions = "functions"
   publish = "public/"
 
