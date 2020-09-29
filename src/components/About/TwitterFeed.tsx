@@ -104,12 +104,11 @@ const TwitterFeed: React.FunctionComponent = () => {
     <section>
       <H3>Twitter</H3>
       <ScrollContainer>
-        {loading || !tweets ? (
+        {loading ? (
           <LoadingIcon />
         ) : error?.includes("twitter") ? (
           <Error />
         ) : (
-          tweets &&
           tweets?.map((tweet: Tweet) => {
             let formattedTweet = formatTweetWithEntities(tweet)
 
