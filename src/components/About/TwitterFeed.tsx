@@ -109,6 +109,7 @@ const TwitterFeed: React.FunctionComponent = () => {
         ) : error?.includes("twitter") ? (
           <Error />
         ) : (
+          tweets &&
           tweets?.map((tweet: Tweet) => {
             let formattedTweet = formatTweetWithEntities(tweet)
 
