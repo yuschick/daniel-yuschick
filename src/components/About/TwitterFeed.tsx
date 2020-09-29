@@ -80,12 +80,12 @@ const TwitterFeed: React.FunctionComponent = () => {
       })
     })
 
-    entities.map((entity: any) => {
+    entities?.map((entity: any) => {
       if (typeof formattedText === "string") {
         formattedText = formattedText.split(entity.text)
         formattedText.splice(1, 0, entity.el)
       } else {
-        formattedText.map((i: any, index: number) => {
+        formattedText?.map((i: any, index: number) => {
           if (typeof i === "string" && i.includes(entity.text)) {
             i = i.split(entity.text)
             i.splice(1, 0, entity.el)
@@ -104,7 +104,7 @@ const TwitterFeed: React.FunctionComponent = () => {
     <section>
       <H3>Twitter</H3>
       <ScrollContainer>
-        {loading ? (
+        {loading || !tweets ? (
           <LoadingIcon />
         ) : error?.includes("twitter") ? (
           <Error />

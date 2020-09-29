@@ -2,7 +2,6 @@
 const fetch = require("node-fetch")
 exports.handler = async function (event, context) {
   try {
-    console.log(event.headers)
     const response = await fetch(
       `${
         process.env.NODE_ENV === "development"
