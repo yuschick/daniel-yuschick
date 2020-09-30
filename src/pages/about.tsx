@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import LazyLoad from "react-lazyload"
 
@@ -15,36 +15,43 @@ import GoodreadsFeed from "components/About/GoodreadsFeed"
 import SpotifyFeed from "components/About/SpotifyFeed"
 import PSNFeed from "components/About/PSNFeed"
 
-const AboutPage: React.FunctionComponent = () => (
-  <Layout>
-    <SEO
-      title="About | Daniel Yuschick"
-      description="Daniel Yuschick is a frontend developer and horror author based in Helsinki, Finland"
-    />
-    <ViewSection>
-      <H2>About</H2>
-      <ContentContainer>
-        <GridContainer>
-          <AboutContent />
-          <SubGrid>
-            {/* <LazyLoad height={230} offset={100} once>
-              <TwitterFeed />
-            </LazyLoad> */}
-            <LazyLoad height={250} offset={100} once>
-              <GoodreadsFeed />
-            </LazyLoad>
-            <LazyLoad height={250} offset={100} once>
-              <SpotifyFeed />
-            </LazyLoad>
-            <LazyLoad height={200} offset={100} once>
-              <PSNFeed />
-            </LazyLoad>
-          </SubGrid>
-        </GridContainer>
-      </ContentContainer>
-    </ViewSection>
-  </Layout>
-)
+const AboutPage: React.FunctionComponent = () => {
+  useEffect(() => {
+    document.body.appendChild(document.createElement("script")).src =
+      "https://platform.twitter.com/widgets.js"
+  }, [])
+
+  return (
+    <Layout>
+      <SEO
+        title="About | Daniel Yuschick"
+        description="Daniel Yuschick is a frontend developer and horror author based in Helsinki, Finland"
+      />
+      <ViewSection>
+        <H2>About</H2>
+        <ContentContainer>
+          <GridContainer>
+            <AboutContent />
+            <SubGrid>
+              <LazyLoad height={230} offset={100} once>
+                <TwitterFeed />
+              </LazyLoad>
+              <LazyLoad height={250} offset={100} once>
+                <GoodreadsFeed />
+              </LazyLoad>
+              <LazyLoad height={250} offset={100} once>
+                <SpotifyFeed />
+              </LazyLoad>
+              <LazyLoad height={200} offset={100} once>
+                <PSNFeed />
+              </LazyLoad>
+            </SubGrid>
+          </GridContainer>
+        </ContentContainer>
+      </ViewSection>
+    </Layout>
+  )
+}
 
 const GridContainer = styled.section`
   align-items: start;

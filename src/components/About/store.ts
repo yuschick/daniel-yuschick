@@ -2,7 +2,6 @@ import { Action, action, Thunk, thunk } from "easy-peasy"
 import { isThisYear, isBefore } from "date-fns"
 
 import { Book } from "types/Goodreads"
-import { Tweet } from "types/Twitter"
 import { TokenResponse, ArtistData, Artist } from "types/Spotify"
 
 import formatXML from "utils/formatXML"
@@ -14,17 +13,14 @@ export interface AboutModel {
   error: ErrorTypes[] | null
   read: Book[] | null
   reading: Book[] | null
-  tweets: Tweet[] | null
   artists: Artist[] | null
 
   setError: Action<AboutModel, ErrorTypes>
   setRead: Action<AboutModel, Book[]>
   setReading: Action<AboutModel, Book[]>
-  setTweets: Action<AboutModel, Tweet[]>
   setArtists: Action<AboutModel, Artist[]>
 
   fetchBooks: Thunk<AboutModel, "read" | "currently-reading">
-  fetchTweets: Thunk<AboutModel>
   fetchArtists: Thunk<AboutModel>
 }
 
@@ -32,7 +28,6 @@ const storeModel: AboutModel = {
   error: null,
   read: null,
   reading: null,
-  tweets: null,
   artists: null,
 
   setError: action((state, payload) => {
@@ -45,10 +40,6 @@ const storeModel: AboutModel = {
 
   setReading: action((state, payload) => {
     state.reading = payload
-  }),
-
-  setTweets: action((state, payload) => {
-    state.tweets = payload
   }),
 
   setArtists: action((state, payload) => {
@@ -93,31 +84,6 @@ const storeModel: AboutModel = {
       }
     } catch (error) {
       actions.setError("goodreads")
-    }
-  }),
-
-  fetchTweets: thunk(async actions => {
-    try {
-      const headers = createOAuthSignature()
-      let data
-
-      if (process.env.NODE_ENV === "development") {
-        data = await fetch(
-          "https://cors-anywhere.herokuapp.com/https://api.twitter.com/1.1/statuses/user_timeline.json?username=yuschick&count=10&tweet_mode=extended",
-          {
-            headers,
-          }
-        )
-      } else {
-        data = await fetch("/.netlify/functions/node-fetch-twitter", {
-          headers,
-        })
-      }
-
-      const tweets: Tweet[] = await data.json()
-      actions.setTweets(tweets)
-    } catch (error) {
-      actions.setError("twitter")
     }
   }),
 
