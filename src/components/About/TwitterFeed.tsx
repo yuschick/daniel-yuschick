@@ -1,8 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 
-import { ErrorTypes } from "./store"
-
 import H3 from "components/H3"
 
 const TwitterFeed: React.FunctionComponent = () => {
@@ -16,6 +14,7 @@ const TwitterFeed: React.FunctionComponent = () => {
           href="https://twitter.com/Yuschick"
           data-chrome="nofooter noborders noheader transparent noscrollbar"
           data-tweet-limit="10"
+          data-show-replies="true"
         >
           Tweets by Yuschick
         </a>
