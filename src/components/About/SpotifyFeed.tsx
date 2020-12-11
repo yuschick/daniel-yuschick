@@ -65,6 +65,14 @@ const ScrollContainer = styled.div`
   height: 250px;
   overflow: hidden auto;
   padding-right: 0.5rem;
+
+  @supports (block-size: 1rem) {
+    block-size: 250px;
+  }
+
+  @supports (padding-inline: 1rem) {
+    padding-inline-end: 0.5rem;
+  }
 `
 
 const ArtistList = styled.ul`
@@ -76,10 +84,22 @@ const ArtistList = styled.ul`
   text-align: center;
   width: 100%;
 
+  @supports (inline-size: 1rem) {
+    inline-size: 100%;
+  }
+
   img {
     object-fit: cover;
     height: 125px;
     width: 125px;
+
+    @supports (block-size: 1rem) {
+      block-size: 125px;
+    }
+
+    @supports (inline-size: 1rem) {
+      inline-size: 125px;
+    }
   }
 `
 

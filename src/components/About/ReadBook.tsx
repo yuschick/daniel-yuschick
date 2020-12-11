@@ -36,13 +36,30 @@ const StyledItem = styled.li`
   grid-template-columns: auto max-content;
   padding: 0.5rem 0;
 
+  @supports (border-block: 1rem) {
+    border-block-end: 1px solid rgba(15, 70, 100, 0.12);
+  }
+
+  @supports (padding-block: 1rem) {
+    padding-block: 0.5rem;
+    padding-inline: 0;
+  }
+
   &:first-child {
     padding-top: 0;
+
+    @supports (padding-block: 1rem) {
+      padding-block-start: 0;
+    }
   }
 
   &:last-child {
     border: 0;
     padding-bottom: 0;
+
+    @supports (padding-block: 1rem) {
+      padding-block-end: 0;
+    }
   }
 `
 

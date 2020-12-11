@@ -76,6 +76,11 @@ const ProjectInfo = styled.div`
   a + a:before {
     content: "|";
     margin: 0 0.5rem;
+
+    @supports (margin-block: 1rem) {
+      margin-block: 0;
+      margin-inline: 0.5rem;
+    }
   }
 `
 

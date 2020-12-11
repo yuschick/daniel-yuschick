@@ -119,22 +119,47 @@ const ResponsiveImage = styled(Img)<{ sources: any }>`
     @media (max-width: 500px) {
       padding-bottom: ${props =>
         `${100 / props.sources[0].aspectRatio}% !important`};
+
+      @supports (padding-block: 1rem) {
+        padding-block-end: ${props =>
+          `${100 / props.sources[0].aspectRatio}% !important`};
+      }
     }
     @media (min-width: 501px) and (max-width: 1000px) {
       padding-bottom: ${props =>
         `${100 / props.sources[1].aspectRatio}% !important`};
+
+      @supports (padding-block: 1rem) {
+        padding-block-end: ${props =>
+          `${100 / props.sources[1].aspectRatio}% !important`};
+      }
     }
     @media (min-width: 1001px) and (max-width: 1500px) {
       padding-bottom: ${props =>
         `${100 / props.sources[2].aspectRatio}% !important`};
+
+      @supports (padding-block: 1rem) {
+        padding-block-end: ${props =>
+          `${100 / props.sources[2].aspectRatio}% !important`};
+      }
     }
     @media (min-width: 1501px) and (max-width: 2000px) {
       padding-bottom: ${props =>
         `${100 / props.sources[3].aspectRatio}% !important`};
+
+      @supports (padding-block: 1rem) {
+        padding-block-end: ${props =>
+          `${100 / props.sources[3].aspectRatio}% !important`};
+      }
     }
     @media (min-width: 2001px) {
       padding-bottom: ${props =>
         `${100 / props.sources[4].aspectRatio}% !important`};
+
+      @supports (padding-block: 1rem) {
+        padding-block-end: ${props =>
+          `${100 / props.sources[4].aspectRatio}% !important`};
+      }
     }
   }
 `
@@ -149,17 +174,40 @@ const HeaderContainer = styled.header`
   text-align: center;
   width: 100%;
 
+  @supports (max-block-size: 1rem) {
+    max-block-size: 100vh;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 100%;
+  }
+
   img {
     max-width: 100%;
     width: 100%;
+
+    @supports (max-inline-size: 1rem) {
+      inline-size: 100%;
+      max-inline-size: 100%;
+    }
   }
 `
 
 const NavContainer = styled.section`
-  left: 50%;
   position: absolute;
-  top: 50%;
-  transform: translate(-50%);
+  width: 100%;
+
+  @supports not (inset-block: 1rem) {
+    top: 50%;
+  }
+
+  @supports (inset-block: 1rem) {
+    inset-block-start: 50%;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 100%;
+  }
 `
 
 export default Header

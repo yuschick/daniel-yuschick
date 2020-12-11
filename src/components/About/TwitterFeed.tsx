@@ -29,6 +29,14 @@ const ScrollContainer = styled.div.attrs(() => ({
   height: 225px;
   overflow: hidden auto;
   padding-right: 0.5rem;
+
+  @supports (block-size: 1rem) {
+    block-size: 225px;
+  }
+
+  @supports (padding-inline: 1rem) {
+    padding-inline-end: 0.5rem;
+  }
 `
 
 export default TwitterFeed

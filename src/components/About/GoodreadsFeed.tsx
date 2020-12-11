@@ -85,6 +85,14 @@ const ScrollContainer = styled.div`
   height: 250px;
   overflow: hidden auto;
   padding-right: 0.5rem;
+
+  @supports (block-size: 1rem) {
+    block-size: 250px;
+  }
+
+  @supports (padding-inline: 1rem) {
+    padding-inline-end: 0.5rem;
+  }
 `
 
 export default GoodreadsFeed

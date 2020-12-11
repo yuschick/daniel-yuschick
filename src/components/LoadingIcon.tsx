@@ -22,6 +22,14 @@ const Wrapper = styled.div`
 const IconContainer = styled.div`
   height: 35px;
   width: 35px;
+
+  @supports (block-size: 1rem) {
+    block-size: 35px;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 35px;
+  }
 `
 
 export default LoadingIcon

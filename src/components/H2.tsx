@@ -30,8 +30,23 @@ const Headline = styled.h2`
   padding: 0.45rem 1rem;
   text-transform: uppercase;
 
+  @supports (border-block: 1px) {
+    border-block: 1px solid ${ThemeColors.core.darkGrey};
+    border-inline: 0;
+  }
+
   @supports (font-size: clamp(1.25rem, 2vw, 1.5rem)) {
     font-size: clamp(1.25rem, 2vw, 1.5rem);
+  }
+
+  @supports (margin-block: 1rem) {
+    margin-block: 0;
+    margin-inline: auto;
+  }
+
+  @supports (padding-block: 1rem) {
+    padding-block: 0.45rem;
+    padding-inline: 1rem;
   }
 `
 

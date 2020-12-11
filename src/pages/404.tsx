@@ -37,6 +37,19 @@ const CenteredContainer = styled.div`
   outline-offset: -5px;
   text-align: center;
   width: 500px;
+
+  @supports (block-size: 1rem) {
+    block-size: 281px;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 500px;
+  }
+
+  @supports (margin-block: 1rem) {
+    margin-block: 0;
+    margin-inline: auto;
+  }
 `
 
 export default NotFoundPage

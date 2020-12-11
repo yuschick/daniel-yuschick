@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { createGlobalStyle } from "styled-components"
 
 import Header from "./Header"
@@ -8,6 +8,10 @@ import ThemeColors from "theme/colors"
 import ThemeFonts from "theme/fonts"
 
 const GlobalStyle = createGlobalStyle`
+  :root {
+    --borderWidth: min(max(4px, 1vw), 8px);
+  }
+
   * {
     border: 0;
     box-sizing: border-box;
@@ -16,8 +20,16 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
 	  vertical-align: baseline
   }
+
+  html {
+    /* direction: rtl; */
+    /* direction: ltr; */
+    /* writing-mode: horizontal-tb; */
+    /* writing-mode: vertical-rl; */
+    /* writing-mode: vertical-lr; */
+  }
+
   html, body {
-    --borderWidth: min(max(4px, 1vw), 8px);
 
     @supports (font-size: clamp(15px, 2vw, 18px)) {
       --borderWidth: clamp(4px, 1vw, 8px);
@@ -36,6 +48,16 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     line-height: 1.75;
     min-height: calc(100vh - var(--borderWidth));
+
+    @supports (border-block: 1rem) {
+      border-block-start: var(--borderWidth) solid ${ThemeColors.core.darkGrey};
+      border-block-end: 0;
+      border-inline: var(--borderWidth) solid ${ThemeColors.core.darkGrey};
+    }
+
+    @supports (min-block-size: 1rem) {
+      min-block-size: calc(100vh - var(--borderWidth));
+    }
   }
 
   body::-webkit-scrollbar-track
@@ -45,8 +67,12 @@ const GlobalStyle = createGlobalStyle`
 
   body::-webkit-scrollbar
   {
-    width: 6px;
     background-color: ${ThemeColors.core.darkGrey};
+    width: 6px;
+
+    @supports (inline-size: 1rem) {
+      inline-size: 6px;
+    }
   }
 
   body::-webkit-scrollbar-thumb
@@ -64,10 +90,19 @@ const GlobalStyle = createGlobalStyle`
   *:focus {
     outline: 1px solid ${ThemeColors.core.lightGrey};
   }
+
   img {
     border: 0;
     height: auto;
     max-width: 100%;
+
+    @supports (block-size: 1rem) {
+      block-size: auto;
+    }
+
+    @supports (max-inline-size: 1rem) {
+      max-inline-size: 100%;
+    }
   }
   ul, li {
     list-style: none;
@@ -88,12 +123,12 @@ const GlobalStyle = createGlobalStyle`
 
 const Layout: React.FunctionComponent = ({ children }) => {
   return (
-    <>
+    <Fragment>
       <GlobalStyle />
       <Header />
       {children}
       <Footer />
-    </>
+    </Fragment>
   )
 }
 

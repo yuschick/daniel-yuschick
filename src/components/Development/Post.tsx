@@ -29,6 +29,10 @@ const PostDetailsContainer = styled.div`
 
   span + span {
     margin-left: 1rem;
+
+    @supports (margin-inline: 1rem) {
+      margin-inline-start: 1rem;
+    }
   }
 `
 
@@ -40,6 +44,10 @@ const PostDetails = styled.span`
 
 const PostItem = styled.li`
   margin-bottom: 1rem;
+
+  @supports (margin-block: 1rem) {
+    margin-block-end: 1rem;
+  }
 
   &:last-child {
     margin: 0;

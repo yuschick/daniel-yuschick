@@ -34,6 +34,11 @@ const CurrentlyReadingBook = ({ book }: Props) => {
 const StyledItem = styled.div`
   font-size: 0.9rem;
   margin: 0.5rem 0;
+
+  @supports (margin-block: 1rem) {
+    margin-block: 0.5rem;
+    margin-inline: 0;
+  }
 `
 
 const Title = styled.a`

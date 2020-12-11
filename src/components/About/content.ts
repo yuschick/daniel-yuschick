@@ -37,7 +37,7 @@ const data = [
     content: [
       "Write my non-sequel second novel",
       "Climb a mountain in Antarctica",
-      "Learn barely-passable Finnish",
+      "Learn at least barely-passable Finnish",
     ],
   },
 ]

@@ -77,19 +77,40 @@ const LinksContainer = styled.div`
   justify-content: center;
   margin: 0.5rem 0;
 
+  @supports (margin-inline: 1rem) {
+    margin-block: 0.5rem;
+    margin-inline: 0;
+  }
+
   img {
     height: auto;
     width: 50px;
+
+    @supports (block-size: 1rem) {
+      block-size: auto;
+    }
+
+    @supports (inline-size: 1rem) {
+      inline-size: 50px;
+    }
   }
 
   div + div {
     margin-left: 0.5rem;
+
+    @supports (margin-inline: 1rem) {
+      margin-inline-start: 0.5rem;
+    }
   }
 `
 
 const DescriptionP = styled.p`
   + p {
     margin-top: 1rem;
+
+    @supports (margin-block: 1rem) {
+      margin-block-start: 1rem;
+    }
   }
 `
 

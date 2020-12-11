@@ -60,7 +60,7 @@ const GridContainer = styled.section`
   grid-template-columns: repeat(auto-fit, 1fr);
 
   @media (min-width: 750px) {
-    grid-template-columns: minmax(350px, 3fr) minmax(300px, 2fr);
+    grid-template-columns: minmax(350px, 3fr) minmax(auto, 2fr);
   }
 `
 

@@ -81,6 +81,14 @@ const FooterContainer = styled.section`
   margin-top: 1rem;
   min-height: 100px;
   position: relative;
+
+  @supports (margin-block: 1rem) {
+    margin-block-start: 1rem;
+  }
+
+  @supports (min-block-size: 1rem) {
+    min-block-size: 100px;
+  }
 `
 
 const PrimaryBlock = styled.div`
@@ -92,6 +100,19 @@ const PrimaryBlock = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
+
+  @supports (block-size: 1rem) {
+    block-size: 80px;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 100%;
+  }
+
+  @supports (inset-inline: 1rem) {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+  }
 `
 
 const SecondaryBlock = styled.div`
@@ -104,6 +125,19 @@ const SecondaryBlock = styled.div`
   top: 15px;
   width: 100%;
   z-index: 2;
+
+  @supports (block-size: 1rem) {
+    block-size: 80px;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 100%;
+  }
+
+  @supports (inset-inline: 1rem) {
+    inset-block-start: 15px;
+    inset-inline-start: 0;
+  }
 `
 
 const TertiaryBlock = styled.div`
@@ -116,6 +150,19 @@ const TertiaryBlock = styled.div`
   top: 20px;
   width: 100%;
   z-index: 3;
+
+  @supports (block-size: 1rem) {
+    block-size: 80px;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 100%;
+  }
+
+  @supports (inset-inline: 1rem) {
+    inset-block-start: 20px;
+    inset-inline-start: 0;
+  }
 `
 
 const FooterContent = styled.footer`
@@ -124,6 +171,15 @@ const FooterContent = styled.footer`
   margin-top: -0.25rem;
   padding: 0.25rem 1rem 1rem 1rem;
   text-align: center;
+
+  @supports (margin-block: 1rem) {
+    margin-block-start: -0.25rem;
+  }
+
+  @supports (padding-block: 1rem) {
+    padding-block: 0.25rem 1rem;
+    padding-inline: 1rem;
+  }
 `
 
 const IconsWrapper = styled.section`
@@ -131,6 +187,10 @@ const IconsWrapper = styled.section`
   display: flex;
   justify-content: center;
   padding-top: 0.5rem;
+
+  @supports (padding-block: 1rem) {
+    padding-block-start: 0.5rem;
+  }
 `
 
 const IconContainer = styled.div.attrs(() => ({
@@ -143,6 +203,18 @@ const IconContainer = styled.div.attrs(() => ({
   transform: scale(1);
   transition: all 0.15s ease;
   width: 22px;
+
+  @supports (block-size: 1rem) {
+    block-size: 22px;
+  }
+
+  @supports (inline-size: 1rem) {
+    inline-size: 22px;
+  }
+
+  @supports (margin-inline: 1rem) {
+    margin-inline-end: 1rem;
+  }
 
   :focus {
     outline: 1px solid ${ThemeColors.core.lightGrey};
@@ -166,6 +238,10 @@ const Copyright = styled.p`
   color: ${ThemeColors.texts.lightSecondary};
   font-size: 0.8rem;
   margin-top: 2rem;
+
+  @supports (margin-block: 1rem) {
+    margin-block-start: 2rem;
+  }
 `
 
 const Quote = styled.q`
@@ -175,5 +251,9 @@ const Quote = styled.q`
   font-style: italic;
   margin-bottom: 1rem;
   position: relative;
+
+  @supports (margin-block: 1rem) {
+    margin-block-end: 1rem;
+  }
 `
 export default Footer
