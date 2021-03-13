@@ -56,7 +56,7 @@ const Footer: React.FunctionComponent = () => {
             </a>
           </IconContainer>
           <IconContainer>
-            <a href="https://my.playstation.com/profile/yuschick">
+            <a href="https://psnprofiles.com/yuschick">
               <img src={PlaystationIcon} alt="Playstation Network" />
             </a>
           </IconContainer>
