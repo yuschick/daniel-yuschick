@@ -29,15 +29,16 @@ const data = [
       "Wrote my first novel, The Mines",
       "Attended Turkmenistan's annual Independence Day horse race",
       "Returned to indoor rock climbing",
-      "Learned what a pandemic was",
+      "Found out what a pandemic was",
+      "Learned how to drive manual then bought an automatic",
     ],
   },
   {
     title: "Still to come...",
     content: [
-      "Write my non-sequel second novel",
-      "Climb a mountain in Antarctica",
-      "Learn at least barely-passable Finnish",
+      "Complete and publish a second novel",
+      "Learn enough Finnish to become a citizen",
+      "Get a Fazer chocolate bar tattoo",
     ],
   },
 ]
