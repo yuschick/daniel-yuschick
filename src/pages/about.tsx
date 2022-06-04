@@ -1,6 +1,5 @@
-import React, { useEffect } from "react"
+import React from "react"
 import styled from "styled-components"
-import LazyLoad from "react-lazyload"
 
 import Layout from "components/Layout"
 import SEO from "components/SEO"
@@ -10,17 +9,8 @@ import H2 from "components/H2"
 import ContentContainer from "components/ContentContainer"
 
 import AboutContent from "components/About/AboutContent"
-import TwitterFeed from "components/About/TwitterFeed"
-import GoodreadsFeed from "components/About/GoodreadsFeed"
-import SpotifyFeed from "components/About/SpotifyFeed"
-import PSNFeed from "components/About/PSNFeed"
 
 const AboutPage: React.FunctionComponent = () => {
-  useEffect(() => {
-    document.body.appendChild(document.createElement("script")).src =
-      "https://platform.twitter.com/widgets.js"
-  }, [])
-
   return (
     <Layout>
       <SEO
@@ -32,20 +22,6 @@ const AboutPage: React.FunctionComponent = () => {
         <ContentContainer>
           <GridContainer>
             <AboutContent />
-            <SubGrid>
-              <LazyLoad height={230} offset={100} once>
-                <TwitterFeed />
-              </LazyLoad>
-              <LazyLoad height={250} offset={100} once>
-                <GoodreadsFeed />
-              </LazyLoad>
-              <LazyLoad height={250} offset={100} once>
-                <SpotifyFeed />
-              </LazyLoad>
-              <LazyLoad height={200} offset={100} once>
-                <PSNFeed />
-              </LazyLoad>
-            </SubGrid>
           </GridContainer>
         </ContentContainer>
       </ViewSection>
@@ -62,12 +38,6 @@ const GridContainer = styled.section`
   @media (min-width: 750px) {
     grid-template-columns: minmax(350px, 3fr) minmax(auto, 2fr);
   }
-`
-
-const SubGrid = styled.section`
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: 1fr;
 `
 
 export default AboutPage
