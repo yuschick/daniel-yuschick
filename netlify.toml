@@ -1,7 +1,0 @@
-[build]
-  command = "gatsby build && cd functions/node-fetch-goodreads && npm i && cd ../node-fetch-author && npm i && npm i"
-  functions = "functions"
-  publish = "public/"
-
-[[plugins]]
-  package = "netlify-plugin-gatsby-cache"
