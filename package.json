@@ -1,0 +1,23 @@
+{
+  "name": "daniel-yuschick",
+  "version": "1.0.0",
+  "description": "The homepage of design systems developer and horror author, Daniel Yuschick.",
+  "main": "index.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuschick/daniel-yuschick.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuschick/daniel-yuschick/issues"
+  },
+  "homepage": "https://github.com/yuschick/daniel-yuschick#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1"
+  }
+}
