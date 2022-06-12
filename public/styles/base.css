@@ -93,7 +93,7 @@ a {
   position: relative;
 }
 
-a:not(:focus-visible):focus {
+a:focus:not(:focus-visible) {
   outline: 1px solid currentColor;
   outline-offset: var(--accent-size);
 }

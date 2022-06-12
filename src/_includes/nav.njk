@@ -8,11 +8,11 @@
 
 <nav>
     <ul>
-        <li aria-current="page">
+        <li {% if current === 'about' %} aria-current="page"{% endif %}>
             <a href="/">About</a>
         </li>
-        <li><a href="#">Articles</a></li>
-        <li><a href="#">Books</a></li>
+        <li {% if current === 'articles' %} aria-current="page"{% endif %}><a href="/articles">Articles</a></li>
+        <li {% if current === 'books' %} aria-current="page"{% endif %}><a href="/books">Books</a></li>
         <li>
             <a href="https://twitter.com/DanielYuschick" title="Visit Daniel Yuschick on Twitter">
                 {% include "../assets/icon-twitter.svg" %}

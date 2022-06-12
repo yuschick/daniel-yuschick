@@ -37,4 +37,10 @@ nav svg {
 
 nav [aria-current="page"] {
   background: var(--dy-color-secondary);
+  font-weight: 600;
+}
+
+nav [aria-current="page"] a:hover:before,
+nav [aria-current="page"] a:hover:after {
+  display: none;
 }
