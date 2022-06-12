@@ -10,19 +10,25 @@
             content="The homepage of design systems developer and horror author, Daniel Yuschick."
         />
         
-        {# <link
+        <link
             rel="shortcut icon"
             type="image/svg"
-            href="https://s3-eu-west-1.amazonaws.com/prod-central-prod-sm-site-media/sm/public/wp-content/uploads/2020/05/12133116/supermetrics-icon-2.svg"
-        /> #}
+            href="../assets/logo-dy-initials.svg"
+        />
         <title>{{ title }}</title>
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="styles/base.css" />
     </head>
     <body>
-        {% include "header.html" %}
-        <main>{{ content | safe }}</main>
-        {% include "footer.html" %}
+        <div id="root">
+            {% include "header.njk" %}
+            {% include "nav.njk" %}
+            <main id="main-content">{{ content | safe }}</main>
+            {% include "footer.njk" %}
+        </div>
         <noscript>You need to enable JavaScript to run this app.</noscript>
     </body>
 </html>

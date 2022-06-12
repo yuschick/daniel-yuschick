@@ -1,0 +1,23 @@
+{% set css %}
+    {% include '../styles/_includes/header.css' %}
+{% endset %}
+
+<style>
+{{ css | cssmin | safe }}
+</style>
+
+<section>
+  <a class="visually-hidden skip-to-link" href="#main-content">Skip to main content.</a>
+
+  <header class="primary-header">
+
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 85 138">
+      <title>Daniel Yuschick Logo - Initials</title>
+      <description>A logo design for Daniel Yuschick.</description>
+      <path
+        fill="#F5F3F4"
+        d="M12.1626 50.7282h9.6748L9.6748 87.2718H0l12.1626-36.5436Zm42.8538 0h9.6748L52.5286 87.2718h-9.6748l12.1626-36.5436ZM49.6259 0h9.6748L30.4145 87.2718h-9.6748L49.6259 0Zm25.6992 50.7282h9.6748L56.1138 138H46.439l28.8861-87.2718Z"
+      />
+    </svg>
+  </header>
+</section>

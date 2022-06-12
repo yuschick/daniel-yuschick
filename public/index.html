@@ -10,61 +10,125 @@
             content="The homepage of design systems developer and horror author, Daniel Yuschick."
         />
         
-        
+        <link
+            rel="shortcut icon"
+            type="image/svg"
+            href="../assets/logo-dy-initials.svg"
+        />
         <title>About | Daniel Yuschick</title>
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="styles/base.css" />
     </head>
     <body>
-        <header>
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 85 138">
-    <path
-      fill="#F5F3F4"
-      d="M12.1626 50.7282h9.6748L9.6748 87.2718H0l12.1626-36.5436Zm42.8538 0h9.6748L52.5286 87.2718h-9.6748l12.1626-36.5436ZM49.6259 0h9.6748L30.4145 87.2718h-9.6748L49.6259 0Zm25.6992 50.7282h9.6748L56.1138 138H46.439l28.8861-87.2718Z"
-    />
-  </svg>
-</header>
+        <div id="root">
+            
 
-        <main><h2>Born and raised in Pennsylvania, USA</h2>
-<ul>
-<li>Spent my 7th birthday singing every word at an Alice Cooper concert</li>
-<li>Worked two years in a record store</li>
-<li>Freelanced as a web designer and developer</li>
-<li>Played drums in multiple metal bands</li>
-</ul>
-<h2>Moved to North Carolina, USA in 2009</h2>
-<ul>
-<li>Learned what a recession was</li>
-<li>Continued to freelance</li>
-<li>Never used my Bachelor's Degree in Criminal Justice / Computer Forensics</li>
-<li>Adopted my dog, Abbie</li>
-<li>Competed in several YMCA basketball leagues</li>
-<li>Tried bean-to-bar chocolate and have been spoiled since</li>
-<li>Taught Frontend Engineering at The Iron Yard coding bootcamp</li>
-</ul>
-<h2>Followed my love of winter and metal to Helsinki, Finland in 2017</h2>
-<ul>
-<li>Lived in an AirBnB without running water for the first two weeks</li>
-<li>Went on a Tinder date</li>
-<li>A lot more basketball and a lot less freelancing</li>
-<li>Discovered my love of traveling</li>
-<li>Wrote my first novel, The Mines</li>
-<li>Attended Turkmenistan's annual Independence Day horse race</li>
-<li>Learned what a pandemic was</li>
-<li>Learned how to drive manual then bought an automatic</li>
-<li>Got married to that Tinder date</li>
-</ul>
-<h2>Still to come...</h2>
-<ul>
-<li>Complete and publish a second novel</li>
-<li>Learn enough Finnish to become a citizen</li>
-<li>Get a Fazer chocolate bar tattoo</li>
-<li>Become a certified Web Accessibility Specialist</li>
-<li>Dunk a basketball on a regulation hoop</li>
-</ul>
+<style>
+.primary-header{background:var(--dy-color-secondary);display:grid;padding:var(--dy-space-base-8x);place-content:center}.primary-header svg{inline-size:85px}.skip-to-link:focus-visible{all:unset;color:var(--dy-color-aux-900);cursor:pointer;inset-block-start:var(--dy-space-base-4x);inset-inline-start:var(--dy-space-base-4x);padding:var(--dy-space-base-2x);position:absolute;z-index:1}
+</style>
+
+<section>
+  <a class="visually-hidden skip-to-link" href="#main-content">Skip to main content.</a>
+
+  <header class="primary-header">
+
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 85 138">
+      <title>Daniel Yuschick Logo - Initials</title>
+      <description>A logo design for Daniel Yuschick.</description>
+      <path
+        fill="#F5F3F4"
+        d="M12.1626 50.7282h9.6748L9.6748 87.2718H0l12.1626-36.5436Zm42.8538 0h9.6748L52.5286 87.2718h-9.6748l12.1626-36.5436ZM49.6259 0h9.6748L30.4145 87.2718h-9.6748L49.6259 0Zm25.6992 50.7282h9.6748L56.1138 138H46.439l28.8861-87.2718Z"
+      />
+    </svg>
+  </header>
+</section>
+            
+
+<style>
+nav{background:var(--dy-color-primary);color:var(--dy-color-aux-900);display:flex;place-content:center;padding:0 var(--dy-space-base-8x)}nav a{--accent-offset:10%;color:var(--dy-color-aux-900);text-decoration:none}nav ul{align-content:center;display:flex;flex-wrap:wrap;justify-content:center}nav ul li{-webkit-clip-path:polygon(10% 0,100% 0,90% 100%,0% 100%);clip-path:polygon(10% 0,100% 0,90% 100%,0% 100%);display:grid;font-weight:500;padding:var(--dy-space-base-2x) var(--dy-space-base-4x);place-items:center;text-transform:uppercase}nav svg{inline-size:18px;margin:var(--dy-space-base-1x)}nav [aria-current=page]{background:var(--dy-color-secondary)}
+</style>
+
+<nav>
+    <ul>
+        <li aria-current="page">
+            <a href="/">About</a>
+        </li>
+        <li><a href="#">Articles</a></li>
+        <li><a href="#">Books</a></li>
+        <li>
+            <a href="https://twitter.com/DanielYuschick" title="Visit Daniel Yuschick on Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.09-.193-7.715-2.157-10.141-5.126-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548z" fill="#fff"/></svg>
+            </a>
+        </li>
+    </ul>
+</nav>
+            <main id="main-content">
+
+
+<style>
+.about--content-alignment{text-align:start}@media (min-width:700px){.about--content-alignment{text-align:center}}
+</style>
+
+<h1 class="visually-hidden">About Daniel Yuschick</h1>
+
+<section class="about--content-alignment">
+    <h2>Born and raised in Pennsylvania, USA</h2>
+    <ul class="space-b-e-8 space-b-s-2">
+        <li><span>Spent my 7th birthday singing every word at an Alice Cooper concert</span></li>
+        <li><span>Worked two years in a record store</span></li>
+        <li><span>Freelanced as a web designer and developer</span></li>
+        <li><span>Played drums in multiple metal bands</span></li>
+    </ul>
+
+    <h2>Moved to North Carolina, USA in 2009</h2>
+    <ul class="space-b-e-8 space-b-s-2">
+        <li><span>Learned what a recession was</span></li>
+        <li><span>Continued to freelance</span></li>
+        <li><span>Never used my Bachelor's Degree in Criminal Justice / Computer Forensics</span></li>
+        <li><span>Adopted my dog, Abbie</span></li>
+        <li><span>Competed in several YMCA basketball leagues</span></li>
+        <li><span>Tried bean-to-bar chocolate and have been spoiled since</span></li>
+        <li><span>Taught Frontend Engineering at The Iron Yard coding bootcamp</span></li>
+    </ul>
+
+    <h2>Followed my love of winter and metal to Helsinki, Finland in 2017</h2>
+    <ul class="space-b-e-8 space-b-s-2">
+        <li><span>Lived in an AirBnB without running water for the first two weeks</span></li>
+        <li><span>Went on a Tinder date</span></li>
+        <li><span>A lot more basketball and a lot less freelancing</span></li>
+        <li><span>Discovered my love of traveling</span></li>
+        <li><span>Wrote my first novel, The Mines</span></li>
+        <li><span>Attended Turkmenistan's annual Independence Day horse race</span></li>
+        <li><span>Learned what a pandemic was</span></li>
+        <li><span>Learned how to drive manual then bought an automatic</span></li>
+        <li><span>Got married to that Tinder date</span></li>
+    </ul>
+
+    <h2>Still to come...</h2>
+    <ul class="space-b-e-8 space-b-s-2">
+        <li><span>Complete and publish a second novel</span></li>
+        <li><span>Learn enough Finnish to become a citizen</span></li>
+        <li><span>Get a Fazer chocolate bar tattoo</span></li>
+        <li><span>Become a certified Web Accessibility Specialist</span></li>
+        <li><span>Dunk a basketball on a regulation hoop</span></li>
+    </ul>
+</section>
 </main>
-        <footer>Daniel Yuschick © 2022</footer>
+            
 
+<style>
+.primary-footer{background:var(--dy-color-secondary);color:var(--dy-color-aux-900);display:flex;flex-wrap:wrap;gap:var(--dy-space-base-4x);justify-content:space-between;padding:var(--dy-space-base-3x) var(--dy-space-base-8x)}
+</style>
+
+<footer class="primary-footer">
+    <q>I live my life one hot chocolate at a time.</q>
+    <span>Daniel Yuschick © 2022</span>
+</footer>
+
+        </div>
         <noscript>You need to enable JavaScript to run this app.</noscript>
     </body>
 </html>
