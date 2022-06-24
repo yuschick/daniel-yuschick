@@ -1,9 +1,0 @@
-.primary-footer {
-  background: var(--dy-color-secondary);
-  color: var(--dy-color-aux-900);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--dy-space-base-4x);
-  justify-content: space-between;
-  padding: var(--dy-space-base-3x) var(--dy-space-base-8x);
-}
