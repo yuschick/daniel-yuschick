@@ -1,0 +1,108 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html,
+body {
+  background: var(--dy-color-aux-900);
+  color: var(--dy-color-aux-100);
+  block-size: 100%;
+  font-family: "Mulish", sans-serif;
+  font-size: var(--dy-font-size-0);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  accent-color: var(--dy-color-primary);
+  line-height: 1.65;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dy-color-primary) var(--dy-color-aux-100);
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--dy-color-aux-100);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: var(--dy-color-primary);
+  border-radius: 6px;
+  border: 3px solid var(--dy-color-aux-100);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  max-inline-size: var(--dy-max-content-length);
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.25;
+
+  + * {
+    margin-block-start: 0.75em;
+  }
+}
+
+h1 {
+  font-size: var(--dy-font-size-3);
+}
+
+h2 {
+  font-size: var(--dy-font-size-2);
+}
+
+h3 {
+  font-size: var(--dy-font-size-1);
+}
+
+h4,
+h5,
+h6 {
+  font-size: var(--dy-font-size-0);
+}

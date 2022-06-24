@@ -1,0 +1,7 @@
+.about--content-alignment {
+  text-align: start;
+
+  @media (min-width: 700px) {
+    text-align: center;
+  }
+}

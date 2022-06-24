@@ -1,0 +1,23 @@
+.visually-hidden {
+  border: 0px;
+  clip: rect(0px, 0px, 0px, 0px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0px;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.space-b-e-4 {
+  margin-block-end: var(--dy-space-base-4x);
+}
+
+.space-b-e-8 {
+  margin-block-end: var(--dy-space-base-8x);
+}
+
+.space-b-s-2 {
+  margin-block-start: var(--dy-space-base-2x);
+}

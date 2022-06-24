@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    {% include 'meta.njk' %}
+
+    <link
+      rel="shortcut icon"
+      type="image/svg"
+      href="/assets/logo-dy-initials.svg"
+    />
+    <title>{{ title }} | Daniel Yuschick</title>
+
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500&display=swap"
+      rel="stylesheet"
+    /> -->
+    <link rel="stylesheet" href="/styles/main.css" />
+    {% if current === "about" %}
+      <link rel="stylesheet" href="/styles/pages/about.css" />
+    {% endif %}
+  </head>
+  <body>
+    <div id="root">
+      {% include 'header.njk' %}
+      {% include 'nav.njk' %}
+      <main id="main-content">{{ content | safe }}</main>
+      {% include 'footer.njk' %}
+    </div>
+  </body>
+</html>

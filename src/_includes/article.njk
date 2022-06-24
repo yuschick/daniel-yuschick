@@ -1,0 +1,10 @@
+---
+layout: page.njk
+current: articles
+---
+
+<article>
+    <h1>{{ title }}</h1>
+    <time pubdate datetime="{{ date }}">{{ date }}</time>
+    {{ content | safe }}
+</article>
