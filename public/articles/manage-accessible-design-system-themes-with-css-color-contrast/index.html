@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#bc3810" />
+<meta name="description" content="From design handoffs to custom design system themes, CSS color-contrast() can become a cornerstone for developers to enforce contrasting and accessible UIs." />
+<link rel="canonical" href="https://www.smashingmagazine.com/2022/05/accessible-design-system-themes-css-color-contrast/" />
+
+
+    <link
+      rel="shortcut icon"
+      type="image/svg"
+      href="/assets/logo-dy-initials.svg"
+    />
+    <title>Manage Accessible Design System Themes With CSS Color-Contrast() | Daniel Yuschick</title>
+
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500&display=swap"
+      rel="stylesheet"
+    /> -->
+    <link rel="stylesheet" href="/styles/main.css" />
+    
+  </head>
+  <body>
+    <div id="root">
+      <section>
+  <a class="visually-hidden skip-to-link" href="#main-content">
+    Skip to main content
+  </a>
+
+  <header class="primary-header">
+    <svg viewBox="0 0 85 138" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>Daniel Yuschick Logo - Initials</title>
+    <description>A logo design for Daniel Yuschick.</description>
+    <path d="M12.1626 50.7282H21.8374L9.6748 87.2718H0L12.1626 50.7282Z" fill="#F5F3F4"/>
+    <path d="M55.0164 50.7282H64.6912L52.5286 87.2718H42.8538L55.0164 50.7282Z" fill="#F5F3F4"/>
+    <path d="M49.6259 0H59.3007L30.4145 87.2718H20.7397L49.6259 0Z" fill="#F5F3F4"/>
+    <path d="M75.3251 50.7282H84.9999L56.1138 138H46.439L75.3251 50.7282Z" fill="#F5F3F4"/>
+</svg>
+
+  </header>
+</section>
+
+      <nav>
+  <ul>
+    <li >
+      <a  href="/">About</a>
+    </li>
+    <li  data-current ><a  aria-current="page"  href="/articles">Articles</a></li>
+    <li ><a  href="/books">Books</a></li>
+    <li>
+      <a
+        href="https://twitter.com/DanielYuschick"
+        title="Visit Daniel Yuschick on Twitter"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124-4.09-.193-7.715-2.157-10.141-5.126-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548z" fill="#fff"/></svg>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+      <main id="main-content">
+<article>
+    <h1>Manage Accessible Design System Themes With CSS Color-Contrast()</h1>
+    <time pubdate datetime="Thu May 26 2022 03:00:00 GMT+0300 (Eastern European Summer Time)">Thu May 26 2022 03:00:00 GMT+0300 (Eastern European Summer Time)</time>
+    <p><strong>QUICK SUMMARY ↬</strong> Developing accessible products can be challenging, especially when some of the requirements are beyond the scope of development. It’s one thing to enforce <code>alt</code> text for images and labels for form fields, but another to define an accessible color palette. From working with design handoffs to supporting custom themes in a design system, the CSS <code>color-contrast()</code> function can become a cornerstone for developers in enforcing sufficiently contrasting and accessible UIs.</p>
+<hr>
+<p>There’s certainly no shortage of design systems available to use when building your next project. Between IBM’s <a href="https://carbondesignsystem.com/">Carbon</a>, <a href="https://design.wonderflow.ai/">Wanda</a> and <a href="https://nordhealth.design/">Nord</a>, there are plenty of terrific design systems to choose from. Yet, while each one contains its own nuances and opinions, most share a similar goal — simplifying the development process of creating beautifully accessible user interfaces.</p>
+<p>It’s an admirable goal and, honestly, one that has led me to shift my own career into design systems. But a core feature at the foundation of many design systems is the extensibility for theming. And why wouldn’t it be? Without some flexibility for branding, every product using a particular system would look the same, <em>à la Bootstrap around 2012</em>.</p>
+<p>While providing support for custom themes is vital, it also leaves the most well-intentioned system’s accessibility at the mercy of the implementation. Some teams may spend weeks, if not months, defining their ideal color palette for a rebranding. They’ll labor over each shade and color combination to ensure everything is reliable, informative, and accessible.</p>
+<p>Others simply can’t and/or won’t do that.</p>
+<p>It’s one thing to require <code>alt</code> text on an <code>img</code> element or a <code>label</code> for an <code>input</code> element, but enforcing accessible color palettes is an entirely different beast. It’s a beast with jagged yellow teeth, fiery-red eyes, and green scales covering its body like sheets of crocodile armor.</p>
+<p>At least you <em>think</em> it is. For all you know, it could be a beast of nothing more than indistinct shades of black and slightly darker black.</p>
+<p>And therein lies the problem.</p>
+<h2>The CSS <code>Color-Contrast()</code> Function</h2>
+<blockquote>
+<p>Building inclusive products doesn’t mean supporting devices but supporting the people using them.</p>
+</blockquote>
+<p>The CSS <code>color-contrast()</code> function is an experimental feature which is currently a part of <a href="https://www.w3.org/TR/css-color-5/#colorcontrast">Color Module 5</a>. Its purpose — and the reason for the excitement of this article — is to select the greatest contrasting color from a list when compared against a base color.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uuku71so0v8wsx8spuvv.jpg" alt="CSS color-contrast requires a base color and a color list."></p>
+<h2>Color Me Intrigued</h2>
+<p>It was Rachel Andrew’s talk at AxeCon 2022, “<a href="https://www.deque.com/axe-con/sessions/new-css-with-accessibility-in-mind/">New CSS With Accessibility in Mind</a>”, where I was introduced to <code>color-contrast()</code>. I scribbled the function down into my notebook and circled it multiple times to <em>make it pop</em>. Because my mind has been entirely in the world of design systems as of late, I wondered how big of an impact this little CSS feature could have in that context.</p>
+<p>In her presentation, Rachel <a href="https://codepen.io/rachelandrew/pen/XWzapXJ">demoed the new feature</a> by dynamically defining text colors based on a background. So, let’s start there as well, by setting background and text colors on an <code>article</code>.</p>
+<pre><code>article {
+  --article-bg: #222;
+
+  background: var(--article-bg);
+  color: color-contrast(var(--article-bg) vs #FFF, #000);
+}
+</code></pre>
+<p>We start by defining the <code>--article-bg</code> custom property as a dark grey, <code>#222</code>. That property is then used as the base color in the <code>color-contrast()</code> function and compared against each item in the color list to find the highest contrasting value.</p>
+<ul>
+<li><strong>Base Color</strong> #222, <strong>Color List</strong> #FFF = <strong>Contrast Ratio</strong> 15.9</li>
+<li><strong>Base Color</strong> #222, <strong>Color List</strong> #000 = <strong>Contrast Ratio</strong> 1.31</li>
+</ul>
+<p>As a result, the article's <code>color</code> will be set to white, <code>#FFF</code>.</p>
+<p>But this can be taken further.</p>
+<p>We can effectively chain <code>color-contrast()</code> functions by using the result of one as the base color of another. Let's extend the <code>article</code> example by defining the <code>::selection</code> color relative to its text.</p>
+<pre><code>article {
+  --article-bg: #222;
+  --article-color: color-contrast(var(--article-bg) vs #FFF, #000);
+
+  background: var(--article-bg);
+  color: var(--article-color);
+
+  ::selection {
+    background: color-contrast(var(--article-color) vs #FFF, #000);
+  }
+}
+</code></pre>
+<p>Now, as the text color is defined, so will its selection background.</p>
+<p>https://codepen.io/DanielYuschick/pen/KKZzeEj</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jy4t9dicv01j0t0zczwa.gif" alt="Results of using color-contrast() for text and ::selection colors"></p>
+<p>The <code>color-contrast()</code> function isn't limited to only comparing HEX codes either. In fact, it can compare multiple color types at once. The previous example can be modified to use different color types while returning the same results.</p>
+<pre><code>article {
+  --article-bg: rgb(34, 34, 34);
+  --article-color: color-contrast(var(--article-bg) vs hsl(0,0%,100%), black);
+
+  background: var(--article-bg);
+  color: var(--article-color);
+
+  ::selection {
+    background: color-contrast(var(--article-color) vs hsl(0,0%,100%), black);
+  }
+}
+</code></pre>
+<h2>FROM PSEUDO-ELEMENTS TO PSEUDO-CLASSES</h2>
+<p>Setting text and <code>::selection</code> colors dynamically can be intriguing, but it's not exactly like being in a high-speed car chase with Burt Reynolds either --- at least, I wouldn't think. Text and background colors tend to be quite static. Once they're rendered, they don't often change.</p>
+<p>So, let's shift gears and <em>focus</em> 🥁 on interactive elements and their pseudo-classes.</p>
+<blockquote>
+<p>It's essential that all interactive elements have compliant focus indicators, but it's rarely as straight forward as creating a single, universal style.</p>
+</blockquote>
+<p>When navigating a page by keyboard, there tends to be quite a variety of tab stops along the way --- links inside of body text, buttons, and inputs, maybe even a card or a linked image. While it's essential that each of these elements have a compliant focus indicator, it's rarely as straightforward as creating a single, universal style. Using <code>color-contrast()</code> can help.</p>
+<pre><code>:root {
+  --body-bg: #131e25;
+}
+
+button {
+  --btn-bg: #ffba76;
+  --btn-color: color-contrast(var(--btn-bg) vs #fff, #000);
+
+  background: var(--btn-bg);
+  color: var(--btn-color);
+
+  &amp;:hover {
+    --btn-bg: #b15900;
+  }
+
+  &amp;:focus {
+    --color-list: var(--btn-bg), var(--btn-color), #bbb, #555;
+    box-shadow: 0 0 1px 3px
+      color-contrast(var(--body-bg) vs var(--color-list));
+  }
+}
+</code></pre>
+<p>There's a lot going on in this snippet demonstrating the potential of <code>color-contrast()</code>, so let's go through it.</p>
+<p>The <code>--btn-bg</code> custom property is used as the base color in selecting the <code>--btn-color</code> value. Anytime <code>--btn-bg</code> changes, <code>--btn-color</code> will be redefined as well. This is leveraged in the <code>:hover</code> state, doing away with pairing button colors manually and letting <code>color-contrast()</code> do it automatically.</p>
+<p>The <code>:focus</code> styles is where this approach can be expanded by using the <code>--body-bg</code> custom property as the base color. It's compared to the current button styles. What this provides is the ability to have contextually-aware focus styles. Should the default focus styles be too low contrast given the element's background placement, a color matching that element can be used. Of course, the color list can also contain safe fallbacks, just in case.</p>
+<p>https://codepen.io/DanielYuschick/pen/WNdrXyG</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nlcbyixfw5yigsaih819.gif" alt="Results of color-contrast() on button :hover and :focus pseudo-classes"></p>
+<p>The requirements for compliant focus indicators stretch beyond the scope of this article, but Stephanie Eckles' presentation, &quot;<a href="https://www.deque.com/axe-con/sessions/modern-css-upgrades-to-improve-accessibility/">Modern CSS Upgrades To Improve Accessibility</a>&quot; covers them in great detail and with clear examples.</p>
+<h2>DEFINE A TARGET CONTRAST RATIO</h2>
+<p>Earlier, I may have been a <em>touch blasé</em> about the optional third parameter for <code>color-contrast()</code>. When in reality, this is where the feature showcases its potential.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8hy0wj8hw6do8o5rrsmq.jpg" alt="Optionally define a target contrast using color-contrast"></p>
+<p>The optional third parameter for color-contrast() defines a target contrast ratio. The parameter accepts either a keyword - AA, AA-large, AAA, and AAA-large - or a number. When a target contrast is defined, the first color from the color list that meets or exceeds it is selected.</p>
+<p>https://codepen.io/DanielYuschick/pen/OJzWPwe</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ul2wkht6bx4e4njhlmpt.gif" alt="Results of dynamic target contrasts"></p>
+<p>When a target contrast is defined, <code>color-contrast()</code> will return the first value from the color list that meets the target. However, when no value in the color list meets the target contrast, it's where the magic happens.</p>
+<pre><code>h1 {
+  color: color-contrast(#000 vs #111, #222 to AA);
+}
+</code></pre>
+<p>Looking at the base color of black and the color list of two dark shades of grey, there's no value that would meet the <code>AA (4.5)</code> target contrast. So, what happens?</p>
+<p>If the color list does not contain a value that meets the target contrast, CSS will fill in the blanks with one that does --- either black or white.</p>
+<p>https://codepen.io/DanielYuschick/pen/zYpNzYb</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vgoeffq88m5nu2c0sm1r.jpeg" alt="Low contrast results with and without a target contrast defined."></p>
+<p>This is where <code>color-contrast()</code> could really empower design systems to enforce a specific level of accessibility.</p>
+<p>Let's break this down.</p>
+<pre><code>.dark-mode {
+  --bg: #000;
+  --color-list: #111, #222;
+}
+
+.dark-mode {
+  background: var(--bg);
+  color: color-contrast(var(--bg) vs var(--color-list));
+
+  &amp;.with-target {
+    color: color-contrast(var(--bg) vs var(--color-list) to AA);
+  }
+}
+</code></pre>
+<p>The magic here happens when the two <code>color</code> declarations are compared.</p>
+<p>The base <code>.dark-mode</code> class does not use a target contrast. This results in the <code>color</code> being defined as <code>#222</code>, the highest contrasting value from the color list relative to its base color of black. Needless to say, the contrast ratio of <code>1.35</code> may be the highest, but it's far from accessible.</p>
+<p>Compare this to when the <code>.dark-mode</code> and <code>.with-target</code> classes are combined, and a target contrast is specified. Despite using the same base color and color list, the result is much different. When no value in the color list meets the <code>AA (4.5)</code> target contrast, the function selects a value that does. In this case, white.</p>
+<p>This is where the potential of <code>color-contrast()</code> is the brightest.</p>
+<p>In the context of design systems, this would allow a system to enforce a level of color accessibility with very granular control. That level could also be a <code>:root</code>-scoped custom property allowing the target contrast to be dynamic yet global. There's a real feeling of control on the product side, but that comes at a cost during the implementation.</p>
+<p>There's a logical disconnect between the code and the result. The code doesn't communicate that the color white will be the result. And, of course, that control on the product side translates to uncertainty with the implementation. If a person is using a design system and passes specific colors into their theme, why are black and white being used instead?</p>
+<p>The first concern could be remedied by understanding the <code>color-contrast()</code> feature more deeply, and the second could be alleviated by clear, communicative documentation. However, in both cases, this shifts the burden of expectation onto the implementation side, which is not ideal.</p>
+<p>In some cases, the explicit control will justify the costs. However, there are other drawbacks to <code>color-contrast()</code> that will need to be considered in all cases.</p>
+<h2>Not All That Glitters Is Gold</h2>
+<p>There are inevitable drawbacks to consider, as with any experimental or new feature, and <code>color-contrast()</code> is no different.</p>
+<h3>COLOR AND VISUAL CONTRASTS ARE DIFFERENT THINGS</h3>
+<p>When using <code>color-contrast()</code> to determine text color based on its background, the function is comparing exactly that --- the colors. What <code>color-contrast()</code> <em>does not</em> take into consideration are other styles that may affect visual contrast, such as font size, weight, and opacity.</p>
+<p>This means it's possible to have a color pairing that technically meets a specific contrast threshold but still results in an inaccessible text because its size is too small, weight is too light, or its opacity is too transparent.</p>
+<p>To learn more about accessible typography, I highly recommend Carie Fisher's talk, &quot;<a href="https://www.deque.com/axe-con/sessions/accessible-typography-essentials/">Accessible Typography Essentials</a>.&quot;</p>
+<h3>CUSTOM PROPERTIES AND FALLBACKS</h3>
+<p>Since CSS custom properties support fallback values for when the property is not defined, it seemed like a good approach to use <code>color-contrast()</code> as a progressive enhancement.</p>
+<pre><code>--article-color: color-contrast(#000 vs #333, #FFF);
+color: var(--article-color, var(--fallback-color));
+</code></pre>
+<p>If <code>color-contrast()</code> is not supported, the <code>--article-color</code> property would not be defined, and therefore the <code>--fallback-color</code> would be used. Unfortunately, that's not how this works.</p>
+<p>An interesting thing happens in unsupported browsers --- the custom property would be defined with the function itself. Here's an example of this from Chrome DevTools:</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bs9l53f73o6zz5vxnu0q.jpg" alt="Unsupported browsers, like Chrome, will use color-contrast() as a value"></p>
+<p>Because the <code>--article-color</code> property is technically defined, the fallback won't trigger.</p>
+<p>However, that's not to say <code>color-contrast()</code> can't be used progressively, though. It can be paired with the <code>@supports()</code> function, but be mindful if you decide to do so. As exciting as it may be, with such limited support and potential for syntax and/or functionality changes, it may be best to hold off on sprinkling this little gem throughout an entire codebase.</p>
+<pre><code>@supports (color: color-contrast(#000 vs #fff, #eee)) {
+  --article-color: color-contrast(var(--article-color) vs #fff, #000);
+}
+</code></pre>
+<h3>THE HIGHEST CONTRAST DOESN'T MEAN ACCESSIBLE CONTRAST</h3>
+<p>Despite the control <code>color-contrast()</code> can offer with colors and themes, there are still limitations. When the function compares the base color against the list and no target contrast is specified, it will select the highest contrasting value. Just because the two colors offer the greatest contrast ratio, it doesn't mean it's an accessible one.</p>
+<pre><code>h1 {
+  background: #000;
+  color: color-contrast(#000 vs #111, #222);
+}
+</code></pre>
+<p>In this example, the background color of black. <code>#000</code> is compared against two shades of dark grey. While <code>#222</code> would be selected for having the &quot;greatest&quot; contrast ratio, pairing it with black would be anything but great.</p>
+<h3>NO GRADIENT SUPPORT</h3>
+<p>In hindsight, it was maybe a touch ambitious trying gradients with <code>color-contrast()</code>. Nevertheless, through some testing, it seems gradients are not supported. Which, once I thought about it, makes sense.</p>
+<p>If a gradient transitioned from black to white, what would the base color be? And wouldn't it need to be relative to the position of the content? It's not like the function can interpret the UI. However, Michelle Barker has experimented with <a href="https://codepen.io/michellebarker/pen/LYQPYoq">using CSS color-mix() and color-contrast() together</a> to support this exact use case.</p>
+<p>It's not you, <code>color-contrast()</code>, it's me. Well, it's actually the gradients, but you know what I mean.</p>
+<h2>Wrapping Up</h2>
+<p>That was a lot of code and demos, so let's take a step back and review <code>color-contrast()</code>.</p>
+<p>The function compares a base color against a color list, then selects the highest contrasting value. Additionally, it can compare those values against a target contrast ratio and either select the first color to meet that threshold or use a dynamic color that does. Pair this with progressive enhancement, and we've got a feature that can drastically improve web accessibility.</p>
+<p>I believe there are still plenty of unexplored areas and use cases for <code>color-contrast()</code>, so I want to end this article with some additional thoughts and/or questions.</p>
+<p>How do you see this feature being leveraged when working with different color modes, like light, dark, and high contrast? Could a React-based design system expose an optional <code>targetContrast</code> prop on its <code>ThemeProvider</code> in order to enforce accessibility if the theme falls short? Would there be a use case for the function to return the lowest contrasting value instead? If there were two base colors, could the function be used to find the best contrasting value between them?</p>
+<p>What do you think?</p>
+<h2>RESOURCES</h2>
+<ul>
+<li><a href="https://www.deque.com/axe-con/sessions/new-css-with-accessibility-in-mind/">&quot;New CSS with Accessibility in Mind&quot;</a>, Rachel Andrew</li>
+<li><a href="https://css-tricks.com/exploring-color-contrast-for-the-first-time/">&quot;Exploring color-contrast() for the First Time&quot;</a>, Chris Coyier</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-contrast%28%29"><code>Color-Contrast()</code> on MDN</a></li>
+<li><a href="https://caniuse.com/?search=color-contrast%28%29">Support stats on caniuse.com</a></li>
+<li><a href="https://www.w3.org/TR/css-color-5/#colorcontrast"><code>Color-Contrast()</code> on W3 Color Module Level 5</a></li>
+</ul>
+
+</article></main>
+      <footer class="primary-footer">
+  <q>I live my life one hot chocolate at a time.</q>
+  <span>Daniel Yuschick © 2022</span>
+</footer>
+
+    </div>
+  </body>
+</html>

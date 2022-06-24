@@ -1,5 +1,5 @@
 const eleventySass = require("eleventy-sass");
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+// const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 
 module.exports = function (config) {
   config.addNunjucksGlobal("getYear", function () {
@@ -9,7 +9,7 @@ module.exports = function (config) {
   config.addPassthroughCopy("./src/assets");
 
   config.addPlugin(eleventySass);
-  config.addPlugin(syntaxHighlight);
+  // config.addPlugin(syntaxHighlight);
 
   return {
     dir: {
