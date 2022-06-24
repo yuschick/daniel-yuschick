@@ -12,9 +12,18 @@ current: articles
             <h2>
                 <a href="{{ article.url }}">{{ article.data.title }}</a>
             </h2>
-            
-            <time pubdate datetime="{{ article.data.date }}">{{ article.data.date }}</time>
 
+            <section class="article-details">
+                <div class="article-details-item">
+                    {% include './assets/icon-calendar.svg' %}
+                    <time pubdate datetime="{{ article.data.date }}">{{ formatDate(article.data.date) }}</time>
+                </div>
+                <div class="article-details-item">
+                    {% include './assets/icon-clock.svg' %}
+                    <span>{{ getArticleReadTime(article._templateContent) }} min. read</span>
+                </div>
+            </section>
+            
             <p>{{article.data.preview}}</p>
         </li>
     {% endfor %}

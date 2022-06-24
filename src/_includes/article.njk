@@ -5,6 +5,15 @@ current: articles
 
 <article>
     <h1>{{ title }}</h1>
-    <time pubdate datetime="{{ date }}">{{ date }}</time>
+    <section class="article-details">
+        <div class="article-details-item">
+            {% include '../assets/icon-calendar.svg' %}
+            <time pubdate datetime="{{ date }}">{{ formatDate(date) }}</time>
+        </div>
+        <div class="article-details-item">
+            {% include '../assets/icon-clock.svg' %}
+            <span>{{ getArticleReadTime(content) }} min. read</span>
+        </div>
+    </section>
     {{ content | safe }}
 </article>

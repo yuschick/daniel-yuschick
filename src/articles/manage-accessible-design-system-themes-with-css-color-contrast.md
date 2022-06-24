@@ -9,7 +9,7 @@ tags:
   - css
   - html
   - frontend
-preview: "Developing accessible products can be challenging, especially when some of the requirements are beyond the scope of development. It’s one thing to enforce `alt` text for images and labels for form fields, but another to define an accessible color palette. From working with design handoffs to supporting custom themes in a design system, the CSS `color-contrast()` function can become a cornerstone for developers in enforcing sufficiently contrasting and accessible UIs."
+preview: "Developing accessible products can be challenging, especially when some of the requirements are beyond the scope of development. It’s one thing to enforce alt text for images and labels for form fields, but another to define an accessible color palette. From working with design handoffs to supporting custom themes in a design system, the CSS color-contrast() function can become a cornerstone for developers in enforcing sufficiently contrasting and accessible UIs."
 description: "From design handoffs to custom design system themes, CSS color-contrast() can become a cornerstone for developers to enforce contrasting and accessible UIs."
 ---
 
