@@ -45,12 +45,12 @@ It was Rachel Andrew’s talk at AxeCon 2022, “[New CSS With Accessibility in 
 
 In her presentation, Rachel [demoed the new feature](https://codepen.io/rachelandrew/pen/XWzapXJ) by dynamically defining text colors based on a background. So, let’s start there as well, by setting background and text colors on an `article`.
 
-```
+```css
 article {
   --article-bg: #222;
 
   background: var(--article-bg);
-  color: color-contrast(var(--article-bg) vs #FFF, #000);
+  color: color-contrast(var(--article-bg) vs #fff, #000);
 }
 ```
 
@@ -65,16 +65,16 @@ But this can be taken further.
 
 We can effectively chain `color-contrast()` functions by using the result of one as the base color of another. Let's extend the `article` example by defining the `::selection` color relative to its text.
 
-```
+```css
 article {
   --article-bg: #222;
-  --article-color: color-contrast(var(--article-bg) vs #FFF, #000);
+  --article-color: color-contrast(var(--article-bg) vs #fff, #000);
 
   background: var(--article-bg);
   color: var(--article-color);
 
   ::selection {
-    background: color-contrast(var(--article-color) vs #FFF, #000);
+    background: color-contrast(var(--article-color) vs #fff, #000);
   }
 }
 ```
@@ -87,16 +87,16 @@ https://codepen.io/DanielYuschick/pen/KKZzeEj
 
 The `color-contrast()` function isn't limited to only comparing HEX codes either. In fact, it can compare multiple color types at once. The previous example can be modified to use different color types while returning the same results.
 
-```
+```css
 article {
   --article-bg: rgb(34, 34, 34);
-  --article-color: color-contrast(var(--article-bg) vs hsl(0,0%,100%), black);
+  --article-color: color-contrast(var(--article-bg) vs hsl(0, 0%, 100%), black);
 
   background: var(--article-bg);
   color: var(--article-color);
 
   ::selection {
-    background: color-contrast(var(--article-color) vs hsl(0,0%,100%), black);
+    background: color-contrast(var(--article-color) vs hsl(0, 0%, 100%), black);
   }
 }
 ```
@@ -111,7 +111,7 @@ So, let's shift gears and _focus_ 🥁 on interactive elements and their pseudo-
 
 When navigating a page by keyboard, there tends to be quite a variety of tab stops along the way --- links inside of body text, buttons, and inputs, maybe even a card or a linked image. While it's essential that each of these elements have a compliant focus indicator, it's rarely as straightforward as creating a single, universal style. Using `color-contrast()` can help.
 
-```
+```css
 :root {
   --body-bg: #131e25;
 }
@@ -129,8 +129,7 @@ button {
 
   &:focus {
     --color-list: var(--btn-bg), var(--btn-color), #bbb, #555;
-    box-shadow: 0 0 1px 3px
-      color-contrast(var(--body-bg) vs var(--color-list));
+    box-shadow: 0 0 1px 3px color-contrast(var(--body-bg) vs var(--color-list));
   }
 }
 ```
@@ -161,7 +160,7 @@ https://codepen.io/DanielYuschick/pen/OJzWPwe
 
 When a target contrast is defined, `color-contrast()` will return the first value from the color list that meets the target. However, when no value in the color list meets the target contrast, it's where the magic happens.
 
-```
+```css
 h1 {
   color: color-contrast(#000 vs #111, #222 to AA);
 }
@@ -179,7 +178,7 @@ This is where `color-contrast()` could really empower design systems to enforce 
 
 Let's break this down.
 
-```
+```css
 .dark-mode {
   --bg: #000;
   --color-list: #111, #222;
@@ -227,8 +226,8 @@ To learn more about accessible typography, I highly recommend Carie Fisher's tal
 
 Since CSS custom properties support fallback values for when the property is not defined, it seemed like a good approach to use `color-contrast()` as a progressive enhancement.
 
-```
---article-color: color-contrast(#000 vs #333, #FFF);
+```css
+--article-color: color-contrast(#000 vs #333, #fff);
 color: var(--article-color, var(--fallback-color));
 ```
 
@@ -242,7 +241,7 @@ Because the `--article-color` property is technically defined, the fallback won'
 
 However, that's not to say `color-contrast()` can't be used progressively, though. It can be paired with the `@supports()` function, but be mindful if you decide to do so. As exciting as it may be, with such limited support and potential for syntax and/or functionality changes, it may be best to hold off on sprinkling this little gem throughout an entire codebase.
 
-```
+```css
 @supports (color: color-contrast(#000 vs #fff, #eee)) {
   --article-color: color-contrast(var(--article-color) vs #fff, #000);
 }
@@ -252,7 +251,7 @@ However, that's not to say `color-contrast()` can't be used progressively, thoug
 
 Despite the control `color-contrast()` can offer with colors and themes, there are still limitations. When the function compares the base color against the list and no target contrast is specified, it will select the highest contrasting value. Just because the two colors offer the greatest contrast ratio, it doesn't mean it's an accessible one.
 
-```
+```css
 h1 {
   background: #000;
   color: color-contrast(#000 vs #111, #222);

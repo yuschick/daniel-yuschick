@@ -69,23 +69,25 @@ Building the linear color wheel was a lot of fun and a great dive into using `co
 
 So how does this work?
 
-    // First: Define the base primary colors
-    --primary-1: #ff0;
-    --primary-2: #f00;
-    --primary-3: #00f;
+```css
+/* First: Define the base primary colors */
+--primary-1: #ff0;
+--primary-2: #f00;
+--primary-3: #00f;
 
-    // Next: Mix the primary colors to create the secondary colors
-    --secondary-1: color-mix(in srgb, var(--primary-1) 50%, var(--primary-2));
-    --secondary-2: color-mix(in srgb, var(--primary-2) 50%, var(--primary-3));
-    --secondary-3: color-mix(in srgb, var(--primary-3) 50%, var(--primary-1));
+/* Next: Mix the primary colors to create the secondary colors */
+--secondary-1: color-mix(in srgb, var(--primary-1) 50%, var(--primary-2));
+--secondary-2: color-mix(in srgb, var(--primary-2) 50%, var(--primary-3));
+--secondary-3: color-mix(in srgb, var(--primary-3) 50%, var(--primary-1));
 
-    // Last: Mix the primary and secondary colors to create the tertiary colors
-    --tertiary-1: color-mix(in srgb, var(--primary-1) 50%, var(--secondary-1));
-    --tertiary-2: color-mix(in srgb, var(--secondary-1) 50%, var(--primary-2));
-    --tertiary-3: color-mix(in srgb, var(--primary-2) 50%, var(--secondary-2));
-    --tertiary-4: color-mix(in srgb, var(--secondary-2) 50%, var(--primary-3));
-    --tertiary-5: color-mix(in srgb, var(--primary-3) 50%, var(--secondary-3));
-    --tertiary-6: color-mix(in srgb, var(--secondary-3) 50%, var(--primary-1));
+/* Last: Mix the primary and secondary colors to create the tertiary colors */
+--tertiary-1: color-mix(in srgb, var(--primary-1) 50%, var(--secondary-1));
+--tertiary-2: color-mix(in srgb, var(--secondary-1) 50%, var(--primary-2));
+--tertiary-3: color-mix(in srgb, var(--primary-2) 50%, var(--secondary-2));
+--tertiary-4: color-mix(in srgb, var(--secondary-2) 50%, var(--primary-3));
+--tertiary-5: color-mix(in srgb, var(--primary-3) 50%, var(--secondary-3));
+--tertiary-6: color-mix(in srgb, var(--secondary-3) 50%, var(--primary-1));
+```
 
 Of course, when I was in art class, there was only one set of paints. So if you wanted yellow, there was only one yellow. Red? There was only one red. Blue? Well, you get the idea.
 
@@ -101,15 +103,17 @@ https://codepen.io/DanielYuschick/embed/XWVygVM
 
 The `color-mix()` function isn’t limited to only blending HEX codes either. In fact, it can mix multiple color types at once. The previous example can be modified to use different color types while returning the same results.
 
-    // First: Define the base primary colors
-    --primary-1: yellow;
-    --primary-2: rgb(255,0,0);
-    --primary-3: hsl(240,100%,50%);
+```css
+/* First: Define the base primary colors */
+--primary-1: yellow;
+--primary-2: rgb(255, 0, 0);
+--primary-3: hsl(240, 100%, 50%);
 
-    // Next: Mix the primary colors to create the secondary colors
-    --secondary-1: color-mix(in srgb, var(--primary-1) 50%, var(--primary-2));
-    --secondary-2: color-mix(in srgb, var(--primary-2) 50%, var(--primary-3));
-    --secondary-3: color-mix(in srgb, var(--primary-3) 50%, var(--primary-1));
+/* Next: Mix the primary colors to create the secondary colors */
+--secondary-1: color-mix(in srgb, var(--primary-1) 50%, var(--primary-2));
+--secondary-2: color-mix(in srgb, var(--primary-2) 50%, var(--primary-3));
+--secondary-3: color-mix(in srgb, var(--primary-3) 50%, var(--primary-1));
+```
 
 ## Mixing n’ Matching
 
@@ -131,25 +135,35 @@ Additionally, a `color-mix()` result can be used as the base color in another `c
 
 > When specifying a base percentage, the blend color is mixed with a percentage that would total 100%. If the base percent is 75%, the blend percent will be 25%.
 
-    :root {
-      --color-dark-primary: #dedbd2;
-    }
+```css
+:root {
+  --color-dark-primary: #dedbd2;
+}
 
-    button {
-      --btn-bg: #087e8b;
-      --btn-bg-hover: color-mix(in srgb, var(--btn-bg) 75%, var(--color-dark-primary));
-      --btn-bg-active: color-mix(in srgb, var(--btn-bg-hover) 80%, var(--color-dark-primary));
+button {
+  --btn-bg: #087e8b;
+  --btn-bg-hover: color-mix(
+    in srgb,
+    var(--btn-bg) 75%,
+    var(--color-dark-primary)
+  );
+  --btn-bg-active: color-mix(
+    in srgb,
+    var(--btn-bg-hover) 80%,
+    var(--color-dark-primary)
+  );
 
-      background: var(--btn-bg);
+  background: var(--btn-bg);
 
-      &:hover {
-        background: var(--btn-bg-hover);
-      }
+  &:hover {
+    background: var(--btn-bg-hover);
+  }
 
-      &:active {
-        background: var(--btn-bg-active);
-      }
-    }
+  &:active {
+    background: var(--btn-bg-active);
+  }
+}
+```
 
 In this example, the `--btn-bg-hover` value is defined by mixing 75% of `--btn-bg` with `--color-dark-primary`. Then, `--btn-bg-active` is set by mixing 80% of `--btn-bg-hover` with `--color-dark-primary` again.
 
@@ -169,16 +183,20 @@ However, specifying a custom blend percent means the percentage total may not al
 
 While the [W3 docs](https://www.w3.org/TR/css-color-5/#color-mix) explain the calculations behind this functionality quite well, the math is a tad beyond my abilities to clearly explain. This is art class after all. But as best as I can put it–
 
-    --math-bg: color-mix(in srgb, red 20%, white 60%);
+```css
+--math-bg: color-mix(in srgb, red 20%, white 60%);
+```
 
 In this example, the base percent is `20` while the blend percent is `60` creating a total of `80`. This gives us, what’s called, an alpha multiplier of `0.8` where `1 = 100` and `0.8 = 80%`.
 
 To fill in the gaps, the function will multiply the base and blend percentages by this alpha multiplier to scale them up to 100% while remaining relative to their original weights.
 
-    20% * 100/80 = 25%
-    60% * 100/80 = 75%
+```css
+20% * 100/80 = 25%
+60% * 100/80 = 75%
 
-    --math-bg: color-mix(in srgb, red 25%, white 75%);
+--math-bg: color-mix(in srgb, red 25%, white 75%);
+```
 
 In the event the base and blend percentages total more than 100, the inverse of this approach would be taken to round down to 100. Again, the math behind the scaling of these values, along with the general mixing calculations is beyond my depth, and for those interested in digging deeper into the technicalities of `color-mix()`, I would point to [the W3 docs](https://www.w3.org/TR/css-color-5/#color-mix-with-alpha).
 
@@ -192,16 +210,18 @@ https://codepen.io/DanielYuschick/embed/eYyQwKd
 
 Colors with transparency add, yet another, level to the `color-mix()` function. The concept seemed complicated, but after experimenting, opacities look to mix similarly to the opaque mix percentages.
 
-    :root {
-      --base-opacity: 50%;
-      --blend-opacity: 50%;
-      --base-color: rgba(255, 0, 0, var(--base-opacity));
-      --blend-color: rgba(0, 0, 255, var(--blend-opacity));
-    }
+```css
+:root {
+  --base-opacity: 50%;
+  --blend-opacity: 50%;
+  --base-color: rgba(255, 0, 0, var(--base-opacity));
+  --blend-color: rgba(0, 0, 255, var(--blend-opacity));
+}
 
-    #result {
-      background: color-mix(in lch, var(--base-color) 50%, var(--blend-color));
-    }
+#result {
+  background: color-mix(in lch, var(--base-color) 50%, var(--blend-color));
+}
+```
 
 In this sample, the base color is red and blend color is blue. In normal circumstances, these colors would mix to create pink. However, each color is defined using `rgba` and a `50%` opacity.
 
@@ -219,8 +239,10 @@ There are inevitable drawbacks to consider, as with any experimental or new feat
 
 Since CSS custom properties support fallback values for when the property is not defined, it seemed like a good approach to use `color-mix()` as a progressive enhancement.
 
-    --background-color: color-mix(in srgb, red 50%, blue);
-    background: var(--background-color, var(--fallback-color));
+```css
+--background-color: color-mix(in srgb, red 50%, blue);
+background: var(--background-color, var(--fallback-color));
+```
 
 If `color-mix()` is not supported, the `--background-color` property would not be defined, and therefor the `--fallback-color` would be used. Unfortunately, that’s not how this works.
 
@@ -232,17 +254,21 @@ Because the `--background-color` property is _technically_ defined, the fallback
 
 However, that’s not to say `color-mix()` can’t be used progressively, though. It can be paired with the `@supports()` function, but be mindful if you decide to do so. As exciting as it may be, with such limited support and potential for syntax and/or functionality changes, it may be best to hold off on mixing this little gem into an entire codebase.
 
-    @supports (background: color-mix(in srgb, red 50%, blue)) {
-      --background-color: color-mix(in srgb, red 50%, blue);
-    }
+```css
+@supports (background: color-mix(in srgb, red 50%, blue)) {
+  --background-color: color-mix(in srgb, red 50%, blue);
+}
+```
 
 ### CurrentColor is Not Supported
 
 A powerful little piece of CSS is being able to use `currentColor` as a value, keeping styles relative to their element. Unfortunately, this relative variable cannot be used with `color-mix()`.
 
-    button {
-      background: color-mix(in srgb, currentColor 50%, white);
-    }
+```css
+button {
+  background: color-mix(in srgb, currentColor 50%, white);
+}
+```
 
 The hope was to have ever greater control over relative colors, but unfortunately, using `currentColor` in this way will not work. While `color-mix()` can’t achieve relative colors to this degree, new relative color syntax is also coming to CSS. [Read about CSS relative color syntax with Stefan Judis](https://www.stefanjudis.com/notes/new-in-css-relative-colors/).
 
