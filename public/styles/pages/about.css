@@ -1,0 +1,9 @@
+.about--content-alignment {
+  text-align: start;
+}
+@media (min-width: 700px) {
+  .about--content-alignment {
+    text-align: center;
+  }
+}
+/*# sourceMappingURL=about.css.map */

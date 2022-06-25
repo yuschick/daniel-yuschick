@@ -1,0 +1,20 @@
+.article-details {
+  align-items: center;
+  color: var(--dy-color-aux-300);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--dy-font-size--1);
+  gap: var(--dy-space-base-4x);
+  margin: var(--dy-space-base-2x) 0;
+}
+
+.article-details-item {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dy-space-base-1x);
+
+  svg {
+    inline-size: 1em;
+  }
+}

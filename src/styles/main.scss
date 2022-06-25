@@ -4,10 +4,4 @@
 @import "_global.scss";
 @import "includes/_header.scss";
 @import "includes/_nav.scss";
-
-// TODO: Look into using if statements in _includes/page.njk to load page specific styles
-@import "pages/_about.scss";
-@import "pages/_articles.scss";
-@import "pages/_article.scss";
-
 @import "includes/_footer.scss";

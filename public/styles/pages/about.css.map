@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["file:///Users/danielyuschick/Documents/Repos/Personal/daniel-yuschick/src/styles/pages/about.scss"],"names":[],"mappings":"AAAA;EACE;;AAEA;EAHF;IAII","sourcesContent":[".about--content-alignment {\n  text-align: start;\n\n  @media (min-width: 700px) {\n    text-align: center;\n  }\n}\n"]}
