@@ -5,9 +5,10 @@
   --dy-color-secondary: #272635;
   --dy-color-secondary-darken-100: #23222f;
   --dy-color-secondary-darken-200: #1a1a23;
+  --dy-color-secondary-lighten-100: #46455f;
   --dy-color-tertiary: #ffae03;
   --dy-color-tertiary-darken-100: #cc8b00;
-  --dy-color-tertiary-darken-200: #8f6200;
+  --dy-color-tertiary-darken-200: #664600;
 
   --dy-color-aux-100: #060606;
   --dy-color-aux-200: #333333;
@@ -18,6 +19,9 @@
   --dy-color-aux-700: #d6d6d6;
   --dy-color-aux-800: #eaeaea;
   --dy-color-aux-900: #f5f3f4;
+
+  --dy-font-primary: "Mulish", sans-serif;
+  --dy-font-mono: "Fira Mono", monospace;
 
   --dy-space-base: 4px;
   --dy-space-base-half: calc(var(--dy-space-base) / 2);

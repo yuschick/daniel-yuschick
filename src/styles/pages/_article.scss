@@ -16,6 +16,7 @@ blockquote {
 code {
   background: var(--dy-color-aux-800);
   color: var(--dy-color-secondary);
+  font-family: var(--dy-font-mono);
 }
 
 pre {
@@ -25,6 +26,7 @@ pre {
   );
   border-image-slice: 0 fill;
   border-image-outset: 0 100vw;
+  font-family: var(--dy-font-mono);
   margin: var(--dy-space-base-6x) 0;
   padding: var(--dy-space-base-6x) 0;
 }
@@ -91,6 +93,11 @@ hr {
     border: 0;
     cursor: pointer;
     position: relative;
+
+    &:focus-visible {
+      outline: 2px solid var(--dy-color-primary);
+      outline-offset: var(--dy-space-base-half);
+    }
   }
 
   .pennywise {
@@ -201,7 +208,7 @@ pre[class*="language-"] {
 
 code.language-css .token.property,
 code.language-css .token.property + .token.punctuation {
-  color: var(--dy-color-tertiary-darken-200);
+  color: var(--dy-color-secondary-lighten-200);
 }
 
 code.language-css .token.id {
