@@ -66,12 +66,12 @@ hr {
     inset-inline-end: var(--pseudo-translate);
   }
 }
-/**
- * Shades of Purple Theme for Prism.js
- *
- * @author Ahmad Awais <https://twitter.com/MrAhmadAwais/>
- * @support Follow/tweet at https://twitter.com/MrAhmadAwais/
- */
+
+.media-embed-wrapper {
+  inline-size: 100%;
+  max-inline-size: var(--dy-max-content-length);
+  margin-block-end: var(--dy-space-base-8x);
+}
 
 code[class*="language-"],
 pre[class*="language-"] {
@@ -97,7 +97,7 @@ pre[class*="language-"] {
 }
 
 pre[class*="language-"] {
-  overflow: visible;
+  overflow: auto;
 }
 
 .token.comment,

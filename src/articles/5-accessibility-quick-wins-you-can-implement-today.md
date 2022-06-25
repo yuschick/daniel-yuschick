@@ -129,7 +129,7 @@ With these attributes, assistive technologies can better interpret a list and a 
 
 Take a listen to how these attributes are announced using MacOS VoiceOver.
 
-[INSERT VIMEO]
+{% vimeo 'https://vimeo.com/672659433' 'Aria SetSize Demo' %}
 
 ## 🎉 Bonus Win: Axe-DevTools Extension
 

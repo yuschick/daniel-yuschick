@@ -43,7 +43,7 @@ For the sake of this article, let’s define how these arguments will be called 
 
 There are quite a few moving pieces here, so let’s have a quick interactive visual to simulate the base color, base percent, and blend color.
 
-https://codepen.io/DanielYuschick/embed/rNpQpjJ
+{% codepen 'https://codepen.io/DanielYuschick/embed/rNpQpjJ' %}
 
 ![Results of color-mix blending two colors with different percentages](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228003631_color-mix-demo-1.gif)
 
@@ -61,7 +61,7 @@ The primary colors anchored the wheel and when blended, they formed the secondar
 
 Disregarding the lack of a visual wheel here, CSS `color-mix()` can be used to create the same effect.
 
-https://codepen.io/DanielYuschick/embed/BaJGRrr
+{% codepen 'https://codepen.io/DanielYuschick/embed/BaJGRrr' %}
 
 ![Result of using color-mix to recreate the a linear color wheel](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228161635_color-mix-demo-2.jpg)
 
@@ -97,7 +97,7 @@ Color spaces can calculate their colors differently from one another. Newer colo
 
 Knowing the CSS `color-mix()` function supports using different color spaces, let’s experiment with color spaces by replacing the use of `srgb` from the previous example, with a custom property to see how the color wheel changes.
 
-https://codepen.io/DanielYuschick/embed/XWVygVM
+{% codepen 'https://codepen.io/DanielYuschick/embed/XWVygVM' %}
 
 ![Using color-mix to toggle the mixture’s color space](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228311499_color-mix-demo-3.gif)
 
@@ -123,7 +123,7 @@ Recreating childhood art class is fun, but those concepts can be taken further a
 
 Let’s take a look at contextual UI colors, like button `:hover` and `:active` states. A lot of time can be spent defining these values to ensure they’re cohesive with the current theme and accessible. But when themes often include primary dark and light colors already, could these values be mixed to create contextual colors a bit more automatically?
 
-https://codepen.io/DanielYuschick/embed/OJzaLyx
+{% codepen 'https://codepen.io/DanielYuschick/embed/OJzaLyx' %}
 
 ![Using color-mix to blend theme colors to create contextual shades](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228444362_color-mix-demo-4.gif)
 
@@ -202,7 +202,7 @@ In the event the base and blend percentages total more than 100, the inverse of 
 
 However, that mathematical understanding isn’t required for the below demo where both the base and blend percentages can be adjusted to view the result.
 
-https://codepen.io/DanielYuschick/embed/eYyQwKd
+{% codepen 'https://codepen.io/DanielYuschick/embed/eYyQwKd' %}
 
 ![Using color-mix with base and blend percentages](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228552233_color-mix-demo-5.gif)
 
@@ -227,7 +227,7 @@ In this sample, the base color is red and blend color is blue. In normal circums
 
 The result is the expected pink shade, but with an averaged opacity. If the base opacity is `100%` and the blend opacity is `0%`, the result opacity will be `50%`. But regardless of the result opacity, the 50/50 color mix keeps its consistent pink shade.
 
-https://codepen.io/DanielYuschick/embed/JjMwope
+{% codepen 'https://codepen.io/DanielYuschick/embed/JjMwope' %}
 
 ![The results of using color-mix with transparent colors](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228887926_color-mix-demo-6.gif)
 

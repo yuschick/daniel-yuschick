@@ -81,7 +81,7 @@ article {
 
 Now, as the text color is defined, so will its selection background.
 
-https://codepen.io/DanielYuschick/pen/KKZzeEj
+{% codepen 'https://codepen.io/DanielYuschick/pen/KKZzeEj' %}
 
 ![Results of using color-contrast() for text and ::selection colors](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jy4t9dicv01j0t0zczwa.gif)
 
@@ -101,7 +101,7 @@ article {
 }
 ```
 
-## FROM PSEUDO-ELEMENTS TO PSEUDO-CLASSES
+## From Pseudo-Elements to Pseudo-Classes
 
 Setting text and `::selection` colors dynamically can be intriguing, but it's not exactly like being in a high-speed car chase with Burt Reynolds either --- at least, I wouldn't think. Text and background colors tend to be quite static. Once they're rendered, they don't often change.
 
@@ -140,13 +140,13 @@ The `--btn-bg` custom property is used as the base color in selecting the `--btn
 
 The `:focus` styles is where this approach can be expanded by using the `--body-bg` custom property as the base color. It's compared to the current button styles. What this provides is the ability to have contextually-aware focus styles. Should the default focus styles be too low contrast given the element's background placement, a color matching that element can be used. Of course, the color list can also contain safe fallbacks, just in case.
 
-https://codepen.io/DanielYuschick/pen/WNdrXyG
+{% codepen 'https://codepen.io/DanielYuschick/pen/WNdrXyG' %}
 
 ![Results of color-contrast() on button :hover and :focus pseudo-classes](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nlcbyixfw5yigsaih819.gif)
 
 The requirements for compliant focus indicators stretch beyond the scope of this article, but Stephanie Eckles' presentation, "[Modern CSS Upgrades To Improve Accessibility](https://www.deque.com/axe-con/sessions/modern-css-upgrades-to-improve-accessibility/)" covers them in great detail and with clear examples.
 
-## DEFINE A TARGET CONTRAST RATIO
+## Define a Target Contrast Ratio
 
 Earlier, I may have been a _touch blasé_ about the optional third parameter for `color-contrast()`. When in reality, this is where the feature showcases its potential.
 
@@ -154,7 +154,7 @@ Earlier, I may have been a _touch blasé_ about the optional third parameter for
 
 The optional third parameter for color-contrast() defines a target contrast ratio. The parameter accepts either a keyword - AA, AA-large, AAA, and AAA-large - or a number. When a target contrast is defined, the first color from the color list that meets or exceeds it is selected.
 
-https://codepen.io/DanielYuschick/pen/OJzWPwe
+{% codepen 'https://codepen.io/DanielYuschick/pen/OJzWPwe' %}
 
 ![Results of dynamic target contrasts](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ul2wkht6bx4e4njhlmpt.gif)
 
@@ -170,7 +170,7 @@ Looking at the base color of black and the color list of two dark shades of grey
 
 If the color list does not contain a value that meets the target contrast, CSS will fill in the blanks with one that does --- either black or white.
 
-https://codepen.io/DanielYuschick/pen/zYpNzYb
+{% codepen 'https://codepen.io/DanielYuschick/pen/zYpNzYb' %}
 
 ![Low contrast results with and without a target contrast defined.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vgoeffq88m5nu2c0sm1r.jpeg)
 
@@ -214,7 +214,7 @@ In some cases, the explicit control will justify the costs. However, there are o
 
 There are inevitable drawbacks to consider, as with any experimental or new feature, and `color-contrast()` is no different.
 
-### COLOR AND VISUAL CONTRASTS ARE DIFFERENT THINGS
+### Color and Visual Contrasts are Different Things
 
 When using `color-contrast()` to determine text color based on its background, the function is comparing exactly that --- the colors. What `color-contrast()` _does not_ take into consideration are other styles that may affect visual contrast, such as font size, weight, and opacity.
 
@@ -222,7 +222,7 @@ This means it's possible to have a color pairing that technically meets a specif
 
 To learn more about accessible typography, I highly recommend Carie Fisher's talk, "[Accessible Typography Essentials](https://www.deque.com/axe-con/sessions/accessible-typography-essentials/)."
 
-### CUSTOM PROPERTIES AND FALLBACKS
+### Custom Properties and Fallbacks
 
 Since CSS custom properties support fallback values for when the property is not defined, it seemed like a good approach to use `color-contrast()` as a progressive enhancement.
 
@@ -247,7 +247,7 @@ However, that's not to say `color-contrast()` can't be used progressively, thoug
 }
 ```
 
-### THE HIGHEST CONTRAST DOESN'T MEAN ACCESSIBLE CONTRAST
+### The Highest Contrast Doesn't Mean Accessible Contrast
 
 Despite the control `color-contrast()` can offer with colors and themes, there are still limitations. When the function compares the base color against the list and no target contrast is specified, it will select the highest contrasting value. Just because the two colors offer the greatest contrast ratio, it doesn't mean it's an accessible one.
 
@@ -260,7 +260,7 @@ h1 {
 
 In this example, the background color of black. `#000` is compared against two shades of dark grey. While `#222` would be selected for having the "greatest" contrast ratio, pairing it with black would be anything but great.
 
-### NO GRADIENT SUPPORT 
+### No Gradient Support
 
 In hindsight, it was maybe a touch ambitious trying gradients with `color-contrast()`. Nevertheless, through some testing, it seems gradients are not supported. Which, once I thought about it, makes sense.
 
@@ -280,7 +280,7 @@ How do you see this feature being leveraged when working with different color mo
 
 What do you think?
 
-## RESOURCES 
+## Resources
 
 - ["New CSS with Accessibility in Mind"](https://www.deque.com/axe-con/sessions/new-css-with-accessibility-in-mind/), Rachel Andrew
 - ["Exploring color-contrast() for the First Time"](https://css-tricks.com/exploring-color-contrast-for-the-first-time/), Chris Coyier
