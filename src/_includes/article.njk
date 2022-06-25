@@ -17,3 +17,10 @@ current: articles
     </section>
     {{ content | safe }}
 </article>
+
+<div class="back-to-top-wrapper">
+    <button class="back-to-top-container" type="button" onclick="goToTop()">
+        {% include '../assets/icon-balloon.svg' %}
+        <i class="pennywise">{% include '../assets/icon-pennywise.svg' %}</i>
+    </button>
+</div>

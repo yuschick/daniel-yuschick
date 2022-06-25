@@ -48,6 +48,7 @@ module.exports = function (config) {
   });
 
   config.addPassthroughCopy("./src/assets");
+  config.addPassthroughCopy("./src/js");
 
   config.addPlugin(eleventySass);
   config.addPlugin(syntaxHighlight);

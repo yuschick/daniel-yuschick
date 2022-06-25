@@ -455,6 +455,36 @@ hr:after {
   margin-block-end: var(--dy-space-base-8x);
 }
 
+.back-to-top-wrapper {
+  inset-block-end: 0;
+  inset-inline-end: var(--dy-space-base-12x);
+  position: fixed;
+  transform: translateY(125%);
+  transition: all var(--dy-transition-duration-lg) ease;
+  z-index: 2;
+}
+.back-to-top-wrapper .back-to-top-container {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+}
+.back-to-top-wrapper .pennywise {
+  inline-size: 32px;
+  inset-block-start: 0;
+  inset-inline-end: 25%;
+  opacity: 0;
+  position: absolute;
+  transition: opacity var(--dy-transition-duration-lg);
+  z-index: 2;
+}
+.back-to-top-wrapper.active {
+  transform: translateY(-50%);
+}
+.back-to-top-wrapper:hover .pennywise {
+  opacity: 0.8;
+}
+
 code[class*=language-],
 pre[class*=language-] {
   color: var(--dy-color-aux-100);
