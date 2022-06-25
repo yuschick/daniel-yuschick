@@ -4,14 +4,14 @@
     <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#bc3810"/>
-<meta name="description" content="Ensure your React and TypeScript project is accessible with React-Focus-On. So easy to use, there&#39;s no longer an excuse to not have an accessible product."/>
+<meta name="description" content="Can you believe it’s been three years since I’ve last updated my personal website? Three!?!? I sure can’t. A lot has changed since then and it&#39;s time my website did, too."/>
 
 
     <link
       rel="shortcut icon"
       type="image/svg"
       href="/assets/logo-dy-initials.svg"/>
-    <title>Improve Web App Accessibility with React-Focus-On | Daniel Yuschick</title>
+    <title>Deep Dive into My New Website (2020) | Daniel Yuschick</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,7 +68,7 @@
 </nav>
       <main id="main-content">
 <article>
-    <h1>Improve Web App Accessibility with React-Focus-On</h1>
+    <h1>Deep Dive into My New Website (2020)</h1>
     <section class="article-details">
         <div class="article-details-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -76,74 +76,49 @@
     <path fill="none" d="M0 0h24v24H0z"/>
 </svg>
 
-            <time pubdate datetime="Sat Oct 10 2020 03:00:00 GMT+0300 (Eastern European Summer Time)">10 October 2020</time>
+            <time pubdate datetime="Tue May 05 2020 03:00:00 GMT+0300 (Eastern European Summer Time)">5 May 2020</time>
         </div>
         <div class="article-details-item">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
   <path fill="currentColor" fill-opacity=".9" fill-rule="evenodd" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8Zm.5-13H9v6l5.2 3.2.8-1.3-4.5-2.7V5Z"/>
 </svg>
-            <span>4 min. read</span>
+            <span>3 min. read</span>
         </div>
     </section>
-    <p>Many moons ago, when I started working as a front-end developer, I didn't know much about web accessibility. That changed when I worked on a team at a large insurance company and was put in charge of making the product accessible. You see, in the US, something like the inability to file an insurance claim on a website due to inaccessibility could lead to lawsuits. Super duper expensive lawsuits.</p>
-<p>I didn't want to be responsible for that.</p>
-<p>As a result, I learned a lot in a short period of time about accessibility. Since then, it has become an area of focus in which I take a lot of pride as a developer.</p>
-<hr>
-<p>Working toward accessibility goals can be tough and, frankly, a little extra time consuming. So it is easy for this fundamental element of a product to be overlooked. But you know what else takes extra time and effort? Testing, type checking-- yet these practices have become a standard. So why hasn't accessibility become just as recognized throughout the field?</p>
-<p>Tooling.</p>
-<p>There hasn't been a wide selection of tooling that eased some of the necessary requirements of accessibility compliance. Let's consider a <code>Modal</code> component. The <code>Modal</code> would need to keep the user's keyboard focus within itself while auto-focusing the first possible element. Closing it would need to be tied to the <code>escape</code> key, and once closed, the user's focus would need to be returned to the element that triggered the <code>Modal</code> in the first place.</p>
-<p>That's a lot to manage.</p>
-<p>The first library I used to help with these challenges was <a href="https://allyjs.io/">Ally.JS</a>. It provided a lot of different methods for handling these specific use cases. At first, it seemed revolutionary as I enhanced a bunch of my projects using it. But as the story goes with front-end development, after some time, what was once revolutionary had become legacy. The library was not regularly maintained and therefor, fell behind the times.</p>
-<p>I recently started on a new product in the Education Tech field. In this area, specifically, accessibility is not just a nice feature but an absolute requirement.</p>
-<p>I knew two things.</p>
-<ol>
-<li>Providing education software to the public sector without accommodating special needs schools, classes, and students would not only be a failure of the development team, but a bad business practice in alienating an entire demographic of the target audience.</li>
-<li>Ally.JS could no longer handle the requirements within the coding environment</li>
-</ol>
-<p>So that led me to Google, which led me to the library I am excited to (<em>finally! geesh!</em>) tell you all about.</p>
-<h2>React-Focus-On</h2>
-<p><a href="https://github.com/theKashey/react-focus-on">https://github.com/theKashey/react-focus-on</a></p>
-<p>React-Focus-On is a web accessibility library specifically geared toward the React environment with TypeScript support. It touts itself as...</p>
-<blockquote>
-<p>The final solution for WAI ARIA compatible Modal Dialogs or any full-screen tasks</p>
-</blockquote>
-<p><strong>Bold.</strong></p>
-<p>So let's first look at what we'll be building today, then we'll break it down to see just how easy is React-Focus-On after all.</p>
-<p>The example used in this article will be available on GitHub. <a href="https://github.com/yuschick/react-focus-on-demo">https://github.com/yuschick/react-focus-on-demo</a></p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*6U5H3nAiScWoTRXfwAKF9g.gif" alt="Accessible React modal component"></p>
-<p>Yep, a standard-looking modal, <em>but</em> there are several things happening that separate it from non-accessible modals.</p>
-<ol>
-<li>When the modal opens, notice that the first focusable element, <code>Blue</code>, is focused already.</li>
-<li>When tabbing through the elements, notice that after reaching the submit button, the focus then appears on the close icon. This is called focus trapping, and it keeps the focus of the keyboard within the modal.</li>
-<li>Behind the scenes, in the code itself, the markup outside of the modal is set to <code>aria-hidden=&quot;true&quot;</code> which prevents it from being seen by screen readers while the modal is open. The <code>body</code> itself is also scroll locked, keeping the page steady behind the modal.</li>
-<li>When the modal closes, the button that triggered it initially is given focus again, returning the user back to their previous location.</li>
-<li>Closing the modal also removes the <code>aria-hidden</code> attribute from the rest of the document.</li>
-</ol>
-<p>That can be a lot of functionality to manage without a library. Hell, it was a lot to manage even with <code>AllyJS</code>.</p>
-<p>So how can <code>React-Focus-On</code> be used to achieve all of this? Like this...</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*zHvt7KbJGoPQfV3nWaz0YQ.png" alt="Snapshot of React-Focus-On code"></p>
-<p>The snipper above is a pretty bare example, but by wrapping our <code>Modal</code> in a <code>FocusOn</code> component, all of the previous accessibility functionality is covered by default and without any painful setup or configuration.</p>
-<p>In my opinion, making accessible modals and modal-like components has never been so convenient. But just because React-Focus-On does a lot by default, doesn't mean it doesn't have a few options up its sleeve.</p>
-<h2>Event Handlers</h2>
-<p>The <code>FocusOn</code> component handles a lot already, but it can be expanded to make a few other features more convenient to implement, like closing on <code>esc</code> and closing when the user clicks outside of the modal.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*oY1Q2wi6z8R44_eSvW6KHQ.png" alt="An example of using React-Focus-On event props"></p>
-<p>In this snippet, the <code>close</code> prop has been assigned to the<code>FocusOn</code> events <code>onClickOutside</code> and <code>onEscapeKey</code>. These two options provide common functionality but without the need to write and manage event handlers yourself.</p>
-<h2>Shards</h2>
-<p>Once in a while, there's a situation where an element outside of a focus-trapped modal should be included in the tabbable range or not hidden from interactions. React-Focus-On accepts a <code>shards</code> property which is an array of element references.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*CU2bSF9Eb7JrKCEpCtAJkQ.png" alt="A code example of passing a shards array into FocusOn"></p>
-<p>While this modal example isn't a good use case for the <code>shards</code> prop, the option has been helpful when building custom dropdown menus.</p>
-<p>In the example below, the label which toggles the menu is outside of the modal-like menu itself. However, the focus range should still include it. By passing the label as a <code>shard</code>, it's included in the focus range and accessible as another option to toggle the menu.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*AgS9yA1m11OT4ofJv8PDHQ.gif" alt="An example of using shards for a drop down menu"></p>
-<h2>Animation</h2>
-<p>While not a feature of React-Focus-On, feel free to wrap it in with <code>CSSTransition</code> from <code>react-transition-group</code> to combine accessibility with subtle a touch of animation.</p>
-<p>If adding animation, be sure to check for <code>prefers-reduced-motion</code> to simplify or disable the animation for those users.</p>
-<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span>prefers-reduced-motion<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>  // simplify or disable the animation<span class="token punctuation">}</span></code></pre>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*W7jtSTPszZUjKyOSbtDTmA.gif" alt="Animated modal using React Transition Group and React-Focus-On"></p>
-<p>Accessibility continues to be an oft-forgotten element of front-end development. There's a lot of reasons for this, but a major one has been the lack of convenient and powerful tooling. Well, after finding and using React-Focus-On, I feel there's no longer any excuse not have accessibility be a standard part of a workflow.</p>
-<p>We write tests and type check--two standard pieces in web development. We must hold accessibility to the same standard and finally, we have a library that gives us no reason not to.</p>
-<h3>Resources:</h3>
-<p><a href="https://github.com/theKashey/react-focus-on">React Focus On</a><br>
-<a href="https://github.com/yuschick/react-focus-on-demo">Article Demo Repo</a></p>
+    <p>Can you believe it's been three years since I've last updated my personal website? Three!?!? I sure can't. Since then, I've moved countries, visited many others, completed my horror movie sleeve, written a novel, and am currently laid off surviving a pandemic.</p>
+<p>Of course, in similarly dramatic fashion, the world of frontend development has also changed. It was about time my personal site did, too.</p>
+<h2>The Goals</h2>
+<p>When I first started with design ideas, the goal was simple--simplicity. I wanted simple content, simple maintenance, and simple consumption.</p>
+<p>My previous sites, dating as far back as I can remember, focused solely on my life as a frontend developer but I didn't want that anymore. Instead, I wanted something more high level and broad. I wanted to create a site that represented more of me, my interests, goals, and personality.</p>
+<p>That said, with a clear primary goal, my developer sense tingled and I was ready to explore some new (<em>to me</em>) tech and tooling.</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*RnvFP7JqYxXhuypMskyWfw.jpeg" alt="Seth Meyers segue meme"></p>
+<h2>Tech Stack</h2>
+<p>It must have been muscle memory because once I decided to create my repo and architect the site, I opened my terminal and started typing <code>create-react-app</code>. When I built my last site, I was quite new to React. Three (<em>!?!?!)</em> years later and its apparently second nature.</p>
+<p>I wanted to change it up, but like, only a bit.</p>
+<p>Enter <a href="https://www.gatsbyjs.org/"><strong>Gatsby</strong></a>.</p>
+<p>Two areas my last site suffered were performance and SEO. Sacrilegious, I know! Using <a href="https://www.gatsbyjs.org/">Gatsby</a> as my framework seemed to address both of those concerns out of the box along with so much more. I liked the idea of serving static pages, which worked for a lot of my content, but with the ability to write <code>fetch</code> queries for dynamic content where I needed it.</p>
+<p>It took about a day for me to become productive in the new environment. <em>I mean, why do I have to write a GraphQl query to display an image!?</em> But after that initial learning curve, I started seeing the benefits of the endeavour. I was excited about the improved performance, wide ecosystem of plugins, the incredible feature set of Gatsby Image, and about digging into something new.</p>
+<p>That feeling is the reason I got into development all those years ago and still enjoy it.</p>
+<p>With the framework in place, adding in other familiar pieces like <a href="https://www.netlify.com/"><strong>Netlify</strong></a><em>,</em> <a href="https://graphql.org/"><strong>GraphQl</strong></a>, <a href="https://www.typescriptlang.org/"><strong>TypeScript</strong></a>, and <a href="https://styled-components.com/"><strong>Styled Components</strong></a> gave me a chance to get more experience with tools I already use.</p>
+<p>The initial MVP took a week(<em>ish</em>) of all-consumed development, and now that the proverbial dust is settling, it's nice taking a step back to digest what just happened.</p>
+<h2>Takeaways</h2>
+<p>While building the site, I'd taken note of several things that had either given me trouble or kept me from it. Most of them will become full posts themselves but I wanted to highlight them here.</p>
+<h3>Gatsby Image</h3>
+<p>Believe it or not, after the rough start, Gatsby Image turned out to be one of my favorite pieces of this project. After getting my head around it, the ability to optimize images for countless settings and format them with fallbacks not only handled my images better than I could have done myself but it did so in a fraction of the time I would have spent.</p>
+<p>Read more about my experience with Gatsby Image:<br>
+<a href="/articles/art-direction-with-gatsby-image-&amp;-the-aspect-ratio-bug/"><em>Art Direction with Gatsby Image &amp; the Aspect Ratio Bug</em></a></p>
+<h3>CSS Clamp()</h3>
+<p>I stumbled across <code>clamp()</code> while looking into fluid typography options. The main process I was familiar with involves writing <code>calc</code> equations against the display width that, for me, made the code hard to read. The result wasn't visible in the code and I felt helpless when it came to extreme display sizes. However, using <code>clamp()</code> addressed both of those concerns by allowing me to define minimum and maximum font-sizes and let the font scale fluidly between the two. I may not know the exact <code>font-size</code> on a specific phone or 24&quot; monitor but I do know it'll be within that range and that's good enough for me.</p>
+<p>Read more about how I used <code>clamp()</code>:<br>
+<a href="/articles/fluid-typography-with-css-clamp-is-my-new-favorite-thing"><em>Fluid Typography with CSS Clamp() is My New Favorite Thing</em></a></p>
+<h3>Fighting CORS with Netlify Functions</h3>
+<p>I don't know many developers who haven't dropped an F-bomb or two at CORS errors. While in local development, it's fine prefacing third-party API requests with a proxy like <a href="https://cors-anywhere.herokuapp.com/">CORS-Anywhere</a> but in production, that's just not going to fly.</p>
+<p>Luckily, Netlify Functions stepped up in the clutch. Using the Netlify CLI, I was able to create a <code>node-fetch</code> proxy that runs both locally and in production to bypass infuriating CORS issues. <em>[sigh of relief]</em></p>
+<h3>Spotify Auth</h3>
+<p>This one is just a personal victory. For some reason, I've had a mental block toward the Spotify API and its authorization process. But I was determined to display my love of power metal on this site. I worked my way through all the codes, tokens, and secrets to finally unravel that mystery.</p>
+<h2>Final Thoughts</h2>
+<p>From the design to the implementation, I'm so excited about this site. I believe it's a good representation of both who and where I am as an individual. Taking on some new tech and digging further into familiar libraries reminded me of why I got into development and how much fun it can be.</p>
+<p>Creativity, challenge, and change are why I enjoy development and this project checked all those boxes.</p>
 
 </article>
 

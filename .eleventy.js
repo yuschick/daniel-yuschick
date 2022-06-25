@@ -44,7 +44,7 @@ module.exports = function (config) {
   });
 
   config.addNunjucksGlobal("getArticleReadTime", function (content) {
-    return Math.floor(content?.split(" ").length / 170);
+    return Math.floor(content?.split(" ").length / 250);
   });
 
   config.addPassthroughCopy("./src/assets");
