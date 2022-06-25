@@ -14,6 +14,12 @@ current: article
             {% include '../assets/icon-clock.svg' %}
             <span>{{ getArticleReadTime(content) }} min. read</span>
         </div>
+        {% if canonical %}
+            <div class="article-details-item">
+                {% include '../assets/icon-web-globe.svg' %}
+                <a href="{{canonical}}">{{ getCanonicalDomain(canonical) }}</a>
+            </div>
+        {% endif %}
     </section>
     {{ content | safe }}
 </article>

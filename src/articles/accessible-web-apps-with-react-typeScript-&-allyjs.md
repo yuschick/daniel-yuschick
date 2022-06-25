@@ -2,7 +2,7 @@
 title: Accessible Web Apps w/ React, TypeScript & AllyJS
 date: 2017-11-16
 layout: article.njk
-canonical: https://css-tricks.com/accessible-web-apps-react-typescript-allyjs/
+canonical: https://www.css-tricks.com/accessible-web-apps-react-typescript-allyjs/
 tags:
   - articles
   - react

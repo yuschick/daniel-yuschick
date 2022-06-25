@@ -2,7 +2,7 @@
 title: 5 Accessibility Quick Wins You Can Implement Today
 date: 2022-02-23
 layout: article.njk
-canonical: "https://css-tricks.com/5-accessibility-quick-wins-you-can-implement-today/"
+canonical: "https://www.css-tricks.com/5-accessibility-quick-wins-you-can-implement-today/"
 tags:
   - articles
   - a11y

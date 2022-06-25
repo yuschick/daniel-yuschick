@@ -22,6 +22,12 @@ current: articles
                     {% include './assets/icon-clock.svg' %}
                     <span>{{ getArticleReadTime(article._templateContent) }} min. read</span>
                 </div>
+                {% if article.data.canonical %}
+                    <div class="article-details-item">
+                        {% include './assets/icon-web-globe.svg' %}
+                        <a href="{{ article.data.canonical}}">{{ getCanonicalDomain(article.data.canonical) }}</a>
+                    </div>
+                {% endif %}
             </section>
 
             <p>{{article.data.preview}}</p>
