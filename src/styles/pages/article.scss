@@ -5,6 +5,14 @@ article ul {
   list-style-position: inside;
 }
 
+article ol {
+  list-style-position: inside;
+}
+
+img {
+  margin: 0 auto;
+}
+
 blockquote {
   border-inline-start: 3px solid var(--dy-color-tertiary);
   color: var(--dy-color-aux-200);
