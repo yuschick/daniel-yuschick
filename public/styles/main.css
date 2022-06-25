@@ -517,6 +517,9 @@ hr:after {
   outline: 2px solid var(--dy-color-primary);
   outline-offset: var(--dy-space-base-half);
 }
+.back-to-top-wrapper .back-to-top-container:focus-within .pennywise {
+  opacity: 0.8;
+}
 .back-to-top-wrapper .pennywise {
   inline-size: 32px;
   inset-block-start: 0;

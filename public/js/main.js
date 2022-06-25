@@ -1,13 +1,16 @@
-backToTopBtn = document.querySelector(".back-to-top-wrapper");
+const backToTopWrapper = document.querySelector(".back-to-top-wrapper");
+const backToTopBtn = backToTopWrapper.querySelector("button");
 
 function scrollFunction() {
   if (
     document.body.scrollTop > 500 ||
     document.documentElement.scrollTop > 500
   ) {
-    backToTopBtn.classList.add("active");
+    backToTopWrapper.classList.add("active");
+    backToTopBtn.tabIndex = 0;
   } else {
-    backToTopBtn.classList.remove("active");
+    backToTopWrapper.classList.remove("active");
+    backToTopBtn.tabIndex = -1;
   }
 }
 
@@ -16,7 +19,7 @@ function goToTop() {
   document.documentElement.scrollTop = 0;
 }
 
-if (backToTopBtn) {
+if (backToTopWrapper) {
   window.onscroll = function () {
     scrollFunction();
   };
