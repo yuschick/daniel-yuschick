@@ -369,6 +369,39 @@ nav a:focus-visible:before, nav a:hover:before {
   position: absolute;
   transform: translateX(-50%);
 }
+.articles-list li + li:after {
+  background-color: var(--dy-color-aux-900);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  block-size: 24px;
+  content: "";
+  inline-size: 24px;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  padding: 0 var(--dy-space-base-6x);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.articles-list li + li:nth-child(5n+0):after {
+  background-image: url("../../assets/icon-freddy.svg");
+}
+.articles-list li + li:nth-child(5n+1):after {
+  background-image: url("../../assets/icon-zombie-hand.svg");
+}
+.articles-list li + li:nth-child(5n+2):after {
+  background-image: url("../../assets/icon-jason.svg");
+}
+.articles-list li + li:nth-child(5n+3):after {
+  background-image: url("../../assets/icon-axe.svg");
+}
+.articles-list li + li:nth-child(5n+4):after {
+  background-image: url("../../assets/icon-scream.svg");
+}
+.articles-list li + li:nth-child(5n+5):after {
+  background-image: url("../../assets/icon-halloween.svg");
+}
 
 .article-details {
   align-items: center;
@@ -388,6 +421,11 @@ nav a:focus-visible:before, nav a:hover:before {
 }
 .article-details-item svg {
   inline-size: 1em;
+}
+
+article ul {
+  list-style: disc;
+  list-style-position: inside;
 }
 
 blockquote {

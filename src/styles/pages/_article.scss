@@ -1,3 +1,8 @@
+article ul {
+  list-style: disc;
+  list-style-position: inside;
+}
+
 blockquote {
   border-inline-start: 3px solid var(--dy-color-tertiary);
   color: var(--dy-color-aux-200);
