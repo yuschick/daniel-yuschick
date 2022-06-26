@@ -10,7 +10,7 @@ nav {
   a:visited {
     --accent-offset: 10%;
 
-    color: var(--dy-color-aux-900);
+    color: var(--dy-color-text-nav);
     text-decoration: none;
   }
 
@@ -39,10 +39,16 @@ nav {
   [data-current] {
     background: var(--dy-color-secondary);
 
-    a:hover {
-      &:before,
-      &:after {
-        opacity: 0;
+    a {
+      color: var(--dy-color-text-nav-active);
+
+      &:hover {
+        color: var(--dy-color-text-nav-active);
+
+        &:before,
+        &:after {
+          opacity: 0;
+        }
       }
     }
   }
