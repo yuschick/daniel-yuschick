@@ -18,7 +18,7 @@ Sometimes it feels masochistic to be a frontend developer. I regularly come acro
 
 Then I review the browser support and immediately my proverbial parade is doused in the rain that is reality.
 
-![In the rain](https://media.giphy.com/media/M28rUlcjueKUE/giphy.gif)
+![Stitch, from the animated movie Lilo and Stitch, cries in the rain.](https://media.giphy.com/media/M28rUlcjueKUE/giphy.gif)
 
 ## The Lure of Logical CSS
 
@@ -196,7 +196,7 @@ Now, we have our handy dandy mixin, with super fancy type checking, and all is w
 
 ## All. The. Mixins.
 
-![Homer Simpson](https://media.giphy.com/media/XD4fdNUOnAPyuX6YP1/giphy.gif)
+![Homer Simpson at a fair asking a cook "can you make it all in one thing and fry it?"](https://media.giphy.com/media/XD4fdNUOnAPyuX6YP1/giphy.gif)
 
 If you're familiar with logical CSS, you know that there are quite a few properties other than `block-size` and `inline-size` that are being rolled out. Properties like `margin`, `padding` and even `border` have their new logical variations.
 
@@ -210,7 +210,7 @@ By creating these mixins with Styled Components to enable writing consistent log
 
 And masochistic or not, there will always be rain. Just find ways to keep dancing in it.
 
-![Kamala Harris dancing in the rain](https://media.giphy.com/media/gmjyeGnoChH5n3eOXS/giphy.gif)
+![Kamala Harris dancing in the rain under a blue umbrella.](https://media.giphy.com/media/gmjyeGnoChH5n3eOXS/giphy.gif)
 
 ### Resources
 

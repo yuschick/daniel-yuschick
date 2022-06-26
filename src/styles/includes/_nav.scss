@@ -5,7 +5,9 @@ nav {
   place-content: center;
   padding: 0 var(--dy-space-base-8x);
 
-  a {
+  a,
+  a:active,
+  a:visited {
     --accent-offset: 10%;
 
     color: var(--dy-color-aux-900);

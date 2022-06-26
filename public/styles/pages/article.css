@@ -43,7 +43,7 @@ blockquote {
 
 code {
   background: var(--dy-color-aux-800);
-  color: var(--dy-color-secondary);
+  color: var(--dy-color-aux-100);
   font-family: var(--dy-font-mono);
 }
 
@@ -133,6 +133,13 @@ hr:after {
 }
 .back-to-top-wrapper:hover .pennywise {
   opacity: 0.8;
+}
+
+figure {
+  margin-block-end: var(--dy-space-base-6x);
+}
+figure figcaption {
+  text-align: center;
 }
 
 code[class*=language-],

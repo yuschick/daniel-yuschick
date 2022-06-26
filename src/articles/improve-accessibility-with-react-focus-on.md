@@ -53,7 +53,7 @@ So let's first look at what we'll be building today, then we'll break it down to
 
 The example used in this article will be available on GitHub. <https://github.com/yuschick/react-focus-on-demo>
 
-![Accessible React modal component](https://cdn-images-1.medium.com/max/1600/1*6U5H3nAiScWoTRXfwAKF9g.gif)
+![Accessible React modal component](../../assets/articles/react-focus-on/demo-project-1.gif)
 
 Yep, a standard-looking modal, _but_ there are several things happening that separate it from non-accessible modals.
 
@@ -67,7 +67,7 @@ That can be a lot of functionality to manage without a library. Hell, it was a l
 
 So how can `React-Focus-On` be used to achieve all of this? Like this...
 
-![Snapshot of React-Focus-On code](https://cdn-images-1.medium.com/max/1600/1*zHvt7KbJGoPQfV3nWaz0YQ.png)
+![Snapshot of React-Focus-On code](../../assets/articles/react-focus-on/code-snippet-1.png)
 
 The snipper above is a pretty bare example, but by wrapping our `Modal` in a `FocusOn` component, all of the previous accessibility functionality is covered by default and without any painful setup or configuration.
 
@@ -77,7 +77,7 @@ In my opinion, making accessible modals and modal-like components has never been
 
 The `FocusOn` component handles a lot already, but it can be expanded to make a few other features more convenient to implement, like closing on `esc` and closing when the user clicks outside of the modal.
 
-![An example of using React-Focus-On event props](https://cdn-images-1.medium.com/max/1600/1*oY1Q2wi6z8R44_eSvW6KHQ.png)
+![An example of using React-Focus-On event props](../../assets/articles/react-focus-on/code-snippet-2.png)
 
 In this snippet, the `close` prop has been assigned to the`FocusOn` events `onClickOutside` and `onEscapeKey`. These two options provide common functionality but without the need to write and manage event handlers yourself.
 
@@ -85,13 +85,13 @@ In this snippet, the `close` prop has been assigned to the`FocusOn` events `onCl
 
 Once in a while, there's a situation where an element outside of a focus-trapped modal should be included in the tabbable range or not hidden from interactions. React-Focus-On accepts a `shards` property which is an array of element references.
 
-![A code example of passing a shards array into FocusOn](https://cdn-images-1.medium.com/max/1600/1*CU2bSF9Eb7JrKCEpCtAJkQ.png)
+![A code example of passing a shards array into FocusOn](../../assets/articles/react-focus-on/code-snippet-3.png)
 
 While this modal example isn't a good use case for the `shards` prop, the option has been helpful when building custom dropdown menus.
 
 In the example below, the label which toggles the menu is outside of the modal-like menu itself. However, the focus range should still include it. By passing the label as a `shard`, it's included in the focus range and accessible as another option to toggle the menu.
 
-![An example of using shards for a drop down menu](https://cdn-images-1.medium.com/max/1600/1*AgS9yA1m11OT4ofJv8PDHQ.gif)
+![An example of using shards for a drop down menu](../../assets/articles/react-focus-on/demo-project-2.gif)
 
 ## Animation
 
@@ -103,7 +103,7 @@ If adding animation, be sure to check for `prefers-reduced-motion` to simplify o
 @media (prefers-reduced-motion) {  // simplify or disable the animation}
 ```
 
-![Animated modal using React Transition Group and React-Focus-On](https://cdn-images-1.medium.com/max/1600/1*W7jtSTPszZUjKyOSbtDTmA.gif)
+![Animated modal using React Transition Group and React-Focus-On](../../assets/articles/react-focus-on/demo-project-1.gif)
 
 Accessibility continues to be an oft-forgotten element of front-end development. There's a lot of reasons for this, but a major one has been the lack of convenient and powerful tooling. Well, after finding and using React-Focus-On, I feel there's no longer any excuse not have accessibility be a standard part of a workflow.
 

@@ -29,7 +29,7 @@ There're a lot of considerations to take in terms of communicating to the user a
 
 A demo on the Ally.js website addresses this challenge which helped me port its logic to my current project which uses React and TypeScript. This post will walk through building an accessible dialog component.
 
-![Demo of accessible dialog window using Ally.js within React and TypeScript](https://cdn-images-1.medium.com/max/1600/1*GIURNp8rF96RRRZqybj-7w.gif)
+![Demo of accessible dialog window using Ally.js within React and TypeScript](../../assets/articles/a11yjs-web-apps/demo-project-1.gif)
 
 [View the live demo](https://yuschick.github.io/AllyJS-React-TypeScript-demo/)
 
@@ -43,7 +43,7 @@ This created a project using React and ReactDOM version 15.6.1 along with their 
 
 With the project created, let's go ahead and take a look at the package file and project scaffolding I am using for this demo.
 
-![Project architecture and package.json file](https://cdn-images-1.medium.com/max/1600/1*hCtv9h9dw1SO6tv7sGZ1OA.png)
+![Project architecture and package.json file](../../assets/articles/a11yjs-web-apps/code-setup-1.png)
 
 As you can see in the image above, there are several additional packages installed but for this post we will ignore those related to testing and focus on the primary one, **ally.js**.
 
@@ -539,7 +539,7 @@ Now, that our `Dialog` component is working, accessible, and self-contained we a
 
 With [Ally.js](https://allyjs.io/) incorporated into your React and TypeScript project, more steps can be taken to ensure your content can be consumed by all users, not just all of their devices.
 
-![Accessible Web Apps w/ React, TypeScript & AllyJS Demo](https://cdn-images-1.medium.com/max/1600/1*GIURNp8rF96RRRZqybj-7w.gif)
+![Accessible Web Apps w/ React, TypeScript & AllyJS Demo](../../assets/articles/a11yjs-web-apps/demo-project-1.gif)
 
 For more information on accessibility and other great resources please visit these resources:
 

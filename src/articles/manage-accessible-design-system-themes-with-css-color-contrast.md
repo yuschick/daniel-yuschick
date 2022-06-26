@@ -37,7 +37,7 @@ And therein lies the problem.
 
 The CSS `color-contrast()` function is an experimental feature which is currently a part of [Color Module 5](https://www.w3.org/TR/css-color-5/#colorcontrast). Its purpose — and the reason for the excitement of this article — is to select the greatest contrasting color from a list when compared against a base color.
 
-![CSS color-contrast requires a base color and a color list.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uuku71so0v8wsx8spuvv.jpg)
+![CSS color-contrast requires a base color and a color list.](../../assets/articles/color-contrast/color-contrast-syntax-1.jpg)
 
 ## Color Me Intrigued
 
@@ -83,7 +83,7 @@ Now, as the text color is defined, so will its selection background.
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/KKZzeEj' %}
 
-![Results of using color-contrast() for text and ::selection colors](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jy4t9dicv01j0t0zczwa.gif)
+![Results of using color-contrast() for text and ::selection colors](../../assets/articles/color-contrast/color-contrast-demo-1.gif)
 
 The `color-contrast()` function isn't limited to only comparing HEX codes either. In fact, it can compare multiple color types at once. The previous example can be modified to use different color types while returning the same results.
 
@@ -142,7 +142,7 @@ The `:focus` styles is where this approach can be expanded by using the `--body
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/WNdrXyG' %}
 
-![Results of color-contrast() on button :hover and :focus pseudo-classes](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nlcbyixfw5yigsaih819.gif)
+![Results of color-contrast() on button :hover and :focus pseudo-classes](../../assets/articles/color-contrast/color-contrast-demo-2.gif)
 
 The requirements for compliant focus indicators stretch beyond the scope of this article, but Stephanie Eckles' presentation, "[Modern CSS Upgrades To Improve Accessibility](https://www.deque.com/axe-con/sessions/modern-css-upgrades-to-improve-accessibility/)" covers them in great detail and with clear examples.
 
@@ -150,13 +150,13 @@ The requirements for compliant focus indicators stretch beyond the scope of this
 
 Earlier, I may have been a _touch blasé_ about the optional third parameter for `color-contrast()`. When in reality, this is where the feature showcases its potential.
 
-![Optionally define a target contrast using color-contrast](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8hy0wj8hw6do8o5rrsmq.jpg)
+![Optionally define a target contrast using color-contrast](../../assets/articles/color-contrast/color-contrast-syntax-2.jpg)
 
 The optional third parameter for color-contrast() defines a target contrast ratio. The parameter accepts either a keyword - AA, AA-large, AAA, and AAA-large - or a number. When a target contrast is defined, the first color from the color list that meets or exceeds it is selected.
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/OJzWPwe' %}
 
-![Results of dynamic target contrasts](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ul2wkht6bx4e4njhlmpt.gif)
+![Results of dynamic target contrasts](../../assets/articles/color-contrast/color-contrast-demo-3.gif)
 
 When a target contrast is defined, `color-contrast()` will return the first value from the color list that meets the target. However, when no value in the color list meets the target contrast, it's where the magic happens.
 
@@ -172,7 +172,7 @@ If the color list does not contain a value that meets the target contrast, CSS w
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/zYpNzYb' %}
 
-![Low contrast results with and without a target contrast defined.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vgoeffq88m5nu2c0sm1r.jpeg)
+![Low contrast results with and without a target contrast defined.](../../assets/articles/color-contrast/color-contrast-demo-4.jpeg)
 
 This is where `color-contrast()` could really empower design systems to enforce a specific level of accessibility.
 
@@ -235,7 +235,7 @@ If `color-contrast()` is not supported, the `--article-color` property would not
 
 An interesting thing happens in unsupported browsers --- the custom property would be defined with the function itself. Here's an example of this from Chrome DevTools:
 
-![Unsupported browsers, like Chrome, will use color-contrast() as a value](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bs9l53f73o6zz5vxnu0q.jpg)
+![Unsupported browsers, like Chrome, will use color-contrast() as a value](../../assets/articles/color-contrast/color-contrast-devtools-snippet.jpg)
 
 Because the `--article-color` property is technically defined, the fallback won't trigger.
 

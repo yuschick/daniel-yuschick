@@ -123,10 +123,10 @@
 <p>Logical properties will replace styles like <code>text-align: left</code> with <code>text-align: start</code>. This is because, when defining the <code>direction</code> property, the <code>start</code> and <code>end</code> points of the <strong>inline</strong> axis are set.</p>
 <p>In Latin languages, setting <code>direction: ltr</code> will define the <code>start</code> of the <strong>inline</strong> axis to the left. Whereas, in a language like Hebrew, <code>direction: rtl</code> will define the <code>start</code> of the <strong>inline axis</strong> to the right.</p>
 <p>Aligning content with <code>text-align: start</code> will align the text to the start of the <strong>inline axis</strong>, relative to its <code>direction</code> value.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*FbL35iUihdlX-1i1o2JkpA.jpeg" alt="How the direction property affects the inline axis flow"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/axis-diagram-1.jpeg" alt="How the direction property affects the inline axis flow"></p>
 <p>The <strong>block</strong> axis is where changes to the page can become dramatic. It's one thing to define the <code>direction</code> of the content flow, but another to define the flow of block content and containers with <code>writing-mode</code>.</p>
 <p>For this, maybe it'll help to show the graphic first.</p>
-<p><img src="https://cdn-images-1.medium.com/max/2400/1*QGW4Yme_2vrmUrp7V4xARQ.jpeg" alt="How the writing-mode property affects the block and inline axes"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/axis-diagram-2.jpeg" alt="How the writing-mode property affects the block and inline axes"></p>
 <p>Notice in the graphic, when rotating the <strong>block</strong> axis into a vertical position with <code>writing-mode</code>, the <strong>inline</strong> axis rotates with it. This is what Flexbox has been teaching us all these years when changing its direction between <code>row</code> and <code>column</code>. When changing the <code>writing-mode</code> from horizontal to vertical, both axes rotate.</p>
 <blockquote>
 <p>Little did I know, Flexbox and Grid had been preparing us for this logical approach for years.</p>
@@ -134,9 +134,9 @@
 <p>This is where logical properties and values come into play.</p>
 <p>If an image has a <code>margin-left</code> value creating distance between it and some text while the <code>writing-mode</code> is in a horizontal state, what happens to that margin when the <code>writing-mode</code> shifts to vertical? The vertical flow will place the text above the image, while the image's margin is still on its left.</p>
 <p>The image doesn't need a margin on its left side, but a margin at the <code>start</code> of its <strong>inline</strong> axis.</p>
-<p><img src="https://cdn-images-1.medium.com/max/2400/1*4MZSWq2k1PvvAC1tPWynLA.gif" alt="View demo on CodePen: https://codepen.io/Yuschick/pen/qBaRWJY"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/codepen-demo-1.gif" alt="View demo on CodePen: https://codepen.io/Yuschick/pen/qBaRWJY"></p>
 <p>Logical properties are aligned relative to the <code>start</code> and `end points of their respective axis, regardless of how those axes flow.</p>
-<p><img src="https://cdn-images-1.medium.com/max/2400/1*qe7PaXabiuaBedCuU8QDww.jpeg" alt="Comparing the physical and logical CSS box models"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/logical-box-model.jpeg" alt="Comparing the physical and logical CSS box models"></p>
 <p>CSS Logical Properties require a shift in how elements are seen, both visually and mentally. An element will no longer have a <code>width</code> value, but an <code>inline-size</code> value, defining its size along the inline axis. No longer a <code>height</code> value, but <code>block-size</code>. And text will no longer be aligned with physical values like <code>left</code> and <code>right</code> but with logical values like <code>start</code> and <code>end</code>.</p>
 <h3>Physical → Logical Examples</h3>
 <ul>
@@ -151,32 +151,32 @@
 </ul>
 <h2>Getting Started with Logical Properties</h2>
 <p>After coming across logical properties, I was excited to use them in a practical setting–something more than exploratory tinkering in CodePen. So, despite having no intention on translating my personal website to any other language, I set out to refactor it with logical properties.</p>
-<p><img src="https://cdn-images-1.medium.com/max/2400/1*xoEcT-esyhpiFzktMx7VQw.gif" alt="CSS Logical properties in full effect"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/site-demo-1.gif" alt="CSS Logical properties in full effect"></p>
 <h3>Support &amp; Scope</h3>
 <p>As with everything, browser support must be considered before implementing any change, much less something that overhauls just about everything.</p>
 <p>While some logical properties have decent support like <code>inline-</code> and <code>block-size</code>, each property seems to be supported in different environments. So I went the route of writing a bunch of <code>@supports</code> queries.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*a9XoE3Ky78RJo3q88K2Exw.png" alt="Using CSS logical properties with @supports queries"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/code-snippet-1.png" alt="Using CSS logical properties with @supports queries"></p>
 <p>All the queries add to the amount of code, for sure. However, for my personal project like this, I don't mind the trade off.</p>
 <h2>Gotchas</h2>
 <h3>Property Support</h3>
 <p>Not every property has a logical equivalent or support yet. For example, <code>clip-path</code> and linear gradient values are not able to be defined with logical values. The former can be seen in the image of my personal site's header.</p>
 <h3>Conflicting Approaches</h3>
 <p>Additionally, using logical properties doesn't overwrite physical ones. Let's look at an element with padding and an absolute position.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*xjlE4CqXnUX-Nrl5s2UmVA.png" alt="CSS Logical properties gotchas"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/code-snippet-2.png" alt="CSS Logical properties gotchas"></p>
 <p>What I had originally expected was for the <code>margin-block/inline</code> and <code>border-block-start</code> values to overwrite their physical equivalents of <code>margin</code> and <code>border-top</code>. However, they did not.</p>
 <p>In this case, the element rendered styles for <code>margin</code>, <code>border-top</code>, <code>border-block-start</code>, and <code>margin-block/inline</code>. This obviously created alignment issues in the UI as the <code>writing-mode</code> changed and styles clashed.</p>
 <p>To avoid this, I, again, turned to supports queries, but this time with the <code>not</code> keyword.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*E-4gWvsGpGBsgR5roAJQhg.png" alt="Using @supports queries with the not keyword"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/code-snippet-3.png" alt="Using @supports queries with the not keyword"></p>
 <p>Is this getting to be a lot of CSS to write? Sure. And again, probably not an ideal approach at this time for professional products with multiple developers having to read this. However, for the use case of my own site, and to experiment with the features, I'm comfortable with it.</p>
 <p>By using <code>supports</code> and <code>supports not</code> physical and logical properties can be rendered without conflicting with each other.</p>
 <h3>Shorthand</h3>
 <p>When writing my styles, I tend to include frequent shorthanded properties, especially <code>margin</code> and `padding.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*fPmmRVMbDGFvxQi5WF3V9Q.png" alt="CSS example of shorthand padding values"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/code-snippet-4.png" alt="CSS example of shorthand padding values"></p>
 <p>In this example, this style would apply a padding to all four sides of the element. But how does CSS know if those are physical or logical values? It doesn't. As of now, it would render with physical properties.</p>
 <p>The approach with logical properties would be to specify a value for both ends of both axes.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*ZhUC9utFqbricohv3VPcmg.png" alt="CSS padding example with logical properties"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/code-snippet-5.png" alt="CSS padding example with logical properties"></p>
 <p>Now, just because the traditional `padding shorthand doesn't work with logical properties yet, doesn't mean there aren't some logical shorthand alternatives already.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*TwQ-d_-QO1XaCN2vdd09wA.png" alt="CSS logical properties with shorthand values"></p>
+<p><img src="../../assets/articles/logical-css-is-the-future/code-snippet-6.png" alt="CSS logical properties with shorthand values"></p>
 <p>Using the shorthand properties of <code>padding-block</code> and <code>padding-inline</code>, values for the <code>start</code> and <code>end</code> positions for each can be defined in a single property for each axis.</p>
 <h2>Recap</h2>
 <p>As the web evolves and the expectations for inclusive products become more broad, the shift from physical layouts to logical ones will be a requirement.</p>

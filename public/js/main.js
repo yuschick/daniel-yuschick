@@ -11,6 +11,7 @@ function scrollFunction() {
   } else {
     backToTopWrapper.classList.remove("active");
     backToTopBtn.tabIndex = -1;
+    backToTopBtn.blur();
   }
 }
 

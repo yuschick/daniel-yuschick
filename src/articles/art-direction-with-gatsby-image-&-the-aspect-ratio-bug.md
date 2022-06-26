@@ -21,7 +21,7 @@ In a lot more words...
 
 The web would be trash without pictures but it's also trash whenever those pictures take....way.....too......long to load. Enter [Gatsby Image](https://www.gatsbyjs.org/packages/gatsby-image/), an incredibly powerful plugin for optimizing and serving your images.
 
-**_Note:_ \***I won't be going into much detail of getting started with Gatsby Image so if you're brand new to it, I would recommend the* [*official docs*](https://www.gatsbyjs.org/packages/gatsby-image/#install) *first to gain a base understanding on installation and getting started.\*
+**_Note:_**I won't be going into much detail of getting started with Gatsby Image so if you're brand new to it, I would recommend the* [*official docs*](https://www.gatsbyjs.org/packages/gatsby-image/#install) *first to gain a base understanding on installation and getting started.\*
 
 After I got my head around using the (surprisingly fun) GraphQl UI to construct my image queries, I found myself playing with a lot of features and experimenting with what I could do and how I could apply it to my most recent project. Once I felt more familiar with the process, I defined the requirements for my primary header image and set off to construct my query.
 
@@ -30,7 +30,7 @@ After I got my head around using the (surprisingly fun) GraphQl UI to construct 
 - I needed different images at different widths--art direction
 - I needed to serve `webp` images for better performance with fallbacks
 
-![Daniel Yuschick in Hang En Cave, taken by @nome_sapien](https://cdn-images-1.medium.com/max/1600/1*IbLDJXTSUvDqTVC-_CLebQ.jpeg)
+![Daniel Yuschick in Hang En Cave, taken by @nome_sapien](../../assets/articles/gatsby-art-direction/site-header-1.jpeg)
 
 ## Art Direction
 
@@ -47,18 +47,18 @@ I ended up with five images with px dimensions and (aspect ratios) as follows:
 I opened Gatsby's GraphQl UI and began constructing my query. I started by querying a single image.
 
 ```js
-query HeaderImageQuery {\
-  **file**(relativePath: {eq: "header-500.jpg"}) {\
-    childImageSharp {\
-      **fluid**(**maxWidth: 500**) {\
-        aspectRatio\
-        base64\
-        sizes\
-        src\
-        srcSet\
-      }\
-    }\
-  }\
+query HeaderImageQuery {
+  file(relativePath: {eq: "header-500.jpg"}) {
+    childImageSharp {
+      fluid(**maxWidth: 500**) {
+        aspectRatio
+        base64
+        sizes
+        src
+        srcSet
+      }
+    }
+  }
 }
 ```
 
@@ -67,30 +67,30 @@ This is a standard `file` query which selects `header-500.jpg`. Additionally, it
 Now, I needed to expand this query to include the other versions of my header image. To do that, I created an object query and assigned a key to each `file` request.
 
 ```js
-query HeaderImageQuery {\
-  **img500**: file(relativePath: {eq: "header-500.jpg"}) {\
-    childImageSharp {\
-      fluid(maxWidth: 500) {\
-        aspectRatio\
-        base64\
-        sizes\
-        src\
-        srcSet\
-      }\
-    }\
-  }\
-  **img1000**: file(relativePath: {eq: "header-1000.jpg"}) {\
-    childImageSharp {\
-      fluid(maxWidth: 1000) {\
-        aspectRatio\
-        base64\
-        sizes\
-        src\
-        srcSet\
-      }\
-    }\
-  }\
-  *...repeat for the remaining images*\
+query HeaderImageQuery {
+  img500: file(relativePath: {eq: "header-500.jpg"}) {
+    childImageSharp {
+      fluid(maxWidth: 500) {
+        aspectRatio
+        base64
+        sizes
+        src
+        srcSet
+      }
+    }
+  }
+  img1000: file(relativePath: {eq: "header-1000.jpg"}) {
+    childImageSharp {
+      fluid(maxWidth: 1000) {
+        aspectRatio
+        base64
+        sizes
+        src
+        srcSet
+      }
+    }
+  }
+  *...repeat for the remaining images*
 }
 ```
 
@@ -101,37 +101,37 @@ I did this by using the `GatsbyImageSharpFluid_withWebp` [query fragment](https:
 ```js
 import { useStaticQuery, graphql } from "gatsby"
 
-const Header: React.FunctionComponent = () => {\
-  **const data = useStaticQuery(graphql`**\
-    query HeaderImageQuery {\
-      img500: file(relativePath: {eq: "header-500.jpg"}) {\
-        childImageSharp {\
-          fluid(maxWidth: 500) {\
-            **...GatsbyImageSharpFluid_withWebp**\
-            aspectRatio\
-            base64\
-            sizes\
-            src\
-            srcSet\
-          }\
-        }\
-      }\
-      *...repeat for the remaining images*\
-    }\
-  `)\
-  *...other component stuff we'll get to*\
+const Header: React.FunctionComponent = () => {
+  **const data = useStaticQuery(graphql`**
+    query HeaderImageQuery {
+      img500: file(relativePath: {eq: "header-500.jpg"}) {
+        childImageSharp {
+          fluid(maxWidth: 500) {
+            ...GatsbyImageSharpFluid_withWebp
+            aspectRatio
+            base64
+            sizes
+            src
+            srcSet
+          }
+        }
+      }
+      *...repeat for the remaining images*
+    }
+  `)
+  *...other component stuff we'll get to*
 }
 ```
 
 After this query executes, the `data` variable looks something like this:
 
 ```js
-const data = {\
-  img500: { ... },\
-  img1000: { ... },\
-  img1500: { ... },\
-  img2000: { ... },\
-  img2500: { ... },\
+const data = {
+  img500: { ... },
+  img1000: { ... },
+  img1500: { ... },
+  img2000: { ... },
+  img2500: { ... },
 }
 ```
 
@@ -148,12 +148,12 @@ But in this case, I've queried five images and, as a result, can't pass the `dat
 The `sources` array contains an object for each queried image which contains the `childImageSharp.fluid` data, as seen above, and a `media` query to determine when the image should be used.
 
 ```js
-const sources = [\
-  {\
-    ...data.img500.childImageSharp.fluid,\
-    media: '(max-width: 500px)'\
-  },\
-  *...repeat for the remaining images\
+const sources = [
+  {
+    ...data.img500.childImageSharp.fluid,
+    media: '(max-width: 500px)'
+  },
+  *...repeat for the remaining images
 *]
 ```
 
@@ -164,20 +164,20 @@ Once I created the `sources` array, I could pass it to the `Img` component.
 ```js
 import Img from "gatsby-image"
 
-const sources = [\
-  {\
-    ...data.img500.childImageSharp.fluid,\
-    media: '(max-width: 500px)'\
-  },\
-  *...repeat for the remaining images\
+const sources = [
+  {
+    ...data.img500.childImageSharp.fluid,
+    media: '(max-width: 500px)'
+  },
+  *...repeat for the remaining images
 *]
 
-return (\
-  <Img\
-    sources={sources}\
-    fluid={sources}\
-    alt="Daniel Yuschick by @nome_sapien"\
-  />\
+return (
+  <Img
+    sources={sources}
+    fluid={sources}
+    alt="Daniel Yuschick by @nome_sapien"
+  />
 )
 ```
 
@@ -187,7 +187,7 @@ I rushed to scientifically test this by dragging my browser window from large to
 
 Only it didn't.
 
-![wtf](https://cdn-images-1.medium.com/max/1600/0*fpv-Bmg_26wx-4sx.gif)
+![Deandre Jordan of the Los Angeles Clippers exclaiming "What the fuck"](https://cdn-images-1.medium.com/max/1600/0*fpv-Bmg_26wx-4sx.gif)
 
 ## Gatsby Image Aspect Ratio Bug
 
@@ -204,24 +204,25 @@ We need to select the `div` element Gatsby Image uses to size our images and upd
 _Note, I am using_ [_Styled Components_](https://styled-components.com/) _so the syntax may not be what you're using but the premise remains the same--use the aspect ratios returned in the query to define new CSS rules at specific breakpoints._
 
 ```js
-const ResponsiveImage = styled(Img)`\
-  > div:first-child {\
-    @media (max-width: 500px) {\
-      padding-bottom: ${props =>\
-        `${100 / props.sources[0].aspectRatio}% !important`};\
-    }\
-    @media (min-width: 501px) and (max-width: 1000px)\
-      padding-bottom: ${props =>\
-        `${100 / props.sources[1].aspectRatio}% !important`};\
-    }**\** *...repeat for the other images\* }\
-`
+const ResponsiveImage = styled(Img)`
+  > div:first-child {
+    @media (max-width: 500px) {
+      padding-bottom: ${(props) =>
+        `${100 / props.sources[0].aspectRatio}% !important`};
+    }
+    @media (min-width: 501px) and (max-width: 1000px) {
+      padding-bottom: ${(props) =>
+        `${100 / props.sources[1].aspectRatio}% !important`};
+    }
+  }
+`;
 ```
 
 Now, I know, I'm using `!important`. Gross. But in this case we need it to override the specificity of the directly-applied values from Gatsby Image.
 
 With these styles in place, I returned to my browser, held my breathe, and resized the window.
 
-![Window resizing to demonstrate aspect ratio fix](https://cdn-images-1.medium.com/max/1600/1*zLklaXKdy2uL5bgLgZWPpQ.gif)
+![Window resizing to demonstrate aspect ratio fix](../../assets/articles/gatsby-art-direction/site-demo-1.gif)
 
 From the gif above you can see at smaller widths, the header image is cropped more tightly to retain height and focus while at larger widths, it has a wider aspect ratio to keep the height from filling the entire viewport and the image from distorting.
 

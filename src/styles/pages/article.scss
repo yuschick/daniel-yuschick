@@ -25,7 +25,7 @@ blockquote {
 
 code {
   background: var(--dy-color-aux-800);
-  color: var(--dy-color-secondary);
+  color: var(--dy-color-aux-100);
   font-family: var(--dy-font-mono);
 }
 
@@ -130,6 +130,14 @@ hr {
 
   &:hover .pennywise {
     opacity: 0.8;
+  }
+}
+
+figure {
+  margin-block-end: var(--dy-space-base-6x);
+
+  figcaption {
+    text-align: center;
   }
 }
 

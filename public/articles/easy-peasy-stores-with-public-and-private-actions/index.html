@@ -82,7 +82,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
   <path fill="currentColor" fill-opacity=".9" fill-rule="evenodd" d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0Zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8Zm.5-13H9v6l5.2 3.2.8-1.3-4.5-2.7V5Z"/>
 </svg>
-            <span>3 min. read</span>
+            <span>4 min. read</span>
         </div>
         
     </section>
@@ -102,10 +102,10 @@
 <h2>Exposing Public Actions</h2>
 <p>As mentioned, I didn't see a way in the docs for Easy Peasy to support this functionality out of the box, so I had to get a little creative to achieve it.</p>
 <p>Let's look at an example model that we'll use throughout:</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*zSgKw0wg2cOYgi3hqhDtYA.png" alt="Example code"></p>
+<p><img src="../../assets/articles/easy-peasy/code-snippet-1.png" alt="Example code of creating a set of public actions inside of an Easy Peasy state management store"></p>
 <p>Example store model with Easy Peasy</p>
 <p>In the (abbreviated) code above, we have a store for <code>Projects</code>. It contains all of its own state, actions, and thunks. Using Easy Peasy, we can create Hooks to access this store in our UI:</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*BHzcRK3ULue2H3LSc-O8Bw.png" alt="Creating Hooks"></p>
+<p><img src="../../assets/articles/easy-peasy/code-snippet-2.png" alt="Creating a set of React hooks to connect to the Easy Peasy store state and store actions"></p>
 <p>Example of using Easy Peasy Hooks in the UI</p>
 <p>As seen in the code above, the <code>useStoreState</code> and <code>useStoreActions</code> Hooks expose the entire <code>Project</code> store. However, we want to restrict that.</p>
 <p>Specifically, the pattern here is to have <code>thunks</code> maintain <code>error</code> and <code>loading</code> states manually. It will also take its response and call <code>actions.setProjects()</code> on its own. Because of this pattern, we don't want the UI to have access to <code>setError</code>, <code>setLoading</code>, or <code>setProjects</code> since all of those actions are handled internally within the store. We want the UI to only have access to <code>setActiveProjectSlug</code> and <code>fetchProjects</code>.</p>
@@ -116,17 +116,17 @@
 <li>Public: <code>setActiveProjectSlug</code>, <code>fetchProjects</code></li>
 </ul>
 <p>Knowing that, let's create our own custom Hooks in the centralized store to filter out anything considered private:</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*_lB6_dMPegB25lNzM04wgw.png" alt="Creating a custom Hook"></p>
+<p><img src="../../assets/articles/easy-peasy/code-snippet-3.png" alt="An example of creating a custom React Hook to expose only public values from Easy Peasy"></p>
 <p>Creating a custom Hook to expose public actions from Easy Peasy store</p>
 <p>Here, we've created a custom Hook (<code>useProjectActions</code>) that calls the base Hook (<code>useStoreActions</code>). Since the base Hook returns everything from the store, we destructure out only the actions we want (<code>fetchProjects</code> and <code>setActiveProjectSlug</code>) and return them, leaving behind anything else we consider to be private.</p>
 <p><em>Note: The same thing can be done for public and private state values as well.</em></p>
 <h2>TypeScript</h2>
 <p>Another reason I like Easy Peasy is its integration with TypeScript. Since the current project is done in TypeScript, let's see an example of how to type out our new custom Hooks.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*c1SE35psjzvn5sEJUATMxA.png" alt="Custom Hooks in TypeScript"></p>
+<p><img src="../../assets/articles/easy-peasy/code-snippet-4.png" alt="An example of creating the custom React Hooks using TypeScript"></p>
 <p>Creating custom Hooks with Easy Peasy in TypeScript</p>
 <p>When creating the store in TypeScript, actions and thunks use the types of <code>Action</code> and <code>Thunk</code> exported from Easy Peasy. But when consuming these actions through the <code>useStoreActions</code> Hook, they are now typed as <code>ActionCreator</code> and <code>ThunkCreator</code>.</p>
 <p>Now, our new custom <code>useProjectActions</code> is typed and exposes only the actions we want the UI to consume.</p>
-<p><img src="https://cdn-images-1.medium.com/max/1600/1*94svWERcFuacpQtVA8CXbQ.png" alt="TypeScript suggestion"></p>
+<p><img src="../../assets/articles/easy-peasy/code-snippet-5.png" alt="Showcasing the TypeScript method autocompletion with the custom React Hooks"></p>
 <p>TypeScript suggestion on the newly typed custom Hooks</p>
 <h2>Conclusion</h2>
 <p>Stores can quickly become large, with multiple models all containing their own actions, thunks, and state. When a store like that is being consumed across multiple apps with different teams and developers, it can become confusing to use in the UI with all of that data being exposed. Without clear communication and documentation (and even still), it is a matter of time until something is called or used that shouldn't be, the UI falters, and the store patterns break.</p>

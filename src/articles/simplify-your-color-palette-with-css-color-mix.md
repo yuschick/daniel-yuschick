@@ -31,7 +31,7 @@ While the CSS `color-mix()` function may _only_ blend two colors together, could
 
 The CSS `color-mix()` function is an experimental feature which is currently a part of [Color Module 5](https://www.w3.org/TR/css-color-5/#colorcontrast). True to its name, the function will accept any two colors, mix them together and return a little color Frankenstein.
 
-![CSS Color-Mix() required syntax](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1650114976003_image.png)
+![CSS Color-Mix() required syntax](../../assets/articles/color-mix/color-mix-syntax-1.jpg)
 
 For the sake of this article, let’s define how these arguments will be called using this example.
 
@@ -45,7 +45,12 @@ There are quite a few moving pieces here, so let’s have a quick interactive vi
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/rNpQpjJ' %}
 
-![Results of color-mix blending two colors with different percentages](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228003631_color-mix-demo-1.gif)
+<figure>
+  <video controls>
+    <source src="../../assets/articles/color-mix/color-mix-demo-1.mp4" type="video/mp4">
+  </video>
+  <figcaption>Results of color-mix blending two colors with different percentages</figcaption>
+</figure>
 
 Like with any experimental feature, the syntax or features could change before widespread browser adoption. However, the features in Color Module 5 seem stable enough to, at the very least, begin tinkering ourselves.
 
@@ -63,7 +68,7 @@ Disregarding the lack of a visual wheel here, CSS `color-mix()` can be used to c
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/BaJGRrr' %}
 
-![Result of using color-mix to recreate the a linear color wheel](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228161635_color-mix-demo-2.jpg)
+![Result of using color-mix to recreate the a linear color wheel](../../assets/articles/color-mix/color-mix-demo-2.jpg)
 
 Building the linear color wheel was a lot of fun and a great dive into using `color-mix()`. It often helps when experimenting with a new feature to already know what the visual outcome should be.
 
@@ -99,7 +104,12 @@ Knowing the CSS `color-mix()` function supports using different color spaces, le
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/XWVygVM' %}
 
-![Using color-mix to toggle the mixture’s color space](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228311499_color-mix-demo-3.gif)
+<figure>
+  <video controls>
+    <source src="../../assets/articles/color-mix/color-mix-demo-3.mp4" type="video/mp4">
+  </video>
+  <figcaption>Using color-mix to toggle the mixture’s color space</figcaption>
+</figure>
 
 The `color-mix()` function isn’t limited to only blending HEX codes either. In fact, it can mix multiple color types at once. The previous example can be modified to use different color types while returning the same results.
 
@@ -125,7 +135,12 @@ Let’s take a look at contextual UI colors, like button `:hover` and `:active` 
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/OJzaLyx' %}
 
-![Using color-mix to blend theme colors to create contextual shades](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228444362_color-mix-demo-4.gif)
+<figure>
+  <video controls>
+    <source src="../../assets/articles/color-mix/color-mix-demo-4.mp4" type="video/mp4">
+  </video>
+  <figcaption>Using color-mix to blend theme colors to create contextual shades</figcaption>
+</figure>
 
 While a similar effect could be created with [the HWB color function](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hwb) by increasing the button color’s blackness value, sometimes darkening a button isn’t just a matter of mixing in a splash of black. Just ask anybody who’s ever struggled finding the perfect dark mode theme. This is also where `color-mix()` stands out from Sass `darken()` and `lighten()` functions. The `color-mix()` function gives greater, granular control of how colors are adjusted and it does no natively to CSS.
 
@@ -179,7 +194,7 @@ If the base percent was 50, the blend percent would be 50. If the base percent w
 
 However, specifying a custom blend percent means the percentage total may not always round out so evenly.
 
-![Optionally define a blend color percentage](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1650175756563_image.png)
+![Optionally define a blend color percentage](../../assets/articles/color-mix/color-mix-syntax-2.jpg)
 
 While the [W3 docs](https://www.w3.org/TR/css-color-5/#color-mix) explain the calculations behind this functionality quite well, the math is a tad beyond my abilities to clearly explain. This is art class after all. But as best as I can put it–
 
@@ -204,7 +219,12 @@ However, that mathematical understanding isn’t required for the below demo whe
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/eYyQwKd' %}
 
-![Using color-mix with base and blend percentages](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228552233_color-mix-demo-5.gif)
+<figure>
+  <video controls>
+    <source src="../../assets/articles/color-mix/color-mix-demo-5.mp4" type="video/mp4">
+  </video>
+  <figcaption>Using color-mix with base and blend percentages</figcaption>
+</figure>
 
 ## Actin’ Shady with Transparencies
 
@@ -229,7 +249,12 @@ The result is the expected pink shade, but with an averaged opacity. If the base
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/JjMwope' %}
 
-![The results of using color-mix with transparent colors](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1651228887926_color-mix-demo-6.gif)
+<figure>
+  <video controls>
+    <source src="../../assets/articles/color-mix/color-mix-demo-6.mp4" type="video/mp4">
+  </video>
+  <figcaption>The results of using color-mix with transparent colors</figcaption>
+</figure>
 
 ## A Dash of Caution
 
@@ -248,7 +273,7 @@ If `color-mix()` is not supported, the `--background-color` property would not b
 
 An interesting thing happens in unsupported browsers – the custom property would be defined with the function itself. Here’s an example of this from Chrome DevTools.
 
-![Unsupported browsers, like Chrome, will use color-mix() as a value](https://paper-attachments.dropbox.com/s_FA707B98F110F5764406C4508AA63EBCE75DA16AC60C796756931B8FC69F171D_1650200354996_image.png)
+![Unsupported browsers, like Chrome, will use color-mix() as a value](../../assets/articles/color-mix/color-mix-devtools-snippet.jpg)
 
 Because the `--background-color` property is _technically_ defined, the fallback won’t trigger.
 
