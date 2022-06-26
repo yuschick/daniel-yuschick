@@ -31,7 +31,7 @@ While the CSS `color-mix()` function may _only_ blend two colors together, could
 
 The CSS `color-mix()` function is an experimental feature which is currently a part of [Color Module 5](https://www.w3.org/TR/css-color-5/#colorcontrast). True to its name, the function will accept any two colors, mix them together and return a little color Frankenstein.
 
-![CSS Color-Mix() required syntax](../../assets/articles/color-mix/color-mix-syntax-1.jpg)
+{% image "./src/assets/articles/color-mix/color-mix-syntax-1.jpg", "CSS Color-Mix() required syntax", "(min-width: 30em) 50vw, 100vw" %}
 
 For the sake of this article, let’s define how these arguments will be called using this example.
 
