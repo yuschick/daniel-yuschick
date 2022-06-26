@@ -20,10 +20,7 @@ async function imageShortcode(src, alt) {
     decoding: "async",
   };
 
-  return Image.generateHTML(
-    src.includes(".gif") ? metadataGif : metadata,
-    imageAttributes
-  );
+  return Image.generateHTML(metadata, imageAttributes);
 }
 
 module.exports = function (config) {
