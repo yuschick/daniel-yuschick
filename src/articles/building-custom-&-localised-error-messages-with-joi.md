@@ -41,7 +41,7 @@ When you expand the `error` object you find a few more properties but we will fo
 
 Let's dig into the `details` error object from the validation above.
 
-![Raw error object returned from Joi](../../assets/articles/joi-i18n-messages/error-output-1.png)
+{% image './src/assets/articles/joi-i18n-messages/error-output-1.png', 'Raw error object returned from Joi' %}
 
 The object contains a lot of great information. It may not all be useful to us _yet_ but we will soon convert this into data that we can use to achieve our goal of custom i18n error messages.
 
@@ -144,7 +144,7 @@ In the example above we have three movies listed but we only want movies that we
 
 The above snippet will return an error object that partially looks like this:
 
-![Error object from Joi demonstrating multiple error paths](../../assets/articles/joi-i18n-messages/error-output-2.png)
+{% image './src/assets/articles/joi-i18n-messages/error-output-2.png', 'Error object from Joi demonstrating multiple error paths' %}
 
 If you were to always grab the last value of the `path` property to identify the field with the error, you'd have a conflict here as both errors exist on the `year` field. By `join`ing the `path` array, I can still receive unique identifiers based on their array index.
 

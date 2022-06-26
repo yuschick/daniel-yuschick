@@ -143,7 +143,7 @@ However, most importantly, it will offer clear and concise approaches to fix the
 
 An example of an Axe Dev Tools accessibility scan result.
 
-![Preview of Axe-DevTools scan results.](../../assets/articles/5-accessibility-quick-wins/axe-con-dev-tools.webp)
+{% image "./src/assets/articles/5-accessibility-quick-wins/axe-con-dev-tools.webp", "Preview of Axe-DevTools scan results." %}
 
 ## Wrapping Up
 

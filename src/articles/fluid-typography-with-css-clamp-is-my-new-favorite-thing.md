@@ -47,7 +47,7 @@ The fluidity comes into play by setting the middle value, the preferred size, to
 
 With the `clamp()` values defined, I tested the `h1` element by dragging my browser smaller and larger and watched as the font size scaled smoothly within its range.
 
-![Demonstrating fluid typography with CSS clamp()](../../assets/articles/css-fluid-typography/site-demo-1.jpeg)
+{% image './src/assets/articles/css-fluid-typography/site-demo-1.jpeg', 'Demonstrating fluid typography with CSS clamp()' %}
 
 Admittedly, it’s a small size range but I now feel more in control of how text will behave in my projects.
 
@@ -59,7 +59,7 @@ But while we’re at it, why stop at text? I’ve found several other uses for `
 
 Nothing good is easy and when I tested my site in Safari, I was reminded of that when everything appeared janky.
 
-![Support for the clamp() function from caniuse.com](../../assets/articles/css-fluid-typography/browser-support.png)
+{% image './src/assets/articles/css-fluid-typography/browser-support.png', 'Support for the clamp() function from caniuse.com' %}
 
 Some browsers are yet to support `clamp()` but luckily, there are two other small, clutch functions– `min()` and `max()` we can use. When put together, they can provide similar functionality to `clamp()` but also play nicely with additional browsers.
 

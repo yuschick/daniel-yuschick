@@ -37,7 +37,7 @@ And therein lies the problem.
 
 The CSS `color-contrast()` function is an experimental feature which is currently a part of [Color Module 5](https://www.w3.org/TR/css-color-5/#colorcontrast). Its purpose — and the reason for the excitement of this article — is to select the greatest contrasting color from a list when compared against a base color.
 
-![CSS color-contrast requires a base color and a color list.](../../assets/articles/color-contrast/color-contrast-syntax-1.jpg)
+{% image "./src/assets/articles/color-contrast/color-contrast-syntax-1.jpg", "CSS color-contrast requires a base color and a color list." %}
 
 ## Color Me Intrigued
 
@@ -150,7 +150,7 @@ The requirements for compliant focus indicators stretch beyond the scope of this
 
 Earlier, I may have been a _touch blasé_ about the optional third parameter for `color-contrast()`. When in reality, this is where the feature showcases its potential.
 
-![Optionally define a target contrast using color-contrast](../../assets/articles/color-contrast/color-contrast-syntax-2.jpg)
+{% image "./src/assets/articles/color-contrast/color-contrast-syntax-2.jpg", "Optionally define a target contrast using color-contrast" %}
 
 The optional third parameter for color-contrast() defines a target contrast ratio. The parameter accepts either a keyword - AA, AA-large, AAA, and AAA-large - or a number. When a target contrast is defined, the first color from the color list that meets or exceeds it is selected.
 
@@ -172,7 +172,7 @@ If the color list does not contain a value that meets the target contrast, CSS w
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/zYpNzYb' %}
 
-![Low contrast results with and without a target contrast defined.](../../assets/articles/color-contrast/color-contrast-demo-4.jpeg)
+{% image "./src/assets/articles/color-contrast/color-contrast-demo-4.jpeg", "Low contrast results with and without a target contrast defined." %}
 
 This is where `color-contrast()` could really empower design systems to enforce a specific level of accessibility.
 
@@ -235,7 +235,7 @@ If `color-contrast()` is not supported, the `--article-color` property would not
 
 An interesting thing happens in unsupported browsers --- the custom property would be defined with the function itself. Here's an example of this from Chrome DevTools:
 
-![Unsupported browsers, like Chrome, will use color-contrast() as a value](../../assets/articles/color-contrast/color-contrast-devtools-snippet.jpg)
+{% image "./src/assets/articles/color-contrast/color-contrast-devtools-snippet.jpg", "Unsupported browsers, like Chrome, will use color-contrast() as a value" %}
 
 Because the `--article-color` property is technically defined, the fallback won't trigger.
 

@@ -6,15 +6,21 @@
   gap: var(--dy-space-base-4x);
   justify-content: space-between;
   padding: var(--dy-space-base-3x) var(--dy-space-base-8x);
+  position: relative;
+
+  q span:last-child {
+    display: none;
+    font-style: italic;
+  }
 
   svg {
     --icon-size: 48px;
 
-    block-size: var(--icon-size);
+    block-size: 0;
     color: var(--dy-color-secondary);
-    position: fixed;
+    position: absolute;
     inline-size: var(--icon-size);
-    inset-block-end: calc(0px - var(--icon-size));
+    inset-block-start: var(--icon-size);
     inset-inline-start: var(--dy-space-base-8x);
     transform-origin: bottom center;
     transition: all var(--dy-transition-duration-lg) ease;
@@ -25,10 +31,21 @@
     }
   }
 
-  &:hover svg {
-    animation: wiggle var(--dy-transition-duration-2xl) ease alternate-reverse
-      infinite;
-    inset-block-end: calc(var(--icon-size) + 3px);
+  &:hover {
+    q span:first-child {
+      display: none;
+    }
+
+    q span:last-child {
+      display: inline;
+    }
+
+    svg {
+      animation: wiggle 2s var(--dy-transition-duration-lg) ease
+        alternate-reverse infinite;
+      block-size: var(--icon-size);
+      inset-block-start: calc(2px - var(--icon-size));
+    }
   }
 }
 

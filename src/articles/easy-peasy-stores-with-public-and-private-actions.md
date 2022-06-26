@@ -41,13 +41,13 @@ As mentioned, I didn't see a way in the docs for Easy Peasy to support this func
 
 Let's look at an example model that we'll use throughout:
 
-![Example code of creating a set of public actions inside of an Easy Peasy state management store](../../assets/articles/easy-peasy/code-snippet-1.png)
+{% image './src/assets/articles/easy-peasy/code-snippet-1.png', 'Example code of creating a set of public actions inside of an Easy Peasy state management store' %}
 
 Example store model with Easy Peasy
 
 In the (abbreviated) code above, we have a store for `Projects`. It contains all of its own state, actions, and thunks. Using Easy Peasy, we can create Hooks to access this store in our UI:
 
-![Creating a set of React hooks to connect to the Easy Peasy store state and store actions](../../assets/articles/easy-peasy/code-snippet-2.png)
+{% image './src/assets/articles/easy-peasy/code-snippet-2.png', 'Creating a set of React hooks to connect to the Easy Peasy store state and store actions' %}
 
 Example of using Easy Peasy Hooks in the UI
 
@@ -64,7 +64,7 @@ We have identified which actions should be privateand which should be exposed to
 
 Knowing that, let's create our own custom Hooks in the centralized store to filter out anything considered private:
 
-![An example of creating a custom React Hook to expose only public values from Easy Peasy](../../assets/articles/easy-peasy/code-snippet-3.png)
+{% image './src/assets/articles/easy-peasy/code-snippet-3.png', 'An example of creating a custom React Hook to expose only public values from Easy Peasy' %}
 
 Creating a custom Hook to expose public actions from Easy Peasy store
 
@@ -76,7 +76,7 @@ _Note: The same thing can be done for public and private state values as well._
 
 Another reason I like Easy Peasy is its integration with TypeScript. Since the current project is done in TypeScript, let's see an example of how to type out our new custom Hooks.
 
-![An example of creating the custom React Hooks using TypeScript](../../assets/articles/easy-peasy/code-snippet-4.png)
+{% image './src/assets/articles/easy-peasy/code-snippet-4.png', 'An example of creating the custom React Hooks using TypeScript' %}
 
 Creating custom Hooks with Easy Peasy in TypeScript
 
@@ -84,7 +84,7 @@ When creating the store in TypeScript, actions and thunks use the types of `Acti
 
 Now, our new custom `useProjectActions` is typed and exposes only the actions we want the UI to consume.
 
-![Showcasing the TypeScript method autocompletion with the custom React Hooks](../../assets/articles/easy-peasy/code-snippet-5.png)
+{% image './src/assets/articles/easy-peasy/code-snippet-5.png', 'Showcasing the TypeScript method autocompletion with the custom React Hooks' %}
 
 TypeScript suggestion on the newly typed custom Hooks
 

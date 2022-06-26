@@ -43,7 +43,7 @@ This created a project using React and ReactDOM version 15.6.1 along with their 
 
 With the project created, let's go ahead and take a look at the package file and project scaffolding I am using for this demo.
 
-![Project architecture and package.json file](../../assets/articles/a11yjs-web-apps/code-setup-1.png)
+{% image './src/assets/articles/a11yjs-web-apps/code-setup-1.png', 'Project architecture and package.json file' %}
 
 As you can see in the image above, there are several additional packages installed but for this post we will ignore those related to testing and focus on the primary one, **ally.js**.
 

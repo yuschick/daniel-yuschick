@@ -79,13 +79,13 @@ In Latin languages, setting `direction: ltr` will define the `start` of the **in
 
 Aligning content with `text-align: start` will align the text to the start of the **inline axis**, relative to its `direction` value.
 
-![How the direction property affects the inline axis flow](../../assets/articles/logical-css-is-the-future/axis-diagram-1.jpeg)
+{% image './src/assets/articles/logical-css-is-the-future/axis-diagram-1.jpeg', 'How the direction property affects the inline axis flow' %}
 
 The **block** axis is where changes to the page can become dramatic. It's one thing to define the `direction` of the content flow, but another to define the flow of block content and containers with `writing-mode`.
 
 For this, maybe it'll help to show the graphic first.
 
-![How the writing-mode property affects the block and inline axes](../../assets/articles/logical-css-is-the-future/axis-diagram-2.jpeg)
+{% image './src/assets/articles/logical-css-is-the-future/axis-diagram-2.jpeg', 'How the writing-mode property affects the block and inline axes' %}
 
 Notice in the graphic, when rotating the **block** axis into a vertical position with `writing-mode`, the **inline** axis rotates with it. This is what Flexbox has been teaching us all these years when changing its direction between `row` and `column`. When changing the `writing-mode` from horizontal to vertical, both axes rotate.
 
@@ -101,7 +101,7 @@ The image doesn't need a margin on its left side, but a margin at the `start` of
 
 Logical properties are aligned relative to the `start` and `end points of their respective axis, regardless of how those axes flow.
 
-![Comparing the physical and logical CSS box models](../../assets/articles/logical-css-is-the-future/logical-box-model.jpeg)
+{% image './src/assets/articles/logical-css-is-the-future/logical-box-model.jpeg', 'Comparing the physical and logical CSS box models' %}
 
 CSS Logical Properties require a shift in how elements are seen, both visually and mentally. An element will no longer have a `width` value, but an `inline-size` value, defining its size along the inline axis. No longer a `height` value, but `block-size`. And text will no longer be aligned with physical values like `left` and `right` but with logical values like `start` and `end`.
 
@@ -130,6 +130,8 @@ While some logical properties have decent support like `inline-` and `block-size
 
 ![Using CSS logical properties with @supports queries](../../assets/articles/logical-css-is-the-future/code-snippet-1.png)
 
+{% image './src/assets/articles/logical-css-is-the-future/code-snippet-1.png', 'Using CSS logical properties with @supports queries' %}
+
 All the queries add to the amount of code, for sure. However, for my personal project like this, I don't mind the trade off.
 
 ## Gotchas
@@ -142,7 +144,7 @@ Not every property has a logical equivalent or support yet. For example, `clip-p
 
 Additionally, using logical properties doesn't overwrite physical ones. Let's look at an element with padding and an absolute position.
 
-![CSS Logical properties gotchas](../../assets/articles/logical-css-is-the-future/code-snippet-2.png)
+{% image './src/assets/articles/logical-css-is-the-future/code-snippet-2.png', 'CSS Logical properties gotchas' %}
 
 What I had originally expected was for the `margin-block/inline` and `border-block-start` values to overwrite their physical equivalents of `margin` and `border-top`. However, they did not.
 
@@ -150,7 +152,7 @@ In this case, the element rendered styles for `margin`, `border-top`, `border-bl
 
 To avoid this, I, again, turned to supports queries, but this time with the `not` keyword.
 
-![Using @supports queries with the not keyword](../../assets/articles/logical-css-is-the-future/code-snippet-3.png)
+{% image './src/assets/articles/logical-css-is-the-future/code-snippet-3.png', 'Using @supports queries with the not keyword' %}
 
 Is this getting to be a lot of CSS to write? Sure. And again, probably not an ideal approach at this time for professional products with multiple developers having to read this. However, for the use case of my own site, and to experiment with the features, I'm comfortable with it.
 
@@ -160,17 +162,17 @@ By using `supports` and `supports not` physical and logical properties can be re
 
 When writing my styles, I tend to include frequent shorthanded properties, especially `margin` and `padding.
 
-![CSS example of shorthand padding values](../../assets/articles/logical-css-is-the-future/code-snippet-4.png)
+{% image './src/assets/articles/logical-css-is-the-future/code-snippet-4.png', 'CSS example of shorthand padding values' %}
 
 In this example, this style would apply a padding to all four sides of the element. But how does CSS know if those are physical or logical values? It doesn't. As of now, it would render with physical properties.
 
 The approach with logical properties would be to specify a value for both ends of both axes.
 
-![CSS padding example with logical properties](../../assets/articles/logical-css-is-the-future/code-snippet-5.png)
+{% image './src/assets/articles/logical-css-is-the-future/code-snippet-5.png', 'CSS padding example with logical properties' %}
 
 Now, just because the traditional `padding shorthand doesn't work with logical properties yet, doesn't mean there aren't some logical shorthand alternatives already.
 
-![CSS logical properties with shorthand values](../../assets/articles/logical-css-is-the-future/code-snippet-6.png)
+{% image './src/assets/articles/logical-css-is-the-future/code-snippet-6.png', 'CSS logical properties with shorthand values' %}
 
 Using the shorthand properties of `padding-block` and `padding-inline`, values for the `start` and `end` positions for each can be defined in a single property for each axis.
 

@@ -17,6 +17,7 @@ main {
   margin: 0 auto;
   max-inline-size: var(--dy-max-content-length);
   padding: var(--dy-space-base-8x);
+  padding-block-end: var(--dy-space-base-12x);
 }
 
 a {

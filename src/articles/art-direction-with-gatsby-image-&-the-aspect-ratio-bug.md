@@ -30,7 +30,7 @@ After I got my head around using the (surprisingly fun) GraphQl UI to construct 
 - I needed different images at different widths--art direction
 - I needed to serve `webp` images for better performance with fallbacks
 
-![Daniel Yuschick in Hang En Cave, taken by @nome_sapien](../../assets/articles/gatsby-art-direction/site-header-1.jpeg)
+{% image './src/assets/articles/gatsby-art-direction/site-header-1.jpeg', 'Daniel Yuschick in Hang En Cave, taken by @nome_sapien' %}
 
 ## Art Direction
 

@@ -67,7 +67,7 @@ That can be a lot of functionality to manage without a library. Hell, it was a l
 
 So how can `React-Focus-On` be used to achieve all of this? Like this...
 
-![Snapshot of React-Focus-On code](../../assets/articles/react-focus-on/code-snippet-1.png)
+{% image './src/assets/articles/react-focus-on/code-snippet-1.png', 'Snapshot of React-Focus-On code' %}
 
 The snipper above is a pretty bare example, but by wrapping our `Modal` in a `FocusOn` component, all of the previous accessibility functionality is covered by default and without any painful setup or configuration.
 
@@ -77,7 +77,7 @@ In my opinion, making accessible modals and modal-like components has never been
 
 The `FocusOn` component handles a lot already, but it can be expanded to make a few other features more convenient to implement, like closing on `esc` and closing when the user clicks outside of the modal.
 
-![An example of using React-Focus-On event props](../../assets/articles/react-focus-on/code-snippet-2.png)
+{% image './src/assets/articles/react-focus-on/code-snippet-2.png', 'An example of using React-Focus-On event props' %}
 
 In this snippet, the `close` prop has been assigned to the`FocusOn` events `onClickOutside` and `onEscapeKey`. These two options provide common functionality but without the need to write and manage event handlers yourself.
 
@@ -85,7 +85,7 @@ In this snippet, the `close` prop has been assigned to the`FocusOn` events `onCl
 
 Once in a while, there's a situation where an element outside of a focus-trapped modal should be included in the tabbable range or not hidden from interactions. React-Focus-On accepts a `shards` property which is an array of element references.
 
-![A code example of passing a shards array into FocusOn](../../assets/articles/react-focus-on/code-snippet-3.png)
+{% image './src/assets/articles/react-focus-on/code-snippet-3.png', 'A code example of passing a shards array into FocusOn' %}
 
 While this modal example isn't a good use case for the `shards` prop, the option has been helpful when building custom dropdown menus.
 

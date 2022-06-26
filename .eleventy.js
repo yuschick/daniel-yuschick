@@ -5,23 +5,25 @@ const cssnano = require("cssnano");
 const autoprefixer = require("autoprefixer");
 const Image = require("@11ty/eleventy-img");
 
-async function imageShortcode(src, alt, sizes) {
+async function imageShortcode(src, alt) {
   let metadata = await Image(src, {
-    widths: [300, 600, 1000],
-    formats: ["webp", "jpeg"],
+    widths: [320, 835],
     urlPath: "/assets/images/",
     outputDir: "./public/assets/images/",
+    formats: ["webp", "jpeg"],
   });
 
   let imageAttributes = {
     alt,
-    sizes,
+    sizes: "100vw",
     loading: "lazy",
     decoding: "async",
   };
 
-  // You bet we throw an error on missing alt in `imageAttributes` (alt="" works okay)
-  return Image.generateHTML(metadata, imageAttributes);
+  return Image.generateHTML(
+    src.includes(".gif") ? metadataGif : metadata,
+    imageAttributes
+  );
 }
 
 module.exports = function (config) {
@@ -29,7 +31,7 @@ module.exports = function (config) {
   config.addLiquidShortcode("codepen", function (url) {
     const url_array = url.split("/");
 
-    const profile_url_array = url_array.filter((string, index) => {
+    const profile_url_array = url_array.filter((_, index) => {
       return index < url_array.length - 2 ? true : false;
     });
 
@@ -75,7 +77,9 @@ module.exports = function (config) {
     return new URL(url).hostname;
   });
 
-  config.addPassthroughCopy("./src/assets");
+  config.addPassthroughCopy("./src/assets/**.svg");
+  config.addPassthroughCopy("./src/assets/articles/**/**.gif");
+  config.addPassthroughCopy("./src/assets/articles/**/**.mp4");
   config.addPassthroughCopy("./src/js");
 
   config.addPlugin(eleventySass, {

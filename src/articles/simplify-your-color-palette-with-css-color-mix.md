@@ -31,7 +31,7 @@ While the CSS `color-mix()` function may _only_ blend two colors together, could
 
 The CSS `color-mix()` function is an experimental feature which is currently a part of [Color Module 5](https://www.w3.org/TR/css-color-5/#colorcontrast). True to its name, the function will accept any two colors, mix them together and return a little color Frankenstein.
 
-{% image "./src/assets/articles/color-mix/color-mix-syntax-1.jpg", "CSS Color-Mix() required syntax", "(min-width: 30em) 50vw, 100vw" %}
+{% image "./src/assets/articles/color-mix/color-mix-syntax-1.jpg", "CSS Color-Mix() required syntax" %}
 
 For the sake of this article, let’s define how these arguments will be called using this example.
 
@@ -68,7 +68,7 @@ Disregarding the lack of a visual wheel here, CSS `color-mix()` can be used to c
 
 {% codepen 'https://codepen.io/DanielYuschick/embed/BaJGRrr' %}
 
-![Result of using color-mix to recreate the a linear color wheel](../../assets/articles/color-mix/color-mix-demo-2.jpg)
+{% image "./src/assets/articles/color-mix/color-mix-demo-2.jpg", "Result of using color-mix to recreate the a linear color wheel"   %}
 
 Building the linear color wheel was a lot of fun and a great dive into using `color-mix()`. It often helps when experimenting with a new feature to already know what the visual outcome should be.
 
@@ -194,7 +194,7 @@ If the base percent was 50, the blend percent would be 50. If the base percent w
 
 However, specifying a custom blend percent means the percentage total may not always round out so evenly.
 
-![Optionally define a blend color percentage](../../assets/articles/color-mix/color-mix-syntax-2.jpg)
+{% image "./src/assets/articles/color-mix/color-mix-syntax-2.jpg", "Optionally define a blend color percentage"  %}
 
 While the [W3 docs](https://www.w3.org/TR/css-color-5/#color-mix) explain the calculations behind this functionality quite well, the math is a tad beyond my abilities to clearly explain. This is art class after all. But as best as I can put it–
 
@@ -273,7 +273,7 @@ If `color-mix()` is not supported, the `--background-color` property would not b
 
 An interesting thing happens in unsupported browsers – the custom property would be defined with the function itself. Here’s an example of this from Chrome DevTools.
 
-![Unsupported browsers, like Chrome, will use color-mix() as a value](../../assets/articles/color-mix/color-mix-devtools-snippet.jpg)
+{% image "./src/assets/articles/color-mix/color-mix-devtools-snippet.jpg", "Unsupported browsers, like Chrome, will use color-mix() as a value"   %}
 
 Because the `--background-color` property is _technically_ defined, the fallback won’t trigger.
 

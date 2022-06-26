@@ -63,11 +63,11 @@ Back in the day, I got into frontend development by way of design. I'm used to c
 
 If the designers divide the mental model of their color palette, why shouldn't we consider doing the same?
 
-![An example of color naming in themes](../../assets/articles/avoid-theming-pitfalls/code-snippet-1.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-1.png", "An example of color naming in themes" %}
 
 Of course, it _is_ possible to combine approaches. For example, brand colors rarely change between light and dark modes, so those colors can be nested with generic or keyword names, while the other groups retain the `primary/secondary` and `positive/negative` naming conventions.
 
-![An example of combining color naming approaches](../../assets/articles/avoid-theming-pitfalls/code-snippet-2.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-2.png", "An example of combining color naming approaches" %}
 
 While this approach isn't perfect---it still requires a lot to remember, and is difficult to expand beyond `tertiary` ---I find that the naming patterns and flexibility across themes keeps code consistent to read and write.
 
@@ -77,7 +77,7 @@ While this approach isn't perfect---it still requires a lot to remember, and is 
 
 **Decent Readability:** While using variables this way can become verbose, I believe the tradeoffs for readability and writability(?) are worthwhile.
 
-![An example showing scoped color naming in use](../../assets/articles/avoid-theming-pitfalls/code-snippet-3.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-3.png", "An example showing scoped color naming in use" %}
 
 ## Font Sizes
 
@@ -103,7 +103,7 @@ I've done the t-shirt sizes many times. I've tried functional naming like `headl
 
 So I wanted to address the problem there.
 
-![An example of a theme font size function](../../assets/articles/avoid-theming-pitfalls/code-snippet-4.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-4.png", "An example of a theme font size function" %}
 
 Because design tools often provide their font sizes in `px`, I wanted to start there. How can we minimize the time spent trying to use the theme itself? By creating a theme function that accepts a font size in `px` and returns the `rem` value we reduce the amount of mental hurdles needed to write these styles.
 
@@ -127,7 +127,7 @@ Many designs work within multiplications of a single base value, such as 8. All 
 
 Since the pitfalls here are similar to those of font sizes, my approach is similar as well.
 
-![An example of a spacing theme function](../../assets/articles/avoid-theming-pitfalls/code-snippet-5.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-5.png", "An example of a spacing theme function" %}
 
 Popular CSS frameworks like [Tailwind CSS](https://tailwindcss.com/) use a similar approach. Define a base value, then use a class like `mt-4` to create spacing relative to that base.
 
@@ -145,7 +145,7 @@ Now, what happens when a person uses that feature in dark mode?
 
 This is where combining theme data becomes helpful. For the same reasons I keep all of my i18n values together, I keep my theme values together using the [Styled Theming](https://github.com/styled-components/styled-theming) library.
 
-![An example of styled theming grouping theme variations](../../assets/articles/avoid-theming-pitfalls/code-snippet-6.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-6.png", "An example of styled theming grouping theme variations" %}
 
 When I build my i18n files, I keep my language text strings together so that at a glance, I can see what translations are missing or, so when changes inevitably happen, I can make them all in the same place. This logic has become a life saver and with Styled Theming, the same approach can be taken when building themes.
 
@@ -157,7 +157,7 @@ This not only keeps our values in one place, it opens additional opportunities t
 
 Think about a product where the color mode and font sizing or spacing can be adjusted. Something like GMail which has compact views for spacing and plenty of color options. This could potentially require creating theme files for each possible variation, but again, with Styled Theming we can combine theme variations without excessive duplication.
 
-![An example of theme variations](../../assets/articles/avoid-theming-pitfalls/code-snippet-7.png)
+{% image "./src/assets/articles/avoid-theming-pitfalls/code-snippet-7.png", "An example of theme variations" %}
 
 Here, we can expand our other theme functions, like `space`, to also support variations. By passing these variations into the `ThemeProvider` we can now accomplish great product personalization without multiple files recreating theme values over and over again, thus ensuring that when changes happen, they can happen safely in one place.
 
