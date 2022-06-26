@@ -1,5 +1,8 @@
 const eleventySass = require("eleventy-sass");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+const postcss = require("postcss");
+const cssnano = require("cssnano");
+const autoprefixer = require("autoprefixer");
 
 module.exports = function (config) {
   config.addLiquidShortcode("codepen", function (url) {
@@ -54,7 +57,9 @@ module.exports = function (config) {
   config.addPassthroughCopy("./src/assets");
   config.addPassthroughCopy("./src/js");
 
-  config.addPlugin(eleventySass);
+  config.addPlugin(eleventySass, {
+    postcss: postcss([autoprefixer, cssnano]),
+  });
   config.addPlugin(syntaxHighlight);
 
   return {
