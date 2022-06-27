@@ -38,6 +38,8 @@ pre {
   border-image-outset: 0 100vw;
   font-family: var(--dy-font-mono);
   margin: var(--dy-space-base-6x) 0;
+  max-inline-size: calc(100vw - var(--dy-space-base-8x) * 2.5);
+  overflow: auto;
   padding: var(--dy-space-base-6x) 0;
 }
 
@@ -45,7 +47,9 @@ hr {
   --pseudo-size: 1.5px;
   --pseudo-x-offset: 50%;
   --pseudo-translate: 10%;
-  --pseudo-length: calc(var(--dy-max-content-length) - var(--pseudo-x-offset));
+  --pseudo-length: calc(
+    min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset)
+  );
 
   border-color: transparent;
   margin-block-end: var(--dy-space-base-6x);
@@ -55,9 +59,9 @@ hr {
   position: relative;
 
   &:hover {
-    --pseudo-translate: -10%;
+    --pseudo-translate: 1%;
     --pseudo-length: calc(
-      var(--dy-max-content-length) - var(--pseudo-x-offset) + 10%
+      min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset) + 10%
     );
 
     opacity: 0.5;
