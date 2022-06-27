@@ -159,7 +159,7 @@ pre[class*="language-"] {
   -ms-hyphens: none;
   hyphens: none;
 
-  font-family: monospace;
+  font-family: var(--dy-font-mono);
   line-height: 1.5;
   letter-spacing: 0.5px;
 }

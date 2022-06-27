@@ -1,5 +1,5 @@
 nav {
-  background: var(--dy-color-primary);
+  background: var(--dy-color-surface-primary);
   color: var(--dy-color-aux-900);
   display: flex;
   place-content: center;
@@ -37,7 +37,7 @@ nav {
   }
 
   [data-current] {
-    background: var(--dy-color-secondary);
+    background: var(--dy-color-surface-secondary);
 
     a {
       color: var(--dy-color-text-nav-active);
@@ -58,7 +58,7 @@ nav a {
   --accent-offset: 10%;
   --accent-size: 2px;
 
-  color: var(--dy-color-aux-900);
+  color: var(--dy-color-text-nav);
   position: relative;
   text-decoration: none;
   text-underline-offset: var(--dy-space-base-1x);
@@ -101,8 +101,11 @@ nav a {
   }
 
   &:hover {
-    color: color-mix(in hsl, currentColor 90%, var(--dy-color-aux-900));
     text-decoration: none;
+
+    @supports (color: color-mix(in hsl, #fff 80%, #000)) {
+      color: color-mix(in hsl, currentColor 90%, var(--dy-color-aux-900));
+    }
   }
 
   &:focus-visible:before,

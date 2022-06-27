@@ -78,6 +78,7 @@ module.exports = function (config) {
   config.addPassthroughCopy("./src/assets/articles/**/**.gif");
   config.addPassthroughCopy("./src/assets/articles/**/**.mp4");
   config.addPassthroughCopy("./src/js");
+  config.addPassthroughCopy("./src/fonts");
 
   config.addPlugin(eleventySass, {
     postcss: postcss([autoprefixer, cssnano]),
