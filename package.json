@@ -4,8 +4,8 @@
   "description": "The homepage of design systems developer and horror author, Daniel Yuschick.",
   "main": "index.js",
   "scripts": {
-    "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "start": "eleventy --serve"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,18 @@
   },
   "homepage": "https://github.com/yuschick/daniel-yuschick#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.1"
-  }
+    "@11ty/eleventy": "^1.0.1",
+    "@11ty/eleventy-img": "^2.0.1",
+    "@11ty/eleventy-plugin-rss": "^1.2.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
+    "autoprefixer": "^10.4.7",
+    "cssnano": "^5.1.12",
+    "eleventy-sass": "^1.3.1",
+    "postcss": "^8.4.14"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11"
+  ]
 }

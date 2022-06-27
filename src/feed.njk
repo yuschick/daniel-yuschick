@@ -1,0 +1,36 @@
+---json
+{
+  "permalink": "feed.xml",
+  "eleventyExcludeFromCollections": true,
+  "metadata": {
+    "title": "Daniel Yuschick - Articles",
+    "subtitle": "Frontend development articles with a focus on web accessibility, HTML, CSS and design systems.",
+    "url": "https://www.danyuschick.com/",
+    "feedUrl": "https://danyuschick.com/feed.xml",
+    "author": {
+      "name": "Daniel Yuschick",
+      "email": "daniel.yuschick@gmail.com"
+    }
+  }
+}
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="{{ metadata.url }}">
+  <channel>
+    <title>{{ metadata.title }}</title>
+    <link>{{ metadata.url }}</link>
+    <description>{{ metadata.subtitle }}</description>
+    <language>en</language>
+    {%- for post in collections.articles | reverse %}
+      {% set absolutePostUrl %}{{ post.url | url | absoluteUrl(metadata.url) }}{% endset %}
+      <item>
+        <title>{{ post.data.title }}</title>
+        <link>{{ absolutePostUrl }}</link>
+        <description>{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</description>
+        <pubDate>{{ post.date | dateToRfc822 }}</pubDate>
+        <dc:creator>Daniel Yuschick</dc:creator>
+        <guid>{{ absolutePostUrl }}</guid>
+      </item>
+    {%- endfor %}
+  </channel>
+</rss>

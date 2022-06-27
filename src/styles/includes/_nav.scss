@@ -1,0 +1,123 @@
+nav {
+  background: var(--dy-color-surface-primary);
+  color: var(--dy-color-aux-900);
+  display: flex;
+  place-content: center;
+  padding: 0 var(--dy-space-base-8x);
+
+  a,
+  a:active,
+  a:visited {
+    --accent-offset: 10%;
+
+    color: var(--dy-color-text-nav);
+    text-decoration: none;
+  }
+
+  ul {
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      -webkit-clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+      display: grid;
+      font-weight: 500;
+      padding: var(--dy-space-base-2x) var(--dy-space-base-4x);
+      place-items: center;
+      text-transform: uppercase;
+    }
+  }
+
+  svg {
+    inline-size: 18px;
+    margin: var(--dy-space-base-1x);
+  }
+
+  [data-current] {
+    background: var(--dy-color-surface-secondary);
+
+    a {
+      color: var(--dy-color-text-nav-active);
+
+      &:hover {
+        color: var(--dy-color-text-nav-active);
+
+        &:before,
+        &:after {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
+
+nav a {
+  --accent-offset: 10%;
+  --accent-size: 2px;
+
+  color: var(--dy-color-text-nav);
+  position: relative;
+  text-decoration: none;
+  text-underline-offset: var(--dy-space-base-1x);
+
+  &:before,
+  &:after {
+    --border-color: currentColor;
+
+    block-size: 110%;
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+    content: "";
+    inset-block-start: -5%;
+    inline-size: 0;
+    opacity: 0;
+    position: absolute;
+    transform-origin: center;
+    transition: all var(--dy-transition-duration-md) ease;
+    z-index: -1;
+  }
+
+  &:before {
+    border-block-start: var(--accent-size) solid var(--border-color);
+    border-inline-end: var(--accent-size) solid var(--border-color);
+    inset-inline-start: calc(100% + var(--accent-offset));
+  }
+
+  &:after {
+    border-block-end: var(--accent-size) solid var(--border-color);
+    border-inline-start: var(--accent-size) solid var(--border-color);
+    inset-inline-start: calc(0% - var(--accent-offset));
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 1px solid currentColor;
+    outline-offset: var(--accent-size);
+  }
+
+  &:focus-visible {
+    outline: 0;
+  }
+
+  &:hover {
+    text-decoration: none;
+
+    @supports (color: color-mix(in hsl, #fff 80%, #000)) {
+      color: color-mix(in hsl, currentColor 90%, var(--dy-color-aux-900));
+    }
+  }
+
+  &:focus-visible:before,
+  &:hover:before,
+  &:focus-visible:after,
+  &:hover:after {
+    inline-size: calc(100% + calc(var(--accent-offset) * 2));
+    opacity: 1;
+  }
+
+  &:focus-visible:before,
+  &:hover:before {
+    inset-inline-start: calc(0% - var(--accent-offset));
+  }
+}

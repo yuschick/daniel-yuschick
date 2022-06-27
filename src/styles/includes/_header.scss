@@ -1,0 +1,38 @@
+.primary-header {
+  background: var(--dy-color-surface-secondary);
+  display: grid;
+  padding: var(--dy-space-base-8x);
+  place-content: center;
+
+  svg {
+    inline-size: 85px;
+
+    path {
+      transition: all var(--dy-transition-duration-2xl) ease;
+
+      @for $p from 1 through 4 {
+        &:nth-of-type(#{$p}):hover {
+          fill: var(--dy-color-primary);
+        }
+      }
+    }
+
+    &:has(path:hover) {
+      path:not(:hover) {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.skip-to-link:focus-visible {
+  all: unset;
+  color: var(--dy-color-aux-900);
+  cursor: pointer;
+  inset-block-start: var(--dy-space-base-4x);
+  inset-inline-start: var(--dy-space-base-4x);
+  padding: var(--dy-space-base-2x);
+  position: absolute;
+  outline: 2px solid currentColor;
+  z-index: 1;
+}
