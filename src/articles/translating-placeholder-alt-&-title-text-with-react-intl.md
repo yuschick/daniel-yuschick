@@ -10,7 +10,7 @@ tags:
   - react-intl
 preview: "I'll be real; when I first entered the Gatsby ecosystem and tried to load my first image, I was like 'whaaaaaaat?'. And if I was that befuddled trying to load a single picture, how in the world was I going to wrangle Gatsby Image into handling fluid art-directed images, compression, and formatting with broad support?"
 description: "React libraries can make content localization a breeze but a struggle with attribute text. Using React-Intl let’s walk through translating our alt tags and input placeholders."
-socialImage: react-intl/social-image.jpg
+assetDir: react-intl
 ---
 
 ## Update: 20 April, 2020

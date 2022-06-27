@@ -10,7 +10,7 @@ tags:
   - spotify
 preview: "Can you believe it's been three years since I've last updated my personal website? Three!?!? I sure can't. Since then, I've moved countries, visited many others, completed my horror movie sleeve, written a novel, and am currently laid off surviving a pandemic."
 description: "Can you believe it’s been three years since I’ve last updated my personal website? Three!?!? I sure can’t. A lot has changed since then and it's time my website did, too."
-socialImage: website-deep-dive/social-image.jpg
+assetDir: website-deep-dive
 ---
 
 Can you believe it's been three years since I've last updated my personal website? Three!?!? I sure can't. Since then, I've moved countries, visited many others, completed my horror movie sleeve, written a novel, and am currently laid off surviving a pandemic.

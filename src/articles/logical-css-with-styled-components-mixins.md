@@ -12,7 +12,7 @@ tags:
   - typescript
 preview: "Sometimes it feels masochistic to be a frontend developer. I regularly come across articles or tweets with new features that will improve my day-to-day workflow or solve a cumbersome, but consistent, problem and I get excited. I just can't help it. I let my mind celebrate in the streets of all the different uses cases I can imagine. Then I review the browser support and immediately my proverbial parade is doused in the rain that is reality."
 description: "Sometimes it feels masochistic to be a frontend developer. I regularly come across articles or tweets with new features that will improve my day-to-day workflow or solve a cumbersome, but consistent…"
-socialImage: styled-components-logical-mixins/social-image.jpg
+assetDir: styled-components-logical-mixins
 ---
 
 Sometimes it feels masochistic to be a frontend developer. I regularly come across articles or tweets with new features that will improve my day-to-day workflow or solve a cumbersome, but consistent, problem and I get excited. I just can't help it. I let my mind celebrate in the streets of all the different uses cases I can imagine.

@@ -13,5 +13,5 @@
 <meta property="og:url" content="https://www.danyuschick.com{{ page.url }}"/>
 <meta property="og:title" content="{{ title }} | Daniel Yuschick"/>
 <meta property="og:description" content="{{ description }}"/>
-<meta property="og:image" content="https://www.danyuschick.com/assets/articles/{% if socialImage %}{{ socialImage }}{% else %}/social-image-base.jpg{% endif %}"/>
+<meta property="og:image" content="https://www.danyuschick.com/assets/{% if assetDir %}articles/{{ assetDir }}/social-image.jpg{% else %}social-image-base.jpg{% endif %}"/>
 <meta property="og:type" content="{% if current.includes("article") %}article{% else %}website{% endif %}"/>

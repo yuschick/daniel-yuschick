@@ -9,7 +9,7 @@ tags:
   - typography
 preview: "According to Twitter, which is definitely an accurate representation of real life, I’m in the extreme minority of developers who actually enjoy CSS. I got into development (*all those years ago*) by way of design and as a designer first, working in CSS unlocked so much creative potential."
 description: "Flexbox and Grid offer incredible potential for responsive design and this little CSS function does the same."
-socialImage: css-fluid-typography/social-image.jpg
+assetDir: css-fluid-typography
 ---
 
 According to Twitter, which is definitely an accurate representation of real life, I’m in the extreme minority of developers who actually enjoy CSS. I got into development (_all those years ago_) by way of design and as a designer first, working in CSS unlocked so much creative potential.

@@ -8,7 +8,7 @@ tags:
   - frontend
 preview: "I can't remember how many years ago it was, but during my first interview for a Frontend position, I was asked to sketch out the CSS box model. I outlined the margins, borders, and padding and even denoted each side with its physical description–left, right, top and bottom. I had committed that model to memory, and have never really reconsidered it since. It never occurred to me that something so fundamental could change. Yet here I am, writing an article to tell you that it, in fact, has."
 description: "I have clung to my years-long love of Sass. But with rapidly advancing browser capabilities, React, and PostCSS, I'm welcoming the use of traditional CSS with open arms all over again."
-socialImage: css-variables/social-image.jpg
+assetDir: css-variables
 ---
 
 I have clung with all but a death grip to my years-long love and use of Sass. But with rapidly advancing browser capabilities, React, and [PostCSS](https://postcss.org/), I find my grip loosening almost completely as I welcome the use of traditional CSS with open arms all over again.

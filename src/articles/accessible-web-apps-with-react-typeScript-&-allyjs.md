@@ -13,7 +13,7 @@ tags:
   - allyjs
 preview: "Accessibility is an aspect of web development that is often overlooked. I would argue that it is as vital as overall performance and code reusability. We justify our endless pursuit of better performance and responsive design by citing the users, but ultimately these pursuits are done with the user's device in mind, not the user themselves and their potential disabilities or restrictions."
 description: "Accessibility is an aspect of web development that is often overlooked. I would argue that it is as vital as overall performance and code reusability. We justify our endless pursuit of better"
-socialImage: a11yjs-web-apps/social-image.jpg
+assetDir: a11yjs-web-apps
 ---
 
 Accessibility is an aspect of web development that is often overlooked. I would argue that it is as vital as overall performance and code reusability. We justify our endless pursuit of better performance and responsive design by citing the users, but ultimately these pursuits are done with the user's device in mind, not the user themselves and their potential disabilities or restrictions.

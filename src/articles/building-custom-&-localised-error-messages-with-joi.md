@@ -11,7 +11,7 @@ tags:
   - joi
 preview: "In my previous article, 'What I've Learned Validating with Joi', I detailed general form validation that plays to the strengths of Joi in my latest project. But an area of weakness in the library is one I had set out to tackle since - displaying custom internationalisation (i18n) error messages."
 description: "Joi does so many things well but falls short in providing custom error messages. This post shows that custom & localised errors are not only possible but quite flexible."
-socialImage: joi-i18n-messages/social-image.jpg
+assetDir: joi-i18n-messages
 ---
 
 In my previous article, [What I've Learned Validating with Joi](/articles/what-ive-learned-validating-with-joi/), I detailed general form validation that plays to the strengths of Joi in my latest project. But an area of weakness in the library is one I had set out to tackle since - displaying custom internationalisation (i18n) error messages.
