@@ -9,6 +9,7 @@ tags:
   - i18n
 preview: "I can't remember how many years ago it was, but during my first interview for a Frontend position, I was asked to sketch out the CSS box model. I outlined the margins, borders, and padding and even denoted each side with its physical description–left, right, top and bottom. I had committed that model to memory, and have never really reconsidered it since. It never occurred to me that something so fundamental could change. Yet here I am, writing an article to tell you that it, in fact, has."
 description: "The CSS box model is predicated on physical properties like left, right and top. I never thought it would change, but with CSS Logical Properties, it has.Flexbox and Grid offer incredible potential for responsive design and this little CSS function does the same."
+socialImage: logical-css-is-the-future/social-image.jpg
 ---
 
 I can't remember how many years ago it was, but during my first interview for a Frontend position, I was asked to sketch out the CSS box model. I outlined the margins, borders, and padding and even denoted each side with its physical description–left, right, top and bottom.

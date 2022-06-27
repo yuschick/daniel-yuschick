@@ -11,6 +11,7 @@ tags:
   - frontend
 preview: "Since the end of 2019, I have been using Easy Peasy to manage the state of my applications both professionally and personally. The library has a familiar API and logic with a lightweight feel and good flexibility. If you're using or have used Redux and aren't fully sold on it, take a look into Easy-Peasy. It may be worth it."
 description: "Easy Peasy is a terrific state management library that does a lot of things well, but the things that can be done with it expand that functionality even further."
+socialImage: easy-peasy/social-image.jpg
 ---
 
 Since the end of 2019, I have been using [Easy Peasy](https://easy-peasy.now.sh/) to manage the state of my applications both professionally and personally. The library has a familiar API and logic with a lightweight feel and good flexibility. If you're using or have used Redux and aren't fully sold on it, take a look into Easy-Peasy. It may be worth it.

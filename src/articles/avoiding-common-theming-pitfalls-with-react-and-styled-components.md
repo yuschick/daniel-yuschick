@@ -9,6 +9,7 @@ tags:
   - frontend
 preview: "It's no secret that as products expand and development teams grow or change over, codebases begin to suffer from styling inconsistencies. Whether it be with element sizes, colors, or general 'magic numbers' littering the files, there are common approaches to minimizing these issues. While some products justify being split into a standalone component library, I want to look at the ones that need only a solid theme at its base to be the source of styling truth."
 description: "Simplify theme conventions to align development and design closely, ease scalability and reduce the learning curve for new developers."
+socialImage: avoid-theming-pitfalls/social-image.jpg
 ---
 
 It's no secret that as products expand and development teams grow or change over, codebases begin to suffer from styling inconsistencies. Whether it be with element sizes, colors, or general 'magic numbers' littering the files, there are common approaches to minimizing these issues. While some products justify being split into a standalone component library, I want to look at the ones that need only a solid theme at its base to be the source of styling truth.

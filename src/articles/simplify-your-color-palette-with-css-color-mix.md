@@ -11,6 +11,7 @@ tags:
   - frontend
 preview: "Defining a color palette and theme can be a lot of work, especially when considering contextual colors for elements’ various states. While CSS color-mix() only blends two colors together, this little function may be the key to maximizing your colors without maximum effort."
 description: "There's a reason for all the new color features CSS is introducing. And there's a reason for all the excitement they're stirring up. Colors are hard."
+socialImage: color-mix/social-image.jpg
 ---
 
 **QUICK SUMMARY ↬** Defining a color palette and theme can be a lot of work, especially when considering contextual colors for elements’ various states. While CSS `color-mix()` _only_ blends two colors together, this little function may be the key to maximizing your colors without maximum effort.

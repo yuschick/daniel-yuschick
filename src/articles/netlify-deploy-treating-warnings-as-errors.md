@@ -7,6 +7,7 @@ tags:
   - netlify
 preview: "If you're like me, you were minding your own business and deploying your latest feature to staging. And if you're even more like me, you're not in the habit or monitoring every single deploy but your pipeline just works. Until it doesn't."
 description: "Deploying to Netlify can be so streamlined, it's just assumed deployments work. Until they don't."
+socialImage: netlify-deploy-errors/social-image.jpg
 ---
 
 If you're like me, you were minding your own business and deploying your latest feature to staging. And if you're even more like me, you're not in the habit or monitoring every single deploy but your pipeline just works.

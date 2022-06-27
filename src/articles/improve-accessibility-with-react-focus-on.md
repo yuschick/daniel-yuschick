@@ -10,6 +10,7 @@ tags:
   - web accessibility
 preview: "Many moons ago, when I started working as a front-end developer, I didn't know much about web accessibility. That changed when I worked on a team at a large insurance company and was put in charge of making the product accessible. You see, in the US, something like the inability to file an insurance claim on a website due to inaccessibility could lead to lawsuits. Super duper expensive lawsuits. I didn't want to be responsible for that."
 description: "Ensure your React and TypeScript project is accessible with React-Focus-On. So easy to use, there's no longer an excuse to not have an accessible product."
+socialImage: react-focus-on/social-image.jpg
 ---
 
 Many moons ago, when I started working as a front-end developer, I didn't know much about web accessibility. That changed when I worked on a team at a large insurance company and was put in charge of making the product accessible. You see, in the US, something like the inability to file an insurance claim on a website due to inaccessibility could lead to lawsuits. Super duper expensive lawsuits.

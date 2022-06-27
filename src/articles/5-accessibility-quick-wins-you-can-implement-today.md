@@ -12,6 +12,7 @@ tags:
   - frontend
 preview: "Let’s face it: building an AA or AAA-accessible product can be quite daunting. Luckily, having an accessible product isn’t all-or-nothing. Even seemingly small improvements can have nice quality of life benefits for many people. In that spirit, here are five accessibility quick wins you can implement today."
 description: "Building an accessible product can be quite daunting, but accessibility isn't an all or nothing endeavour."
+socialImage: 5-accessibility-quick-wins/social-image.jpg
 ---
 
 Let’s face it: building an AA or AAA-accessible product can be quite daunting. Luckily, having an accessible product isn’t all-or-nothing. Even seemingly small improvements can have nice quality of life benefits for many people.

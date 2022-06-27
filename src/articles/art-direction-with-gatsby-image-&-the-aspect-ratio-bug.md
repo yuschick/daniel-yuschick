@@ -9,6 +9,7 @@ tags:
   - gatsby
 preview: "I'll be real; when I first entered the Gatsby ecosystem and tried to load my first image, I was like 'whaaaaaaat?'. And if I was that befuddled trying to load a single picture, how in the world was I going to wrangle Gatsby Image into handling fluid art-directed images, compression, and formatting with broad support?"
 description: "How in the world was I going to wrangle Gatsby Image into handling fluid art directed images, compression, and formatting with broad support? In a word–easily(ish)."
+socialImage: gatsby-art-direction/social-image.jpg
 ---
 
 I'll be real; when I first entered the Gatsby ecosystem and tried to load my first image, I was like '_whaaaaaaat?'_. And if I was that befuddled trying to load a single picture, how in the world was I going to wrangle Gatsby Image into handling fluid art-directed images, compression, and formatting with broad support?

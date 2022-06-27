@@ -9,6 +9,7 @@ tags:
   - joi
 preview: "I'll be honest, despite all of my experience as a front-end developer I haven't had a lot of projects that dealt heavily with forms and data. Form validation was just something I never really had to work with much. My most recent project, however, is entirely form- and data-driven and I needed a way to easily handle front-end validation. For this, I turned to Joi."
 description: "My most recent project is entirely form- and data-driven and I needed a way to easily handle some complex front-end validation. For this, I turned to Joi."
+socialImage: joi/social-image.jpg
 ---
 
 I'll be honest, despite all of my experience as a front-end developer I haven't had a lot of projects that dealt heavily with forms and data. Form validation was just something I never really had to work with much. My most recent project, however, is entirely form- and data-driven and I needed a way to easily handle front-end validation. For this, I turned to [Joi](https://github.com/hapijs/joi).

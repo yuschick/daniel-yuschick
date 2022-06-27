@@ -78,6 +78,7 @@ module.exports = function (config) {
   config.addPassthroughCopy("./src/assets/**.svg");
   config.addPassthroughCopy("./src/assets/articles/**/**.gif");
   config.addPassthroughCopy("./src/assets/articles/**/**.mp4");
+  config.addPassthroughCopy("./src/assets/articles/**/social-image.jpg");
   config.addPassthroughCopy("./src/js");
   config.addPassthroughCopy("./src/fonts");
 
