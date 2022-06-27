@@ -8,7 +8,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 async function imageShortcode(src, alt) {
   let metadata = await Image(src, {
-    widths: [320, 835],
+    widths: [320, 862],
     urlPath: "/assets/images/",
     outputDir: "./public/assets/images/",
     formats: ["webp", "jpeg"],
