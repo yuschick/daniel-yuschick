@@ -18,6 +18,11 @@
   }
 }
 
+html {
+  direction: ltr;
+  writing-mode: horizontal-lr;
+}
+
 html,
 body {
   background: var(--dy-color-aux-900);
