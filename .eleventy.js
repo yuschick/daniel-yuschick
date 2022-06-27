@@ -75,6 +75,7 @@ module.exports = function (config) {
     return new URL(url).hostname;
   });
 
+  config.addPassthroughCopy("./src/assets/books");
   config.addPassthroughCopy("./src/assets/**.svg");
   config.addPassthroughCopy("./src/assets/articles/**/**.gif");
   config.addPassthroughCopy("./src/assets/articles/**/**.mp4");
