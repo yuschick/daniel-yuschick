@@ -70,7 +70,7 @@ Well, with CSS media queries, they can.
 
 The `prefers-reduced-motion` media query can be used to greatly reduce or remove all motion from an app whenever the system setting is enabled.
 
-[INSERT CODEPEN]
+{% codepen 'https://codepen.io/DanielYuschick/pen/zYEgoEp' %}
 
 ```css
 @media (prefers-reduced-motion: reduce) {

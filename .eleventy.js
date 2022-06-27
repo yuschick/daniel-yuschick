@@ -4,6 +4,7 @@ const postcss = require("postcss");
 const cssnano = require("cssnano");
 const autoprefixer = require("autoprefixer");
 const Image = require("@11ty/eleventy-img");
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 async function imageShortcode(src, alt) {
   let metadata = await Image(src, {
@@ -84,6 +85,7 @@ module.exports = function (config) {
     postcss: postcss([autoprefixer, cssnano]),
   });
   config.addPlugin(syntaxHighlight);
+  config.addPlugin(pluginRss, { getNewestCollectionItemDate: true });
 
   return {
     dir: {
