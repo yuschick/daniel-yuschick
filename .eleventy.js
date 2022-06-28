@@ -91,6 +91,7 @@ module.exports = function (config) {
   });
 
   config.addPassthroughCopy("./src/assets/books");
+  config.addPassthroughCopy("./src/assets/abbie.jpeg");
   config.addPassthroughCopy("./src/assets/**.svg");
   config.addPassthroughCopy("./src/assets/articles/**/**.gif");
   config.addPassthroughCopy("./src/assets/articles/**/**.mp4");

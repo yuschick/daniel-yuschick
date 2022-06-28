@@ -5,3 +5,48 @@
     text-align: center;
   }
 }
+
+ul:not(:last-child) {
+  margin-block-end: var(--dy-space-base-8x);
+  padding-block-end: var(--dy-space-base-8x);
+  position: relative;
+
+  &:before {
+    background: var(--dy-color-aux-400);
+    block-size: 1px;
+    content: "";
+    inline-size: 75%;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+  }
+
+  &:after {
+    background-color: var(--dy-color-aux-900);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    block-size: 24px;
+    content: "";
+    inline-size: 24px;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    padding: 0 var(--dy-space-base-4x);
+    position: absolute;
+    transform: translate(-50%, 50%);
+    z-index: 2;
+  }
+
+  &:nth-child(3n + 2):after {
+    background-image: url("../../assets/icon-drums.svg");
+  }
+
+  &:nth-child(3n + 1):after {
+    background-image: url("../../assets/icon-dog.svg");
+  }
+
+  &:nth-child(3n + 0):after {
+    background-image: url("../../assets/icon-hearts.svg");
+  }
+}
