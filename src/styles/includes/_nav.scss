@@ -20,6 +20,10 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
 
+    @media (max-width: 700px) {
+      justify-content: start;
+    }
+
     li {
       -webkit-clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
       clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
@@ -32,7 +36,7 @@ nav {
   }
 
   svg {
-    inline-size: 18px;
+    inline-size: 1em;
     margin: var(--dy-space-base-1x);
   }
 

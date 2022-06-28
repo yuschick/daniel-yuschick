@@ -5,7 +5,8 @@
   place-content: center;
 
   svg {
-    inline-size: 85px;
+    inline-size: min(85px, 10vw);
+    min-inline-size: 50px;
 
     path {
       transition: all var(--dy-transition-duration-2xl) ease;

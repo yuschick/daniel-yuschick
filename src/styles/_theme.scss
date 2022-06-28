@@ -44,12 +44,12 @@
 
   --dy-max-content-length: 90ch;
 
-  --dy-font-size--2: clamp(0.68rem, calc(0.82rem + -0.2vw), 0.78rem);
-  --dy-font-size--1: clamp(0.85rem, calc(0.97rem + -0.17vw), 0.94rem);
-  --dy-font-size-0: clamp(1.06rem, calc(1.15rem + -0.12vw), 1.13rem);
-  --dy-font-size-1: clamp(1.33rem, calc(1.36rem + -0.04vw), 1.35rem);
-  --dy-font-size-2: clamp(1.62rem, calc(1.6rem + 0.08vw), 1.66rem);
-  --dy-font-size-3: clamp(1.94rem, calc(1.89rem + 0.26vw), 2.08rem);
+  --dy-font-size--2: clamp(0.68rem, calc(0.7rem + -0.02vw), 0.69rem);
+  --dy-font-size--1: clamp(0.83rem, calc(0.83rem + 0.03vw), 0.85rem);
+  --dy-font-size-0: clamp(1rem, calc(0.98rem + 0.1vw), 1.06rem);
+  --dy-font-size-1: clamp(1.2rem, calc(1.16rem + 0.21vw), 1.33rem);
+  --dy-font-size-2: clamp(1.44rem, calc(1.37rem + 0.37vw), 1.66rem);
+  --dy-font-size-3: clamp(1.73rem, calc(1.61rem + 0.58vw), 2.08rem);
 
   --dy-transition-duration-sm: 0.15s;
   --dy-transition-duration-md: 0.2s;
