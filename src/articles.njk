@@ -26,7 +26,8 @@ description: Frontend development articles with a focus on web accessibility, HT
                 {% if article.data.canonical %}
                     <div class="article-details-item">
                         {% include './assets/icon-web-globe.svg' %}
-                        <a href="{{ article.data.canonical}}">{{ getCanonicalDomain(article.data.canonical) }}</a>
+                        <a href="{{ article.data.canonical}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(article.data.canonical) }}
+                            <span class="visually-hidden">Link opens in a new window.</span></a>
                     </div>
                 {% endif %}
             </section>
