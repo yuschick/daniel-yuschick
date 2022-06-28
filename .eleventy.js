@@ -7,11 +7,23 @@ const Image = require("@11ty/eleventy-img");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 async function imageShortcode(src, alt) {
-  let metadata = await Image(src, {
-    widths: [320, 862],
+  const metadataOptions = {
+    widths: [320, 1000],
     urlPath: "/assets/images/",
     outputDir: "./public/assets/images/",
+  };
+
+  let metadata = await Image(src, {
+    ...metadataOptions,
     formats: ["webp", "jpeg"],
+  });
+
+  let gifMetadata = await Image(src, {
+    ...metadataOptions,
+    formats: ["webp", "gif"],
+    sharpOptions: {
+      animated: true,
+    },
   });
 
   let imageAttributes = {
@@ -21,7 +33,10 @@ async function imageShortcode(src, alt) {
     decoding: "async",
   };
 
-  return Image.generateHTML(metadata, imageAttributes);
+  return Image.generateHTML(
+    src.includes(".gif") ? gifMetadata : metadata,
+    imageAttributes
+  );
 }
 
 module.exports = function (config) {

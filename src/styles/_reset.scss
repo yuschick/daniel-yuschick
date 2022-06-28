@@ -58,8 +58,9 @@ picture,
 video,
 canvas,
 svg {
+  block-size: auto;
   display: block;
-  max-width: 100%;
+  max-inline-size: 100%;
 }
 
 input,

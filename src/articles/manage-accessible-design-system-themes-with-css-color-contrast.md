@@ -84,7 +84,7 @@ Now, as the text color is defined, so will its selection background.
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/KKZzeEj' %}
 
-![Results of using color-contrast() for text and ::selection colors](../../assets/articles/color-contrast/color-contrast-demo-1.gif)
+{% image "./src/assets/articles/color-contrast/color-contrast-demo-1.gif", "Results of using color-contrast() for text and ::selection colors" %}
 
 The `color-contrast()` function isn't limited to only comparing HEX codes either. In fact, it can compare multiple color types at once. The previous example can be modified to use different color types while returning the same results.
 
