@@ -223,7 +223,7 @@ Now, I know, I'm using `!important`. Gross. But in this case we need it to over
 
 With these styles in place, I returned to my browser, held my breathe, and resized the window.
 
-![Window resizing to demonstrate aspect ratio fix](../../assets/articles/gatsby-art-direction/site-demo-1.gif)
+{% image './src/assets/articles/gatsby-art-direction/site-demo-1.gif', 'Window resizing to demonstrate aspect ratio fix' %}
 
 From the gif above you can see at smaller widths, the header image is cropped more tightly to retain height and focus while at larger widths, it has a wider aspect ratio to keep the height from filling the entire viewport and the image from distorting.
 

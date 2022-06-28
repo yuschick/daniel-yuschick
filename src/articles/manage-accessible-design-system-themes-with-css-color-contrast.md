@@ -143,7 +143,7 @@ The `:focus` styles is where this approach can be expanded by using the `--body
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/WNdrXyG' %}
 
-![Results of color-contrast() on button :hover and :focus pseudo-classes](../../assets/articles/color-contrast/color-contrast-demo-2.gif)
+{% image './src/assets/articles/color-contrast/color-contrast-demo-2.gif', 'Results of color-contrast() on button :hover and :focus pseudo-classes' %}
 
 The requirements for compliant focus indicators stretch beyond the scope of this article, but Stephanie Eckles' presentation, "[Modern CSS Upgrades To Improve Accessibility](https://www.deque.com/axe-con/sessions/modern-css-upgrades-to-improve-accessibility/)" covers them in great detail and with clear examples.
 
@@ -157,7 +157,7 @@ The optional third parameter for color-contrast() defines a target contrast rati
 
 {% codepen 'https://codepen.io/DanielYuschick/pen/OJzWPwe' %}
 
-![Results of dynamic target contrasts](../../assets/articles/color-contrast/color-contrast-demo-3.gif)
+{% image './src/assets/articles/color-contrast/color-contrast-demo-3.gif', 'Results of dynamic target contrasts' %}
 
 When a target contrast is defined, `color-contrast()` will return the first value from the color list that meets the target. However, when no value in the color list meets the target contrast, it's where the magic happens.
 

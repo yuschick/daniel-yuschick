@@ -54,7 +54,7 @@ So let's first look at what we'll be building today, then we'll break it down to
 
 The example used in this article will be available on GitHub. <https://github.com/yuschick/react-focus-on-demo>
 
-![Accessible React modal component](../../assets/articles/react-focus-on/demo-project-1.gif)
+{% image './src/assets/articles/react-focus-on/demo-project-1.gif', 'Accessible React modal component' %}
 
 Yep, a standard-looking modal, _but_ there are several things happening that separate it from non-accessible modals.
 
@@ -92,7 +92,7 @@ While this modal example isn't a good use case for the `shards` prop, the option
 
 In the example below, the label which toggles the menu is outside of the modal-like menu itself. However, the focus range should still include it. By passing the label as a `shard`, it's included in the focus range and accessible as another option to toggle the menu.
 
-![An example of using shards for a drop down menu](../../assets/articles/react-focus-on/demo-project-2.gif)
+{% image './src/assets/articles/react-focus-on/demo-project-2.gif', 'An example of using shards for a drop down menu' %}
 
 ## Animation
 
@@ -104,7 +104,7 @@ If adding animation, be sure to check for `prefers-reduced-motion` to simplify o
 @media (prefers-reduced-motion) {  // simplify or disable the animation}
 ```
 
-![Animated modal using React Transition Group and React-Focus-On](../../assets/articles/react-focus-on/demo-project-1.gif)
+{% image './src/assets/articles/react-focus-on/demo-project-1.gif', 'Animated modal using React Transition Group and React-Focus-On' %}
 
 Accessibility continues to be an oft-forgotten element of front-end development. There's a lot of reasons for this, but a major one has been the lack of convenient and powerful tooling. Well, after finding and using React-Focus-On, I feel there's no longer any excuse not have accessibility be a standard part of a workflow.
 
