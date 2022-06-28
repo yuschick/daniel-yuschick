@@ -6,6 +6,16 @@
   }
 }
 
+@media (max-width: 700px) {
+  .about li {
+    line-height: 1.5;
+
+    + li {
+      margin-block-start: var(--dy-space-base-3x);
+    }
+  }
+}
+
 ul:not(:last-child) {
   margin-block-end: var(--dy-space-base-8x);
   padding-block-end: var(--dy-space-base-8x);
