@@ -43,6 +43,10 @@ a {
     }
   }
 
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   &:focus-visible {
     --outline-color: currentColor;
     --outline-size: 2px;

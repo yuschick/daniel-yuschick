@@ -91,13 +91,13 @@ nav a {
     inset-inline-start: calc(0% - var(--accent-offset));
   }
 
-  &:focus:not(:focus-visible) {
+  &:focus-visible {
     outline: 1px solid currentColor;
     outline-offset: var(--accent-size);
   }
 
-  &:focus-visible {
-    outline: 0;
+  &:focus:not(:focus-visible) {
+    outline: none;
   }
 
   &:hover {
