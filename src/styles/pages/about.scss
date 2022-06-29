@@ -23,36 +23,7 @@ ul:not(:last-child) {
   @include position($position: relative);
   @include margin($block-end: var(--dy-space-base-8x));
   @include padding($block-end: var(--dy-space-base-8x));
-
-  &:before,
-  &:after {
-    @include position(
-      $block-end: 0,
-      $inline-start: 50%,
-      $position: absolute,
-      $z: 2
-    );
-  }
-
-  &:before {
-    @include layout($block-size: 1px, $inline-size: 75%);
-
-    background: var(--dy-color-aux-400);
-    content: "";
-    transform: translateX(-50%);
-  }
-
-  &:after {
-    @include layout($block-size: 24px, $inline-size: 24px);
-    @include padding($inline: var(--dy-space-base-4x));
-
-    background-color: var(--dy-color-aux-900);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    content: "";
-    transform: translate(-50%, 50%);
-  }
+  @include divider-icon($placement: end);
 
   &:nth-child(3n + 2):after {
     background-image: url("../../assets/icon-drums.svg");

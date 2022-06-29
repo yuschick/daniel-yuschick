@@ -6,38 +6,7 @@
     @include position($position: relative);
     @include margin($block-start: var(--dy-space-base-8x));
     @include padding($block-start: var(--dy-space-base-8x));
-
-    // TODO: Refactor these :before :after into mixin for about and articles lists
-
-    &:before,
-    &:after {
-      @include position(
-        $block-start: 0,
-        $inline-start: 50%,
-        $position: absolute,
-        $z: 2
-      );
-    }
-
-    &:before {
-      @include layout($block-size: 1px, $inline-size: 75%);
-
-      background: var(--dy-color-aux-400);
-      content: "";
-      transform: translateX(-50%);
-    }
-
-    &:after {
-      @include layout($block-size: 24px, $inline-size: 24px);
-      @include padding($inline: var(--dy-space-base-4x));
-
-      background-color: var(--dy-color-aux-900);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      content: "";
-      transform: translate(-50%, -50%);
-    }
+    @include divider-icon();
 
     &:nth-child(6n + 0):after {
       background-image: url("../../assets/icon-freddy.svg");

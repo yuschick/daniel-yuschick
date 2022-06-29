@@ -125,3 +125,38 @@
     border-top: $block-start or $block;
   }
 }
+
+@mixin divider-icon($placement: start) {
+  &:before,
+  &:after {
+    @include position($inline-start: 50%, $position: absolute, $z: 2);
+    --translateY: -50%;
+
+    @if $placement == end {
+      @include position($block-end: 0);
+      --translateY: 50%;
+    } @else {
+      @include position($block-start: 0);
+    }
+  }
+
+  &:before {
+    @include layout($block-size: 1px, $inline-size: 75%);
+
+    background: var(--dy-color-aux-400);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  &:after {
+    @include layout($block-size: 24px, $inline-size: 24px);
+    @include padding($inline: var(--dy-space-base-4x));
+
+    background-color: var(--dy-color-aux-900);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    content: "";
+    transform: translate(-50%, var(--translateY));
+  }
+}
