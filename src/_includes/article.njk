@@ -7,16 +7,16 @@ current: article
     <h1>{{ title }}</h1>
     <section class="article-details">
         <div class="article-details-item">
-            {% include '../assets/icon-calendar.svg' %}
+            {% include '../assets/icons/icon-calendar.svg' %}
             <time pubdate datetime="{{ date }}">{{ formatDate(date) }}</time>
         </div>
         <div class="article-details-item">
-            {% include '../assets/icon-clock.svg' %}
+            {% include '../assets/icons/icon-clock.svg' %}
             <span>{{ getArticleReadTime(content) }} min. read</span>
         </div>
         {% if canonical %}
             <div class="article-details-item">
-                {% include '../assets/icon-web-globe.svg' %}
+                {% include '../assets/icons/icon-web-globe.svg' %}
                 <a href="{{canonical}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(canonical) }}
                     <span class="visually-hidden">Link opens in a new window.</span></a>
             </div>
@@ -27,7 +27,7 @@ current: article
 
 <div class="back-to-top-wrapper">
     <button class="back-to-top-container" type="button" onclick="goToTop()" title="Float back to the top of the page.">
-        {% include '../assets/icon-balloon.svg' %}
-        <i class="pennywise" role="presentation">{% include '../assets/icon-pennywise.svg' %}</i>
+        {% include '../assets/icons/icon-balloon.svg' %}
+        <i class="pennywise" role="presentation">{% include '../assets/icons/icon-pennywise.svg' %}</i>
     </button>
 </div>

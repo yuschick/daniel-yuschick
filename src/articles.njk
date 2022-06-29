@@ -16,16 +16,16 @@ description: Frontend development articles with a focus on web accessibility, HT
 
             <section class="article-details">
                 <div class="article-details-item">
-                    {% include './assets/icon-calendar.svg' %}
+                    {% include './assets/icons/icon-calendar.svg' %}
                     <time pubdate datetime="{{ article.data.date }}">{{ formatDate(article.data.date) }}</time>
                 </div>
                 <div class="article-details-item">
-                    {% include './assets/icon-clock.svg' %}
+                    {% include './assets/icons/icon-clock.svg' %}
                     <span>{{ getArticleReadTime(article._templateContent) }} min. read</span>
                 </div>
                 {% if article.data.canonical %}
                     <div class="article-details-item">
-                        {% include './assets/icon-web-globe.svg' %}
+                        {% include './assets/icons/icon-web-globe.svg' %}
                         <a href="{{ article.data.canonical}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(article.data.canonical) }}
                             <span class="visually-hidden">Link opens in a new window.</span></a>
                     </div>

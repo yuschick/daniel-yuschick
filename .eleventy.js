@@ -90,15 +90,13 @@ module.exports = function (config) {
     return new URL(url).hostname;
   });
 
+  config.addPassthroughCopy("./src/fonts");
+  config.addPassthroughCopy("./src/js");
   config.addPassthroughCopy("./src/assets/books");
-  config.addPassthroughCopy("./src/assets/**.svg");
-  config.addPassthroughCopy("./src/assets/**.jpeg");
-  config.addPassthroughCopy("./src/assets/**.png");
-  config.addPassthroughCopy("./src/assets/articles/**/**.gif");
+  config.addPassthroughCopy("./src/assets/icons");
+  config.addPassthroughCopy("./src/assets/images");
   config.addPassthroughCopy("./src/assets/articles/**/**.mp4");
   config.addPassthroughCopy("./src/assets/articles/**/social-image.jpg");
-  config.addPassthroughCopy("./src/js");
-  config.addPassthroughCopy("./src/fonts");
 
   config.addPlugin(eleventySass, {
     postcss: postcss([autoprefixer, cssnano]),

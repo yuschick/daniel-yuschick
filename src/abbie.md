@@ -5,4 +5,4 @@ description: Daniel Yuschick is a UI developer, design systems architect and hor
 current: about
 ---
 
-{% image './src/assets/abbie.jpeg', "Abbie is a black and white, whippet mix dog." %}
+{% image './src/assets/images/abbie.jpeg', "Abbie is a black and white, whippet mix dog." %}

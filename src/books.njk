@@ -15,12 +15,12 @@ description: Daniel Yuschick is a horror fiction author based in Helsinki, Finla
 
             <section class="article-details">
                 <div class="article-details-item">
-                    {% include './assets/icon-calendar.svg' %}
+                    {% include './assets/icons/icon-calendar.svg' %}
                     <time pubdate datetime="{{ book.data.date }}">{{ formatDate(book.data.date) }}</time>
                 </div>
 
                 <div class="article-details-item">
-                    {% include './assets/icon-web-globe.svg' %}
+                    {% include './assets/icons/icon-web-globe.svg' %}
                     <a href="{{ book.data.goodreads}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(book.data.goodreads) }}
                         <span class="visually-hidden">Link opens in a new window.</span></a>
                 </div>

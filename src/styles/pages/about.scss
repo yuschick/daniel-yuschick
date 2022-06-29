@@ -26,14 +26,14 @@ ul:not(:last-child) {
   @include divider-icon($placement: end);
 
   &:nth-child(3n + 2):after {
-    background-image: url("../../assets/icon-drums.svg");
+    background-image: url("../../assets/icons/icon-drums.svg");
   }
 
   &:nth-child(3n + 1):after {
-    background-image: url("../../assets/icon-dog.svg");
+    background-image: url("../../assets/icons/icon-dog.svg");
   }
 
   &:nth-child(3n + 0):after {
-    background-image: url("../../assets/icon-hearts.svg");
+    background-image: url("../../assets/icons/icon-hearts.svg");
   }
 }

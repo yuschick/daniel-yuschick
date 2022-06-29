@@ -2,7 +2,7 @@
 @import "../utils/mixins";
 
 #root {
-  background: url("/assets/the-upside-down.jpeg") no-repeat
+  background: url("/assets/images/the-upside-down.jpeg") no-repeat
     var(--dy-color-aux-100);
   background-blend-mode: luminosity;
   background-size: cover;
