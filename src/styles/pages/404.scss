@@ -1,8 +1,9 @@
-body {
+#root {
   background: url("/assets/the-upside-down.jpeg") no-repeat
     var(--dy-color-aux-100);
-  background-size: cover;
   background-blend-mode: luminosity;
+  background-size: cover;
+  background-position: center;
 }
 
 .container-404 {
