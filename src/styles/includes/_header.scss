@@ -1,5 +1,12 @@
 .primary-header {
-  @include padding($all: var(--dy-space-base-8x));
+  @include padding(
+    $block: var(--dy-space-base-4x),
+    $inline: var(--dy-space-base-8x)
+  );
+
+  @include breakpoint-min(700px) {
+    @include padding($block: var(--dy-space-base-8x));
+  }
 
   background: var(--dy-color-surface-secondary);
   display: grid;
