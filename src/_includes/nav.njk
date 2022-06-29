@@ -1,33 +1,33 @@
-{%- from 'components/_link.njk' import link %}
+{%- from 'macros/_link.njk' import link %}
 
 <nav>
-  <ul>
-    <li {% if current === "about" %} data-current {% endif %}>
-      {{ link({ url: "/", content: "About", currentPage: current === "about" })}}
-    </li>
-    <li {% if current.includes("article") %} data-current {% endif %}>
-      {{ link({ url: "/articles", content: "Articles", currentPage: current === "articles" })}}
-    </li>
-    <li {% if current === "books" %} data-current {% endif %}>
-      {{ link({ url: "/books", content: "Books", currentPage: current === "books" })}}
-    </li>
-    <li>
-      <a
+    <ul>
+        <li {% if current === "about" %} data-current {% endif %}>
+            {{ link({ url: "/", content: "About", currentPage: current === "about" })}}
+        </li>
+        <li {% if current.includes("article") %} data-current {% endif %}>
+            {{ link({ url: "/articles", content: "Articles", currentPage: current === "articles" })}}
+        </li>
+        <li {% if current === "books" %} data-current {% endif %}>
+            {{ link({ url: "/books", content: "Books", currentPage: current === "books" })}}
+        </li>
+        <li>
+            <a
         href="https://twitter.com/DanielYuschick"
         title="Visit Daniel Yuschick on Twitter"
         rel="noopener noreferrer" target="_blank"
       >
-        {% include '../assets/icons/icon-twitter.svg' %}
-        <span class="visually-hidden">Link opens in a new window.</span>
-      </a>
-    </li>
-    <li>
-      <a
+                {% include '../assets/icons/icon-twitter.svg' %}
+                <span class="visually-hidden">Link opens in a new window.</span>
+            </a>
+        </li>
+        <li>
+            <a
         href="/feed.xml"
         title="Subscribe to Daniel Yuschick's RSS feed"
       >
-        {% include '../assets/icons/icon-rss.svg' %}
-      </a>
-    </li>
-  </ul>
+                {% include '../assets/icons/icon-rss.svg' %}
+            </a>
+        </li>
+    </ul>
 </nav>

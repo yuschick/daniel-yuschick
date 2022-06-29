@@ -1,9 +1,9 @@
-{%- from 'components/_link.njk' import link %}
+{%- from 'macros/_link.njk' import link %}
 
 <section>
-  {{ link({ url: "#main-content", content: "Skip to main content", class: "visually-hidden skip-to-link" })}}
+    {{ link({ url: "#main-content", content: "Skip to main content", class: "visually-hidden skip-to-link" })}}
 
-  <header class="primary-header">
-    <a href="/" title="Home">{% include '../assets/icons/logo-dy-initials.svg' %}</a>
-  </header>
+    <header class="primary-header">
+        <a href="/" title="Home">{% include '../assets/icons/logo-dy-initials.svg' %}</a>
+    </header>
 </section>
