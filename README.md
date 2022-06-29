@@ -1,16 +1,18 @@
 <div style="background-color: #272635; display: grid; place-items: center; padding: 1rem">
-    <img src="src/assets/icons/logo-dy-initials.svg" alt="Daniel Yuschick initials logo." style="width: 100px" />
+    <img src="./src/assets/icons/logo-dy-initials.svg" alt="Daniel Yuschick initials logo." style="width: 100px" />
 </div>
 <div style="background-color: #bc3810; display: grid; place-items: center; padding: 0.5rem">
     <h1 style="color: #f5f3f4; width: 100%; text-align: center;">Daniel Yuschick</h1>
 </div>
 
+Welcome to my personal website, the defacto testing ground of new technologies and ideas. If I do a proper write up on this development process, I will add it here. But until then, may I suggest you [follow me on Twitter](https://twitter.com/DanielYuschick) to follow my ramblings about HTML, CSS, Accessibility, Design Systems, and Oxford Commas (apparently).
+
 ## Goals
 
 - Simplicity in both design and maintenance
-- Host and own my own content
-- Provide and RSS feed
-- Experiment with Eleventy to see what the fuss was all about
+- Host and own my content
+- Provide an RSS feed
+- Show more than a developer-specific persona
 - Orange
 
 ## Tech Stack
@@ -20,5 +22,3 @@
 - [SCSS](https://sass-lang.com/)
 - [Figma](https://www.figma.com/)
 - [Netlify](https://www.netlify.com/)
-
-<a href="https://twitter.com/DanielYuschick"><img src="src/assets/icons/icon-twitter.svg" alt="Twitter bird icon" /></a>
