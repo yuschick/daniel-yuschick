@@ -86,17 +86,19 @@ nav a {
   }
 
   &:before {
+    @include border(
+      $block-start: var(--accent-size) solid var(--border-color),
+      $inline-end: var(--accent-size) solid var(--border-color)
+    );
     @include position($inline-start: calc(100% + var(--accent-offset)));
-
-    border-block-start: var(--accent-size) solid var(--border-color);
-    border-inline-end: var(--accent-size) solid var(--border-color);
   }
 
   &:after {
+    @include border(
+      $block-end: var(--accent-size) solid var(--border-color),
+      $inline-start: var(--accent-size) solid var(--border-color)
+    );
     @include position($inline-start: calc(0% - var(--accent-offset)));
-
-    border-block-end: var(--accent-size) solid var(--border-color);
-    border-inline-start: var(--accent-size) solid var(--border-color);
   }
 
   &:focus-visible {

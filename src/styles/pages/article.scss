@@ -16,15 +16,14 @@ img {
 }
 
 blockquote {
+  @include border($inline-start: 3px solid var(--dy-color-tertiary));
   @include layout($max-inline-size: min(670px, 80%));
   @include margin($block: var(--dy-space-base-4x), $inline: auto);
-
   @include padding(
     $block: var(--dy-space-base-4x),
     $inline: var(--dy-space-base-6x)
   );
 
-  border-inline-start: 3px solid var(--dy-color-tertiary);
   color: var(--dy-color-aux-200);
   font-size: var(--dy-font-size-1);
   font-style: italic;
@@ -110,10 +109,10 @@ hr {
   transition: all var(--dy-transition-duration-lg) ease;
 
   .back-to-top-container {
+    @include border($all: 0);
     @include position($position: relative);
 
     background: none;
-    border: 0;
     cursor: pointer;
 
     svg:first-child {

@@ -102,3 +102,26 @@
     padding-top: $block-start or $block;
   }
 }
+
+@mixin border(
+  $all: null,
+  $block: null,
+  $block-end: null,
+  $block-start: null,
+  $inline: null,
+  $inline-end: null,
+  $inline-start: null
+) {
+  border: $all;
+  border-block-end: $block-end or $block;
+  border-block-start: $block-start or $block;
+  border-inline-end: $inline-end or $inline;
+  border-inline-start: $inline-start or $inline;
+
+  @supports not (border-block-end: 1px solid #000000) {
+    border-bottom: $block-end or $block;
+    border-left: $inline-start or $inline;
+    border-right: $inline-end or $inline;
+    border-top: $block-start or $block;
+  }
+}
