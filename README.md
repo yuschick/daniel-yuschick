@@ -1,7 +1,7 @@
-<div style="background-color: #272635; display: grid; place-items: center; padding: 1rem">
+<div style="background: #272635; padding: 1rem; text-align: center;">
     <img src="./src/assets/icons/logo-dy-initials.svg" alt="Daniel Yuschick initials logo." style="width: 100px" />
 </div>
-<div style="background-color: #bc3810; display: grid; place-items: center; padding: 0.5rem">
+<div style="background: #bc3810; padding: 0.5rem">
     <h1 style="color: #f5f3f4; width: 100%; text-align: center;">Daniel Yuschick</h1>
 </div>
 
