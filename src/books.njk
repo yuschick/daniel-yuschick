@@ -4,7 +4,7 @@ layout: page.njk
 current: books
 description: Daniel Yuschick is a horror fiction author based in Helsinki, Finland.
 ---
-
+{%- from 'components/_link.njk' import link %}
 <h1 class="visually-hidden">Books</h1>
 
 {% for book in collections.books | reverse %}
@@ -21,8 +21,7 @@ description: Daniel Yuschick is a horror fiction author based in Helsinki, Finla
 
                 <div class="article-details-item">
                     {% include './assets/icons/icon-web-globe.svg' %}
-                    <a href="{{ book.data.goodreads}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(book.data.goodreads) }}
-                        <span class="visually-hidden">Link opens in a new window.</span></a>
+                    {{ link({ url: book.data.goodreads, content: getCanonicalDomain(book.data.goodreads) }) }}
                 </div>
             </section>
 

@@ -3,6 +3,7 @@ layout: page.njk
 current: article
 ---
 
+{%- from 'components/_link.njk' import link %}
 <article>
     <h1>{{ title }}</h1>
     <section class="article-details">
@@ -17,8 +18,7 @@ current: article
         {% if canonical %}
             <div class="article-details-item">
                 {% include '../assets/icons/icon-web-globe.svg' %}
-                <a href="{{canonical}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(canonical) }}
-                    <span class="visually-hidden">Link opens in a new window.</span></a>
+                {{ link({ url: canonical, content: getCanonicalDomain(canonical) }) }}
             </div>
         {% endif %}
     </section>

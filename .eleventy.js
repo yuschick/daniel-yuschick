@@ -27,7 +27,7 @@ module.exports = function (config) {
   });
 
   config.addNunjucksGlobal("getArticleReadTime", function (content) {
-    return Math.floor(content.split(" ").length / 250);
+    return content ? Math.floor(content.split(" ").length / 250) : "~5";
   });
 
   config.addNunjucksGlobal("getCanonicalDomain", function (url) {

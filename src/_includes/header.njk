@@ -1,7 +1,7 @@
+{%- from 'components/_link.njk' import link %}
+
 <section>
-  <a class="visually-hidden skip-to-link" href="#main-content">
-    Skip to main content
-  </a>
+  {{ link({ url: "#main-content", content: "Skip to main content", class: "visually-hidden skip-to-link" })}}
 
   <header class="primary-header">
     <a href="/" title="Home">{% include '../assets/icons/logo-dy-initials.svg' %}</a>

@@ -4,6 +4,7 @@ layout: page.njk
 description: Daniel Yuschick is a UI developer, design systems architect and horror author based in Helsinki, Finland.
 current: about
 ---
+{%- from 'components/_link.njk' import link %}
 
 <h1 class="visually-hidden">About Daniel Yuschick</h1>
 
@@ -22,7 +23,8 @@ current: about
       <span>Freelanced as a web designer and developer</span></li>
     <li>
       <span>
-        <a href="https://www.soultonecymbals.com/artist/daniel-yuschick" rel="noopener noreferrer" target="_blank">Played drums <span class="visually-hidden">Link opens in a new window.</span></a> in multiple metal bands</span></li>
+        {{ link({ url: "https://www.soultonecymbals.com/artist/daniel-yuschick", content: "Played drums" }) }} in multiple metal bands</span></li>
+
   </ul>
 
   <h2>Moved to North Carolina, USA in 2009</h2>
@@ -38,15 +40,14 @@ current: about
       >
     </li>
     <li>
-      <span>Adopted <a href="/abbie">my dog, Abbie</a></span></li>
+      <span>Adopted {{ link({ url: "/abbie", content: "my dog, Abbie" }) }}</span></li>
     <li>
       <span>Competed in several YMCA basketball leagues</span></li>
     <li>
       <span>Tried bean-to-bar chocolate and have been spoiled since</span>
     </li>
     <li>
-      <span>Taught Frontend Engineering at <a href="https://www.momentumlearn.com/"  rel="noopener noreferrer" target="_blank">The Iron Yard <span class="visually-hidden">Link opens in a new window.</span>
-        </a> coding bootcamp</span>
+      <span>Taught Frontend Engineering at  {{ link({ url: "https://www.momentumlearn.com/", content: "The Iron Yard" }) }} coding bootcamp</span>
     </li>
   </ul>
 
@@ -64,7 +65,7 @@ current: about
     <li>
       <span>Discovered my love of traveling</span></li>
     <li>
-      <span>Wrote my first novel, <a href="/books">The Mines</a></span></li>
+      <span>Wrote my first novel, {{ link({ url: "/books", content: "The Mines" }) }}</span></li>
     <li>
       <span>Attended Turkmenistan's annual Independence Day horse race</span>
     </li>

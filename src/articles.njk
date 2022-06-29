@@ -5,13 +5,14 @@ current: articles
 description: Frontend development articles with a focus on web accessibility, HTML, CSS and design systems.
 ---
 
+{%- from 'components/_link.njk' import link %}
 <h1 class="visually-hidden">Articles</h1>
 
 <ul class="articles-list">
     {% for article in collections.articles | reverse %}
         <li>
             <h2>
-                <a href="{{ article.url }}">{{ article.data.title }}</a>
+                {{ link({ url: article.url, content: article.data.title })}}
             </h2>
 
             <section class="article-details">
@@ -26,8 +27,7 @@ description: Frontend development articles with a focus on web accessibility, HT
                 {% if article.data.canonical %}
                     <div class="article-details-item">
                         {% include './assets/icons/icon-web-globe.svg' %}
-                        <a href="{{ article.data.canonical}}" rel="noopener noreferrer" target="_blank">{{ getCanonicalDomain(article.data.canonical) }}
-                            <span class="visually-hidden">Link opens in a new window.</span></a>
+                        {{ link({ url: article.data.canonical, content: getCanonicalDomain( article.data.canonical) }) }}
                     </div>
                 {% endif %}
             </section>

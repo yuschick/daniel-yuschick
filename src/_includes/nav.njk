@@ -1,13 +1,15 @@
+{%- from 'components/_link.njk' import link %}
+
 <nav>
   <ul>
     <li {% if current === "about" %} data-current {% endif %}>
-      <a {% if current === "about" %} aria-current="page" {% endif %} href="/">About</a>
+      {{ link({ url: "/", content: "About", currentPage: current === "about" })}}
     </li>
     <li {% if current.includes("article") %} data-current {% endif %}>
-      <a {% if current.includes("article") %} aria-current="page" {% endif %} href="/articles">Articles</a>
+      {{ link({ url: "/articles", content: "Articles", currentPage: current === "articles" })}}
     </li>
     <li {% if current === "books" %} data-current {% endif %}>
-      <a {% if current === "books" %} aria-current="page" {% endif %} href="/books">Books</a>
+      {{ link({ url: "/books", content: "Books", currentPage: current === "books" })}}
     </li>
     <li>
       <a
