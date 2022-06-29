@@ -14,16 +14,17 @@ ul {
   list-style: none;
 
   + * {
-    margin-block-start: var(--dy-space-base-6x);
+    @include margin($block-start: var(--dy-space-base-6x));
   }
 }
 
 main {
   @include layout($max-inline-size: var(--dy-max-content-length));
-
-  margin: 0 auto;
-  padding: var(--dy-space-base-8x);
-  padding-block-end: var(--dy-space-base-12x);
+  @include margin($inline: auto);
+  @include padding(
+    $all: var(--dy-space-base-8x),
+    $block-end: var(--dy-space-base-12x)
+  );
 }
 
 a {
@@ -64,5 +65,5 @@ a {
 }
 
 p:not(:last-child) {
-  margin-block-end: var(--dy-space-base-6x);
+  @include margin($block-end: var(--dy-space-base-6x));
 }

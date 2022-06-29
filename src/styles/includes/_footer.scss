@@ -3,13 +3,16 @@
 
 .primary-footer {
   @include flex-base();
+  @include position($position: relative);
+  @include padding(
+    $block: var(--dy-space-base-3x),
+    $inline: var(--dy-space-base-8x)
+  );
 
   background: var(--dy-color-surface-tertiary);
   color: var(--dy-color-aux-900);
   gap: var(--dy-space-base-4x);
   justify-content: space-between;
-  padding: var(--dy-space-base-3x) var(--dy-space-base-8x);
-  position: relative;
 
   q span:last-child {
     display: none;
@@ -18,16 +21,18 @@
 
   svg {
     @include layout($block-size: 0, $inline-size: var(--icon-size));
+    @include position(
+      $block-start: var(--icon-size),
+      $inline-start: var(--dy-space-base-8x),
+      $position: absolute,
+      $z: -1
+    );
 
     --icon-size: 48px;
 
     color: var(--dy-color-secondary);
-    position: absolute;
-    inset-block-start: var(--icon-size);
-    inset-inline-start: var(--dy-space-base-8x);
     transform-origin: bottom center;
     transition: all var(--dy-transition-duration-lg) ease;
-    z-index: -1;
 
     path {
       fill: currentColor;
@@ -45,10 +50,10 @@
 
     svg {
       @include layout($block-size: var(--icon-size));
+      @include position($block-start: calc(2px - var(--icon-size)));
 
       animation: wiggle 2s var(--dy-transition-duration-lg) ease
         alternate-reverse infinite;
-      inset-block-start: calc(2px - var(--icon-size));
     }
   }
 }

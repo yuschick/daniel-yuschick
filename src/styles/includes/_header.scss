@@ -1,7 +1,8 @@
 .primary-header {
+  @include padding($all: var(--dy-space-base-8x));
+
   background: var(--dy-color-surface-secondary);
   display: grid;
-  padding: var(--dy-space-base-8x);
   place-content: center;
 
   svg {
@@ -24,13 +25,16 @@
 }
 
 .skip-to-link:focus-visible {
+  @include padding($all: var(--dy-space-base-2x));
+  @include position(
+    $block-start: var(--dy-space-base-4x),
+    $inline-start: var(--dy-space-base-4x),
+    $position: absolute,
+    $z: 1
+  );
+
   all: unset;
   color: var(--dy-color-aux-900);
   cursor: pointer;
-  inset-block-start: var(--dy-space-base-4x);
-  inset-inline-start: var(--dy-space-base-4x);
-  padding: var(--dy-space-base-2x);
-  position: absolute;
   outline: 2px solid currentColor;
-  z-index: 1;
 }

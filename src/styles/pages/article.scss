@@ -12,18 +12,22 @@ article ol {
 }
 
 img {
-  margin: 0 auto;
+  @include margin($inline: auto);
 }
 
 blockquote {
   @include layout($max-inline-size: min(670px, 80%));
+  @include margin($block: var(--dy-space-base-4x), $inline: auto);
+
+  @include padding(
+    $block: var(--dy-space-base-4x),
+    $inline: var(--dy-space-base-6x)
+  );
 
   border-inline-start: 3px solid var(--dy-color-tertiary);
   color: var(--dy-color-aux-200);
   font-size: var(--dy-font-size-1);
   font-style: italic;
-  margin: var(--dy-space-base-4x) auto;
-  padding: var(--dy-space-base-4x) var(--dy-space-base-6x);
 }
 
 code {
@@ -36,6 +40,8 @@ pre {
   @include layout(
     $max-inline-size: calc(100vw - var(--dy-space-base-8x) * 2.5)
   );
+  @include margin($block: var(--dy-space-base-6x));
+  @include padding($block: var(--dy-space-base-6x));
 
   border-image-source: linear-gradient(
     var(--dy-color-aux-800),
@@ -44,12 +50,14 @@ pre {
   border-image-slice: 0 fill;
   border-image-outset: 0 100vw;
   font-family: var(--dy-font-mono);
-  margin: var(--dy-space-base-6x) 0;
   overflow: auto;
-  padding: var(--dy-space-base-6x) 0;
 }
 
 hr {
+  @include position($position: relative);
+  @include margin($block-end: var(--dy-space-base-6x));
+  @include padding($block: var(--dy-space-base-2x));
+
   --pseudo-size: 1.5px;
   --pseudo-x-offset: 50%;
   --pseudo-translate: 10%;
@@ -58,11 +66,8 @@ hr {
   );
 
   border-color: transparent;
-  margin-block-end: var(--dy-space-base-6x);
   opacity: 1;
   overflow: visible;
-  padding-block: var(--dy-space-base-2x);
-  position: relative;
 
   &:before,
   &:after {
@@ -70,21 +75,18 @@ hr {
       $block-size: var(--pseudo-size),
       $inline-size: var(--pseudo-length)
     );
+    @include position($position: absolute);
 
     background-color: var(--dy-color-aux-100);
     content: "";
-    position: absolute;
-    transition: all var(--dy-transition-duration-lg) ease;
   }
 
   &:before {
-    inset-block-start: 0;
-    inset-inline-start: var(--pseudo-translate);
+    @include position($block-start: 0, $inline-start: var(--pseudo-translate));
   }
 
   &:after {
-    inset-block-end: 0;
-    inset-inline-end: var(--pseudo-translate);
+    @include position($block-end: 0, $inline-end: var(--pseudo-translate));
   }
 }
 
@@ -93,23 +95,26 @@ hr {
     $inline-size: 100%,
     $max-inline-size: var(--dy-max-content-length)
   );
-
-  margin-block-end: var(--dy-space-base-8x);
+  @include margin($block-end: var(--dy-space-base-8x));
 }
 
 .back-to-top-wrapper {
-  inset-block-end: 0;
-  inset-inline-end: var(--dy-space-base-12x);
-  position: fixed;
+  @include position(
+    $block-end: 0,
+    $inline-end: var(--dy-space-base-12x),
+    $position: fixed,
+    $z: 2
+  );
+
   transform: translateY(125%);
   transition: all var(--dy-transition-duration-lg) ease;
-  z-index: 2;
 
   .back-to-top-container {
+    @include position($position: relative);
+
     background: none;
     border: 0;
     cursor: pointer;
-    position: relative;
 
     svg:first-child {
       @include layout($inline-size: 64px);
@@ -125,17 +130,6 @@ hr {
     }
   }
 
-  .pennywise {
-    @include layout($inline-size: 32px);
-
-    inset-block-start: 10%;
-    inset-inline-end: 25%;
-    opacity: 0;
-    position: absolute;
-    transition: opacity var(--dy-transition-duration-lg);
-    z-index: 2;
-  }
-
   &.active {
     transform: translateY(-50%);
   }
@@ -143,10 +137,23 @@ hr {
   &:hover .pennywise {
     opacity: 0.8;
   }
+
+  .pennywise {
+    @include layout($inline-size: 32px);
+    @include position(
+      $block-start: 10%,
+      $inline-end: 25%,
+      $position: absolute,
+      $z: 2
+    );
+
+    opacity: 0;
+    transition: opacity var(--dy-transition-duration-lg);
+  }
 }
 
 figure {
-  margin-block-end: var(--dy-space-base-6x);
+  @include margin($block-end: var(--dy-space-base-6x));
 
   figcaption {
     text-align: center;

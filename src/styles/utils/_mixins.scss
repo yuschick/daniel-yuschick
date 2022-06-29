@@ -33,3 +33,72 @@
     min-width: $min-inline-size;
   }
 }
+
+@mixin position(
+  $block-start: null,
+  $block-end: null,
+  $inline-start: null,
+  $inline-end: null,
+  $position: null,
+  $z: null
+) {
+  inset-block-end: $block-end;
+  inset-block-start: $block-start;
+  inset-inline-end: $inline-end;
+  inset-inline-start: $inline-start;
+  position: $position;
+  z-index: $z;
+
+  @supports not (inset-block-end: 1rem) {
+    bottom: $block-end;
+    left: $inline-start;
+    right: $inline-end;
+    top: $block-start;
+  }
+}
+
+@mixin margin(
+  $all: null,
+  $block: null,
+  $block-end: null,
+  $block-start: null,
+  $inline: null,
+  $inline-end: null,
+  $inline-start: null
+) {
+  margin: $all;
+  margin-block-end: $block-end or $block;
+  margin-block-start: $block-start or $block;
+  margin-inline-end: $inline-end or $inline;
+  margin-inline-start: $inline-start or $inline;
+
+  @supports not (margin-block-end: 1rem) {
+    margin-bottom: $block-end or $block;
+    margin-left: $inline-start or $inline;
+    margin-right: $inline-end or $inline;
+    margin-top: $block-start or $block;
+  }
+}
+
+@mixin padding(
+  $all: null,
+  $block: null,
+  $block-end: null,
+  $block-start: null,
+  $inline: null,
+  $inline-end: null,
+  $inline-start: null
+) {
+  padding: $all;
+  padding-block-end: $block-end or $block;
+  padding-block-start: $block-start or $block;
+  padding-inline-end: $inline-end or $inline;
+  padding-inline-start: $inline-start or $inline;
+
+  @supports not (padding-block-end: 1rem) {
+    padding-bottom: $block-end or $block;
+    padding-left: $inline-start or $inline;
+    padding-right: $inline-end or $inline;
+    padding-top: $block-start or $block;
+  }
+}
