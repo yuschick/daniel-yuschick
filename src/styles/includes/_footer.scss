@@ -1,8 +1,11 @@
+@import "../utils/animations";
+@import "../utils/mixins";
+
 .primary-footer {
+  @include flex-base();
+
   background: var(--dy-color-surface-tertiary);
   color: var(--dy-color-aux-900);
-  display: flex;
-  flex-wrap: wrap;
   gap: var(--dy-space-base-4x);
   justify-content: space-between;
   padding: var(--dy-space-base-3x) var(--dy-space-base-8x);
@@ -14,12 +17,12 @@
   }
 
   svg {
+    @include layout($block-size: 0, $inline-size: var(--icon-size));
+
     --icon-size: 48px;
 
-    block-size: 0;
     color: var(--dy-color-secondary);
     position: absolute;
-    inline-size: var(--icon-size);
     inset-block-start: var(--icon-size);
     inset-inline-start: var(--dy-space-base-8x);
     transform-origin: bottom center;
@@ -41,28 +44,11 @@
     }
 
     svg {
+      @include layout($block-size: var(--icon-size));
+
       animation: wiggle 2s var(--dy-transition-duration-lg) ease
         alternate-reverse infinite;
-      block-size: var(--icon-size);
       inset-block-start: calc(2px - var(--icon-size));
     }
-  }
-}
-
-@keyframes wiggle {
-  0% {
-    transform: rotate(2deg) translateX(0);
-  }
-  25% {
-    transform: rotate(-2deg) translateX(5px);
-  }
-  50% {
-    transform: rotate(3deg) translateX(10px);
-  }
-  75% {
-    transform: rotate(-3deg) translateX(15px);
-  }
-  100% {
-    transform: rotate(0deg) translateX(0);
   }
 }

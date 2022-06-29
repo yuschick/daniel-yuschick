@@ -1,8 +1,13 @@
 #root {
+  @include layout($min-block-size: 100%);
+
   display: grid;
   grid-template-rows: min-content min-content auto min-content;
   isolation: isolate;
-  min-block-size: 100%;
+}
+
+svg {
+  @include layout($inline-size: 1em);
 }
 
 ul {
@@ -14,8 +19,9 @@ ul {
 }
 
 main {
+  @include layout($max-inline-size: var(--dy-max-content-length));
+
   margin: 0 auto;
-  max-inline-size: var(--dy-max-content-length);
   padding: var(--dy-space-base-8x);
   padding-block-end: var(--dy-space-base-12x);
 }

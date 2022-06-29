@@ -5,8 +5,7 @@
   place-content: center;
 
   svg {
-    inline-size: min(85px, 10vw);
-    min-inline-size: 50px;
+    @include layout($inline-size: min(85px, 10vw), $min-inline-size: 50px);
 
     path {
       transition: all var(--dy-transition-duration-2xl) ease;
@@ -18,10 +17,8 @@
       }
     }
 
-    &:has(path:hover) {
-      path:not(:hover) {
-        opacity: 0.5;
-      }
+    &:has(path:hover) path:not(:hover) {
+      opacity: 0.5;
     }
   }
 }

@@ -1,0 +1,35 @@
+@mixin flex-base() {
+  display: flex;
+  flex-wrap: wrap;
+  /* Default to flex wrap as a Defensive CSS best practice.
+  https://ishadeed.com/article/defensive-css/#flexbox-wrapping */
+}
+
+@mixin layout(
+  $block-size: null,
+  $min-block-size: null,
+  $max-block-size: null,
+  $inline-size: null,
+  $min-inline-size: null,
+  $max-inline-size: null
+) {
+  block-size: $block-size;
+  max-block-size: $max-block-size;
+  min-block-size: $min-block-size;
+
+  inline-size: $inline-size;
+  max-inline-size: $max-inline-size;
+  min-inline-size: $min-inline-size;
+
+  @supports not (block-size: 1rem) {
+    height: $block-size;
+    max-height: $max-block-size;
+    min-height: $min-block-size;
+  }
+
+  @supports not (inline-size: 1rem) {
+    width: $inline-size;
+    max-width: $max-inline-size;
+    min-width: $min-inline-size;
+  }
+}

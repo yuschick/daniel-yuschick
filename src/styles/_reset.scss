@@ -25,9 +25,10 @@ html {
 
 html,
 body {
+  @include layout($block-size: 100%);
+
   background: var(--dy-color-aux-900);
   color: var(--dy-color-aux-100);
-  block-size: 100%;
   font-family: var(--dy-font-primary);
   font-size: var(--dy-font-size-0);
 }
@@ -58,9 +59,9 @@ picture,
 video,
 canvas,
 svg {
-  block-size: auto;
+  @include layout($block-size: auto, $max-inline-size: 100%);
+
   display: block;
-  max-inline-size: 100%;
 }
 
 input,
@@ -78,7 +79,8 @@ h3,
 h4,
 h5,
 h6 {
-  max-inline-size: var(--dy-max-content-length);
+  @include layout($max-inline-size: var(--dy-max-content-length));
+
   overflow-wrap: break-word;
 }
 

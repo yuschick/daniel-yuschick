@@ -1,4 +1,5 @@
 @import "./articles_shared";
+@import "../utils/mixins";
 
 .articles-list {
   li + li {
@@ -7,10 +8,10 @@
     position: relative;
 
     &:before {
+      @include layout($block-size: 1px, $inline-size: 75%);
+
       background: var(--dy-color-aux-400);
-      block-size: 1px;
       content: "";
-      inline-size: 75%;
       inset-block-start: 0;
       inset-inline-start: 50%;
       position: absolute;
@@ -18,13 +19,13 @@
     }
 
     &:after {
+      @include layout($block-size: 24px, $inline-size: 24px);
+
       background-color: var(--dy-color-aux-900);
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      block-size: 24px;
       content: "";
-      inline-size: 24px;
       inset-block-start: 0;
       inset-inline-start: 50%;
       padding: 0 var(--dy-space-base-4x);

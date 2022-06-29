@@ -1,11 +1,12 @@
 @import "./articles_shared";
+@import "../utils/breakpoints";
 
 .book-container {
   align-items: start;
   display: grid;
   gap: var(--dy-space-base-6x);
 
-  @media (min-width: 700px) {
+  @include breakpoint-min(700px) {
     grid-template-columns: 1fr 4fr;
   }
 }

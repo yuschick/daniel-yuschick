@@ -1,4 +1,6 @@
 @import "./articles_shared";
+@import "../utils/syntax_theme";
+@import "../utils/mixins";
 
 article ul {
   list-style: disc;
@@ -14,12 +16,13 @@ img {
 }
 
 blockquote {
+  @include layout($max-inline-size: min(670px, 80%));
+
   border-inline-start: 3px solid var(--dy-color-tertiary);
   color: var(--dy-color-aux-200);
   font-size: var(--dy-font-size-1);
   font-style: italic;
   margin: var(--dy-space-base-4x) auto;
-  max-inline-size: min(670px, 80%);
   padding: var(--dy-space-base-4x) var(--dy-space-base-6x);
 }
 
@@ -30,6 +33,10 @@ code {
 }
 
 pre {
+  @include layout(
+    $max-inline-size: calc(100vw - var(--dy-space-base-8x) * 2.5)
+  );
+
   border-image-source: linear-gradient(
     var(--dy-color-aux-800),
     var(--dy-color-aux-800)
@@ -38,7 +45,6 @@ pre {
   border-image-outset: 0 100vw;
   font-family: var(--dy-font-mono);
   margin: var(--dy-space-base-6x) 0;
-  max-inline-size: calc(100vw - var(--dy-space-base-8x) * 2.5);
   overflow: auto;
   padding: var(--dy-space-base-6x) 0;
 }
@@ -58,21 +64,15 @@ hr {
   padding-block: var(--dy-space-base-2x);
   position: relative;
 
-  &:hover {
-    --pseudo-translate: 1%;
-    --pseudo-length: calc(
-      min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset) + 10%
-    );
-
-    opacity: 0.5;
-  }
-
   &:before,
   &:after {
+    @include layout(
+      $block-size: var(--pseudo-size),
+      $inline-size: var(--pseudo-length)
+    );
+
     background-color: var(--dy-color-aux-100);
-    block-size: var(--pseudo-size);
     content: "";
-    inline-size: var(--pseudo-length);
     position: absolute;
     transition: all var(--dy-transition-duration-lg) ease;
   }
@@ -89,8 +89,11 @@ hr {
 }
 
 .media-embed-wrapper {
-  inline-size: 100%;
-  max-inline-size: var(--dy-max-content-length);
+  @include layout(
+    $inline-size: 100%,
+    $max-inline-size: var(--dy-max-content-length)
+  );
+
   margin-block-end: var(--dy-space-base-8x);
 }
 
@@ -108,6 +111,10 @@ hr {
     cursor: pointer;
     position: relative;
 
+    svg:first-child {
+      @include layout($inline-size: 64px);
+    }
+
     &:focus-visible {
       outline: 2px solid var(--dy-color-primary);
       outline-offset: var(--dy-space-base-half);
@@ -119,7 +126,8 @@ hr {
   }
 
   .pennywise {
-    inline-size: 32px;
+    @include layout($inline-size: 32px);
+
     inset-block-start: 10%;
     inset-inline-end: 25%;
     opacity: 0;
@@ -143,111 +151,4 @@ figure {
   figcaption {
     text-align: center;
   }
-}
-
-code[class*="language-"],
-pre[class*="language-"] {
-  color: var(--dy-color-aux-100);
-  direction: ltr;
-  text-align: start;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-
-  font-family: var(--dy-font-mono);
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-}
-
-pre[class*="language-"] {
-  overflow: auto;
-}
-
-.token.comment,
-.token.prolog,
-.token.cdata {
-  color: var(--dy-color-aux-300);
-}
-
-.token.delimiter,
-.token.keyword,
-.token.selector,
-.token.important,
-.token.atrule {
-  color: var(--dy-color-primary-darken-100);
-}
-
-.token.operator,
-.token.attr-name {
-  color: var(--dy-color-primary);
-}
-
-.token.punctuation,
-.token.boolean {
-  color: var(--dy-color-aux-100);
-}
-
-.token.tag,
-.token.tag .punctuation,
-.token.doctype,
-.token.builtin {
-  color: var(--dy-color-primary-darken-200);
-}
-
-.token.entity,
-.token.symbol,
-.token.number,
-.token.property,
-.token.constant,
-.token.variable {
-  color: var(--dy-color-aux-200);
-}
-
-.token.string,
-.token.char,
-.token.attr-value,
-.token.attr-value .punctuation {
-  color: var(--dy-color-tertiary-darken-200);
-}
-
-.token.attr-value .punctuation:first-child {
-  color: var(--dy-color-tertiary-darken-200);
-}
-
-.token.url {
-  color: var(--dy-color-secondary);
-  text-decoration: underline;
-}
-
-.token.function {
-  color: var(--dy-color-primary);
-}
-
-code.language-css .token.property,
-code.language-css .token.property + .token.punctuation {
-  color: var(--dy-color-secondary-lighten-200);
-}
-
-code.language-css .token.id {
-  color: var(--dy-color-primary-darken-100);
-}
-
-code.language-css .token.selector > .token.class,
-code.language-css .token.selector > .token.attribute,
-code.language-css .token.selector > .token.pseudo-class,
-code.language-css .token.selector > .token.pseudo-element {
-  color: var(--dy-color-primary-darken-100);
-}
-
-.token.class-name {
-  color: var(--dy-color-primary-darken-100);
 }
