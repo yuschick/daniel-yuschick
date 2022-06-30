@@ -13,10 +13,12 @@ params: {
             {% include '../../assets/icons/icon-calendar.svg' %}
             <time pubdate datetime="{{ params.date }}">{{ formatDate(params.date) }}</time>
         </div>
-        <div class="article-details-item">
-            {% include '../../assets/icons/icon-clock.svg' %}
-            <span>{{ getArticleReadTime(params.content) }} min. read</span>
-        </div>
+        {% if params.content %}
+            <div class="article-details-item">
+                {% include '../../assets/icons/icon-clock.svg' %}
+                <span>{{ getArticleReadTime(params.content) }} min. read</span>
+            </div>
+        {% endif %}
         {% if params.canonical %}
             <div class="article-details-item">
                 {% include '../../assets/icons/icon-web-globe.svg' %}
