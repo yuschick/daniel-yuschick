@@ -8,28 +8,16 @@
     @include padding($block-start: var(--dy-space-base-8x));
     @include divider-icon();
 
-    &:nth-child(6n + 0):after {
-      background-image: url("../../assets/icons/icon-freddy.svg");
-    }
+    $icons: "freddy", "zombie-hand", "jason", "axe", "scream", "halloween",
+      "zombie";
+    $length: length($icons);
 
-    &:nth-child(6n + 1):after {
-      background-image: url("../../assets/icons/icon-zombie-hand.svg");
-    }
+    @each $icon in $icons {
+      $i: index($icons, $icon);
 
-    &:nth-child(6n + 2):after {
-      background-image: url("../../assets/icons/icon-jason.svg");
-    }
-
-    &:nth-child(6n + 3):after {
-      background-image: url("../../assets/icons/icon-axe.svg");
-    }
-
-    &:nth-child(6n + 4):after {
-      background-image: url("../../assets/icons/icon-scream.svg");
-    }
-
-    &:nth-child(6n + 5):after {
-      background-image: url("../../assets/icons/icon-halloween.svg");
+      &:nth-child(#{$length}n + #{$i}):after {
+        background-image: url("../../assets/icons/icon-#{$icon}.svg");
+      }
     }
   }
 }
