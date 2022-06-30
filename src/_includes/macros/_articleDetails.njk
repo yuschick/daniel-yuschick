@@ -1,0 +1,27 @@
+/*
+params: {
+    date: Date,
+    content: string,
+    canonical?: string
+}
+*/
+{%- from 'macros/_link.njk' import link %}
+
+{%- macro articleDetails(params) -%}
+    <section class="article-details">
+        <div class="article-details-item">
+            {% include '../../assets/icons/icon-calendar.svg' %}
+            <time pubdate datetime="{{ params.date }}">{{ formatDate(params.date) }}</time>
+        </div>
+        <div class="article-details-item">
+            {% include '../../assets/icons/icon-clock.svg' %}
+            <span>{{ getArticleReadTime(params.content) }} min. read</span>
+        </div>
+        {% if params.canonical %}
+            <div class="article-details-item">
+                {% include '../../assets/icons/icon-web-globe.svg' %}
+                {{ link({ url: params.canonical, content: getCanonicalDomain( params.canonical) }) }}
+            </div>
+        {% endif %}
+    </section>
+{%- endmacro -%}

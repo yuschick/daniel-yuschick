@@ -4,24 +4,11 @@ current: article
 ---
 
 {%- from 'macros/_link.njk' import link %}
+{%- from 'macros/_articleDetails.njk' import articleDetails %}
+
 <article>
     <h1>{{ title }}</h1>
-    <section class="article-details">
-        <div class="article-details-item">
-            {% include '../assets/icons/icon-calendar.svg' %}
-            <time pubdate datetime="{{ date }}">{{ formatDate(date) }}</time>
-        </div>
-        <div class="article-details-item">
-            {% include '../assets/icons/icon-clock.svg' %}
-            <span>{{ getArticleReadTime(content) }} min. read</span>
-        </div>
-        {% if canonical %}
-            <div class="article-details-item">
-                {% include '../assets/icons/icon-web-globe.svg' %}
-                {{ link({ url: canonical, content: getCanonicalDomain(canonical) }) }}
-            </div>
-        {% endif %}
-    </section>
+    {{ articleDetails({ date: date, content: content, canonical: canonical })}}
     {{ content | safe }}
 </article>
 

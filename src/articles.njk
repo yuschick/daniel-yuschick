@@ -6,6 +6,8 @@ description: Frontend development articles with a focus on web accessibility, HT
 ---
 
 {%- from 'macros/_link.njk' import link %}
+{%- from 'macros/_articleDetails.njk' import articleDetails %}
+
 <h1 class="visually-hidden">Articles</h1>
 
 <ul class="articles-list">
@@ -15,22 +17,7 @@ description: Frontend development articles with a focus on web accessibility, HT
                 {{ link({ url: article.url, content: article.data.title })}}
             </h2>
 
-            <section class="article-details">
-                <div class="article-details-item">
-                    {% include './assets/icons/icon-calendar.svg' %}
-                    <time pubdate datetime="{{ article.data.date }}">{{ formatDate(article.data.date) }}</time>
-                </div>
-                <div class="article-details-item">
-                    {% include './assets/icons/icon-clock.svg' %}
-                    <span>{{ getArticleReadTime(article._templateContent) }} min. read</span>
-                </div>
-                {% if article.data.canonical %}
-                    <div class="article-details-item">
-                        {% include './assets/icons/icon-web-globe.svg' %}
-                        {{ link({ url: article.data.canonical, content: getCanonicalDomain( article.data.canonical) }) }}
-                    </div>
-                {% endif %}
-            </section>
+            {{ articleDetails({ date: article.data.date, content: article._templateContent, canonical: article.data.canonical })}}
 
             <p>{{article.data.preview}}</p>
         </li>
