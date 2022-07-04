@@ -172,7 +172,7 @@ table {
   @include layout(
     $inline-size: max(100vw, 100%),
     $max-inline-size: 100%,
-    $min-inline-size: var(--dy-max-content-length)
+    $min-inline-size: calc(var(--dy-max-content-length) - 10)
   );
 
   thead {
