@@ -4,7 +4,7 @@ module.exports = async function imageShortcode(src, alt) {
   const metadataOptions = {
     widths: [320, 1000],
     urlPath: "/assets/images/",
-    outputDir: "./public/assets/images/",
+    outputDir: "./_site/assets/images/",
   };
 
   let metadata = await Image(src, {
@@ -14,7 +14,7 @@ module.exports = async function imageShortcode(src, alt) {
 
   let gifMetadata = await Image(src, {
     ...metadataOptions,
-    formats: ["webp", "gif"],
+    formats: ["gif"],
     sharpOptions: {
       animated: true,
     },

@@ -160,7 +160,6 @@ figure {
 }
 
 .table-wrapper {
-  @include layout($max-inline-size: 100%);
   overflow-x: auto;
 
   + * {
@@ -170,9 +169,7 @@ figure {
 
 table {
   @include layout(
-    $inline-size: max(100vw, 100%),
-    $max-inline-size: 100%,
-    $min-inline-size: calc(var(--dy-max-content-length) - 10)
+    $inline-size: max(100%, calc(var(--dy-max-content-length) - 10ch))
   );
 
   thead {
