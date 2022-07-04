@@ -15,6 +15,8 @@ description: "Rhubarb CSS is a collection of mixins to support writing progressi
 assetDir: rhubarb-css
 ---
 
+{% image "./src/assets/articles/rhubarb-css/logo-rhubarb-css-default.png", "Rhubarb CSS jam jar logo" %}
+
 At the end of 2020, I wrote about how [CSS Logical Properties Are the Future of the Web & I18N](https://www.danyuschick.com/articles/css-logical-properties-are-the-future-of-the-web-and-i18n/). Since then, I've used and advocated for the new properties heavily as I see them as the next huge step toward creating truly fluid and inclusive UIs.
 
 However, browser support requirements for the products I was working on didn't always align with browser support for logical properties. So I started writing and re-using various mixins to allow the gradual use of logical CSS through progressive enhancement with physical box model fallbacks when needed.
