@@ -158,3 +158,39 @@ figure {
     text-align: center;
   }
 }
+
+.table-wrapper {
+  @include layout($max-inline-size: 100%);
+  overflow-x: auto;
+
+  + * {
+    @include margin($block-start: var(--dy-space-base-6x));
+  }
+}
+
+table {
+  @include layout(
+    $inline-size: max(100vw, 100%),
+    $max-inline-size: 100%,
+    $min-inline-size: 862px
+  );
+
+  thead {
+    background: var(--dy-color-tertiary);
+  }
+
+  th {
+    @include padding($all: 0.5em);
+    text-align: start;
+  }
+
+  td {
+    @include padding($all: 0.25em);
+  }
+
+  tr {
+    &:nth-child(even) {
+      background: var(--dy-color-aux-700);
+    }
+  }
+}

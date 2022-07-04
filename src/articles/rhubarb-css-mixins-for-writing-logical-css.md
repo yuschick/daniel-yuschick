@@ -80,7 +80,7 @@ Because of the support for Styled Components, the API conventions were generally
 
 All property keys follow a camelCase naming convention, with any processor-specific leading character, such as `$` for SCSS and `@` for Less.
 
-````
+```js
 // Styled Components
 blockSize
 
@@ -93,124 +93,144 @@ $blockSize
 // Stylus
 blockSize
 ```
+
 ### Logical Property Support
 
 Here is a list of logical property support and their fallback properties.
 
 #### Border
 
+<div class="table-wrapper">
 
-| Prop             |  CSS Property (_Fallback_)                                 |
-| ---------------- |  --------------------------------------------------------- |
-| border           |  border                                                    |
-| borderColor      |  border-color                                              |
-| borderStyle      |  border-style                                              |
-| borderWidth      |  border-width                                              |
-| block            |  border-block-start/end (_border-top/bottom_)              |
-| blockColor       |  border-block-start/end-color (_border-top/bottom-color_)  |
-| blockStyle       |  border-block-start/end-style (_border-top/bottom-style_)  |
-| blockWidth       |  border-block-start/end-width (_border-top/bottom-width_)  |
-| blockEnd         |  border-block-end (_border-bottom_)                        |
-| blockEndColor    |  border-block-end-color (_border-bottom-color_)            |
-| blockEndStyle    |  border-block-end-style (_border-bottom-style_)            |
-| blockEndWidth    |  border-block-end-width (_border-bottom-width_)            |
-| blockStart       |  border-block-start (_border-top_)                         |
-| blockStartColor  |  border-block-start-color (_border-top-color_)             |
-| blockStartStyle  |  border-block-start-style (_border-top-style_)             |
-| blockStartWidth  |  border-block-start-width (_border-top-width_)             |
-| inline           |  border-inline-start/end (_border-left/right_)             |
-| inlineColor      |  border-inline-start/end-color (_border-left/right-color_) |
-| inlineStyle      |  border-inline-start/end-style (_border-left/right-style_) |
-| inlineWidth      |  border-inline-start/end-width (_border-left/right-width_) |
-| inlineEnd        |  border-inline-end (_border-right_)                        |
-| inlineEndColor   |  border-inline-end-color (_border-right-color_)            |
-| inlineEndStyle   |  border-inline-end-style (_border-right-style_)            |
-| inlineEndWidth   |  border-inline-end-width (_border-right-width_)            |
-| inlineStart      |  border-inline-start (_border-left_)                       |
-| inlineStartColor |  border-inline-start-color (_border-left-color_)           |
-| inlineStartStyle |  border-inline-start-style (_border-left-style_)           |
-| inlineStartWidth |  border-inline-start-width (_border-left-width_)           |
+| Prop             | CSS Property (_Fallback_)                                 |
+| ---------------- | --------------------------------------------------------- |
+| border           | border                                                    |
+| borderColor      | border-color                                              |
+| borderStyle      | border-style                                              |
+| borderWidth      | border-width                                              |
+| block            | border-block-start/end (_border-top/bottom_)              |
+| blockColor       | border-block-start/end-color (_border-top/bottom-color_)  |
+| blockStyle       | border-block-start/end-style (_border-top/bottom-style_)  |
+| blockWidth       | border-block-start/end-width (_border-top/bottom-width_)  |
+| blockEnd         | border-block-end (_border-bottom_)                        |
+| blockEndColor    | border-block-end-color (_border-bottom-color_)            |
+| blockEndStyle    | border-block-end-style (_border-bottom-style_)            |
+| blockEndWidth    | border-block-end-width (_border-bottom-width_)            |
+| blockStart       | border-block-start (_border-top_)                         |
+| blockStartColor  | border-block-start-color (_border-top-color_)             |
+| blockStartStyle  | border-block-start-style (_border-top-style_)             |
+| blockStartWidth  | border-block-start-width (_border-top-width_)             |
+| inline           | border-inline-start/end (_border-left/right_)             |
+| inlineColor      | border-inline-start/end-color (_border-left/right-color_) |
+| inlineStyle      | border-inline-start/end-style (_border-left/right-style_) |
+| inlineWidth      | border-inline-start/end-width (_border-left/right-width_) |
+| inlineEnd        | border-inline-end (_border-right_)                        |
+| inlineEndColor   | border-inline-end-color (_border-right-color_)            |
+| inlineEndStyle   | border-inline-end-style (_border-right-style_)            |
+| inlineEndWidth   | border-inline-end-width (_border-right-width_)            |
+| inlineStart      | border-inline-start (_border-left_)                       |
+| inlineStartColor | border-inline-start-color (_border-left-color_)           |
+| inlineStartStyle | border-inline-start-style (_border-left-style_)           |
+| inlineStartWidth | border-inline-start-width (_border-left-width_)           |
+
+</div>
 
 #### Border Radius
 
+<div class="table-wrapper">
 
-| Prop        |  CSS Property (_Fallback_)                             |
-| ----------- |  ----------------------------------------------------- |
-| bottomLeft  |  border-end-start-radius (_border-bottom-left-radius_) |
-| bottomRight |  border-end-end-radius (_border-bottom-right-radius_)  |
-| radius      |  border-radius                                         |
-| topLeft     |  border-start-start-radius (_border-top-left-radius_)  |
-| topRight    |  border-start-end-radius (_border-top-right-radius_)   |
+| Prop        | CSS Property (_Fallback_)                             |
+| ----------- | ----------------------------------------------------- |
+| bottomLeft  | border-end-start-radius (_border-bottom-left-radius_) |
+| bottomRight | border-end-end-radius (_border-bottom-right-radius_)  |
+| radius      | border-radius                                         |
+| topLeft     | border-start-start-radius (_border-top-left-radius_)  |
+| topRight    | border-start-end-radius (_border-top-right-radius_)   |
+
+</div>
 
 #### Layout
 
+<div class="table-wrapper">
 
-| Prop                     |  CSS Property (_Fallback_)                            |
-| ------------------------ |  ---------------------------------------------------- |
-| blockSize                |  block-size (_height_)                                |
-| maxBlockSize             |  max-block-size (_max-height_)                        |
-| minBlockSize             |  min-block-size (_min-height_)                        |
-| inlineSize               |  inline-size (_width_)                                |
-| maxInlineSize            |  max-inline-size (_max-width_)                        |
-| minInlineSize            |  min-inline-size (_min-width_)                        |
-| overflow                 |  overflow                                             |
-| overflowBlock            |  overflow-block (_overflow-x_)                        |
-| overflowInline           |  overflow-inline (_overflow-y_)                       |
-| overscrollBehavior       |  overscroll-behavior                                  |
-| overscrollBehaviorBlock  |  overscroll-behavior-block (_overscroll-behavior-x_)  |
-| overscrollBehaviorInline |  overscroll-behavior-inline (_overscroll-behavior-y_) |
-| resize                   |  resize                                               |
+| Prop                     | CSS Property (_Fallback_)                            |
+| ------------------------ | ---------------------------------------------------- |
+| blockSize                | block-size (_height_)                                |
+| maxBlockSize             | max-block-size (_max-height_)                        |
+| minBlockSize             | min-block-size (_min-height_)                        |
+| inlineSize               | inline-size (_width_)                                |
+| maxInlineSize            | max-inline-size (_max-width_)                        |
+| minInlineSize            | min-inline-size (_min-width_)                        |
+| overflow                 | overflow                                             |
+| overflowBlock            | overflow-block (_overflow-x_)                        |
+| overflowInline           | overflow-inline (_overflow-y_)                       |
+| overscrollBehavior       | overscroll-behavior                                  |
+| overscrollBehaviorBlock  | overscroll-behavior-block (_overscroll-behavior-x_)  |
+| overscrollBehaviorInline | overscroll-behavior-inline (_overscroll-behavior-y_) |
+| resize                   | resize                                               |
+
+</div>
 
 #### Margin
 
-| Prop              |  CSS Property (_Fallback_)                                   |
-| ----------------- |  ----------------------------------------------------------- |
-| block             |  margin-block-start/end (_margin-bottom/top_)                |
-| blockEnd          |  margin-block-end (_margin-bottom_)                          |
-| blockStart        |  margin-block-start (_margin-top_)                           |
-| inline            |  margin-inline-start/end (_margin-left/right_)               |
-| inlineEnd         |  margin-inline-end (_margin-right_)                          |
-| inlineStart       |  margin-inline-start (_margin-left_)                         |
-| margin            |  margin                                                      |
-| scroll            |  scroll-margin                                               |
-| scrollBlock       |  scroll-margin-block-start/end (_scroll-margin-top/bottom_)  |
-| scrollBlockEnd    |  scroll-margin-block-end (_scroll-margin-bottom_)            |
-| scrollBlockStart  |  scroll-margin-block-start (_scroll-margin-top_)             |
-| scrollInline      |  scroll-margin-inline-start/end (_scroll-margin-left/right_) |
-| scrollInlineEnd   |  scroll-margin-inline-end (_scroll-margin-right_)            |
-| scrollInlineStart |  scroll-margin-inline-start (_scroll-margin-left_)           |
+<div class="table-wrapper">
+
+| Prop              | CSS Property (_Fallback_)                                   |
+| ----------------- | ----------------------------------------------------------- |
+| block             | margin-block-start/end (_margin-bottom/top_)                |
+| blockEnd          | margin-block-end (_margin-bottom_)                          |
+| blockStart        | margin-block-start (_margin-top_)                           |
+| inline            | margin-inline-start/end (_margin-left/right_)               |
+| inlineEnd         | margin-inline-end (_margin-right_)                          |
+| inlineStart       | margin-inline-start (_margin-left_)                         |
+| margin            | margin                                                      |
+| scroll            | scroll-margin                                               |
+| scrollBlock       | scroll-margin-block-start/end (_scroll-margin-top/bottom_)  |
+| scrollBlockEnd    | scroll-margin-block-end (_scroll-margin-bottom_)            |
+| scrollBlockStart  | scroll-margin-block-start (_scroll-margin-top_)             |
+| scrollInline      | scroll-margin-inline-start/end (_scroll-margin-left/right_) |
+| scrollInlineEnd   | scroll-margin-inline-end (_scroll-margin-right_)            |
+| scrollInlineStart | scroll-margin-inline-start (_scroll-margin-left_)           |
+
+</div>
 
 #### Padding
 
+<div class="table-wrapper">
 
-| Prop              |  CSS Property (_Fallback_)                                     |
-| ----------------- |  ------------------------------------------------------------- |
-| block             |  padding-block-start/end (\_padding-top/bottom)                |
-| blockEnd          |  padding-block-end (_padding-bottom_)                          |
-| blockStart        |  padding-block-start (_padding-top_)                           |
-| inline            |  padding-inline-start/end (_padding-left/right_)               |
-| inlineEnd         |  padding-inline-end (_padding-right_)                          |
-| inlineStart       |  padding-inline-start (_padding-left_)                         |
-| padding           |  padding                                                       |
-| scroll            |  scroll-padding                                                |
-| scrollBlock       |  scroll-padding-block-start/end (_scroll-padding-top/bottom_)  |
-| scrollBlockEnd    |  scroll-padding-block-end (_scroll-padding-bottom_)            |
-| scrollBlockStart  |  scroll-padding-block-start (_scroll-padding-top_)             |
-| scrollInline      |  scroll-padding-inline-start/end (_scroll-padding-left/right_) |
-| scrollInlineEnd   |  scroll-padding-inline-end (_scroll-padding-right_)            |
-| scrollInlineStart |  scroll-padding-inline-start (_scroll-padding-left_)           |
+| Prop              | CSS Property (_Fallback_)                                     |
+| ----------------- | ------------------------------------------------------------- |
+| block             | padding-block-start/end (\_padding-top/bottom)                |
+| blockEnd          | padding-block-end (_padding-bottom_)                          |
+| blockStart        | padding-block-start (_padding-top_)                           |
+| inline            | padding-inline-start/end (_padding-left/right_)               |
+| inlineEnd         | padding-inline-end (_padding-right_)                          |
+| inlineStart       | padding-inline-start (_padding-left_)                         |
+| padding           | padding                                                       |
+| scroll            | scroll-padding                                                |
+| scrollBlock       | scroll-padding-block-start/end (_scroll-padding-top/bottom_)  |
+| scrollBlockEnd    | scroll-padding-block-end (_scroll-padding-bottom_)            |
+| scrollBlockStart  | scroll-padding-block-start (_scroll-padding-top_)             |
+| scrollInline      | scroll-padding-inline-start/end (_scroll-padding-left/right_) |
+| scrollInlineEnd   | scroll-padding-inline-end (_scroll-padding-right_)            |
+| scrollInlineStart | scroll-padding-inline-start (_scroll-padding-left_)           |
+
+</div>
 
 #### Position
 
+<div class="table-wrapper">
 
-| Prop        |  CSS Property (_Fallback_)   |
-| ----------- |  --------------------------- |
-| blockEnd    |  inset-block-end (_bottom_)  |
-| blockStart  |  inset-block-start (top)     |
-| inlineEnd   |  inset-inline-end (_right_)  |
-| inlineStart |  inset-inline-start (_left_) |
-| position    |  position                    |
-| z           |  z-index                     |
+| Prop        | CSS Property (_Fallback_)   |
+| ----------- | --------------------------- |
+| blockEnd    | inset-block-end (_bottom_)  |
+| blockStart  | inset-block-start (top)     |
+| inlineEnd   | inset-inline-end (_right_)  |
+| inlineStart | inset-inline-start (_left_) |
+| position    | position                    |
+| z           | z-index                     |
+
+</div>
 
 ## Wrap Up
 
@@ -226,4 +246,6 @@ Either way, I'm quite happy with this.
 - [Rhubarb Stylus](https://github.com/rhubarb-css/rhubarb-stylus)
 - [Rhubarb Less](https://github.com/rhubarb-css/rhubarb-less)
 
-````
+```
+
+```
