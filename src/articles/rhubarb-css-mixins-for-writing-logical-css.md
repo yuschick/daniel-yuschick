@@ -248,7 +248,3 @@ Either way, I'm quite happy with this.
 - [Rhubarb SCSS](https://github.com/rhubarb-css/rhubarb-scss)
 - [Rhubarb Stylus](https://github.com/rhubarb-css/rhubarb-stylus)
 - [Rhubarb Less](https://github.com/rhubarb-css/rhubarb-less)
-
-```
-
-```
