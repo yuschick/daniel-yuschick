@@ -96,7 +96,7 @@ $blockSize
 blockSize
 ```
 
-### Logical Property Support
+### Logical Property Support (v0.2.0)
 
 Here is a list of logical property support and their fallback properties.
 
@@ -170,6 +170,7 @@ Here is a list of logical property support and their fallback properties.
 | overscrollBehaviorBlock  | overscroll-behavior-block (_overscroll-behavior-x_)  |
 | overscrollBehaviorInline | overscroll-behavior-inline (_overscroll-behavior-y_) |
 | resize                   | resize                                               |
+| textAlign                | text-align                                           |
 
 </div>
 
