@@ -9,6 +9,7 @@ Welcome to my personal website, the defacto testing ground of new technologies a
 - Simplicity in both design and maintenance
 - Host and own my content
 - Provide an RSS feed
+- Improved accessibility
 - Show more than a developer-specific persona
 - Orange
 
