@@ -18,6 +18,10 @@ ul {
   }
 }
 
+ol + * {
+  @include margin($blockStart: var(--dy-space-base-6x));
+}
+
 main {
   @include layout($maxInlineSize: var(--dy-max-content-length));
   @include margin($inline: auto);
