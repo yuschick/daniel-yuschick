@@ -170,7 +170,6 @@ table {
   @include layout(
     $inlineSize: max(100%, calc(var(--dy-max-content-length) - 10ch))
   );
-  font-size: 1rem;
 
   thead {
     background: var(--dy-color-tertiary);
@@ -178,14 +177,11 @@ table {
 
   th {
     @include padding($padding: 0.5em);
-    @include layout($textAlign: start, $minInlineSize: max-content);
-    font-size: 1rem;
+    @include layout($textAlign: start);
   }
 
   td {
     @include padding($padding: 0.25em);
-    @include layout($minInlineSize: max-content);
-    font-size: 1rem;
   }
 
   tr {
