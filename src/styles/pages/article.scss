@@ -170,6 +170,7 @@ table {
   @include layout(
     $inlineSize: max(100%, calc(var(--dy-max-content-length) - 10ch))
   );
+  font-size: 1rem;
 
   thead {
     background: var(--dy-color-tertiary);
