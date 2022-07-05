@@ -20,10 +20,10 @@
   }
 
   svg {
-    @include layout($block-size: 0, $inline-size: var(--icon-size));
+    @include layout($blockSize: 0, $inlineSize: var(--icon-size));
     @include position(
-      $block-start: var(--icon-size),
-      $inline-start: var(--dy-space-base-8x),
+      $blockStart: var(--icon-size),
+      $inlineStart: var(--dy-space-base-8x),
       $position: absolute,
       $z: -1
     );
@@ -49,8 +49,8 @@
     }
 
     svg {
-      @include layout($block-size: var(--icon-size));
-      @include position($block-start: calc(2px - var(--icon-size)));
+      @include layout($blockSize: var(--icon-size));
+      @include position($blockStart: calc(2px - var(--icon-size)));
 
       animation: wiggle 2s var(--dy-transition-duration-lg) ease
         alternate-reverse infinite;

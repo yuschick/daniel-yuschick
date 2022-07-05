@@ -1,3 +1,4 @@
+@import "../../../node_modules/@rhubarb-css/scss";
 @import "./articles_shared";
 @import "../utils/syntax_theme";
 @import "../utils/mixins";
@@ -16,8 +17,8 @@ img {
 }
 
 blockquote {
-  @include border($inline-start: 3px solid var(--dy-color-tertiary));
-  @include layout($max-inline-size: min(670px, 80%));
+  @include border($inlineStart: 3px solid var(--dy-color-tertiary));
+  @include layout($maxInlineSize: min(670px, 80%));
   @include margin($block: var(--dy-space-base-4x), $inline: auto);
   @include padding(
     $block: var(--dy-space-base-4x),
@@ -36,9 +37,7 @@ code {
 }
 
 pre {
-  @include layout(
-    $max-inline-size: calc(100vw - var(--dy-space-base-8x) * 2.5)
-  );
+  @include layout($maxInlineSize: calc(100vw - var(--dy-space-base-8x) * 2.5));
   @include margin($block: var(--dy-space-base-6x));
   @include padding($block: var(--dy-space-base-6x));
 
@@ -54,7 +53,7 @@ pre {
 
 hr {
   @include position($position: relative);
-  @include margin($block-end: var(--dy-space-base-6x));
+  @include margin($blockEnd: var(--dy-space-base-6x));
   @include padding($block: var(--dy-space-base-2x));
 
   --pseudo-size: 1.5px;
@@ -71,8 +70,8 @@ hr {
   &:before,
   &:after {
     @include layout(
-      $block-size: var(--pseudo-size),
-      $inline-size: var(--pseudo-length)
+      $blockSize: var(--pseudo-size),
+      $inlineSize: var(--pseudo-length)
     );
     @include position($position: absolute);
 
@@ -81,26 +80,26 @@ hr {
   }
 
   &:before {
-    @include position($block-start: 0, $inline-start: var(--pseudo-translate));
+    @include position($blockStart: 0, $inlineStart: var(--pseudo-translate));
   }
 
   &:after {
-    @include position($block-end: 0, $inline-end: var(--pseudo-translate));
+    @include position($blockEnd: 0, $inlineEnd: var(--pseudo-translate));
   }
 }
 
 .media-embed-wrapper {
   @include layout(
-    $inline-size: 100%,
-    $max-inline-size: var(--dy-max-content-length)
+    $inlineSize: 100%,
+    $maxInlineSize: var(--dy-max-content-length)
   );
-  @include margin($block-end: var(--dy-space-base-8x));
+  @include margin($blockEnd: var(--dy-space-base-8x));
 }
 
 .back-to-top-wrapper {
   @include position(
-    $block-end: 0,
-    $inline-end: var(--dy-space-base-12x),
+    $blockEnd: 0,
+    $inlineEnd: var(--dy-space-base-12x),
     $position: fixed,
     $z: 2
   );
@@ -109,14 +108,14 @@ hr {
   transition: all var(--dy-transition-duration-lg) ease;
 
   .back-to-top-container {
-    @include border($all: 0);
+    @include border($border: 0);
     @include position($position: relative);
 
     background: none;
     cursor: pointer;
 
     svg:first-child {
-      @include layout($inline-size: 64px);
+      @include layout($inlineSize: 64px);
     }
 
     &:focus-visible {
@@ -138,10 +137,10 @@ hr {
   }
 
   .pennywise {
-    @include layout($inline-size: 32px);
+    @include layout($inlineSize: 32px);
     @include position(
-      $block-start: 10%,
-      $inline-end: 25%,
+      $blockStart: 10%,
+      $inlineEnd: 25%,
       $position: absolute,
       $z: 2
     );
@@ -152,10 +151,10 @@ hr {
 }
 
 figure {
-  @include margin($block-end: var(--dy-space-base-6x));
+  @include margin($blockEnd: var(--dy-space-base-6x));
 
   figcaption {
-    text-align: center;
+    @include layout($textAlign: center);
   }
 }
 
@@ -163,13 +162,13 @@ figure {
   overflow-x: auto;
 
   + * {
-    @include margin($block-start: var(--dy-space-base-6x));
+    @include margin($blockStart: var(--dy-space-base-6x));
   }
 }
 
 table {
   @include layout(
-    $inline-size: max(100%, calc(var(--dy-max-content-length) - 10ch))
+    $inlineSize: max(100%, calc(var(--dy-max-content-length) - 10ch))
   );
 
   thead {
@@ -177,12 +176,12 @@ table {
   }
 
   th {
-    @include padding($all: 0.5em);
-    text-align: start;
+    @include padding($padding: 0.5em);
+    @include layout($textAlign: start);
   }
 
   td {
-    @include padding($all: 0.25em);
+    @include padding($padding: 0.25em);
   }
 
   tr {

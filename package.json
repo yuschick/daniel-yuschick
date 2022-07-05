@@ -42,5 +42,8 @@
     "A11y",
     "Design Systems",
     "The Mines"
-  ]
+  ],
+  "dependencies": {
+    "@rhubarb-css/scss": "^0.2.0"
+  }
 }

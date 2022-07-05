@@ -1,11 +1,12 @@
+@import "../../../node_modules/@rhubarb-css/scss";
 @import "./articles_shared";
 @import "../utils/mixins";
 
 .articles-list {
   li + li {
     @include position($position: relative);
-    @include margin($block-start: var(--dy-space-base-8x));
-    @include padding($block-start: var(--dy-space-base-8x));
+    @include margin($blockStart: var(--dy-space-base-8x));
+    @include padding($blockStart: var(--dy-space-base-8x));
     @include divider-icon();
 
     $icons: "freddy", "zombie-hand", "jason", "axe", "scream", "halloween",

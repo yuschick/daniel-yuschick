@@ -1,5 +1,5 @@
 #root {
-  @include layout($min-block-size: 100%);
+  @include layout($minBlockSize: 100%);
 
   display: grid;
   grid-template-rows: min-content min-content auto min-content;
@@ -7,23 +7,23 @@
 }
 
 svg {
-  @include layout($inline-size: 1em);
+  @include layout($inlineSize: 1em);
 }
 
 ul {
   list-style: none;
 
   + * {
-    @include margin($block-start: var(--dy-space-base-6x));
+    @include margin($blockStart: var(--dy-space-base-6x));
   }
 }
 
 main {
-  @include layout($max-inline-size: var(--dy-max-content-length));
+  @include layout($maxInlineSize: var(--dy-max-content-length));
   @include margin($inline: auto);
   @include padding(
-    $all: var(--dy-space-base-8x),
-    $block-end: var(--dy-space-base-12x)
+    $padding: var(--dy-space-base-8x),
+    $blockEnd: var(--dy-space-base-12x)
   );
 }
 
@@ -65,5 +65,5 @@ a {
 }
 
 p:not(:last-child) {
-  @include margin($block-end: var(--dy-space-base-6x));
+  @include margin($blockEnd: var(--dy-space-base-6x));
 }

@@ -1,11 +1,12 @@
+@import "../../../node_modules/@rhubarb-css/scss";
 @import "../utils/breakpoints";
 @import "../utils/mixins";
 
 .about--content-alignment {
-  text-align: start;
+  @include layout($textAlign: start);
 
   @include breakpoint-min(700px) {
-    text-align: center;
+    @include layout($textAlign: center);
   }
 }
 
@@ -14,15 +15,15 @@
     line-height: 1.5;
 
     + li {
-      @include margin($block-start: var(--dy-space-base-3x));
+      @include margin($blockStart: var(--dy-space-base-3x));
     }
   }
 }
 
 ul:not(:last-child) {
   @include position($position: relative);
-  @include margin($block-end: var(--dy-space-base-8x));
-  @include padding($block-end: var(--dy-space-base-8x));
+  @include margin($blockEnd: var(--dy-space-base-8x));
+  @include padding($blockEnd: var(--dy-space-base-8x));
   @include divider-icon($placement: end);
 
   $icons: "drums", "dog", "hearts";
