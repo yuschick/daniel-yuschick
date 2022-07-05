@@ -5,143 +5,22 @@
   https://ishadeed.com/article/defensive-css/#flexbox-wrapping */
 }
 
-@mixin layout(
-  $block-size: null,
-  $min-block-size: null,
-  $max-block-size: null,
-  $inline-size: null,
-  $min-inline-size: null,
-  $max-inline-size: null
-) {
-  block-size: $block-size;
-  max-block-size: $max-block-size;
-  min-block-size: $min-block-size;
-
-  inline-size: $inline-size;
-  max-inline-size: $max-inline-size;
-  min-inline-size: $min-inline-size;
-
-  @supports not (block-size: 1rem) {
-    height: $block-size;
-    max-height: $max-block-size;
-    min-height: $min-block-size;
-  }
-
-  @supports not (inline-size: 1rem) {
-    width: $inline-size;
-    max-width: $max-inline-size;
-    min-width: $min-inline-size;
-  }
-}
-
-@mixin position(
-  $block-start: null,
-  $block-end: null,
-  $inline-start: null,
-  $inline-end: null,
-  $position: null,
-  $z: null
-) {
-  inset-block-end: $block-end;
-  inset-block-start: $block-start;
-  inset-inline-end: $inline-end;
-  inset-inline-start: $inline-start;
-  position: $position;
-  z-index: $z;
-
-  @supports not (inset-block-end: 1rem) {
-    bottom: $block-end;
-    left: $inline-start;
-    right: $inline-end;
-    top: $block-start;
-  }
-}
-
-@mixin margin(
-  $all: null,
-  $block: null,
-  $block-end: null,
-  $block-start: null,
-  $inline: null,
-  $inline-end: null,
-  $inline-start: null
-) {
-  margin: $all;
-  margin-block-end: $block-end or $block;
-  margin-block-start: $block-start or $block;
-  margin-inline-end: $inline-end or $inline;
-  margin-inline-start: $inline-start or $inline;
-
-  @supports not (margin-block-end: 1rem) {
-    margin-bottom: $block-end or $block;
-    margin-left: $inline-start or $inline;
-    margin-right: $inline-end or $inline;
-    margin-top: $block-start or $block;
-  }
-}
-
-@mixin padding(
-  $all: null,
-  $block: null,
-  $block-end: null,
-  $block-start: null,
-  $inline: null,
-  $inline-end: null,
-  $inline-start: null
-) {
-  padding: $all;
-  padding-block-end: $block-end or $block;
-  padding-block-start: $block-start or $block;
-  padding-inline-end: $inline-end or $inline;
-  padding-inline-start: $inline-start or $inline;
-
-  @supports not (padding-block-end: 1rem) {
-    padding-bottom: $block-end or $block;
-    padding-left: $inline-start or $inline;
-    padding-right: $inline-end or $inline;
-    padding-top: $block-start or $block;
-  }
-}
-
-@mixin border(
-  $all: null,
-  $block: null,
-  $block-end: null,
-  $block-start: null,
-  $inline: null,
-  $inline-end: null,
-  $inline-start: null
-) {
-  border: $all;
-  border-block-end: $block-end or $block;
-  border-block-start: $block-start or $block;
-  border-inline-end: $inline-end or $inline;
-  border-inline-start: $inline-start or $inline;
-
-  @supports not (border-block-end: 1px solid #000000) {
-    border-bottom: $block-end or $block;
-    border-left: $inline-start or $inline;
-    border-right: $inline-end or $inline;
-    border-top: $block-start or $block;
-  }
-}
-
 @mixin divider-icon($placement: start) {
   &:before,
   &:after {
-    @include position($inline-start: 50%, $position: absolute, $z: 2);
+    @include position($inlineStart: 50%, $position: absolute, $z: 2);
     --translateY: -50%;
 
     @if $placement == end {
-      @include position($block-end: 0);
+      @include position($blockEnd: 0);
       --translateY: 50%;
     } @else {
-      @include position($block-start: 0);
+      @include position($blockStart: 0);
     }
   }
 
   &:before {
-    @include layout($block-size: 1px, $inline-size: 75%);
+    @include layout($blockSize: 1px, $inlineSize: 75%);
 
     background: var(--dy-color-aux-400);
     content: "";
@@ -149,7 +28,7 @@
   }
 
   &:after {
-    @include layout($block-size: 24px, $inline-size: 24px);
+    @include layout($blockSize: 24px, $inlineSize: 24px);
     @include padding($inline: var(--dy-space-base-4x));
 
     background-color: var(--dy-color-aux-900);

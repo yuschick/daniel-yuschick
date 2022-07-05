@@ -13,7 +13,7 @@
   place-content: center;
 
   svg {
-    @include layout($inline-size: min(85px, 10vw), $min-inline-size: 50px);
+    @include layout($inlineSize: min(85px, 10vw), $minInlineSize: 50px);
 
     path {
       transition: all var(--dy-transition-duration-2xl) ease;
@@ -32,10 +32,10 @@
 }
 
 .skip-to-link:focus-visible {
-  @include padding($all: var(--dy-space-base-2x));
+  @include padding($padding: var(--dy-space-base-2x));
   @include position(
-    $block-start: var(--dy-space-base-4x),
-    $inline-start: var(--dy-space-base-4x),
+    $blockStart: var(--dy-space-base-4x),
+    $inlineStart: var(--dy-space-base-4x),
     $position: absolute,
     $z: 1
   );

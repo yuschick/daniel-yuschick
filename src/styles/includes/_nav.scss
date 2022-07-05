@@ -40,7 +40,7 @@ nav {
   }
 
   svg {
-    @include margin($all: var(--dy-space-base-1x));
+    @include margin($margin: var(--dy-space-base-1x));
   }
 
   [data-current] {
@@ -73,8 +73,8 @@ nav a {
 
   &:before,
   &:after {
-    @include layout($block-size: 110%, $inline-size: 0);
-    @include position($block-start: -5%, $position: absolute, $z: -1);
+    @include layout($blockSize: 110%, $inlineSize: 0);
+    @include position($blockStart: -5%, $position: absolute, $z: -1);
 
     --border-color: currentColor;
 
@@ -87,18 +87,18 @@ nav a {
 
   &:before {
     @include border(
-      $block-start: var(--accent-size) solid var(--border-color),
-      $inline-end: var(--accent-size) solid var(--border-color)
+      $blockStart: var(--accent-size) solid var(--border-color),
+      $inlineEnd: var(--accent-size) solid var(--border-color)
     );
-    @include position($inline-start: calc(100% + var(--accent-offset)));
+    @include position($inlineStart: calc(100% + var(--accent-offset)));
   }
 
   &:after {
     @include border(
-      $block-end: var(--accent-size) solid var(--border-color),
-      $inline-start: var(--accent-size) solid var(--border-color)
+      $blockEnd: var(--accent-size) solid var(--border-color),
+      $inlineStart: var(--accent-size) solid var(--border-color)
     );
-    @include position($inline-start: calc(0% - var(--accent-offset)));
+    @include position($inlineStart: calc(0% - var(--accent-offset)));
   }
 
   &:focus-visible {
@@ -122,13 +122,12 @@ nav a {
   &:hover:before,
   &:focus-visible:after,
   &:hover:after {
-    @include layout($inline-size: calc(100% + calc(var(--accent-offset) * 2)));
-
+    @include layout($inlineSize: calc(100% + calc(var(--accent-offset) * 2)));
     opacity: 1;
   }
 
   &:focus-visible:before,
   &:hover:before {
-    @include position($inline-start: calc(0% - var(--accent-offset)));
+    @include position($inlineStart: calc(0% - var(--accent-offset)));
   }
 }

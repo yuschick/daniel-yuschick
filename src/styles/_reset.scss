@@ -25,7 +25,7 @@ html {
 
 html,
 body {
-  @include layout($block-size: 100%);
+  @include layout($blockSize: 100%);
 
   background: var(--dy-color-aux-900);
   color: var(--dy-color-aux-100);
@@ -59,8 +59,7 @@ picture,
 video,
 canvas,
 svg {
-  @include layout($block-size: auto, $max-inline-size: 100%);
-
+  @include layout($blockSize: auto, $maxInlineSize: 100%);
   display: block;
 }
 
@@ -84,7 +83,7 @@ h3,
 h4,
 h5,
 h6 {
-  @include layout($max-inline-size: var(--dy-max-content-length));
+  @include layout($maxInlineSize: var(--dy-max-content-length));
 
   overflow-wrap: break-word;
 }
@@ -98,7 +97,7 @@ h6 {
   line-height: 1.25;
 
   + * {
-    @include margin($block-start: 0.75em);
+    @include margin($blockStart: 0.75em);
   }
 }
 

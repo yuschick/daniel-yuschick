@@ -1,5 +1,5 @@
+@import "../../../node_modules/@rhubarb-css/scss";
 @import "../utils/animations";
-@import "../utils/mixins";
 
 #root {
   background: url("/assets/images/the-upside-down.jpeg") no-repeat
@@ -10,17 +10,18 @@
 }
 
 .container-404 {
-  @include layout($block-size: 100%);
+  @include layout($blockSize: 100%);
 
   color: var(--dy-color-aux-900);
   display: grid;
   place-items: center;
 
   h2 {
+    @include layout($textAlign: center);
+
     font-size: 10rem;
     font-weight: 700;
     line-height: 1;
-    text-align: center;
 
     span {
       animation: flicker 2s linear alternate-reverse infinite;
@@ -28,9 +29,10 @@
   }
 
   p {
+    @include layout($textAlign: center);
+
     color: var(--dy-color-aux-700);
     font-size: var(--dy-font-size-3);
     line-height: 1;
-    text-align: center;
   }
 }

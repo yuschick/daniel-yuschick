@@ -1,8 +1,9 @@
 code[class*="language-"],
 pre[class*="language-"] {
+  @include layout($textAlign: start);
+
   color: var(--dy-color-aux-100);
   direction: ltr;
-  text-align: start;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
