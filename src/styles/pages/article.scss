@@ -178,11 +178,14 @@ table {
 
   th {
     @include padding($padding: 0.5em);
-    @include layout($textAlign: start);
+    @include layout($textAlign: start, $minInlineSize: max-content);
+    font-size: 1rem;
   }
 
   td {
     @include padding($padding: 0.25em);
+    @include layout($minInlineSize: max-content);
+    font-size: 1rem;
   }
 
   tr {
