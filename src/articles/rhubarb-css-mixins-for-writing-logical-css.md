@@ -31,9 +31,9 @@ I'd first written the mixins for Styled Components. Later, I needed to convert t
 
 What started as a collection of mixins for just [Styled Components](https://github.com/rhubarb-css/rhubarb-styled-components), is now a collection of mixins for [SCSS](https://github.com/rhubarb-css/rhubarb-scss), [Stylus](https://github.com/rhubarb-css/rhubarb-stylus) and [Less](https://github.com/rhubarb-css/rhubarb-less).
 
-**Rhubarb Styled Components**
-
 So what exactly do these mixins do?
+
+**Rhubarb Styled Components**
 
 ```jsx
 import { Margin, Padding } from "@rhubarb-css/styled-components";
@@ -44,7 +44,18 @@ const Container = styled.section`
 `;
 ```
 
-This example, would generate the following CSS.
+**Rhubarb SCSS**
+
+```scss
+@import "../node_modules/@rhubarb-css/scss";
+
+section {
+  @include margin($inline: auto);
+  @include padding($block: var(--custom-property-value));
+}
+```
+
+These examples, would generate the following CSS.
 
 ```css
 section {
