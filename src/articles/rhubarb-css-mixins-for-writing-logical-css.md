@@ -133,7 +133,7 @@ $blockSize
 blockSize
 ```
 
-### Logical Property Support (v0.3.0)
+### Logical Property Support (v0.4.0)
 
 Here is a list of logical property support and their fallback properties.
 
@@ -270,8 +270,6 @@ Here is a list of logical property support and their fallback properties.
 | float       | float                       |
 | inlineEnd   | inset-inline-end (_right_)  |
 | inlineStart | inset-inline-start (_left_) |
-| position    | position                    |
-| z           | z-index                     |
 
 </div>
 
