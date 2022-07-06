@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "eleventy",
-    "start": "eleventy --serve"
+    "start": "eleventy --serve",
+    "lint": "eslint src --config .eslintrc"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
     "eleventy-sass": "^1.3.1",
+    "eslint": "^8.19.0",
     "postcss": "^8.4.14"
   },
   "browserslist": [
@@ -44,6 +46,9 @@
     "The Mines"
   ],
   "dependencies": {
-    "@rhubarb-css/scss": "^0.2.0"
+    "@rhubarb-css/scss": "^0.2.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
   }
 }

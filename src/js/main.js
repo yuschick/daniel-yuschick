@@ -15,6 +15,8 @@ function scrollFunction() {
   }
 }
 
+/* Disabling no-unused-vars since this function is used within the article.njk template */
+/* eslint-disable-next-line no-unused-vars */
 function goToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
