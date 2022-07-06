@@ -1,133 +1,130 @@
 nav {
-  @include padding($inline: var(--dy-space-base-8x));
+    @include padding($inline: var(--dy-space-base-8x));
 
-  background: var(--dy-color-surface-primary);
-  color: var(--dy-color-aux-900);
-  display: grid;
-  place-content: center;
+    background: var(--dy-color-surface-primary);
+    color: var(--dy-color-aux-900);
+    display: grid;
+    place-content: center;
 
-  a,
-  a:active,
-  a:visited {
-    --accent-offset: 10%;
+    a,
+    a:active,
+    a:visited {
+        --accent-offset: 10%;
 
-    color: var(--dy-color-text-nav);
-    text-decoration: none;
-  }
-
-  ul {
-    @include flex-base();
-    align-content: center;
-    justify-content: center;
-
-    @include breakpoint-max(700px) {
-      justify-content: start;
+        color: var(--dy-color-text-nav);
+        text-decoration: none;
     }
 
-    li {
-      @include padding(
-        $block: var(--dy-space-base-2x),
-        $inline: var(--dy-space-base-4x)
-      );
+    ul {
+        @include flex-base();
+        align-content: center;
+        justify-content: center;
 
-      -webkit-clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-      display: grid;
-      font-weight: 500;
-      place-items: center;
-      text-transform: uppercase;
-    }
-  }
-
-  svg {
-    @include margin($margin: var(--dy-space-base-1x));
-  }
-
-  [data-current] {
-    background: var(--dy-color-surface-secondary);
-
-    a {
-      color: var(--dy-color-text-nav-active);
-
-      &:hover {
-        color: var(--dy-color-text-nav-active);
-
-        &:before,
-        &:after {
-          opacity: 0;
+        @include breakpoint-max(700px) {
+            justify-content: start;
         }
-      }
+
+        li {
+            @include padding($block: var(--dy-space-base-2x), $inline: var(--dy-space-base-4x));
+
+            -webkit-clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            display: grid;
+            font-weight: 500;
+            place-items: center;
+            text-transform: uppercase;
+        }
     }
-  }
+
+    svg {
+        @include margin($margin: var(--dy-space-base-1x));
+    }
+
+    [data-current] {
+        background: var(--dy-color-surface-secondary);
+
+        a {
+            color: var(--dy-color-text-nav-active);
+
+            &:hover {
+                color: var(--dy-color-text-nav-active);
+
+                &:before,
+                &:after {
+                    opacity: 0;
+                }
+            }
+        }
+    }
 }
 
 nav a {
-  @include position($position: relative);
+    @include position($position: relative);
 
-  --accent-offset: 10%;
-  --accent-size: 2px;
+    --accent-offset: 10%;
+    --accent-size: 2px;
 
-  color: var(--dy-color-text-nav);
-  text-decoration: none;
-  text-underline-offset: var(--dy-space-base-1x);
-
-  &:before,
-  &:after {
-    @include layout($blockSize: 110%, $inlineSize: 0);
-    @include position($blockStart: -5%, $position: absolute, $z: -1);
-
-    --border-color: currentColor;
-
-    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-    content: "";
-    opacity: 0;
-    transform-origin: center;
-    transition: all var(--dy-transition-duration-md) ease;
-  }
-
-  &:before {
-    @include border(
-      $blockStart: var(--accent-size) solid var(--border-color),
-      $inlineEnd: var(--accent-size) solid var(--border-color)
-    );
-    @include position($inlineStart: calc(100% + var(--accent-offset)));
-  }
-
-  &:after {
-    @include border(
-      $blockEnd: var(--accent-size) solid var(--border-color),
-      $inlineStart: var(--accent-size) solid var(--border-color)
-    );
-    @include position($inlineStart: calc(0% - var(--accent-offset)));
-  }
-
-  &:focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: var(--accent-size);
-  }
-
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
-
-  &:hover {
+    color: var(--dy-color-text-nav);
     text-decoration: none;
+    text-underline-offset: var(--dy-space-base-1x);
 
-    @supports (color: color-mix(in hsl, #fff 80%, #000)) {
-      color: color-mix(in hsl, currentColor 90%, var(--dy-color-aux-900));
+    &:before,
+    &:after {
+        @include layout($blockSize: 110%, $inlineSize: 0);
+        @include position($blockStart: -5%, $position: absolute, $z: -1);
+
+        --border-color: currentColor;
+
+        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        content: '';
+        opacity: 0;
+        transform-origin: center;
+        transition: all var(--dy-transition-duration-md) ease;
     }
-  }
 
-  &:focus-visible:before,
-  &:hover:before,
-  &:focus-visible:after,
-  &:hover:after {
-    @include layout($inlineSize: calc(100% + calc(var(--accent-offset) * 2)));
-    opacity: 1;
-  }
+    &:before {
+        @include border(
+            $blockStart: var(--accent-size) solid var(--border-color),
+            $inlineEnd: var(--accent-size) solid var(--border-color)
+        );
+        @include position($inlineStart: calc(100% + var(--accent-offset)));
+    }
 
-  &:focus-visible:before,
-  &:hover:before {
-    @include position($inlineStart: calc(0% - var(--accent-offset)));
-  }
+    &:after {
+        @include border(
+            $blockEnd: var(--accent-size) solid var(--border-color),
+            $inlineStart: var(--accent-size) solid var(--border-color)
+        );
+        @include position($inlineStart: calc(0% - var(--accent-offset)));
+    }
+
+    &:focus-visible {
+        outline: 1px solid currentColor;
+        outline-offset: var(--accent-size);
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:hover {
+        text-decoration: none;
+
+        @supports (color: color-mix(in hsl, #fff 80%, #000)) {
+            color: color-mix(in hsl, currentColor 90%, var(--dy-color-aux-900));
+        }
+    }
+
+    &:focus-visible:before,
+    &:hover:before,
+    &:focus-visible:after,
+    &:hover:after {
+        @include layout($inlineSize: calc(100% + calc(var(--accent-offset) * 2)));
+        opacity: 1;
+    }
+
+    &:focus-visible:before,
+    &:hover:before {
+        @include position($inlineStart: calc(0% - var(--accent-offset)));
+    }
 }

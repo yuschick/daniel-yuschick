@@ -1,47 +1,44 @@
 .primary-header {
-  @include padding(
-    $block: var(--dy-space-base-4x),
-    $inline: var(--dy-space-base-8x)
-  );
+    @include padding($block: var(--dy-space-base-4x), $inline: var(--dy-space-base-8x));
 
-  @include breakpoint-min(700px) {
-    @include padding($block: var(--dy-space-base-8x));
-  }
+    @include breakpoint-min(700px) {
+        @include padding($block: var(--dy-space-base-8x));
+    }
 
-  background: var(--dy-color-surface-secondary);
-  display: grid;
-  place-content: center;
+    background: var(--dy-color-surface-secondary);
+    display: grid;
+    place-content: center;
 
-  svg {
-    @include layout($inlineSize: min(85px, 10vw), $minInlineSize: 50px);
+    svg {
+        @include layout($inlineSize: min(85px, 10vw), $minInlineSize: 50px);
 
-    path {
-      transition: all var(--dy-transition-duration-2xl) ease;
+        path {
+            transition: all var(--dy-transition-duration-2xl) ease;
 
-      @for $p from 1 through 4 {
-        &:nth-of-type(#{$p}):hover {
-          fill: var(--dy-color-primary);
+            @for $p from 1 through 4 {
+                &:nth-of-type(#{$p}):hover {
+                    fill: var(--dy-color-primary);
+                }
+            }
         }
-      }
-    }
 
-    &:has(path:hover) path:not(:hover) {
-      opacity: 0.5;
+        &:has(path:hover) path:not(:hover) {
+            opacity: 0.5;
+        }
     }
-  }
 }
 
 .skip-to-link:focus-visible {
-  @include padding($padding: var(--dy-space-base-2x));
-  @include position(
-    $blockStart: var(--dy-space-base-4x),
-    $inlineStart: var(--dy-space-base-4x),
-    $position: absolute,
-    $z: 1
-  );
+    @include padding($padding: var(--dy-space-base-2x));
+    @include position(
+        $blockStart: var(--dy-space-base-4x),
+        $inlineStart: var(--dy-space-base-4x),
+        $position: absolute,
+        $z: 1
+    );
 
-  all: unset;
-  color: var(--dy-color-aux-900);
-  cursor: pointer;
-  outline: 2px solid currentColor;
+    all: unset;
+    color: var(--dy-color-aux-900);
+    cursor: pointer;
+    outline: 2px solid currentColor;
 }

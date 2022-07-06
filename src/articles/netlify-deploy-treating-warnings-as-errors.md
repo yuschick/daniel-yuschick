@@ -3,14 +3,21 @@ title: Netlify Deploy Treating Warnings as Errors
 date: 2020-06-17
 layout: article.njk
 tags:
-  - articles
-  - netlify
-preview: "If you're like me, you were minding your own business and deploying your latest feature to staging. And if you're even more like me, you're not in the habit or monitoring every single deploy but your pipeline just works. Until it doesn't."
-description: "Deploying to Netlify can be so streamlined, it's just assumed deployments work. Until they don't."
+    - articles
+    - netlify
+preview:
+    "If you're like me, you were minding your own business and deploying your latest feature to
+    staging. And if you're even more like me, you're not in the habit or monitoring every single
+    deploy but your pipeline just works. Until it doesn't."
+description:
+    "Deploying to Netlify can be so streamlined, it's just assumed deployments work. Until they
+    don't."
 assetDir: netlify-deploy-errors
 ---
 
-If you're like me, you were minding your own business and deploying your latest feature to staging. And if you're even more like me, you're not in the habit or monitoring every single deploy but your pipeline just works.
+If you're like me, you were minding your own business and deploying your latest feature to staging.
+And if you're even more like me, you're not in the habit or monitoring every single deploy but your
+pipeline just works.
 
 Until it doesn't.
 
@@ -36,7 +43,8 @@ There are two ways this error may be fixed and it depends on your build setup.
 
 ### Netlify.toml
 
-If the build command for your project is handled in the `.toml` file, then the fix can be made there as well by manually setting `CI` to false inside of our build command.
+If the build command for your project is handled in the `.toml` file, then the fix can be made there
+as well by manually setting `CI` to false inside of our build command.
 
 > Note, that the `.toml` file takes precedence over the build settings stored in Netlify.
 
@@ -48,8 +56,13 @@ If the build command for your project is handled in the `.toml` file, then the 
 
 ### Netlify Build Settings
 
-If there is not a `netlify.toml` file in the project, the build settings can be handled directly in Netlify. By navigating to **Settings** --- **Build & Deploy** --- **Continuous Deployment --- Build Settings**, you can update the build command to set `CI=false` for each build.
+If there is not a `netlify.toml` file in the project, the build settings can be handled directly in
+Netlify. By navigating to **Settings** --- **Build & Deploy** --- **Continuous Deployment --- Build
+Settings**, you can update the build command to set `CI=false` for each build.
 
 {% image './src/assets/articles/netlify-deploy-errors/build-screenshot-1.png', 'Netlify build settings' %}
 
-One caveat, in the event that adding `CI=false` to the build command _still_ doesn't work, trying setting `CI=""` because older versions of `react-scripts` behave differently and may require an empty string. More information can be found in this thread: <https://github.community/t/treating-warnings-as-errors-because-process-env-ci-true/18032>
+One caveat, in the event that adding `CI=false` to the build command _still_ doesn't work, trying
+setting `CI=""` because older versions of `react-scripts` behave differently and may require an
+empty string. More information can be found in this thread:
+<https://github.community/t/treating-warnings-as-errors-because-process-env-ci-true/18032>

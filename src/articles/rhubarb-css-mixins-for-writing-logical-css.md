@@ -3,55 +3,75 @@ title: Rhubarb CSS - Mixins for Writing Logical CSS
 date: 2022-07-04
 layout: article.njk
 tags:
-  - articles
-  - css
-  - rhubarb
-  - scss
-  - styled components
-  - less
-  - stylus
-preview: "At the end of 2020, I wrote about how CSS Logical Properties Are the Future of the Web & I18N. Since then, I've used and advocated for the new properties heavily as I see them as the next huge step toward creating truly fluid and inclusive UIs. However, browser support requirements for the products I was working on didn't always align with browser support for logical properties. So I started writing and re-using various mixins to allow the gradual use of logical CSS through progressive enhancement with physical box model fallbacks when needed."
-description: "Rhubarb CSS is a collection of mixins to support writing progressively-enhanced logical CSS in many different flavors."
+    - articles
+    - css
+    - rhubarb
+    - scss
+    - styled components
+    - less
+    - stylus
+preview:
+    "At the end of 2020, I wrote about how CSS Logical Properties Are the Future of the Web & I18N.
+    Since then, I've used and advocated for the new properties heavily as I see them as the next
+    huge step toward creating truly fluid and inclusive UIs. However, browser support requirements
+    for the products I was working on didn't always align with browser support for logical
+    properties. So I started writing and re-using various mixins to allow the gradual use of logical
+    CSS through progressive enhancement with physical box model fallbacks when needed."
+description:
+    'Rhubarb CSS is a collection of mixins to support writing progressively-enhanced logical CSS in
+    many different flavors.'
 assetDir: rhubarb-css
 ---
 
 {% image "./src/assets/articles/rhubarb-css/logo-rhubarb-css-default.png", "Rhubarb CSS jam jar logo" %}
 
-At the end of 2020, I wrote about how [CSS Logical Properties Are the Future of the Web & I18N](https://www.danyuschick.com/articles/css-logical-properties-are-the-future-of-the-web-and-i18n/). Since then, I've used and advocated for the new properties heavily as I see them as the next huge step toward creating truly fluid and inclusive UIs.
+At the end of 2020, I wrote about how
+[CSS Logical Properties Are the Future of the Web & I18N](https://www.danyuschick.com/articles/css-logical-properties-are-the-future-of-the-web-and-i18n/).
+Since then, I've used and advocated for the new properties heavily as I see them as the next huge
+step toward creating truly fluid and inclusive UIs.
 
-However, browser support requirements for the products I was working on didn't always align with browser support for logical properties. So I started writing and re-using various mixins to allow the gradual use of logical CSS through progressive enhancement with physical box model fallbacks when needed.
+However, browser support requirements for the products I was working on didn't always align with
+browser support for logical properties. So I started writing and re-using various mixins to allow
+the gradual use of logical CSS through progressive enhancement with physical box model fallbacks
+when needed.
 
-I'd first written the mixins for Styled Components. Later, I needed to convert those same mixins into a SCSS project. And it was here that [Rhubarb CSS](https://github.com/rhubarb-css) was born.
+I'd first written the mixins for Styled Components. Later, I needed to convert those same mixins
+into a SCSS project. And it was here that [Rhubarb CSS](https://github.com/rhubarb-css) was born.
 
 ## Rhubarb CSS
 
 🚀 [View Rhubarb CSS on GitHub](https://github.com/rhubarb-css)
 
-> Rhubarb CSS is a collection of mixins to support writing progressively-enhanced logical CSS in many different flavors.
+> Rhubarb CSS is a collection of mixins to support writing progressively-enhanced logical CSS in
+> many different flavors.
 
-What started as a collection of mixins for just [Styled Components](https://github.com/rhubarb-css/rhubarb-styled-components), is now a collection of mixins for [SCSS](https://github.com/rhubarb-css/rhubarb-scss), [Stylus](https://github.com/rhubarb-css/rhubarb-stylus) and [Less](https://github.com/rhubarb-css/rhubarb-less).
+What started as a collection of mixins for just
+[Styled Components](https://github.com/rhubarb-css/rhubarb-styled-components), is now a collection
+of mixins for [SCSS](https://github.com/rhubarb-css/rhubarb-scss),
+[Stylus](https://github.com/rhubarb-css/rhubarb-stylus) and
+[Less](https://github.com/rhubarb-css/rhubarb-less).
 
 So what exactly do these mixins do?
 
 **Rhubarb Styled Components**
 
 ```jsx
-import { Margin, Padding } from "@rhubarb-css/styled-components";
+import { Margin, Padding } from '@rhubarb-css/styled-components';
 
 const Container = styled.section`
-  ${Margin({ inline: "auto" })};
-  ${Padding({ block: "var(--custom-property-value)" })};
+    ${Margin({ inline: 'auto' })};
+    ${Padding({ block: 'var(--custom-property-value)' })};
 `;
 ```
 
 **Rhubarb SCSS**
 
 ```scss
-@import "../node_modules/@rhubarb-css/scss";
+@import '../node_modules/@rhubarb-css/scss';
 
 section {
-  @include margin($inline: auto);
-  @include padding($block: var(--custom-property-value));
+    @include margin($inline: auto);
+    @include padding($block: var(--custom-property-value));
 }
 ```
 
@@ -59,26 +79,30 @@ These examples, would generate the following CSS.
 
 ```css
 section {
-  margin-inline-end: auto;
-  margin-inline-block: auto;
-  padding-block-end: var(--custom-property-value);
-  padding-block-start: var(--custom-property-value);
+    margin-inline-end: auto;
+    margin-inline-block: auto;
+    padding-block-end: var(--custom-property-value);
+    padding-block-start: var(--custom-property-value);
 
-  @supports not (margin-inline-end: 1rem) {
-    margin-left: auto;
-    margin-right: auto;
-  }
+    @supports not (margin-inline-end: 1rem) {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-  @supports not (padding-block-end: 1rem) {
-    padding-bottom: var(--custom-property-value);
-    padding-top: var(--custom-property-value);
-  }
+    @supports not (padding-block-end: 1rem) {
+        padding-bottom: var(--custom-property-value);
+        padding-top: var(--custom-property-value);
+    }
 }
 ```
 
-> An added benefit when using Rhubarb Styled Components is the TypeScript autocompletion of properties and values.
+> An added benefit when using Rhubarb Styled Components is the TypeScript autocompletion of
+> properties and values.
 
-With the compiled CSS, the logical properties are prioritized. In environments where they're not supported, the `@supports` query will be triggered, and the physical-property equivalents are used as fallbacks. Eventually, as browser support catches up and becomes broad enough, the `@supports` query will no longer be needed.
+With the compiled CSS, the logical properties are prioritized. In environments where they're not
+supported, the `@supports` query will be triggered, and the physical-property equivalents are used
+as fallbacks. Eventually, as browser support catches up and becomes broad enough, the `@supports`
+query will no longer be needed.
 
 ## Rhubarb CSS Scope
 
@@ -89,9 +113,11 @@ There were a couple key goals when creating the Rhubarb CSS library:
 
 ### Mixin APIs
 
-Because of the support for Styled Components, the API conventions were generally pegged to this environment, as the outlier.
+Because of the support for Styled Components, the API conventions were generally pegged to this
+environment, as the outlier.
 
-All property keys follow a camelCase naming convention, with any processor-specific leading character, such as `$` for SCSS and `@` for Less.
+All property keys follow a camelCase naming convention, with any processor-specific leading
+character, such as `$` for SCSS and `@` for Less.
 
 ```js
 // Styled Components
@@ -248,14 +274,16 @@ Here is a list of logical property support and their fallback properties.
 
 ## Wrap Up
 
-Is there a _need_ for this? At least for me there was. So why not? Isn't that the whole point of open source? Hopefully, someone else will find it useful in moving their project toward logical properties.
+Is there a _need_ for this? At least for me there was. So why not? Isn't that the whole point of
+open source? Hopefully, someone else will find it useful in moving their project toward logical
+properties.
 
 Either way, I'm quite happy with this.
 
 ## Resources
 
-- [Rhubarb CSS on Github](https://github.com/rhubarb-css)
-- [Rhubarb Styled Components](https://github.com/rhubarb-css/rhubarb-styled-components)
-- [Rhubarb SCSS](https://github.com/rhubarb-css/rhubarb-scss)
-- [Rhubarb Stylus](https://github.com/rhubarb-css/rhubarb-stylus)
-- [Rhubarb Less](https://github.com/rhubarb-css/rhubarb-less)
+-   [Rhubarb CSS on Github](https://github.com/rhubarb-css)
+-   [Rhubarb Styled Components](https://github.com/rhubarb-css/rhubarb-styled-components)
+-   [Rhubarb SCSS](https://github.com/rhubarb-css/rhubarb-scss)
+-   [Rhubarb Stylus](https://github.com/rhubarb-css/rhubarb-stylus)
+-   [Rhubarb Less](https://github.com/rhubarb-css/rhubarb-less)

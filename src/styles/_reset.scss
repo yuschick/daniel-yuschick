@@ -1,57 +1,57 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 html {
-  direction: ltr;
-  writing-mode: horizontal-lr;
+    direction: ltr;
+    writing-mode: horizontal-lr;
 }
 
 html,
 body {
-  @include layout($blockSize: 100%);
+    @include layout($blockSize: 100%);
 
-  background: var(--dy-color-aux-900);
-  color: var(--dy-color-aux-100);
-  font-family: var(--dy-font-primary);
-  font-size: var(--dy-font-size-0);
+    background: var(--dy-color-aux-900);
+    color: var(--dy-color-aux-100);
+    font-family: var(--dy-font-primary);
+    font-size: var(--dy-font-size-0);
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  accent-color: var(--dy-color-primary);
-  line-height: 1.65;
-  scrollbar-width: thin;
-  scrollbar-color: var(--dy-color-primary) var(--dy-color-aux-100);
+    -webkit-font-smoothing: antialiased;
+    accent-color: var(--dy-color-primary);
+    line-height: 1.65;
+    scrollbar-width: thin;
+    scrollbar-color: var(--dy-color-primary) var(--dy-color-aux-100);
 }
 
 body::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
 }
 
 body::-webkit-scrollbar-track {
-  background: var(--dy-color-aux-100);
+    background: var(--dy-color-aux-100);
 }
 body::-webkit-scrollbar-thumb {
-  background-color: var(--dy-color-primary);
-  border-radius: 6px;
-  border: 3px solid var(--dy-color-aux-100);
+    background-color: var(--dy-color-primary);
+    border-radius: 6px;
+    border: 3px solid var(--dy-color-aux-100);
 }
 
 img,
@@ -59,20 +59,20 @@ picture,
 video,
 canvas,
 svg {
-  @include layout($blockSize: auto, $maxInlineSize: 100%);
-  display: block;
+    @include layout($blockSize: auto, $maxInlineSize: 100%);
+    display: block;
 }
 
 img {
-  object-fit: cover;
-  // Defensive CSS best practice: https://ishadeed.com/article/defensive-css/#prevent-an-image-from-being-stretched-or-compressed
+    object-fit: cover;
+    // Defensive CSS best practice: https://ishadeed.com/article/defensive-css/#prevent-an-image-from-being-stretched-or-compressed
 }
 
 input,
 button,
 textarea,
 select {
-  font: inherit;
+    font: inherit;
 }
 
 span,
@@ -83,9 +83,9 @@ h3,
 h4,
 h5,
 h6 {
-  @include layout($maxInlineSize: var(--dy-max-content-length));
+    @include layout($maxInlineSize: var(--dy-max-content-length));
 
-  overflow-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 h1,
@@ -94,27 +94,27 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: 1.25;
+    line-height: 1.25;
 
-  + * {
-    @include margin($blockStart: 0.75em);
-  }
+    + * {
+        @include margin($blockStart: 0.75em);
+    }
 }
 
 h1 {
-  font-size: var(--dy-font-size-3);
+    font-size: var(--dy-font-size-3);
 }
 
 h2 {
-  font-size: var(--dy-font-size-2);
+    font-size: var(--dy-font-size-2);
 }
 
 h3 {
-  font-size: var(--dy-font-size-1);
+    font-size: var(--dy-font-size-1);
 }
 
 h4,
 h5,
 h6 {
-  font-size: var(--dy-font-size-0);
+    font-size: var(--dy-font-size-0);
 }

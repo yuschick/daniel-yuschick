@@ -1,18 +1,24 @@
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="theme-color" content="#bc3810"/>
-<meta name="description" content="{{ description }}"/>
-<meta name="generator" content="{{ eleventy.generator }}">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#bc3810" />
+<meta name="description" content="{{ description }}" />
+<meta name="generator" content="{{ eleventy.generator }}" />
 
 {% if canonical %}
-    <link rel="canonical" href="{{ canonical }}"/>
+    <link rel="canonical" href="{{ canonical }}" />
 {% endif %}
 
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:site" content="@danielyuschick"/>
-<meta name="twitter:creator" content="@danielyuschick"/>
-<meta property="og:url" content="https://www.danyuschick.com{{ page.url }}"/>
-<meta property="og:title" content="{{ title }} | Daniel Yuschick"/>
-<meta property="og:description" content="{{ description }}"/>
-<meta property="og:image" content="https://www.danyuschick.com/assets/{% if assetDir %}articles/{{ assetDir }}/social-image.jpg{% else %}images/social-image-base.jpg{% endif %}"/>
-<meta property="og:type" content="{% if current.includes("article") %}article{% else %}website{% endif %}"/>
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@danielyuschick" />
+<meta name="twitter:creator" content="@danielyuschick" />
+<meta property="og:url" content="https://www.danyuschick.com{{ page.url }}" />
+<meta property="og:title" content="{{ title }} | Daniel Yuschick" />
+<meta property="og:description" content="{{ description }}" />
+<meta
+    property="og:image"
+    content="https://www.danyuschick.com/assets/{% if assetDir %}articles/{{
+        assetDir
+    }}/social-image.jpg{% else %}images/social-image-base.jpg{% endif %}"
+/>
+<meta property="og:type" content="{% if current.includes("article") %}article{% else %}website{%
+endif %}"/>

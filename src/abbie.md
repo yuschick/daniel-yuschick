@@ -1,7 +1,9 @@
 ---
 title: About
 layout: page.njk
-description: Daniel Yuschick is a UI developer, design systems architect and horror author based in Helsinki, Finland.
+description:
+    Daniel Yuschick is a UI developer, design systems architect and horror author based in Helsinki,
+    Finland.
 current: about
 ---
 

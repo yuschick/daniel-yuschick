@@ -1,73 +1,66 @@
 #root {
-  @include layout($minBlockSize: 100%);
+    @include layout($minBlockSize: 100%);
 
-  display: grid;
-  grid-template-rows: min-content min-content auto min-content;
-  isolation: isolate;
+    display: grid;
+    grid-template-rows: min-content min-content auto min-content;
+    isolation: isolate;
 }
 
 svg {
-  @include layout($inlineSize: 1em);
+    @include layout($inlineSize: 1em);
 }
 
 ul {
-  list-style: none;
+    list-style: none;
 
-  + * {
-    @include margin($blockStart: var(--dy-space-base-6x));
-  }
+    + * {
+        @include margin($blockStart: var(--dy-space-base-6x));
+    }
 }
 
 ol + * {
-  @include margin($blockStart: var(--dy-space-base-6x));
+    @include margin($blockStart: var(--dy-space-base-6x));
 }
 
 main {
-  @include layout($maxInlineSize: var(--dy-max-content-length));
-  @include margin($inline: auto);
-  @include padding(
-    $padding: var(--dy-space-base-8x),
-    $blockEnd: var(--dy-space-base-12x)
-  );
+    @include layout($maxInlineSize: var(--dy-max-content-length));
+    @include margin($inline: auto);
+    @include padding($padding: var(--dy-space-base-8x), $blockEnd: var(--dy-space-base-12x));
 }
 
 a {
-  --outline-color: transparent;
-  --outline-size: 0;
+    --outline-color: transparent;
+    --outline-size: 0;
 
-  color: var(--dy-color-primary);
-  outline: var(--outline-size) solid var(--outline-color);
-  outline-offset: 2px;
-  text-decoration: none;
-  text-underline-offset: var(--dy-space-base-1x);
-  transition: outline var(--dy-transition-duration-sm) ease;
+    color: var(--dy-color-primary);
+    outline: var(--outline-size) solid var(--outline-color);
+    outline-offset: 2px;
+    text-decoration: none;
+    text-underline-offset: var(--dy-space-base-1x);
+    transition: outline var(--dy-transition-duration-sm) ease;
 
-  &:hover {
-    text-decoration: underline;
+    &:hover {
+        text-decoration: underline;
 
-    @supports (color: color-mix(in hsl, #fff 80%, #000)) {
-      color: color-mix(
-        in hsl,
-        var(--dy-color-primary) 80%,
-        var(--dy-color-aux-900)
-      );
+        @supports (color: color-mix(in hsl, #fff 80%, #000)) {
+            color: color-mix(in hsl, var(--dy-color-primary) 80%, var(--dy-color-aux-900));
+        }
     }
-  }
 
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
 
-  &:focus-visible {
-    --outline-color: currentColor;
-    --outline-size: 2px;
-  }
+    &:focus-visible {
+        --outline-color: currentColor;
+        --outline-size: 2px;
+    }
 
-  code {
-    color: currentColor;
-  }
+    code {
+        color: currentColor;
+    }
 }
 
 p:not(:last-child) {
-  @include margin($blockEnd: var(--dy-space-base-6x));
+    @include margin($blockEnd: var(--dy-space-base-6x));
 }

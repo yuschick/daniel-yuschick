@@ -2,24 +2,31 @@
 title: Articles
 layout: page.njk
 current: articles
-description: Frontend development articles with a focus on web accessibility, HTML, CSS and design systems.
+description:
+    Frontend development articles with a focus on web accessibility, HTML, CSS and design systems.
 ---
 
-{%- from 'macros/_link.njk' import link %}
-{%- from 'macros/_articleDetails.njk' import articleDetails %}
+{%- from 'macros/_link.njk' import link %} {%- from 'macros/_articleDetails.njk' import
+articleDetails %}
 
 <h1 class="visually-hidden">Articles</h1>
 
 <ul class="articles-list">
     {% for article in collections.articles | reverse %}
-        <li>
-            <h2>
-                {{ link({ url: article.url, content: article.data.title })}}
-            </h2>
+    <li>
+        <h2>
+            {{ link({ url: article.url, content: article.data.title }) }}
+        </h2>
 
-            {{ articleDetails({ date: article.data.date, content: article._templateContent, canonical: article.data.canonical })}}
+        {{
+            articleDetails({
+                date: article.data.date,
+                content: article._templateContent,
+                canonical: article.data.canonical
+            })
+        }}
 
-            <p>{{article.data.preview}}</p>
-        </li>
+        <p>{{ article.data.preview }}</p>
+    </li>
     {% endfor %}
 </ul>
