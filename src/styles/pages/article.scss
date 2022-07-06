@@ -1,192 +1,166 @@
-@import "../../../node_modules/@rhubarb-css/scss";
-@import "./articles_shared";
-@import "../utils/syntax_theme";
-@import "../utils/mixins";
+@import '../../../node_modules/@rhubarb-css/scss';
+@import './articles_shared';
+@import '../utils/syntax_theme';
+@import '../utils/mixins';
 
 article ul {
-  list-style: disc;
-  list-style-position: inside;
+    list-style: disc;
+    list-style-position: inside;
 }
 
 article ol {
-  list-style-position: inside;
+    list-style-position: inside;
 }
 
 img {
-  @include margin($inline: auto);
+    @include margin($inline: auto);
 }
 
 blockquote {
-  @include border($inlineStart: 3px solid var(--dy-color-tertiary));
-  @include layout($maxInlineSize: min(670px, 80%));
-  @include margin($block: var(--dy-space-base-4x), $inline: auto);
-  @include padding(
-    $block: var(--dy-space-base-4x),
-    $inline: var(--dy-space-base-6x)
-  );
+    @include border($inlineStart: 3px solid var(--dy-color-tertiary));
+    @include layout($maxInlineSize: min(670px, 80%));
+    @include margin($block: var(--dy-space-base-4x), $inline: auto);
+    @include padding($block: var(--dy-space-base-4x), $inline: var(--dy-space-base-6x));
 
-  color: var(--dy-color-aux-200);
-  font-size: var(--dy-font-size-1);
-  font-style: italic;
+    color: var(--dy-color-aux-200);
+    font-size: var(--dy-font-size-1);
+    font-style: italic;
 }
 
 code {
-  background: var(--dy-color-aux-800);
-  color: var(--dy-color-aux-100);
-  font-family: var(--dy-font-mono);
+    background: var(--dy-color-aux-800);
+    color: var(--dy-color-aux-100);
+    font-family: var(--dy-font-mono);
 }
 
 pre {
-  @include layout($maxInlineSize: calc(100vw - var(--dy-space-base-8x) * 2.5));
-  @include margin($block: var(--dy-space-base-6x));
-  @include padding($block: var(--dy-space-base-6x));
+    @include layout($maxInlineSize: calc(100vw - var(--dy-space-base-8x) * 2.5));
+    @include margin($block: var(--dy-space-base-6x));
+    @include padding($block: var(--dy-space-base-6x));
 
-  border-image-source: linear-gradient(
-    var(--dy-color-aux-800),
-    var(--dy-color-aux-800)
-  );
-  border-image-slice: 0 fill;
-  border-image-outset: 0 100vw;
-  font-family: var(--dy-font-mono);
-  overflow: auto;
+    border-image-source: linear-gradient(var(--dy-color-aux-800), var(--dy-color-aux-800));
+    border-image-slice: 0 fill;
+    border-image-outset: 0 100vw;
+    font-family: var(--dy-font-mono);
+    overflow: auto;
 }
 
 hr {
-  @include position($position: relative);
-  @include margin($blockEnd: var(--dy-space-base-6x));
-  @include padding($block: var(--dy-space-base-2x));
+    @include position($position: relative);
+    @include margin($blockEnd: var(--dy-space-base-6x));
+    @include padding($block: var(--dy-space-base-2x));
 
-  --pseudo-size: 1.5px;
-  --pseudo-x-offset: 50%;
-  --pseudo-translate: 10%;
-  --pseudo-length: calc(
-    min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset)
-  );
+    --pseudo-size: 1.5px;
+    --pseudo-x-offset: 50%;
+    --pseudo-translate: 10%;
+    --pseudo-length: calc(min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset));
 
-  border-color: transparent;
-  opacity: 1;
-  overflow: visible;
+    border-color: transparent;
+    opacity: 1;
+    overflow: visible;
 
-  &:before,
-  &:after {
-    @include layout(
-      $blockSize: var(--pseudo-size),
-      $inlineSize: var(--pseudo-length)
-    );
-    @include position($position: absolute);
+    &:before,
+    &:after {
+        @include layout($blockSize: var(--pseudo-size), $inlineSize: var(--pseudo-length));
+        @include position($position: absolute);
 
-    background-color: var(--dy-color-aux-100);
-    content: "";
-  }
+        background-color: var(--dy-color-aux-100);
+        content: '';
+    }
 
-  &:before {
-    @include position($blockStart: 0, $inlineStart: var(--pseudo-translate));
-  }
+    &:before {
+        @include position($blockStart: 0, $inlineStart: var(--pseudo-translate));
+    }
 
-  &:after {
-    @include position($blockEnd: 0, $inlineEnd: var(--pseudo-translate));
-  }
+    &:after {
+        @include position($blockEnd: 0, $inlineEnd: var(--pseudo-translate));
+    }
 }
 
 .media-embed-wrapper {
-  @include layout(
-    $inlineSize: 100%,
-    $maxInlineSize: var(--dy-max-content-length)
-  );
-  @include margin($blockEnd: var(--dy-space-base-8x));
+    @include layout($inlineSize: 100%, $maxInlineSize: var(--dy-max-content-length));
+    @include margin($blockEnd: var(--dy-space-base-8x));
 }
 
 .back-to-top-wrapper {
-  @include position(
-    $blockEnd: 0,
-    $inlineEnd: var(--dy-space-base-12x),
-    $position: fixed,
-    $z: 2
-  );
+    @include position($blockEnd: 0, $inlineEnd: var(--dy-space-base-12x), $position: fixed, $z: 2);
 
-  transform: translateY(125%);
-  transition: all var(--dy-transition-duration-lg) ease;
+    transform: translateY(125%);
+    transition: all var(--dy-transition-duration-lg) ease;
 
-  .back-to-top-container {
-    @include border($border: 0);
-    @include position($position: relative);
+    .back-to-top-container {
+        @include border($border: 0);
+        @include position($position: relative);
 
-    background: none;
-    cursor: pointer;
+        background: none;
+        cursor: pointer;
 
-    svg:first-child {
-      @include layout($inlineSize: 64px);
+        svg:first-child {
+            @include layout($inlineSize: 64px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--dy-color-primary);
+            outline-offset: var(--dy-space-base-half);
+        }
+
+        &:focus-within .pennywise {
+            opacity: 0.8;
+        }
     }
 
-    &:focus-visible {
-      outline: 2px solid var(--dy-color-primary);
-      outline-offset: var(--dy-space-base-half);
+    &.active {
+        transform: translateY(-50%);
     }
 
-    &:focus-within .pennywise {
-      opacity: 0.8;
+    &:hover .pennywise {
+        opacity: 0.8;
     }
-  }
 
-  &.active {
-    transform: translateY(-50%);
-  }
+    .pennywise {
+        @include layout($inlineSize: 32px);
+        @include position($blockStart: 10%, $inlineEnd: 25%, $position: absolute, $z: 2);
 
-  &:hover .pennywise {
-    opacity: 0.8;
-  }
-
-  .pennywise {
-    @include layout($inlineSize: 32px);
-    @include position(
-      $blockStart: 10%,
-      $inlineEnd: 25%,
-      $position: absolute,
-      $z: 2
-    );
-
-    opacity: 0;
-    transition: opacity var(--dy-transition-duration-lg);
-  }
+        opacity: 0;
+        transition: opacity var(--dy-transition-duration-lg);
+    }
 }
 
 figure {
-  @include margin($blockEnd: var(--dy-space-base-6x));
+    @include margin($blockEnd: var(--dy-space-base-6x));
 
-  figcaption {
-    @include layout($textAlign: center);
-  }
+    figcaption {
+        @include layout($textAlign: center);
+    }
 }
 
 .table-wrapper {
-  overflow-x: auto;
+    overflow-x: auto;
 
-  + * {
-    @include margin($blockStart: var(--dy-space-base-6x));
-  }
+    + * {
+        @include margin($blockStart: var(--dy-space-base-6x));
+    }
 }
 
 table {
-  @include layout(
-    $inlineSize: max(100%, calc(var(--dy-max-content-length) - 10ch))
-  );
+    @include layout($inlineSize: max(100%, calc(var(--dy-max-content-length) - 10ch)));
 
-  thead {
-    background: var(--dy-color-tertiary);
-  }
-
-  th {
-    @include padding($padding: 0.5em);
-    @include layout($textAlign: start);
-  }
-
-  td {
-    @include padding($padding: 0.25em);
-  }
-
-  tr {
-    &:nth-child(even) {
-      background: var(--dy-color-aux-700);
+    thead {
+        background: var(--dy-color-tertiary);
     }
-  }
+
+    th {
+        @include padding($padding: 0.5em);
+        @include layout($textAlign: start);
+    }
+
+    td {
+        @include padding($padding: 0.25em);
+    }
+
+    tr {
+        &:nth-child(even) {
+            background: var(--dy-color-aux-700);
+        }
+    }
 }

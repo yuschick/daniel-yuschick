@@ -1,19 +1,19 @@
-@import "../../../node_modules/@rhubarb-css/scss";
-@import "../utils/mixins";
+@import '../../../node_modules/@rhubarb-css/scss';
+@import '../utils/mixins';
 
 .article-details {
-  @include flex-base();
-  @include margin($block: var(--dy-space-base-2x));
+    @include flex-base();
+    @include margin($block: var(--dy-space-base-2x));
 
-  align-items: center;
-  color: var(--dy-color-aux-300);
-  font-size: var(--dy-font-size--1);
-  gap: var(--dy-space-base-4x);
+    align-items: center;
+    color: var(--dy-color-aux-300);
+    font-size: var(--dy-font-size--1);
+    gap: var(--dy-space-base-4x);
 }
 
 .article-details-item {
-  @include flex-base();
+    @include flex-base();
 
-  align-items: center;
-  gap: var(--dy-space-base-1x);
+    align-items: center;
+    gap: var(--dy-space-base-1x);
 }

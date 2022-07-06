@@ -1,54 +1,54 @@
 {
-  "name": "daniel-yuschick",
-  "version": "2.0.0",
-  "description": "The homepage of design systems developer and horror author, Daniel Yuschick.",
-  "main": "index.js",
-  "scripts": {
-    "build": "eleventy",
-    "start": "eleventy --serve",
-    "lint": "eslint src --config .eslintrc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yuschick/daniel-yuschick.git"
-  },
-  "author": "Daniel Yuschick",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yuschick/daniel-yuschick/issues"
-  },
-  "devDependencies": {
-    "@11ty/eleventy": "^1.0.1",
-    "@11ty/eleventy-img": "^2.0.1",
-    "@11ty/eleventy-plugin-rss": "^1.2.0",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
-    "autoprefixer": "^10.4.7",
-    "cssnano": "^5.1.12",
-    "eleventy-sass": "^1.3.1",
-    "eslint": "^8.19.0",
-    "postcss": "^8.4.14"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 11"
-  ],
-  "keywords": [
-    "Daniel Yuschick",
-    "Dan Yuschick",
-    "Helsinki, Finland",
-    "Frontend developer",
-    "React developer",
-    "UI Developer",
-    "Web Accessibility",
-    "A11y",
-    "Design Systems",
-    "The Mines"
-  ],
-  "dependencies": {
-    "@rhubarb-css/scss": "^0.2.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1"
-  }
+    "name": "daniel-yuschick",
+    "version": "2.0.0",
+    "description": "The homepage of design systems developer and horror author, Daniel Yuschick.",
+    "main": "index.js",
+    "scripts": {
+        "build": "eleventy",
+        "start": "eleventy --serve",
+        "lint": "eslint src --config .eslintrc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yuschick/daniel-yuschick.git"
+    },
+    "author": "Daniel Yuschick",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/yuschick/daniel-yuschick/issues"
+    },
+    "devDependencies": {
+        "@11ty/eleventy": "^1.0.1",
+        "@11ty/eleventy-img": "^2.0.1",
+        "@11ty/eleventy-plugin-rss": "^1.2.0",
+        "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
+        "autoprefixer": "^10.4.7",
+        "cssnano": "^5.1.12",
+        "eleventy-sass": "^1.3.1",
+        "eslint": "^8.19.0",
+        "postcss": "^8.4.14"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 11"
+    ],
+    "keywords": [
+        "Daniel Yuschick",
+        "Dan Yuschick",
+        "Helsinki, Finland",
+        "Frontend developer",
+        "React developer",
+        "UI Developer",
+        "Web Accessibility",
+        "A11y",
+        "Design Systems",
+        "The Mines"
+    ],
+    "dependencies": {
+        "@rhubarb-css/scss": "^0.2.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "prettier": "^2.7.1"
+    }
 }

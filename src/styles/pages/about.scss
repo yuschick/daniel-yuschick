@@ -1,39 +1,39 @@
-@import "../../../node_modules/@rhubarb-css/scss";
-@import "../utils/breakpoints";
-@import "../utils/mixins";
+@import '../../../node_modules/@rhubarb-css/scss';
+@import '../utils/breakpoints';
+@import '../utils/mixins';
 
 .about--content-alignment {
-  @include layout($textAlign: start);
+    @include layout($textAlign: start);
 
-  @include breakpoint-min(700px) {
-    @include layout($textAlign: center);
-  }
+    @include breakpoint-min(700px) {
+        @include layout($textAlign: center);
+    }
 }
 
 @include breakpoint-max(700px) {
-  .about li {
-    line-height: 1.5;
+    .about li {
+        line-height: 1.5;
 
-    + li {
-      @include margin($blockStart: var(--dy-space-base-3x));
+        + li {
+            @include margin($blockStart: var(--dy-space-base-3x));
+        }
     }
-  }
 }
 
 ul:not(:last-child) {
-  @include position($position: relative);
-  @include margin($blockEnd: var(--dy-space-base-8x));
-  @include padding($blockEnd: var(--dy-space-base-8x));
-  @include divider-icon($placement: end);
+    @include position($position: relative);
+    @include margin($blockEnd: var(--dy-space-base-8x));
+    @include padding($blockEnd: var(--dy-space-base-8x));
+    @include divider-icon($placement: end);
 
-  $icons: "drums", "dog", "hearts";
-  $length: length($icons);
+    $icons: 'drums', 'dog', 'hearts';
+    $length: length($icons);
 
-  @each $icon in $icons {
-    $i: index($icons, $icon);
+    @each $icon in $icons {
+        $i: index($icons, $icon);
 
-    &:nth-child(#{($i * 2)}):after {
-      background-image: url("../../assets/icons/icon-#{$icon}.svg");
+        &:nth-child(#{($i * 2)}):after {
+            background-image: url('../../assets/icons/icon-#{$icon}.svg');
+        }
     }
-  }
 }

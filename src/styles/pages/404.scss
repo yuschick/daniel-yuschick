@@ -1,38 +1,37 @@
-@import "../../../node_modules/@rhubarb-css/scss";
-@import "../utils/animations";
+@import '../../../node_modules/@rhubarb-css/scss';
+@import '../utils/animations';
 
 #root {
-  background: url("/assets/images/the-upside-down.jpeg") no-repeat
-    var(--dy-color-aux-100);
-  background-blend-mode: luminosity;
-  background-size: cover;
-  background-position: center;
+    background: url('/assets/images/the-upside-down.jpeg') no-repeat var(--dy-color-aux-100);
+    background-blend-mode: luminosity;
+    background-size: cover;
+    background-position: center;
 }
 
 .container-404 {
-  @include layout($blockSize: 100%);
+    @include layout($blockSize: 100%);
 
-  color: var(--dy-color-aux-900);
-  display: grid;
-  place-items: center;
+    color: var(--dy-color-aux-900);
+    display: grid;
+    place-items: center;
 
-  h2 {
-    @include layout($textAlign: center);
+    h2 {
+        @include layout($textAlign: center);
 
-    font-size: 10rem;
-    font-weight: 700;
-    line-height: 1;
+        font-size: 10rem;
+        font-weight: 700;
+        line-height: 1;
 
-    span {
-      animation: flicker 2s linear alternate-reverse infinite;
+        span {
+            animation: flicker 2s linear alternate-reverse infinite;
+        }
     }
-  }
 
-  p {
-    @include layout($textAlign: center);
+    p {
+        @include layout($textAlign: center);
 
-    color: var(--dy-color-aux-700);
-    font-size: var(--dy-font-size-3);
-    line-height: 1;
-  }
+        color: var(--dy-color-aux-700);
+        font-size: var(--dy-font-size-3);
+        line-height: 1;
+    }
 }

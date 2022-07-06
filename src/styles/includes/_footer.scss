@@ -1,59 +1,55 @@
-@import "../utils/animations";
-@import "../utils/mixins";
+@import '../utils/animations';
+@import '../utils/mixins';
 
 .primary-footer {
-  @include flex-base();
-  @include position($position: relative);
-  @include padding(
-    $block: var(--dy-space-base-3x),
-    $inline: var(--dy-space-base-8x)
-  );
+    @include flex-base();
+    @include position($position: relative);
+    @include padding($block: var(--dy-space-base-3x), $inline: var(--dy-space-base-8x));
 
-  background: var(--dy-color-surface-tertiary);
-  color: var(--dy-color-aux-900);
-  gap: var(--dy-space-base-4x);
-  justify-content: space-between;
-
-  q span:last-child {
-    display: none;
-    font-style: italic;
-  }
-
-  svg {
-    @include layout($blockSize: 0, $inlineSize: var(--icon-size));
-    @include position(
-      $blockStart: var(--icon-size),
-      $inlineStart: var(--dy-space-base-8x),
-      $position: absolute,
-      $z: -1
-    );
-
-    --icon-size: 48px;
-
-    color: var(--dy-color-secondary);
-    transform-origin: bottom center;
-    transition: all var(--dy-transition-duration-lg) ease;
-
-    path {
-      fill: currentColor;
-    }
-  }
-
-  &:hover {
-    q span:first-child {
-      display: none;
-    }
+    background: var(--dy-color-surface-tertiary);
+    color: var(--dy-color-aux-900);
+    gap: var(--dy-space-base-4x);
+    justify-content: space-between;
 
     q span:last-child {
-      display: inline;
+        display: none;
+        font-style: italic;
     }
 
     svg {
-      @include layout($blockSize: var(--icon-size));
-      @include position($blockStart: calc(2px - var(--icon-size)));
+        @include layout($blockSize: 0, $inlineSize: var(--icon-size));
+        @include position(
+            $blockStart: var(--icon-size),
+            $inlineStart: var(--dy-space-base-8x),
+            $position: absolute,
+            $z: -1
+        );
 
-      animation: wiggle 2s var(--dy-transition-duration-lg) ease
-        alternate-reverse infinite;
+        --icon-size: 48px;
+
+        color: var(--dy-color-secondary);
+        transform-origin: bottom center;
+        transition: all var(--dy-transition-duration-lg) ease;
+
+        path {
+            fill: currentColor;
+        }
     }
-  }
+
+    &:hover {
+        q span:first-child {
+            display: none;
+        }
+
+        q span:last-child {
+            display: inline;
+        }
+
+        svg {
+            @include layout($blockSize: var(--icon-size));
+            @include position($blockStart: calc(2px - var(--icon-size)));
+
+            animation: wiggle 2s var(--dy-transition-duration-lg) ease alternate-reverse infinite;
+        }
+    }
 }
