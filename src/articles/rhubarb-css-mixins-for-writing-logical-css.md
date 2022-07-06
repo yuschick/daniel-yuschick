@@ -133,7 +133,7 @@ $blockSize
 blockSize
 ```
 
-### Logical Property Support (v0.2.0)
+### Logical Property Support (v0.3.0)
 
 Here is a list of logical property support and their fallback properties.
 
@@ -195,6 +195,8 @@ Here is a list of logical property support and their fallback properties.
 | Prop                     | CSS Property (_Fallback_)                            |
 | ------------------------ | ---------------------------------------------------- |
 | blockSize                | block-size (_height_)                                |
+| captionSide              | caption-side                                         |
+| clear                    | clear                                                |
 | maxBlockSize             | max-block-size (_max-height_)                        |
 | minBlockSize             | min-block-size (_min-height_)                        |
 | inlineSize               | inline-size (_width_)                                |
@@ -240,7 +242,7 @@ Here is a list of logical property support and their fallback properties.
 
 | Prop              | CSS Property (_Fallback_)                                     |
 | ----------------- | ------------------------------------------------------------- |
-| block             | padding-block-start/end (\_padding-top/bottom)                |
+| block             | padding-block-start/end (_padding-top/bottom_)                |
 | blockEnd          | padding-block-end (_padding-bottom_)                          |
 | blockStart        | padding-block-start (_padding-top_)                           |
 | inline            | padding-inline-start/end (_padding-left/right_)               |
@@ -265,6 +267,7 @@ Here is a list of logical property support and their fallback properties.
 | ----------- | --------------------------- |
 | blockEnd    | inset-block-end (_bottom_)  |
 | blockStart  | inset-block-start (top)     |
+| float       | float                       |
 | inlineEnd   | inset-inline-end (_right_)  |
 | inlineStart | inset-inline-start (_left_) |
 | position    | position                    |
