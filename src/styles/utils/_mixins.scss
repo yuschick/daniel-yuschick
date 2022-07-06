@@ -8,8 +8,11 @@
 @mixin divider-icon($placement: start) {
     &:before,
     &:after {
-        @include position($inlineStart: 50%, $position: absolute, $z: 2);
+        @include position($inlineStart: 50%);
         --translateY: -50%;
+
+        position: absolute;
+        z-index: 2;
 
         @if $placement == end {
             @include position($blockEnd: 0);

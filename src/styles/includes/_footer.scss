@@ -3,13 +3,13 @@
 
 .primary-footer {
     @include flex-base();
-    @include position($position: relative);
     @include padding($block: var(--dy-space-base-3x), $inline: var(--dy-space-base-8x));
 
     background: var(--dy-color-surface-tertiary);
     color: var(--dy-color-aux-900);
     gap: var(--dy-space-base-4x);
     justify-content: space-between;
+    position: relative;
 
     q span:last-child {
         display: none;
@@ -18,18 +18,15 @@
 
     svg {
         @include layout($blockSize: 0, $inlineSize: var(--icon-size));
-        @include position(
-            $blockStart: var(--icon-size),
-            $inlineStart: var(--dy-space-base-8x),
-            $position: absolute,
-            $z: -1
-        );
+        @include position($blockStart: var(--icon-size), $inlineStart: var(--dy-space-base-8x));
 
         --icon-size: 48px;
 
         color: var(--dy-color-secondary);
+        position: absolute;
         transform-origin: bottom center;
         transition: all var(--dy-transition-duration-lg) ease;
+        z-index: -1;
 
         path {
             fill: currentColor;

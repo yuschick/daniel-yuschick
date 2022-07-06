@@ -21,10 +21,11 @@
 }
 
 ul:not(:last-child) {
-    @include position($position: relative);
     @include margin($blockEnd: var(--dy-space-base-8x));
     @include padding($blockEnd: var(--dy-space-base-8x));
     @include divider-icon($placement: end);
+
+    position: relative;
 
     $icons: 'drums', 'dog', 'hearts';
     $length: length($icons);

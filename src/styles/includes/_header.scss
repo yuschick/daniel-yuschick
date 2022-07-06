@@ -30,15 +30,12 @@
 
 .skip-to-link:focus-visible {
     @include padding($padding: var(--dy-space-base-2x));
-    @include position(
-        $blockStart: var(--dy-space-base-4x),
-        $inlineStart: var(--dy-space-base-4x),
-        $position: absolute,
-        $z: 1
-    );
+    @include position($blockStart: var(--dy-space-base-4x), $inlineStart: var(--dy-space-base-4x));
 
     all: unset;
     color: var(--dy-color-aux-900);
     cursor: pointer;
     outline: 2px solid currentColor;
+    position: absolute;
+    z-index: 1;
 }

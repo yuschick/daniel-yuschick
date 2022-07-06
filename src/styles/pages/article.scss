@@ -46,7 +46,6 @@ pre {
 }
 
 hr {
-    @include position($position: relative);
     @include margin($blockEnd: var(--dy-space-base-6x));
     @include padding($block: var(--dy-space-base-2x));
 
@@ -58,14 +57,15 @@ hr {
     border-color: transparent;
     opacity: 1;
     overflow: visible;
+    position: relative;
 
     &:before,
     &:after {
         @include layout($blockSize: var(--pseudo-size), $inlineSize: var(--pseudo-length));
-        @include position($position: absolute);
 
         background-color: var(--dy-color-aux-100);
         content: '';
+        position: absolute;
     }
 
     &:before {
@@ -83,17 +83,19 @@ hr {
 }
 
 .back-to-top-wrapper {
-    @include position($blockEnd: 0, $inlineEnd: var(--dy-space-base-12x), $position: fixed, $z: 2);
+    @include position($blockEnd: 0, $inlineEnd: var(--dy-space-base-12x));
 
+    position: fixed;
     transform: translateY(125%);
     transition: all var(--dy-transition-duration-lg) ease;
+    z-index: 2;
 
     .back-to-top-container {
         @include border($border: 0);
-        @include position($position: relative);
 
         background: none;
         cursor: pointer;
+        position: relative;
 
         svg:first-child {
             @include layout($inlineSize: 64px);
@@ -119,10 +121,12 @@ hr {
 
     .pennywise {
         @include layout($inlineSize: 32px);
-        @include position($blockStart: 10%, $inlineEnd: 25%, $position: absolute, $z: 2);
+        @include position($blockStart: 10%, $inlineEnd: 25%);
 
         opacity: 0;
+        position: absolute;
         transition: opacity var(--dy-transition-duration-lg);
+        z-index: 2;
     }
 }
 

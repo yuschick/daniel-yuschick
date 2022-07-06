@@ -4,10 +4,11 @@
 
 .articles-list {
     li + li {
-        @include position($position: relative);
         @include margin($blockStart: var(--dy-space-base-8x));
         @include padding($blockStart: var(--dy-space-base-8x));
         @include divider-icon();
+
+        position: relative;
 
         $icons: 'freddy', 'zombie-hand', 'jason', 'axe', 'scream', 'halloween', 'zombie';
         $length: length($icons);
