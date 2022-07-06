@@ -3,18 +3,25 @@ layout: page.njk
 current: article
 ---
 
-{%- from 'macros/_link.njk' import link %}
-{%- from 'macros/_articleDetails.njk' import articleDetails %}
+{%- from 'macros/_link.njk' import link %} {%- from 'macros/_articleDetails.njk' import
+articleDetails %}
 
 <article>
     <h1>{{ title }}</h1>
-    {{ articleDetails({ date: date, content: content, canonical: canonical })}}
+    {{ articleDetails({ date: date, content: content, canonical: canonical }) }}
     {{ content | safe }}
 </article>
 
 <div class="back-to-top-wrapper">
-    <button class="back-to-top-container" type="button" onclick="goToTop()" title="Float back to the top of the page.">
+    <button
+        class="back-to-top-container"
+        type="button"
+        onclick="goToTop()"
+        title="Float back to the top of the page."
+    >
         {% include '../assets/icons/icon-balloon.svg' %}
-        <i class="pennywise" role="presentation">{% include '../assets/icons/icon-pennywise.svg' %}</i>
+        <i class="pennywise" role="presentation"
+            >{% include '../assets/icons/icon-pennywise.svg' %}</i
+        >
     </button>
 </div>
