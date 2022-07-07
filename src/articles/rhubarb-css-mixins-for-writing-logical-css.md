@@ -133,7 +133,7 @@ $blockSize
 blockSize
 ```
 
-### Logical Property Support (v0.4.0)
+### Logical Property Support (v1.0.0)
 
 Here is a list of logical property support and their fallback properties.
 
@@ -263,13 +263,14 @@ Here is a list of logical property support and their fallback properties.
 
 <div class="table-wrapper">
 
-| Prop        | CSS Property (_Fallback_)   |
-| ----------- | --------------------------- |
-| blockEnd    | inset-block-end (_bottom_)  |
-| blockStart  | inset-block-start (top)     |
-| float       | float                       |
-| inlineEnd   | inset-inline-end (_right_)  |
-| inlineStart | inset-inline-start (_left_) |
+| Prop        | CSS Property (_Fallback_)       |
+| ----------- | ------------------------------- |
+| blockEnd    | inset-block-end (_bottom_)      |
+| blockStart  | inset-block-start (top)         |
+| float       | float                           |
+| inlineEnd   | inset-inline-end (_right_)      |
+| inlineStart | inset-inline-start (_left_)     |
+| inset       | inset (_top/right/bottom/left_) |
 
 </div>
 
