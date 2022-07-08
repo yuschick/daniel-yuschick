@@ -22,7 +22,7 @@
         "@11ty/eleventy-plugin-rss": "^1.2.0",
         "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
         "@11ty/eleventy": "^1.0.1",
-        "@rhubarb-css/scss": "^1.0.1",
+        "@organicss/scss": "^1.1.0",
         "autoprefixer": "^10.4.7",
         "cssnano": "^5.1.12",
         "eleventy-sass": "^1.3.1",
@@ -48,5 +48,6 @@
         "A11y",
         "Design Systems",
         "The Mines"
-    ]
+    ],
+    "dependencies": {}
 }

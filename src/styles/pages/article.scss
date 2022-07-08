@@ -1,4 +1,4 @@
-@import '../../../node_modules/@rhubarb-css/scss';
+@import '../../../node_modules/@organicss/scss';
 @import './articles_shared';
 @import '../utils/syntax_theme';
 @import '../utils/mixins';
@@ -19,8 +19,8 @@ img {
 blockquote {
     @include border($inlineStart: 3px solid var(--dy-color-tertiary));
     @include layout($maxInlineSize: min(670px, 80%));
-    @include margin($block: var(--dy-space-base-4x), $inline: auto);
-    @include padding($block: var(--dy-space-base-4x), $inline: var(--dy-space-base-6x));
+    @include margin($margin: var(--dy-space-base-4x) auto);
+    @include padding($padding: var(--dy-space-base-4x) var(--dy-space-base-6x));
 
     color: var(--dy-color-aux-200);
     font-size: var(--dy-font-size-1);

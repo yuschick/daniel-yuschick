@@ -3,7 +3,7 @@
 
 .primary-footer {
     @include flex-base();
-    @include padding($block: var(--dy-space-base-3x), $inline: var(--dy-space-base-8x));
+    @include padding($padding: var(--dy-space-base-3x) var(--dy-space-base-8x));
 
     background: var(--dy-color-surface-tertiary);
     color: var(--dy-color-aux-900);

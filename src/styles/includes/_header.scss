@@ -1,5 +1,5 @@
 .primary-header {
-    @include padding($block: var(--dy-space-base-4x), $inline: var(--dy-space-base-8x));
+    @include padding($padding: var(--dy-space-base-4x) var(--dy-space-base-8x));
 
     @include breakpoint-min(700px) {
         @include padding($block: var(--dy-space-base-8x));

@@ -25,7 +25,7 @@ nav {
         }
 
         li {
-            @include padding($block: var(--dy-space-base-2x), $inline: var(--dy-space-base-4x));
+            @include padding($padding: var(--dy-space-base-2x) var(--dy-space-base-4x));
 
             -webkit-clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
