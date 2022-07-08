@@ -21,6 +21,7 @@ description:
     'Rhubarb CSS is a collection of mixins to support writing progressively-enhanced logical CSS in
     many different flavors.'
 assetDir: rhubarb-css
+eleventyExcludeFromCollections: true
 ---
 
 {% image "./src/assets/articles/rhubarb-css/logo-rhubarb-css-default.png", "Rhubarb CSS jam jar logo" %}
