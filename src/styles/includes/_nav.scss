@@ -40,7 +40,7 @@ nav {
         @include margin($margin: var(--dy-space-base-1x));
     }
 
-    [data-current] {
+    li:has([aria-current='page']) {
         background: var(--dy-color-surface-secondary);
 
         a {
@@ -56,9 +56,30 @@ nav {
             }
         }
     }
+
+    @supports not selector(:has([data-current])) {
+        [data-current] {
+            background: var(--dy-color-surface-secondary);
+
+            a {
+                color: var(--dy-color-text-nav-active);
+
+                &:hover {
+                    color: var(--dy-color-text-nav-active);
+
+                    &:before,
+                    &:after {
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 nav a {
+    @include layout($minInlineSize: 25px, $textAlign: center);
+
     --accent-offset: 10%;
     --accent-size: 2px;
 
@@ -104,7 +125,7 @@ nav a {
         outline-offset: var(--accent-size);
     }
 
-    &:focus:not(:focus-visible) {
+    &:focus {
         outline: none;
     }
 

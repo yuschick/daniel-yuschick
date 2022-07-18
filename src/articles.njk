@@ -4,21 +4,27 @@ layout: page.njk
 current: articles
 description:
     Frontend development articles with a focus on web accessibility, HTML, CSS and design systems.
+pagination:
+  data: collections.articles
+  size: 6
+  alias: articles
+  reverse: true
 ---
 
-{%- from 'macros/_link.njk' import link %} {%- from 'macros/_articleDetails.njk' import
+{%- from 'macros/_link.njk' import link %}
+{%- from 'macros/_articleDetails.njk' import
 articleDetails %}
 
 <h1 class="visually-hidden">Articles</h1>
 
 <ul class="articles-list">
-    {% for article in collections.articles | reverse %}
-    <li>
-        <h2>
-            {{ link({ url: article.url, content: article.data.title }) }}
-        </h2>
+    {% for article in articles %}
+        <li>
+            <h2>
+                {{ link({ url: article.url, content: article.data.title }) }}
+            </h2>
 
-        {{
+            {{
             articleDetails({
                 date: article.data.date,
                 content: article._templateContent,
@@ -26,7 +32,23 @@ articleDetails %}
             })
         }}
 
-        <p>{{ article.data.preview }}</p>
-    </li>
+            <p>{{ article.data.preview }}</p>
+        </li>
     {% endfor %}
 </ul>
+
+<nav aria-label="Pagination">
+    <ul>
+        {% for href in pagination.hrefs %}
+            <li {% if loop.index === pagination.pageNumber + 1 %}data-current{% endif %}
+         >
+                <a href="{{href}}"
+         aria-label="Page {{loop.index}}"
+         {% if loop.index === pagination.pageNumber + 1 %}aria-current="page"{% endif %}
+         >
+                    {{loop.index}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
