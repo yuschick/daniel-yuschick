@@ -40,7 +40,7 @@ nav {
         @include margin($margin: var(--dy-space-base-1x));
     }
 
-    [data-current] {
+    li:has([aria-current='page']) {
         background: var(--dy-color-surface-secondary);
 
         a {
@@ -52,6 +52,25 @@ nav {
                 &:before,
                 &:after {
                     opacity: 0;
+                }
+            }
+        }
+    }
+
+    @supports not selector(:has([data-current])) {
+        [data-current] {
+            background: var(--dy-color-surface-secondary);
+
+            a {
+                color: var(--dy-color-text-nav-active);
+
+                &:hover {
+                    color: var(--dy-color-text-nav-active);
+
+                    &:before,
+                    &:after {
+                        opacity: 0;
+                    }
                 }
             }
         }
