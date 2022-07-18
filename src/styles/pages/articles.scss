@@ -10,13 +10,13 @@
 
         position: relative;
 
-        $icons: 'freddy', 'zombie-hand', 'jason', 'axe', 'scream', 'halloween', 'zombie';
+        $icons: 'scream', 'zombie-hand', 'jason', 'axe', 'freddy', 'halloween', 'zombie';
         $length: length($icons);
 
         @each $icon in $icons {
             $i: index($icons, $icon);
 
-            &:nth-child(#{$length}n + #{$i}):after {
+            &:nth-child(#{$i}):after {
                 background-image: url('../../assets/icons/icon-#{$icon}.svg');
             }
         }
