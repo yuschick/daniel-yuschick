@@ -39,6 +39,7 @@ module.exports = function (config) {
     config.addPassthroughCopy('./src/assets/books');
     config.addPassthroughCopy('./src/assets/icons');
     config.addPassthroughCopy('./src/assets/images');
+    config.addPassthroughCopy('./src/assets/slides');
     config.addPassthroughCopy('./src/assets/articles/**/**.mp4');
     config.addPassthroughCopy('./src/assets/articles/**/social-image.jpg');
 
