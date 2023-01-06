@@ -89,7 +89,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
     theme: 'primary' | 'secondary';
 };
 
-<Button onClick={someFunction} text="Add to cart" theme="primary" />;
+<Button onClick={someFunction} text="Add to cart" theme="primary" />
 ```
 
 It’s possible, and perhaps even likely, that we’ve all seen a `Button` component like this. Maybe
@@ -119,7 +119,7 @@ type ButtonProps = {
     icon?: 'cart' | '...all-other-potential-icon-names';
 };
 
-<Button theme="primary" onClick={someFunction} text="Add to cart" icon="cart" />;
+<Button theme="primary" onClick={someFunction} text="Add to cart" icon="cart" />
 ```
 
 Whew! Crisis averted.
@@ -334,7 +334,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
 
 <Button onClick={someFunction} theme="primary">
     <span>Add to cart</span>
-</Button>;
+</Button>
 ```
 
 By removing the original `text` prop in lieu of limitless `children`, the `Button` is able to align
@@ -543,7 +543,7 @@ type ModalProps = {
     isShown: boolean;
 };
 
-<Modal isShown={showModal}>...</Modal>;
+<Modal isShown={showModal}>...</Modal>
 ```
 
 Any styling and positioning can be done with CSS in the `Modal` component directly. There’s no need
@@ -561,7 +561,7 @@ export function CloseButton({ onClick, ...props }: ButtonProps) {
 
 <Modal>
     <Modal.CloseButton onClick={closeModal} />
-</Modal>;
+</Modal>
 ```
 
 **Modal.Header, Modal.Main, Modal.Footer** Each of the individual layout sections, `Modal.Header`,
