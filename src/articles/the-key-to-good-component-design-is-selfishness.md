@@ -89,7 +89,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
     theme: 'primary' | 'secondary';
 };
 
-<Button onClick={someFunction} text="Add to cart" theme="primary" />
+<Button onClick={someFunction} text="Add to cart" theme="primary" />;
 ```
 
 It’s possible, and perhaps even likely, that we’ve all seen a `Button` component like this. Maybe
@@ -119,7 +119,7 @@ type ButtonProps = {
     icon?: 'cart' | '...all-other-potential-icon-names';
 };
 
-<Button theme="primary" onClick={someFunction} text="Add to cart" icon="cart" />
+<Button theme="primary" onClick={someFunction} text="Add to cart" icon="cart" />;
 ```
 
 Whew! Crisis averted.
@@ -334,7 +334,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
 
 <Button onClick={someFunction} theme="primary">
     <span>Add to cart</span>
-</Button>
+</Button>;
 ```
 
 By removing the original `text` prop in lieu of limitless `children`, the `Button` is able to align
@@ -534,23 +534,27 @@ decided, let’s break down each composable piece and its role.
 With each component and its role defined, we can start creating the props to support those roles and
 responsibilities.
 
-**Modal** Earlier, we defined the barebones responsibility of the `Modal`, knowing when to
-conditionally render. This can be achieved using a prop like `isShown`. Therefor, we can use this
-props and whenever it’s `true` the `Modal` and its content, will render.
+**Modal**
+
+Earlier, we defined the barebones responsibility of the `Modal`, knowing when to conditionally
+render. This can be achieved using a prop like `isShown`. Therefor, we can use this props and
+whenever it’s `true` the `Modal` and its content, will render.
 
 ```tsx
 type ModalProps = {
     isShown: boolean;
 };
 
-<Modal isShown={showModal}>...</Modal>
+<Modal isShown={showModal}>...</Modal>;
 ```
 
 Any styling and positioning can be done with CSS in the `Modal` component directly. There’s no need
 to create specific props at this time.
 
-**Modal.CloseButton** Given our previously refactored `Button` component, we know how the
-`CloseButton` should work. Heck, we can even use our `Button` to build our `CloseButton` component.
+**Modal.CloseButton**
+
+Given our previously refactored `Button` component, we know how the `CloseButton` should work. Heck,
+we can even use our `Button` to build our `CloseButton` component.
 
 ```tsx
 import { Button, ButtonProps } from 'components/Button';
@@ -561,13 +565,14 @@ export function CloseButton({ onClick, ...props }: ButtonProps) {
 
 <Modal>
     <Modal.CloseButton onClick={closeModal} />
-</Modal>
+</Modal>;
 ```
 
-**Modal.Header, Modal.Main, Modal.Footer** Each of the individual layout sections, `Modal.Header`,
-`Modal.Main` and `Modal.Footer` can take direction from their HTML equivalents, `header`, `main` and
-`footer`. Each of these elements support any variation of child content, and therefor, our
-components will do the same.
+**Modal.Header, Modal.Main, Modal.Footer**
+
+Each of the individual layout sections, `Modal.Header`, `Modal.Main` and `Modal.Footer` can take
+direction from their HTML equivalents, `header`, `main` and `footer`. Each of these elements support
+any variation of child content, and therefor, our components will do the same.
 
 There are no special props needed. They serve only as semantic containers.
 
