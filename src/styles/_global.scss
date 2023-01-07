@@ -64,3 +64,35 @@ a {
 p:not(:last-child) {
     @include margin($blockEnd: var(--dy-space-base-6x));
 }
+
+hr {
+    @include margin($block: var(--dy-space-base-6x));
+    @include padding($block: var(--dy-space-base-2x));
+
+    --pseudo-size: 1.5px;
+    --pseudo-x-offset: 50%;
+    --pseudo-translate: 10%;
+    --pseudo-length: calc(min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset));
+
+    border-color: transparent;
+    opacity: 1;
+    overflow: visible;
+    position: relative;
+
+    &:before,
+    &:after {
+        @include layout($blockSize: var(--pseudo-size), $inlineSize: var(--pseudo-length));
+
+        background-color: var(--dy-color-aux-100);
+        content: '';
+        position: absolute;
+    }
+
+    &:before {
+        @include position($blockStart: 0, $inlineStart: var(--pseudo-translate));
+    }
+
+    &:after {
+        @include position($blockEnd: 0, $inlineEnd: var(--pseudo-translate));
+    }
+}

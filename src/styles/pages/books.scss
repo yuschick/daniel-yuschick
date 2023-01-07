@@ -9,4 +9,12 @@
     @include breakpoint-min(700px) {
         grid-template-columns: 1fr 4fr;
     }
+
+    &+& {
+        margin-block-start: var(--dy-space-base-16x);
+    }
+}
+
+hr:last-child {
+    display: none;
 }
