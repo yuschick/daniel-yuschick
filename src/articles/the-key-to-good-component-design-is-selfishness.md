@@ -161,10 +161,10 @@ Up until this point, the `Button` icons have always been the same color as the t
 reasonable, and like a reliable default, but let’s throw a wrench into this well-oiled component by
 defining a variation with a contrasting color icon.
 
+## Iteration 4
+
 In order to provide a sense of feedback, this confirmation UI stage was designed to be shown
 temporarily when an item has been added to the cart successfully.
-
-## Iteration 4
 
 {% image "./src/assets/articles/selfish-design/design-iteration-04.jpeg", "A sample button design now with an icon of a different color." %}
 
