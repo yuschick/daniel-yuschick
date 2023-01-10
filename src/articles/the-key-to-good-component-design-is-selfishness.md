@@ -21,10 +21,10 @@ description:
 assetDir: selfish-design
 ---
 
-_When translating components from design to development, it’s common to find properties that relate
-to the content and not to the component itself. This considerate approach to component design
-creates complicated props, steeper learning curves and eventual technical debt. However, the key to
-avoiding these pitfalls is selfish, or self-interested, component design._
+**QUICK SUMMARY ↬** When translating components from design to development, it’s common to find
+properties that relate to the content and not to the component itself. This considerate approach to
+component design creates complicated props, steeper learning curves and eventual technical debt.
+However, the key to avoiding these pitfalls is selfish, or self-interested, component design.
 
 ---
 
