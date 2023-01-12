@@ -27,7 +27,15 @@ module.exports = function (config) {
     });
 
     config.addNunjucksGlobal('getArticleReadTime', function (content) {
-        return content ? Math.floor(content.split(' ').length / 250) : '~5';
+        const splitContent = content.split('\n');
+        const filteredContent = splitContent.filter(
+            (content) =>
+                !content.startsWith('<pre') &&
+                !content.startsWith('<hr') &&
+                !content.startsWith('<picture'),
+        );
+        const readTime = Math.floor(filteredContent.join('').split(' ').length / 165);
+        return readTime;
     });
 
     config.addNunjucksGlobal('getCanonicalDomain', function (url) {
