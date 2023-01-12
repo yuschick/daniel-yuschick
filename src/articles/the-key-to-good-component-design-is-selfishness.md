@@ -1,8 +1,8 @@
 ---
 title: The Key to Good Component Design is Selfishness
-date: 2023-01-27
+date: 2023-01-13
 layout: article.njk
-canonical: 'https://www.smashingmagazine.com/2022/06/simplify-color-palette-css-color-mix/'
+canonical: 'https://www.smashingmagazine.com/2023/01/key-good-component-design-selfishness/'
 tags:
     - articles
     - css
