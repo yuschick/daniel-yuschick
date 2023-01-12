@@ -27,11 +27,14 @@ module.exports = function (config) {
     });
 
     config.addNunjucksGlobal('getArticleReadTime', function (content) {
-        const splitContent = content.split('<pre ');
+        const splitContent = content.split('\n');
         const filteredContent = splitContent.filter(
-            (content) => !content.startsWith('<pre ') && !content.startsWith('<hr '),
+            (content) =>
+                !content.startsWith('<pre') &&
+                !content.startsWith('<hr') &&
+                !content.startsWith('<picture'),
         );
-        const readTime = Math.floor(filteredContent.join('').split(' ').length / 250);
+        const readTime = Math.floor(filteredContent.join('').split(' ').length / 165);
         return readTime;
     });
 
