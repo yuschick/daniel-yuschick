@@ -1,6 +1,6 @@
 ---
 title: The Key to Good Component Design is Selfishness
-date: 2023-01-13
+date: 2023-01-20
 layout: article.njk
 canonical: 'https://www.smashingmagazine.com/2023/01/key-good-component-design-selfishness/'
 tags:
