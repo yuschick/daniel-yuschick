@@ -29,7 +29,7 @@ pre[class*='language-'] {
 .token.comment,
 .token.prolog,
 .token.cdata {
-    color: var(--dy-color-aux-300);
+    color: #000;
 }
 
 .token.delimiter,
@@ -37,7 +37,7 @@ pre[class*='language-'] {
 .token.selector,
 .token.important,
 .token.atrule {
-    color: var(--dy-color-primary-darken-100);
+    color: #7c162e;
 }
 
 .token.operator,
@@ -63,18 +63,18 @@ pre[class*='language-'] {
 .token.property,
 .token.constant,
 .token.variable {
-    color: var(--dy-color-aux-200);
+    color: #000;
 }
 
 .token.string,
 .token.char,
 .token.attr-value,
 .token.attr-value .punctuation {
-    color: var(--dy-color-tertiary-darken-200);
+    color: #004643;
 }
 
 .token.attr-value .punctuation:first-child {
-    color: var(--dy-color-tertiary-darken-200);
+    color: #004643;
 }
 
 .token.url {
@@ -92,16 +92,16 @@ code.language-css .token.property + .token.punctuation {
 }
 
 code.language-css .token.id {
-    color: var(--dy-color-primary-darken-100);
+    color: #7c162e;
 }
 
 code.language-css .token.selector > .token.class,
 code.language-css .token.selector > .token.attribute,
 code.language-css .token.selector > .token.pseudo-class,
 code.language-css .token.selector > .token.pseudo-element {
-    color: var(--dy-color-primary-darken-100);
+    color: #7c162e;
 }
 
 .token.class-name {
-    color: var(--dy-color-primary-darken-100);
+    color: #7c162e;
 }
