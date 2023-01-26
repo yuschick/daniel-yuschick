@@ -1,6 +1,6 @@
 {%- from 'macros/_link.njk' import link %}
 
-<nav>
+<nav title="Main">
     <ul>
         <li {% if current === "about" %} data-current {% endif %}>
             {{ link({ url: "/", content: "About", currentPage: current === "about" })}}
