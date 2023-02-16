@@ -9,10 +9,10 @@ tags:
     - i18n
     - react-intl
 preview:
-    "I'll be real; when I first entered the Gatsby ecosystem and tried to load my first image, I was
-    like 'whaaaaaaat?'. And if I was that befuddled trying to load a single picture, how in the
-    world was I going to wrangle Gatsby Image into handling fluid art-directed images, compression,
-    and formatting with broad support?"
+    'Personally, I never looked into internationalization (i18n) until I moved to Finland. None of
+    the projects I had worked on had required it. After spending some time with it, I found that the
+    available libraries, specifically react-intl make the localization process quite smooth with one
+    exception, translating text within attributes such as alt text and title values for icons.'
 description:
     'React libraries can make content localization a breeze but a struggle with attribute text.
     Using React-Intl let’s walk through translating our alt tags and input placeholders.'
