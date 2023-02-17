@@ -56,7 +56,7 @@ pre {
     @include position($blockEnd: 0, $inlineEnd: var(--dy-space-base-12x));
 
     position: fixed;
-    transform: translateY(125%);
+    transform: translateY(calc(125% * var(--dy-direction-multiplier)));
     transition: all var(--dy-transition-duration-lg) ease;
     z-index: 2;
 
@@ -82,7 +82,7 @@ pre {
     }
 
     &.active {
-        transform: translateY(-50%);
+        transform: translateY(calc(-50% * var(--dy-direction-multiplier)));
     }
 
     &:hover .pennywise {

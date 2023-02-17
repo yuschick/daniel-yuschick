@@ -56,4 +56,10 @@
     --dy-transition-duration-lg: 0.25s;
     --dy-transition-duration-xl: 0.5s;
     --dy-transition-duration-2xl: 1s;
+
+    --dy-direction-multiplier: 1;
+    
+    &[data-direction="rtl"] {
+        --dy-direction-multiplier: -1;
+    }
 }
