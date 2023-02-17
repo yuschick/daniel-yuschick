@@ -3,13 +3,13 @@
         transform: rotate(2deg) translateX(0);
     }
     25% {
-        transform: rotate(-2deg) translateX(5px);
+        transform: rotate(-2deg) translateX(calc(5px * var(--dy-direction-multiplier)));
     }
     50% {
-        transform: rotate(3deg) translateX(10px);
+        transform: rotate(3deg) translateX(calc(10px * var(--dy-direction-multiplier)));
     }
     75% {
-        transform: rotate(-3deg) translateX(15px);
+        transform: rotate(-3deg) translateX(calc(15px * var(--dy-direction-multiplier)));
     }
     100% {
         transform: rotate(0deg) translateX(0);

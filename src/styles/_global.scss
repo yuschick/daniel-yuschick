@@ -71,7 +71,7 @@ hr {
 
     --pseudo-size: 1.5px;
     --pseudo-x-offset: 50%;
-    --pseudo-translate: 10%;
+    --pseudo-translate: calc(10% * var(--dy-direction-multiplier));
     --pseudo-length: calc(min(100%, var(--dy-max-content-length)) - var(--pseudo-x-offset));
 
     border-color: transparent;

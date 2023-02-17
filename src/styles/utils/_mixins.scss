@@ -27,7 +27,7 @@
 
         background: var(--dy-color-aux-400);
         content: '';
-        transform: translateX(-50%);
+        transform: translateX(calc(-50% * var(--dy-direction-multiplier)));
     }
 
     &:after {
@@ -39,6 +39,6 @@
         background-position: center;
         background-size: contain;
         content: '';
-        transform: translate(-50%, var(--translateY));
+        transform: translate(calc(-50% * var(--dy-direction-multiplier)), var(--translateY));
     }
 }
