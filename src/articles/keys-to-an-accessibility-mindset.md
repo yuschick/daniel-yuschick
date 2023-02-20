@@ -2,7 +2,7 @@
 title: Keys To An Accessibility Mindset
 date: 2023-03-01
 layout: article.njk
-canonical: 'https://www.smashingmagazine.com/2022/06/simplify-color-palette-css-color-mix/'
+canonical: 'https://www.smashingmagazine.com/2023/02/keys-accessibility-mindset/'
 tags:
     - articles
     - a11y
