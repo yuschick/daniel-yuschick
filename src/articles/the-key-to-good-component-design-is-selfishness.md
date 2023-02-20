@@ -63,7 +63,7 @@ I don’t know 🤷‍♀️ Let’s look at some components and decide for ours
 _Note: All code examples and demos in this article will be based around React and TypeScript.
 However, the concepts and patterns are framework agnostic._
 
-# The Consideration Iterations
+## The Consideration Iterations
 
 Perhaps, the best way to demonstrate a considerate component is by walking through the lifecycle of
 one. We’ll be able to see how they start small and functional, but become unwieldy once the design
@@ -73,7 +73,7 @@ product outgrow the capabilities of the component itself.
 Let’s consider the modest `Button` component. It’s deceptively complex and quite often trapped in
 the consideration pattern, and therefor, a great example to work through.
 
-## Iteration 1
+### Iteration 1
 
 {% image "./src/assets/articles/selfish-design/design-iteration-01.jpeg", "A sample button design with two color variations." %}
 
@@ -102,7 +102,7 @@ In order to meet the requirements of the design, the `Button` defines props for 
 However, the current needs of the design and product are rarely the final needs. When the next
 design iterations are created, the _Add to cart_ button now requires an icon.
 
-## Iteration 2
+### Iteration 2
 
 {% image "./src/assets/articles/selfish-design/design-iteration-02.jpeg", "A sample button design with multiple colors and new icon variant." %}
 
@@ -128,7 +128,7 @@ With the new `icon` prop, the `Button` can now support variants with or without 
 this assumes the icon will always be shown at the end of the text. Which, to the surprise of nobody,
 is not the case when the next iteration is designed.
 
-## Iteration 3
+### Iteration 3
 
 {% image "./src/assets/articles/selfish-design/design-iteration-03.jpeg", "A sample button design which includes a third color variation." %}
 
@@ -161,7 +161,7 @@ Up until this point, the `Button` icons have always been the same color as the t
 reasonable, and like a reliable default, but let’s throw a wrench into this well-oiled component by
 defining a variation with a contrasting color icon.
 
-## Iteration 4
+### Iteration 4
 
 In order to provide a sense of feedback, this confirmation UI stage was designed to be shown
 temporarily when an item has been added to the cart successfully.
@@ -193,7 +193,7 @@ can provide the designed confirmation, and the product can, once again, move for
 
 Of course, as product requirements continue to grow and expand, so do their designs.
 
-## Iteration 5
+### Iteration 5
 
 {% image "./src/assets/articles/selfish-design/design-iteration-05.jpeg", "A sample button design with only an icon as its content." %}
 
@@ -238,7 +238,7 @@ within the component.
 Our beloved `Button` has become quite unmanageable at this point. Hopefully, the product has reached
 a point of stability where no new changes or requirements will ever happen again. Ever.
 
-## Iteration 6
+### Iteration 6
 
 {% image "./src/assets/articles/selfish-design/design-iteration-06.jpeg", "A sample button design with text content in different font formats." %}
 
@@ -269,7 +269,7 @@ Neither outcome is ideal.
 
 So, where did the `Button` component go wrong?
 
-# Sharing Is Impairing
+## Sharing Is Impairing
 
 What is the responsibility of an HTML `button` element exactly? Narrowing down this answer will
 shine light onto the issues facing the previous `Button` component.
@@ -304,7 +304,7 @@ When the component is responsible for the content it displays, it needs an API t
 all content variations. Eventually, that API will break down because content will forever, and
 always, change.
 
-# Introducing The Me In Team
+## Introducing The Me In Team
 
 There’s an adage used in all team sports—”there’s no I in team.” While this mindset is noble, some
 of the greatest individual athletes have embodied other ideas.
@@ -316,7 +316,7 @@ Our original `Button` component was a team player. It shared the responsibility 
 it reached the point of deprecation. How could the `Button` have avoided such constraints by
 embodying a _“M-E in team"_ attitude?
 
-# Me, Myself And UI
+## Me, Myself And UI
 
 > When the component is responsible for the content it displays, it will break down because content
 > will forever, and always, change.
@@ -391,7 +391,7 @@ Or, a `Button` could have only an icon.
 However a product may evolve over time, selfish component design improves the ability to evolve
 along with it. Let’s go beyond the `Button` and into the cornerstones of selfish component design.
 
-# The Keys to Selfish Design
+## The Keys to Selfish Design
 
 Much like when creating a fictional character, it’s best to show, not tell, the reader that they’re
 selfish. By reading about the character’s thoughts and actions, their personality and traits can be
@@ -399,7 +399,7 @@ understood. Component design can take the same approach.
 
 But how exactly do we show in a component’s design and use that it is selfish?
 
-## HTML Drives The Component Design
+### HTML Drives The Component Design
 
 Many times, components are built as direct abstractions of native HTML elements like a `button` or
 `img`. When this is the case, let the native HTML element drive the design of the component.
@@ -415,7 +415,7 @@ use the component.
 There has been a lot of time and thought put into the structure and definitions of HTML elements.
 The wheel doesn’t need to be reinvented every time.
 
-## Children Fend For Themselves
+### Children Fend For Themselves
 
 If you’ve ever read _“Lord of the Flies”,_ you know just how dangerous it can be when a group of
 children are forced to fend for themselves. However, in the case of selfish component design, we’ll
@@ -429,7 +429,7 @@ Many elements are little more than semantic containers. It’s not often we expe
 to style its content. A `button` element is just a very specific type of semantic container. The
 same approach can apply when abstracting it to a component.
 
-## Components Are Singularly Focused
+### Components Are Singularly Focused
 
 Think of selfish component design as arranging a bunch of terrible first dates. A component’s props
 are like the conversation that is entirely focused on them and their immediate responsibilities.
@@ -448,7 +448,7 @@ as gravely important. Components like these are not always rendered in the DOM. 
 addition to knowing how they look and what they do, they need to know when and where to be. In other
 words, this can be described with props like `isShown` and `position`.
 
-## Composition Is King
+### Composition Is King
 
 Some components, such as modals and drawers, can often contain different layout variations. For
 example, some modals will show a header bar while others do not. Some drawers may have a footer with
@@ -478,7 +478,7 @@ props to their specific child component.
 
 Let’s explore this, and the other keys to selfish component design, a bit more.
 
-# You’re So Vain, You Probably Think This Code Is About You
+## You’re So Vain, You Probably Think This Code Is About You
 
 Perhaps the keys of selfish design make sense when looking back at the evolution of our `Button`
 component. Nevertheless, let’s apply them again to another commonly problematic component—the modal.
@@ -590,7 +590,7 @@ interchangeably to create each of the three designs.
 
 _Note: The full markup and styles are not shown as to not take away from the core takeaways._
 
-## Edit Profile Modal
+### Edit Profile Modal
 
 In the **Edit Profile** modal, we use each of the `Modal` components. However, each is used only as
 a container that styles and positions itself. This is why we haven’t included a `className` prop for
@@ -622,7 +622,7 @@ them. Any content styling should be handled by the content itself, not our conta
 </Modal>
 ```
 
-## Upload Successful Modal
+### Upload Successful Modal
 
 Like in the previous example, the **Upload Successful** modal uses its components as opinionless
 containers. The styling for the content is handled by the content itself. Perhaps this means the
@@ -654,7 +654,7 @@ prop, like `isFullWidth`, to the `Button` component for a wider or full-width si
 </Modal>
 ```
 
-## Friends Modal
+### Friends Modal
 
 Lastly, our **Friends** modal does away with the `Modal.Footer` section. Here, it may be enticing to
 the define the overflow styles on `Modal.Main` but that is extending the container’s
@@ -682,7 +682,7 @@ responsibilities to its content. Instead, handling those styles is better suited
 With a selfishly designed `Modal` component, we can accommodate evolving and changing designs with
 flexible and tightly scoped components.
 
-## Next Modal Evolutions
+### Next Modal Evolutions
 
 Given all that we’ve covered, let’s throw around some hypotheticals regarding our `Modal` and how it
 may evolve. How would _you_ approach these design variations?
@@ -701,7 +701,7 @@ design and functionality?
 
 </div>
 
-# Recap
+## Recap
 
 Components are the workhorses of modern web development. A greater importance continues to be placed
 on component libraries, either standalone or as part of a design system. With how fast the web

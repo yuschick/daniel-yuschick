@@ -138,3 +138,9 @@ table {
         }
     }
 }
+
+ul ul {
+ @include margin($inlineStart: 3rem);
+ list-style-type: circle;
+ list-style-position: inside;
+}
