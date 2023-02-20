@@ -1,6 +1,6 @@
 ---
 title: Keys To An Accessibility Mindset
-date: 2023-03-01
+date: 2023-02-20
 layout: article.njk
 canonical: 'https://www.smashingmagazine.com/2023/02/keys-accessibility-mindset/'
 tags:
