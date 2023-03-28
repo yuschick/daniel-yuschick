@@ -43,7 +43,7 @@ a {
         text-decoration: underline;
 
         @supports (color: color-mix(in hsl, #fff 80%, #000)) {
-            color: color-mix(in hsl, var(--dy-color-primary) 80%, var(--dy-color-aux-900));
+            color: color-mix(in hsl, var(--dy-color-primary) 10%, var(--dy-color-aux-900));
         }
     }
 

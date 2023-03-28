@@ -135,7 +135,7 @@ nav a {
         text-decoration: none;
 
         @supports (color: color-mix(in hsl, #fff 80%, #000)) {
-            color: color-mix(in hsl, currentColor 90%, var(--dy-color-aux-900));
+            color: color-mix(in hsl, currentColor 10%, var(--dy-color-aux-900));
         }
     }
 
