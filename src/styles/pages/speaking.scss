@@ -1,0 +1,28 @@
+@import '../../../node_modules/@organicss/scss';
+@import './articles_shared';
+@import '../utils/mixins';
+
+.events-list {
+    li + li {
+        @include margin($blockStart: var(--dy-space-base-4x));
+    }
+
+    & + .events-list {
+        @include margin($blockStart: var(--dy-space-base-8x));
+        @include padding($blockStart: var(--dy-space-base-8x));
+        @include divider-icon();
+
+        position: relative;
+
+        $icons: 'scream', 'zombie-hand', 'jason', 'axe', 'freddy', 'halloween', 'zombie';
+        $length: length($icons);
+
+        @each $icon in $icons {
+            $i: index($icons, $icon);
+
+            &:nth-child(#{$i}):after {
+                background-image: url('../../assets/icons/icon-#{$icon}.svg');
+            }
+        }
+    }
+}

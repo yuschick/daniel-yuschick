@@ -26,6 +26,10 @@ module.exports = function (config) {
         });
     });
 
+    config.addNunjucksGlobal('filterPastEvents', function (event) {
+        return new Date(event.data.date) >= new Date();
+    });
+
     config.addNunjucksGlobal('getArticleReadTime', function (content) {
         const splitContent = content.split('\n');
         const filteredContent = splitContent.filter(

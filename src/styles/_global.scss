@@ -23,7 +23,7 @@ ol + * {
 }
 
 main {
-    @include layout($maxInlineSize: var(--dy-max-content-length));
+    @include layout($maxInlineSize: var(--dy-max-content-length), $inlineSize: 100%);
     @include margin($inline: auto);
     @include padding($padding: var(--dy-space-base-8x), $blockEnd: var(--dy-space-base-12x));
 }

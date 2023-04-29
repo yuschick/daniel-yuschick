@@ -3,30 +3,38 @@
     <head>
         {% include 'meta.njk' %}
 
-        <link rel="shortcut icon" type="image/svg" href="/assets/icons/logo-dy-initials.svg" />
+        <link rel="shortcut icon" type="image/svg" href="/assets/icons/logo-dy-initials.svg"/>
 
         <title>{{ title }} | Daniel Yuschick</title>
-        <link rel="stylesheet" href="/styles/main.css" />
+        <link rel="stylesheet" href="/styles/main.css"/>
         {% if current === "about" %}
-        <link rel="stylesheet" href="/styles/pages/about.css" />
-        {% endif %} {% if current === "articles" %}
-        <link rel="stylesheet" href="/styles/pages/articles.css" />
-        {% endif %} {% if current === "article" %}
-        <link rel="stylesheet" href="/styles/pages/article.css" />
-        {% endif %} {% if current === "books" %}
-        <link rel="stylesheet" href="/styles/pages/books.css" />
-        {% endif %} {% if current === "notFound" %}
-        <link rel="stylesheet" href="/styles/pages/404.css" />
+            <link rel="stylesheet" href="/styles/pages/about.css"/>
+        {% endif %}
+        {% if current === "articles" %}
+            <link rel="stylesheet" href="/styles/pages/articles.css"/>
+        {% endif %}
+        {% if current === "article" %}
+            <link rel="stylesheet" href="/styles/pages/article.css"/>
+        {% endif %}
+        {% if current === "speaking" %}
+            <link rel="stylesheet" href="/styles/pages/speaking.css"/>
+        {% endif %}
+        {% if current === "books" %}
+            <link rel="stylesheet" href="/styles/pages/books.css"/>
+        {% endif %}
+        {% if current === "notFound" %}
+            <link rel="stylesheet" href="/styles/pages/404.css"/>
         {% endif %}
     </head>
     <body>
         <div id="root">
-            {% include 'header.njk' %} {% include 'nav.njk' %}
+            {% include 'header.njk' %}
+            {% include 'nav.njk' %}
             <main id="main-content">{{ content | safe }}</main>
             {% include 'footer.njk' %}
         </div>
         {% if current.includes("article") %}
-        <script src="/js/main.js"></script>
+            <script src="/js/main.js"></script>
         {% endif %}
     </body>
 </html>
