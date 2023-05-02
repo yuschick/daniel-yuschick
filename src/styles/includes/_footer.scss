@@ -33,7 +33,8 @@
         }
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
         q span:first-child {
             display: none;
         }
