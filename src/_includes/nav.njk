@@ -5,9 +5,9 @@
         <li {% if current === "about" %} data-current {% endif %}>
             {{ link({ url: "/", content: "About", currentPage: current === "about" })}}
         </li>
-        <li {% if current.includes("speaking") %} data-current {% endif %}>
+        {# <li {% if current.includes("speaking") %} data-current {% endif %}>
             {{ link({ url: "/speaking", content: "Speaking", currentPage: current.includes("speaking") })}}
-        </li>
+        </li> #}
         <li {% if current.includes("article") %} data-current {% endif %}>
             {{ link({ url: "/articles", content: "Articles", currentPage: current.includes("article") })}}
         </li>
