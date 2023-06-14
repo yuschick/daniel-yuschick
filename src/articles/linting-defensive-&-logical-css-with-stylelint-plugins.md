@@ -2,7 +2,7 @@
 title: Linting Defensive & Logical CSS With Stylelint Plugins
 date: 2023-05-31
 layout: article.njk
-canonical: ''
+canonical: 'https://blog.logrocket.com/linting-defensive-logical-css-stylelint-plugins/'
 tags:
     - articles
     - stylelint
