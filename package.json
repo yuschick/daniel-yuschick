@@ -19,7 +19,7 @@
     },
     "devDependencies": {
         "@11ty/eleventy": "^1.0.1",
-        "@11ty/eleventy-img": "^2.0.1",
+        "@11ty/eleventy-img": "^3.1.8",
         "@11ty/eleventy-plugin-rss": "^1.2.0",
         "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
         "@organicss/scss": "^1.1.0",
