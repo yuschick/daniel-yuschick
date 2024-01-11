@@ -7,4 +7,4 @@ description:
 current: about
 ---
 
-{% image './src/assets/images/abbie.jpeg', "Abbie is a black and white, whippet mix dog." %}
+{% image './src/assets/images/abbie.webp', "Abbie is a black and white, whippet mix dog." %}
