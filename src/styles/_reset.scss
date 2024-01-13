@@ -88,8 +88,8 @@ h6 {
 
     overflow-wrap: break-word;
 
-    @supports (text-wrap: balance) {
-        text-wrap: balance;
+    @supports (text-wrap: pretty) {
+        text-wrap: pretty;
     }
 }
 
