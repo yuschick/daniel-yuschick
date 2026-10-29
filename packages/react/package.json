@@ -1,9 +1,9 @@
 {
-  "name": "@repo/ui",
+  "name": "@dy/react",
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0 && stylelint \"**/*.css\" --max-warnings 0 --allow-empty-input",
@@ -11,9 +11,7 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@dy/eslint-react-config": "workspace:*",
-    "@dy/stylelint-config": "workspace:*",
-    "@dy/typescript-config": "workspace:*",
+    "@dy/configs": "workspace:*",
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",

@@ -20,9 +20,9 @@ importers:
 
   apps/docs:
     dependencies:
-      '@repo/ui':
+      '@dy/react':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/react
       next:
         specifier: 16.3.8
         version: 16.3.8(@babel/core@8.0.1)(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -33,15 +33,9 @@ importers:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
     devDependencies:
-      '@dy/eslint-react-config':
+      '@dy/configs':
         specifier: workspace:*
-        version: link:../../packages/eslint-react-config
-      '@dy/stylelint-config':
-        specifier: workspace:*
-        version: link:../../packages/stylelint-config
-      '@dy/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
+        version: link:../../packages/configs
       '@types/node':
         specifier: 26.4.1
         version: 26.4.1
@@ -63,9 +57,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@repo/ui':
+      '@dy/react':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/react
       next:
         specifier: 16.3.8
         version: 16.3.8(@babel/core@8.0.1)(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -76,15 +70,9 @@ importers:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
     devDependencies:
-      '@dy/eslint-react-config':
+      '@dy/configs':
         specifier: workspace:*
-        version: link:../../packages/eslint-react-config
-      '@dy/stylelint-config':
-        specifier: workspace:*
-        version: link:../../packages/stylelint-config
-      '@dy/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
+        version: link:../../packages/configs
       '@types/node':
         specifier: 26.4.1
         version: 26.4.1
@@ -104,57 +92,50 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
 
-  packages/eslint-config:
+  packages/configs:
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments':
         specifier: 4.8.1
         version: 4.8.1(eslint@10.12.0(supports-color@10.2.2))
+      '@eslint-react/eslint-plugin':
+        specifier: 5.27.0
+        version: 5.27.0(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.12.0(supports-color@10.2.2))
+      '@next/eslint-plugin-next':
+        specifier: 16.4.1
+        version: 16.4.1(eslint@10.12.0(supports-color@10.2.2))
       eslint-config-prettier:
         specifier: 10.1.8
         version: 10.1.8(eslint@10.12.0(supports-color@10.2.2))
       eslint-plugin-import-x:
         specifier: 4.17.1
         version: 4.17.1(@typescript-eslint/utils@8.72.1(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)
-      eslint-plugin-turbo:
-        specifier: 2.11.8
-        version: 2.11.8(eslint@10.12.0(supports-color@10.2.2))(turbo@2.11.10)
-      globals:
-        specifier: 17.13.0
-        version: 17.13.0
-      typescript:
-        specifier: 6.0.3
-        version: 6.0.3
-      typescript-eslint:
-        specifier: 8.71.2
-        version: 8.71.2(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
-    devDependencies:
-      eslint:
-        specifier: 10.12.0
-        version: 10.12.0(supports-color@10.2.2)
-
-  packages/eslint-react-config:
-    dependencies:
-      '@dy/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@eslint-react/eslint-plugin':
-        specifier: 5.27.0
-        version: 5.27.0(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
-      '@next/eslint-plugin-next':
-        specifier: 16.4.1
-        version: 16.4.1(eslint@10.12.0(supports-color@10.2.2))
       eslint-plugin-jsx-a11y-x:
         specifier: 0.2.0
         version: 0.2.0(eslint@10.12.0(supports-color@10.2.2))
       eslint-plugin-react-hooks:
         specifier: 7.1.1
         version: 7.1.1(eslint@10.12.0(supports-color@10.2.2))(supports-color@10.2.2)
+      eslint-plugin-turbo:
+        specifier: 2.11.8
+        version: 2.11.8(eslint@10.12.0(supports-color@10.2.2))(turbo@2.11.10)
       globals:
         specifier: 17.13.0
         version: 17.13.0
+      stylelint-config-recommended:
+        specifier: 18.0.0
+        version: 18.0.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3))
+      stylelint-order:
+        specifier: 8.1.2
+        version: 8.1.2(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3))
+      stylelint-plugin-defensive-css:
+        specifier: 2.9.7
+        version: 2.9.7(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3))
+      stylelint-plugin-logical-css:
+        specifier: 2.1.0
+        version: 2.1.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3))
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -165,35 +146,11 @@ importers:
       eslint:
         specifier: 10.12.0
         version: 10.12.0(supports-color@10.2.2)
-
-  packages/stylelint-config:
-    dependencies:
-      stylelint-config-recommended:
-        specifier: 18.0.0
-        version: 18.0.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2))
-      stylelint-order:
-        specifier: 8.1.2
-        version: 8.1.2(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2))
-      stylelint-plugin-defensive-css:
-        specifier: 2.9.7
-        version: 2.9.7(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2))
-      stylelint-plugin-logical-css:
-        specifier: 2.1.0
-        version: 2.1.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2))
-    devDependencies:
-      '@dy/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      eslint:
-        specifier: 10.12.0
-        version: 10.12.0(supports-color@10.2.2)
       stylelint:
         specifier: 17.16.0
-        version: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
+        version: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
 
-  packages/typescript-config: {}
-
-  packages/ui:
+  packages/react:
     dependencies:
       react:
         specifier: 19.2.8
@@ -202,15 +159,9 @@ importers:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
     devDependencies:
-      '@dy/eslint-react-config':
+      '@dy/configs':
         specifier: workspace:*
-        version: link:../eslint-react-config
-      '@dy/stylelint-config':
-        specifier: workspace:*
-        version: link:../stylelint-config
-      '@dy/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
+        version: link:../configs
       '@types/node':
         specifier: 26.4.1
         version: 26.4.1
@@ -2131,6 +2082,7 @@ packages:
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
     engines: {node: '>=16.20.0'}
+    hasBin: true
 
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
@@ -2856,8 +2808,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.71.2(supports-color@10.2.2)(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.71.2(typescript@6.0.3)
-      '@typescript-eslint/types': 8.71.2
+      '@typescript-eslint/tsconfig-utils': 8.72.1(typescript@6.0.3)
+      '@typescript-eslint/types': 8.72.1
       debug: 4.4.3(supports-color@10.2.2)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -3183,6 +3135,15 @@ snapshots:
   compare-versions@6.1.1: {}
 
   convert-source-map@2.0.0: {}
+
+  cosmiconfig@9.0.2(typescript@6.0.3):
+    dependencies:
+      env-paths: 2.2.1
+      import-fresh: 3.3.1
+      js-yaml: 4.3.2
+      parse-json: 5.2.0
+    optionalDependencies:
+      typescript: 6.0.3
 
   cosmiconfig@9.0.2(typescript@7.0.2):
     dependencies:
@@ -3907,24 +3868,65 @@ snapshots:
     optionalDependencies:
       '@babel/core': 8.0.1
 
-  stylelint-config-recommended@18.0.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2)):
+  stylelint-config-recommended@18.0.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3)):
     dependencies:
-      stylelint: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
+      stylelint: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
 
-  stylelint-order@8.1.2(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2)):
+  stylelint-order@8.1.2(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3)):
     dependencies:
       postcss: 8.5.32
       postcss-sorting: 10.0.0(postcss@8.5.32)
-      stylelint: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
+      stylelint: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
 
-  stylelint-plugin-defensive-css@2.9.7(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2)):
+  stylelint-plugin-defensive-css@2.9.7(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3)):
     dependencies:
       postcss-selector-parser: 7.1.7
-      stylelint: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
+      stylelint: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
 
-  stylelint-plugin-logical-css@2.1.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2)):
+  stylelint-plugin-logical-css@2.1.0(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3)):
     dependencies:
-      stylelint: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
+      stylelint: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
+
+  stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3):
+    dependencies:
+      '@csstools/css-calc': 3.4.3(@csstools/css-parser-algorithms@4.0.2(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-parser-algorithms': 4.0.2(@csstools/css-tokenizer@4.0.2)
+      '@csstools/css-syntax-patches-for-csstree': 1.1.15(css-tree@3.2.1)
+      '@csstools/css-tokenizer': 4.0.2
+      '@csstools/media-query-list-parser': 5.0.2(@csstools/css-parser-algorithms@4.0.2(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
+      '@csstools/selector-resolve-nested': 4.0.2(postcss-selector-parser@7.1.7)
+      '@csstools/selector-specificity': 6.0.1(postcss-selector-parser@7.1.7)
+      colord: 2.10.0
+      cosmiconfig: 9.0.2(typescript@6.0.3)
+      css-functions-list: 3.3.3
+      css-tree: 3.2.1
+      debug: 4.4.3(supports-color@10.2.2)
+      fast-glob: 3.3.3
+      fastest-levenshtein: 1.0.16
+      file-entry-cache: 11.1.5
+      global-modules: 2.0.0
+      globby: 16.2.4
+      globjoin: 0.1.4
+      html-tags: 5.1.0
+      ignore: 7.0.14
+      import-meta-resolve: 4.2.0
+      mathml-tag-names: 4.0.0
+      meow: 14.1.0
+      micromatch: 4.0.8
+      normalize-path: 3.0.0
+      picocolors: 1.1.1
+      postcss: 8.5.32
+      postcss-safe-parser: 7.1.0(postcss@8.5.32)
+      postcss-selector-parser: 7.1.7
+      postcss-value-parser: 4.2.0
+      string-width: 8.3.0
+      supports-hyperlinks: 4.6.0
+      svg-tags: 1.0.0
+      table: 6.9.0
+      write-file-atomic: 7.0.1
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   stylelint@17.16.0(supports-color@10.2.2)(typescript@7.0.2):
     dependencies:

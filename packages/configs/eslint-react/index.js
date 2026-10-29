@@ -4,8 +4,7 @@ import { defineConfig } from 'eslint/config';
 import jsxA11y from 'eslint-plugin-jsx-a11y-x';
 import reactHooks from 'eslint-plugin-react-hooks';
 
-import { createBaseConfig, restrictedSyntax } from '@dy/eslint-config';
-
+import { createBaseConfig, restrictedSyntax } from '../eslint/index.js';
 import { dyPlugin } from './plugin/index.js';
 
 /**
