@@ -1,5 +1,12 @@
-_site
-node_modules
-*.svg
-src/assets
-src/fonts
+# Generated
+pnpm-lock.yaml
+AGENTS.md
+**/next-env.d.ts
+
+# Build output
+**/.next
+**/.turbo
+**/build
+**/coverage
+**/dist
+**/out

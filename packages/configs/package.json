@@ -1,0 +1,42 @@
+{
+  "name": "@dy/configs",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint/index.js",
+    "./eslint-react": "./eslint-react/index.js",
+    "./stylelint": "./stylelint/index.js",
+    "./typescript/*": "./typescript/*"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@eslint-community/eslint-plugin-eslint-comments": "4.8.1",
+    "@eslint-react/eslint-plugin": "5.27.0",
+    "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "16.4.1",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import-x": "4.17.1",
+    "eslint-plugin-jsx-a11y-x": "0.2.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-turbo": "2.11.8",
+    "globals": "17.13.0",
+    "stylelint-config-recommended": "18.0.0",
+    "stylelint-order": "8.1.2",
+    "stylelint-plugin-defensive-css": "2.9.7",
+    "stylelint-plugin-logical-css": "2.1.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2"
+  },
+  "devDependencies": {
+    "eslint": "10.12.0",
+    "stylelint": "17.16.0"
+  },
+  "peerDependencies": {
+    "eslint": "^10.0.0",
+    "stylelint": "^17.0.0"
+  }
+}

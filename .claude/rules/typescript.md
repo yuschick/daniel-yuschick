@@ -1,0 +1,1 @@
+../../brain/standards/typescript.md
