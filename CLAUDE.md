@@ -25,6 +25,12 @@ They load automatically through `.claude/rules/` when you work on matching files
 - `A11Y-*` rules win over any conflicting rule; otherwise the more specific rule wins.
 - Before finishing, check the work against the Pre-Submission Checklist of each relevant file.
 
+## Brain and content
+
+- `brain/` holds context: who Daniel is, his voice, his talks and articles, and the coding standards. See `brain/README.md` for its layers and how each loads.
+- `content/` holds writing and speaking work, with its own rules in `content/AGENTS.md`. They load automatically when you work there.
+- The repo is public. Nothing private goes in `brain/`, and embargoed drafts go in the gitignored `content/private/`.
+
 ## Conventions not covered by rule IDs
 
 - TypeScript runs in strict mode.

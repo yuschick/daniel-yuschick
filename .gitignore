@@ -36,3 +36,6 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Embargoed writing and unannounced talks (see content/AGENTS.md)
+content/private/
