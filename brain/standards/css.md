@@ -1,8 +1,8 @@
 ---
-description: "DY Design System CSS conventions governing component stylesheets."
-applyTo: "**/*.css"
+description: 'DY Design System CSS conventions governing component stylesheets.'
+applyTo: '**/*.css'
 paths:
-  - "**/*.css"
+  - '**/*.css'
 ---
 
 # DY Design System — CSS Conventions
@@ -237,7 +237,7 @@ export function Button({
       --button-space-padding: var(--dy-space-2);
     }
 
-    &[aria-disabled="true"] {
+    &[aria-disabled='true'] {
       --button-color-surface: var(--dy-color-surface-neutral-disabled);
       --button-color-foreground: var(--dy-color-text-disabled);
     }
@@ -256,7 +256,7 @@ export function Button({
       ); /* ❌ Repeated property */
     }
 
-    &[aria-disabled="true"] {
+    &[aria-disabled='true'] {
       background-color: var(
         --dy-color-surface-neutral-disabled
       ); /* ❌ Repeated property */
@@ -391,7 +391,7 @@ export function Button({
   }
 
   /* Single rule handling multiple excluded conditions simultaneously */
-  .checkbox:not([disabled], [aria-invalid="true"], :checked) {
+  .checkbox:not([disabled], [aria-invalid='true'], :checked) {
     --checkbox-color-border: var(--dy-color-border-default);
   }
 }
@@ -402,7 +402,7 @@ export function Button({
     grid-template-columns: auto 1fr;
   }
 
-  .checkbox:not([disabled]):not([aria-invalid="true"]):not(:checked) {
+  .checkbox:not([disabled]):not([aria-invalid='true']):not(:checked) {
     --checkbox-color-border: var(--dy-color-border-default);
   }
 }
@@ -423,12 +423,12 @@ export function Button({
       box-shadow: var(--dy-elevation-low);
     }
 
-    &[aria-expanded="true"] {
+    &[aria-expanded='true'] {
       border-radius: var(--dy-radius-sm) var(--dy-radius-sm) 0 0;
     }
 
     &:focus-visible::before {
-      content: "";
+      content: '';
       inset: 0;
       position: absolute;
     }

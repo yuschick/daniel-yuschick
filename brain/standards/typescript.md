@@ -1,8 +1,8 @@
 ---
-description: "DY Design System TypeScript conventions governing types, interfaces and functions."
-applyTo: "**/*.ts, **/*.tsx"
+description: 'DY Design System TypeScript conventions governing types, interfaces and functions.'
+applyTo: '**/*.ts, **/*.tsx'
 paths:
-  - "**/*.{ts,tsx}"
+  - '**/*.{ts,tsx}'
 ---
 
 # DY Design System — TypeScript Conventions
@@ -29,11 +29,11 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 // Input.types.ts
 export interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "size"
+  'size'
 > {
   ref?: React.Ref<HTMLInputElement>; // React 19: forwarded ref arrives as a prop
-  size?: "sm" | "md" | "lg"; // design-system visual scale
-  htmlSize?: React.InputHTMLAttributes<HTMLInputElement>["size"]; // native HTML attribute, re-mapped
+  size?: 'sm' | 'md' | 'lg'; // design-system visual scale
+  htmlSize?: React.InputHTMLAttributes<HTMLInputElement>['size']; // native HTML attribute, re-mapped
 }
 
 /* ✅ Correct: HOC wrapper extends the base component props */
@@ -45,7 +45,7 @@ export interface PasswordFieldProps extends TextFieldProps {
 export interface Props {
   className?: string; // ❌ already provided by React.HTMLAttributes
   onClick?: () => void; // ❌ already provided by native attributes
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
 }
 ```
 
@@ -58,23 +58,23 @@ export interface Props {
 /* ✅ Correct: Shared prop names and default assumptions */
 export interface ButtonProps {
   isDisabled?: boolean;
-  size?: "sm" | "md" | "lg"; // Defaults to 'md'
+  size?: 'sm' | 'md' | 'lg'; // Defaults to 'md'
 }
 
 export interface SwitchProps {
   isDisabled?: boolean;
-  size?: "sm" | "md" | "lg"; // Defaults to 'md'
+  size?: 'sm' | 'md' | 'lg'; // Defaults to 'md'
 }
 
 /* ❌ Incorrect: Inconsistent naming and mismatched defaults across components */
 export interface ButtonProps {
   disabled?: boolean; // ❌ Deviates from isDisabled pattern
-  size?: "sm" | "md" | "lg"; // Defaults to 'md'
+  size?: 'sm' | 'md' | 'lg'; // Defaults to 'md'
 }
 
 export interface SwitchProps {
   isDisabled?: boolean;
-  size?: "sm" | "md" | "lg"; // ❌ Defaults to 'sm'
+  size?: 'sm' | 'md' | 'lg'; // ❌ Defaults to 'sm'
 }
 ```
 
@@ -88,7 +88,7 @@ export interface SwitchProps {
 export interface CalculateOffsetOptions {
   triggerRect: DOMRect;
   targetRect: DOMRect;
-  placement: "top" | "bottom";
+  placement: 'top' | 'bottom';
   offsetDistance?: number;
 }
 
@@ -173,8 +173,8 @@ export function useAccordion(options: UseAccordionOptions) {
 ```ts
 /* ✅ Correct: unknown narrowed at the boundary */
 export function parseConfig(raw: unknown): ButtonConfig {
-  if (typeof raw !== "object" || raw === null) {
-    throw new Error("Invalid config");
+  if (typeof raw !== 'object' || raw === null) {
+    throw new Error('Invalid config');
   }
   // Narrow further before use...
   return raw as ButtonConfig;
@@ -194,7 +194,7 @@ export function parseConfig(raw: any): ButtonConfig {
 
 ```ts
 /* ✅ Correct: exported string-literal union reused across components */
-export type Size = "sm" | "md" | "lg";
+export type Size = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps {
   size?: Size;
@@ -202,9 +202,9 @@ export interface ButtonProps {
 
 /* ❌ Incorrect: enum emits runtime code and blocks tree-shaking */
 export enum Size {
-  Small = "sm",
-  Medium = "md",
-  Large = "lg",
+  Small = 'sm',
+  Medium = 'md',
+  Large = 'lg',
 }
 ```
 

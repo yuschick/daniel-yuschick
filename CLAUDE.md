@@ -10,9 +10,11 @@ So clarity, documentation and quality matter more than speed.
 
 - pnpm install
 - pnpm dev
-- pnpm turbo run lint check-types build
+- pnpm turbo run lint check-types build test
+- pnpm format:check
 
-Run lint, check-types and build after every change, and report failures.
+Run lint, check-types, build, test and format:check after every change, and report failures.
+`lint` runs ESLint and Stylelint. Prettier owns formatting; don't hand-format around it.
 
 ## Standards
 

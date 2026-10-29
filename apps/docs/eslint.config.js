@@ -1,4 +1,3 @@
-import { nextJsConfig } from "@repo/eslint-config/next-js";
+import { createNextConfig } from '@dy/eslint-react-config';
 
-/** @type {import("eslint").Linter.Config[]} */
-export default nextJsConfig;
+export default createNextConfig({ tsconfigRootDir: import.meta.dirname });

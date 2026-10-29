@@ -1,8 +1,8 @@
 ---
-description: "DY Design System prop & terminology conventions governing component prop names, values, and defaults."
-applyTo: "**/*.ts, **/*.tsx"
+description: 'DY Design System prop & terminology conventions governing component prop names, values, and defaults.'
+applyTo: '**/*.ts, **/*.tsx'
 paths:
-  - "**/*.{ts,tsx}"
+  - '**/*.{ts,tsx}'
 ---
 
 # DY Design System — Prop & Terminology Conventions
@@ -186,92 +186,92 @@ The canonical source of truth for these shared types is [`packages/react/src/typ
 
 ```ts
 // Canonical source: packages/react/src/types/common.ts
-import type { Placement } from "@floating-ui/react";
+import type { Placement } from '@floating-ui/react';
 
-type TShirtSize = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
+type TShirtSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
-export const DENSITIES = ["compact", "default", "relaxed"] as const;
+export const DENSITIES = ['compact', 'default', 'relaxed'] as const;
 export type Density = (typeof DENSITIES)[number]; // Default: 'default'
 
 export const ELEVATIONS = [
-  "none",
-  "sm",
-  "md",
-  "lg",
-] as const satisfies readonly ("none" | TShirtSize)[];
+  'none',
+  'sm',
+  'md',
+  'lg',
+] as const satisfies readonly ('none' | TShirtSize)[];
 export type Elevation = (typeof ELEVATIONS)[number]; // Default: 'none'
 
-export const FITS = ["fill", "hug"] as const;
+export const FITS = ['fill', 'hug'] as const;
 export type Fit = (typeof FITS)[number]; // Default: 'hug'
 
-export const FLOWS = ["default", "reverse"] as const;
+export const FLOWS = ['default', 'reverse'] as const;
 export type Flow = (typeof FLOWS)[number]; // Default: 'default'
 
 export const GAPS = [
-  "xs",
-  "sm",
-  "md",
-  "lg",
-  "xl",
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
 ] as const satisfies readonly TShirtSize[];
 export type Gap = (typeof GAPS)[number];
 
 export const INTENTS = [
-  "attention",
-  "negative",
-  "neutral",
-  "notice",
-  "positive",
+  'attention',
+  'negative',
+  'neutral',
+  'notice',
+  'positive',
 ] as const;
 export type Intent = (typeof INTENTS)[number]; // Default: 'neutral'
 
 export const OFFSETS = [
-  "xs",
-  "sm",
-  "md",
-  "lg",
-  "xl",
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
 ] as const satisfies readonly TShirtSize[];
 export type Offset = (typeof OFFSETS)[number];
 
-export const ORIENTATIONS = ["column", "row"] as const;
+export const ORIENTATIONS = ['column', 'row'] as const;
 export type Orientation = (typeof ORIENTATIONS)[number]; // Default: component-defined
 
 export const POSITIONS: Placement[] = [
-  "bottom-end",
-  "bottom-start",
-  "bottom",
-  "left-end",
-  "left-start",
-  "left",
-  "right-end",
-  "right-start",
-  "right",
-  "top-end",
-  "top-start",
-  "top",
+  'bottom-end',
+  'bottom-start',
+  'bottom',
+  'left-end',
+  'left-start',
+  'left',
+  'right-end',
+  'right-start',
+  'right',
+  'top-end',
+  'top-start',
+  'top',
 ];
 export type { Placement };
 export type Position = Placement;
 
-export const SHAPES = ["circle", "pill", "rounded", "sharp"] as const;
+export const SHAPES = ['circle', 'pill', 'rounded', 'sharp'] as const;
 export type Shape = (typeof SHAPES)[number]; // Default: 'sharp'
 
 export const SIZES = [
-  "xxs",
-  "xs",
-  "sm",
-  "md",
-  "lg",
-  "xl",
-  "xxl",
+  'xxs',
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  'xxl',
 ] as const satisfies readonly TShirtSize[];
 export type Size = (typeof SIZES)[number]; // Default: 'md'
 
-export const VARIANTS = ["filled", "ghost", "inline", "outlined"] as const;
+export const VARIANTS = ['filled', 'ghost', 'inline', 'outlined'] as const;
 export type Variant = (typeof VARIANTS)[number]; // Default: 'filled'
 
-export const VISIBILITIES = ["hidden", "visible"] as const;
+export const VISIBILITIES = ['hidden', 'visible'] as const;
 export type Visibility = (typeof VISIBILITIES)[number];
 ```
 

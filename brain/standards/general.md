@@ -1,6 +1,6 @@
 ---
-description: "DY Design System cross-cutting rules for all code."
-applyTo: "**"
+description: 'DY Design System cross-cutting rules for all code.'
+applyTo: '**'
 ---
 
 # DY Design System — General Rules

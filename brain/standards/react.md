@@ -1,8 +1,8 @@
 ---
-description: "DY Design System React conventions governing component definition, state and composition."
-applyTo: "**/*.tsx"
+description: 'DY Design System React conventions governing component definition, state and composition.'
+applyTo: '**/*.tsx'
 paths:
-  - "**/*.tsx"
+  - '**/*.tsx'
 ---
 
 # DY Design System — React Conventions
@@ -55,7 +55,7 @@ export const VisuallyHidden = ({
 }: VisuallyHiddenProps) => {
   return <div {...htmlAttributes}>{children}</div>;
 };
-VisuallyHidden.displayName = "VisuallyHidden"; // ❌ Forbidden manual assignment
+VisuallyHidden.displayName = 'VisuallyHidden'; // ❌ Forbidden manual assignment
 ```
 
 ### RX-02 · Forwarded Ref Parameter Naming & Disambiguation
@@ -111,9 +111,9 @@ export const StatusIndicator = React.forwardRef<
   StatusIndicatorProps
 >(function StatusIndicator(
   {
-    type = "neutral",
-    variant = "filled",
-    size = "md",
+    type = 'neutral',
+    variant = 'filled',
+    size = 'md',
     className,
     ...htmlAttributes
   },
@@ -122,7 +122,7 @@ export const StatusIndicator = React.forwardRef<
   const internalProps = {
     ref: externalRef,
     className: clsx(
-      styles["status-indicator"],
+      styles['status-indicator'],
       styles[`type-${type}`],
       styles[`variant-${variant}`],
       styles[`size-${size}`],
@@ -146,9 +146,9 @@ export const StatusIndicator = React.forwardRef<
   const internalProps = {
     ref: externalRef,
     className: clsx(
-      styles["status-indicator"],
-      styles[`type-${type || "neutral"}`], // ❌ Imperative inline fallback
-      styles[`variant-${variant ?? "filled"}`], // ❌ Imperative inline fallback
+      styles['status-indicator'],
+      styles[`type-${type || 'neutral'}`], // ❌ Imperative inline fallback
+      styles[`variant-${variant ?? 'filled'}`], // ❌ Imperative inline fallback
       className,
     ),
   };
@@ -157,7 +157,7 @@ export const StatusIndicator = React.forwardRef<
 
 /* ❌ Incorrect: Using deprecated defaultProps static property */
 StatusIndicator.defaultProps = {
-  type: "neutral", // ❌ Deprecated in modern React
+  type: 'neutral', // ❌ Deprecated in modern React
 };
 ```
 
@@ -196,11 +196,11 @@ export * from './Button'; // ❌ Wildcard barrel export prevents optimal tree-sh
 ```ts
 /* ✅ Correct: Clean index.ts public interface contract */
 // Button/index.ts
-export { Button } from "./Button";
-export type { ButtonProps, ButtonVariant, ButtonSize } from "./Button.types";
+export { Button } from './Button';
+export type { ButtonProps, ButtonVariant, ButtonSize } from './Button.types';
 
 /* ❌ Incorrect: Missing index.ts forcing deep file path imports */
-import { Button } from "@dy/react/Button/Button"; // ❌ Private path exposure
+import { Button } from '@dy/react/Button/Button'; // ❌ Private path exposure
 ```
 
 ### RX-06 · Single Component File Isolation
@@ -246,7 +246,7 @@ export function Dialog({ children }: DialogProps) { // ❌ Secondary component c
 /* ✅ Correct: Discriminated union + delegation to useControllableState */
 export interface ControlledCheckboxProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "value" | "onChange"
+  'value' | 'onChange'
 > {
   checked: boolean;
   defaultChecked?: never;
@@ -255,7 +255,7 @@ export interface ControlledCheckboxProps extends Omit<
 
 export interface UncontrolledCheckboxProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "value" | "onChange"
+  'value' | 'onChange'
 > {
   checked?: never;
   defaultChecked?: boolean;
@@ -287,7 +287,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 
     const internalProps = {
       ref: externalRef,
-      type: "checkbox" as const,
+      type: 'checkbox' as const,
       checked: isChecked,
       onChange: handleChange,
       className: clsx(styles.checkbox, className),
@@ -339,7 +339,7 @@ export function Accordion({ children, ...htmlAttributes }: AccordionProps) {
 
     console.error(
       `[DY DS] <Accordion> must only contain <Accordion.Summary> or <Accordion.Panel> children. Found invalid element: ${
-        typeof child.type === "string" ? child.type : child.type.name
+        typeof child.type === 'string' ? child.type : child.type.name
       }`,
     );
   });
@@ -437,8 +437,8 @@ export function Button(props: ButtonProps) {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
     {
-      variant = "filled",
-      size = "md",
+      variant = 'filled',
+      size = 'md',
       isDisabled = false,
       isPending = false,
       className,
@@ -466,10 +466,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const internalProps = {
       ref: externalRef,
-      type: "button" as const,
-      "aria-disabled": isInoperable ? "true" : undefined,
-      "aria-busy": isPending ? "true" : undefined,
-      "data-pending": isPending ? "true" : undefined,
+      type: 'button' as const,
+      'aria-disabled': isInoperable ? 'true' : undefined,
+      'aria-busy': isPending ? 'true' : undefined,
+      'data-pending': isPending ? 'true' : undefined,
       className: clsx(
         styles.button,
         styles[`variant-${variant}`],
@@ -487,7 +487,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 /* ❌ Incorrect: Direct inline attribute spreading without mergeProps resolution */
 export function Button({
-  variant = "filled",
+  variant = 'filled',
   className,
   onClick,
   ...htmlAttributes
@@ -512,11 +512,11 @@ export function Button({
 
 ```tsx
 /* ✅ Correct: interactive component opts into the client boundary */
-"use client";
+'use client';
 
-import * as React from "react";
-import { mergeProps } from "@dy/react/utils";
-import styles from "./Switch.module.css";
+import * as React from 'react';
+import { mergeProps } from '@dy/react/utils';
+import styles from './Switch.module.css';
 
 export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
   function Switch(
@@ -532,7 +532,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
 );
 
 /* ❌ Incorrect: static presentational component forced onto the client boundary */
-("use client"); // ❌ No state, effects, or handlers — must remain a Server Component
+('use client'); // ❌ No state, effects, or handlers — must remain a Server Component
 
 export function Divider({ className, ...htmlAttributes }: DividerProps) {
   return <hr className={clsx(styles.divider, className)} {...htmlAttributes} />;
@@ -590,7 +590,7 @@ export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
   function Toggle({ onPressedChange, ...htmlAttributes }, externalRef) {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       onPressedChange?.(
-        event.currentTarget.getAttribute("aria-pressed") !== "true",
+        event.currentTarget.getAttribute('aria-pressed') !== 'true',
       );
     };
 
