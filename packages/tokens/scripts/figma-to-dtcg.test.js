@@ -15,7 +15,7 @@ const part = (payload) => ({ hash: fnv1a(JSON.stringify(payload)), payload });
 
 const primitives = {
   collection: { id: 'C:1', name: 'Portfolio Primitives', modes: ['Mode 1'] },
-  total: 6,
+  total: 7,
   offset: 0,
   variables: [
     {
@@ -66,6 +66,14 @@ const primitives = {
       scopes: [],
       values: { 'Mode 1': 'Inclusive Sans' },
     },
+    {
+      id: 'V:7',
+      name: 'dy/font/line-height/150',
+      type: 'FLOAT',
+      description: '',
+      scopes: [],
+      values: { 'Mode 1': 1.5 },
+    },
   ],
 };
 
@@ -94,7 +102,7 @@ describe('verifyPart', () => {
 
   it('rejects an export altered after it left Figma', () => {
     const altered = part(primitives);
-    altered.payload = { ...altered.payload, total: 7 };
+    altered.payload = { ...altered.payload, total: 99 };
     assert.throws(
       () => verifyPart({ part: altered, source: 'primitives.json' }),
       /altered after leaving Figma/,
@@ -114,7 +122,7 @@ describe('mergeParts', () => {
       variables: primitives.variables.slice(3),
     };
     const [merged] = mergeParts({ parts: [part(first), part(second)] });
-    assert.equal(merged?.variables.length, 6);
+    assert.equal(merged?.variables.length, 7);
   });
 
   it('rejects a collection with missing variables', () => {
@@ -124,7 +132,7 @@ describe('mergeParts', () => {
     };
     assert.throws(
       () => mergeParts({ parts: [part(incomplete)] }),
-      /expected 6/,
+      /expected 7/,
     );
   });
 });
@@ -206,6 +214,11 @@ describe('buildTokenFiles', () => {
       tokenAt({ fileName, path: 'dy.font.family.default.$type' }),
       'fontFamily',
     );
+    assert.deepEqual(tokenAt({ fileName, path: 'dy.font.line-height.150' }), {
+      $type: 'number',
+      $value: 1.5,
+      $extensions: { 'com.figma': { scopes: [], variableId: 'V:7' } },
+    });
   });
 
   it('keeps references as DTCG aliases with the target type', () => {
