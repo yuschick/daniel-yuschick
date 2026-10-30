@@ -1,0 +1,459 @@
+{
+  "dy": {
+    "color": {
+      "border": {
+        "attention": {
+          "$type": "color",
+          "$value": "{dy.color.attention.600}",
+          "$description": "Boundary for warnings. Light: dy/color/attention/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:442"
+            }
+          }
+        },
+        "default": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.500}",
+          "$description": "Control and component boundaries (3:1 non-text contrast). Light: dy/color/neutral/500.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:428"
+            }
+          }
+        },
+        "focus": {
+          "$type": "color",
+          "$value": "{dy.color.blue.600}",
+          "$description": "Universal focus indicator, the same in every theme. Use as an outline with outline-offset so page background separates it from the component (blue on rhubarb alone is only 1.08:1). Light: dy/color/blue/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:430"
+            }
+          }
+        },
+        "negative": {
+          "$type": "color",
+          "$value": "{dy.color.negative.600}",
+          "$description": "Boundary for errors and destructive states. Light: dy/color/negative/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:438"
+            }
+          }
+        },
+        "notice": {
+          "$type": "color",
+          "$value": "{dy.color.notice.600}",
+          "$description": "Boundary for information. Light: dy/color/notice/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:446"
+            }
+          }
+        },
+        "positive": {
+          "$type": "color",
+          "$value": "{dy.color.positive.600}",
+          "$description": "Boundary for success. Light: dy/color/positive/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:434"
+            }
+          }
+        },
+        "strong": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.700}",
+          "$description": "High-emphasis boundaries. Light: dy/color/neutral/700.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:429"
+            }
+          }
+        },
+        "subtle": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.200}",
+          "$description": "Decorative dividers. Not for control boundaries (below 3:1). Light: dy/color/neutral/200.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:112:427"
+            }
+          }
+        }
+      },
+      "surface": {
+        "action": {
+          "primary": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.primary.800}",
+              "$description": "Primary action background while pressed. Light: dy/color/primary/800.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:112:415"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.primary.600}",
+              "$description": "Primary action background; pair with text/on-action. Light: dy/color/primary/600.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:112:413"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.primary.700}",
+              "$description": "Primary action background on hover. Light: dy/color/primary/700.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:112:414"
+                }
+              }
+            }
+          },
+          "secondary": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.secondary.800}",
+              "$description": "Secondary action background while pressed. Light: dy/color/secondary/800.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:112:418"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.secondary.600}",
+              "$description": "Secondary action background; pair with text/on-action. Light: dy/color/secondary/600.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:112:416"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.secondary.700}",
+              "$description": "Secondary action background on hover. Light: dy/color/secondary/700.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:112:417"
+                }
+              }
+            }
+          }
+        },
+        "attention": {
+          "strong": {
+            "$type": "color",
+            "$value": "{dy.color.attention.600}",
+            "$description": "Strong background for warnings; pair with text/on-action. Light: dy/color/attention/600.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:440"
+              }
+            }
+          },
+          "subtle": {
+            "$type": "color",
+            "$value": "{dy.color.attention.100}",
+            "$description": "Subtle background for warnings. Light: dy/color/attention/100.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:439"
+              }
+            }
+          }
+        },
+        "inverse": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.900}",
+          "$description": "High-emphasis inverted areas; pair with text/inverse. Light: dy/color/neutral/900.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+              "variableId": "VariableID:112:412"
+            }
+          }
+        },
+        "negative": {
+          "strong": {
+            "$type": "color",
+            "$value": "{dy.color.negative.600}",
+            "$description": "Strong background for errors and destructive states; pair with text/on-action. Light: dy/color/negative/600.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:436"
+              }
+            }
+          },
+          "subtle": {
+            "$type": "color",
+            "$value": "{dy.color.negative.100}",
+            "$description": "Subtle background for errors and destructive states. Light: dy/color/negative/100.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:435"
+              }
+            }
+          }
+        },
+        "neutral": {
+          "disabled": {
+            "$type": "color",
+            "$value": "{dy.color.neutral.100}",
+            "$description": "Disabled control background. Light: dy/color/neutral/100.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:419"
+              }
+            }
+          }
+        },
+        "notice": {
+          "strong": {
+            "$type": "color",
+            "$value": "{dy.color.notice.600}",
+            "$description": "Strong background for information; pair with text/on-action. Light: dy/color/notice/600.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:444"
+              }
+            }
+          },
+          "subtle": {
+            "$type": "color",
+            "$value": "{dy.color.notice.100}",
+            "$description": "Subtle background for information. Light: dy/color/notice/100.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:443"
+              }
+            }
+          }
+        },
+        "overlay": {
+          "$type": "color",
+          "$value": "{dy.color.white}",
+          "$description": "Popovers, menus and dialogs. Light: dy/color/white.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+              "variableId": "VariableID:112:411"
+            }
+          }
+        },
+        "page": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.50}",
+          "$description": "Page background. Light: dy/color/neutral/50.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+              "variableId": "VariableID:112:408"
+            }
+          }
+        },
+        "positive": {
+          "strong": {
+            "$type": "color",
+            "$value": "{dy.color.positive.600}",
+            "$description": "Strong background for success; pair with text/on-action. Light: dy/color/positive/600.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:432"
+              }
+            }
+          },
+          "subtle": {
+            "$type": "color",
+            "$value": "{dy.color.positive.100}",
+            "$description": "Subtle background for success. Light: dy/color/positive/100.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                "variableId": "VariableID:112:431"
+              }
+            }
+          }
+        },
+        "raised": {
+          "$type": "color",
+          "$value": "{dy.color.white}",
+          "$description": "Cards and panels above the page. Light: dy/color/white.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+              "variableId": "VariableID:112:409"
+            }
+          }
+        },
+        "sunken": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.100}",
+          "$description": "Wells and inset areas below the page. Light: dy/color/neutral/100.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+              "variableId": "VariableID:112:410"
+            }
+          }
+        }
+      },
+      "text": {
+        "attention": {
+          "$type": "color",
+          "$value": "{dy.color.attention.700}",
+          "$description": "Text for warnings; passes 4.5:1 on page and on surface/attention/subtle. Light: dy/color/attention/700.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:441"
+            }
+          }
+        },
+        "default": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.900}",
+          "$description": "Body and heading text. Light: dy/color/neutral/900.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:420"
+            }
+          }
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.500}",
+          "$description": "Disabled text (exempt from contrast minimums; never the only cue). Light: dy/color/neutral/500.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:422"
+            }
+          }
+        },
+        "inverse": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.50}",
+          "$description": "Text on surface/inverse. Light: dy/color/neutral/50.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:423"
+            }
+          }
+        },
+        "link": {
+          "default": {
+            "$type": "color",
+            "$value": "{dy.color.primary.700}",
+            "$description": "Link text. Light: dy/color/primary/700.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["TEXT_FILL"],
+                "variableId": "VariableID:112:425"
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{dy.color.primary.800}",
+            "$description": "Link text on hover. Light: dy/color/primary/800.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["TEXT_FILL"],
+                "variableId": "VariableID:112:426"
+              }
+            }
+          }
+        },
+        "negative": {
+          "$type": "color",
+          "$value": "{dy.color.negative.700}",
+          "$description": "Text for errors and destructive states; passes 4.5:1 on page and on surface/negative/subtle. Light: dy/color/negative/700.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:437"
+            }
+          }
+        },
+        "notice": {
+          "$type": "color",
+          "$value": "{dy.color.notice.700}",
+          "$description": "Text for information; passes 4.5:1 on page and on surface/notice/subtle. Light: dy/color/notice/700.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:445"
+            }
+          }
+        },
+        "on-action": {
+          "$type": "color",
+          "$value": "{dy.color.white}",
+          "$description": "Text and icons on action surfaces. Light: dy/color/white.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:424"
+            }
+          }
+        },
+        "positive": {
+          "$type": "color",
+          "$value": "{dy.color.positive.700}",
+          "$description": "Text for success; passes 4.5:1 on page and on surface/positive/subtle. Light: dy/color/positive/700.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:433"
+            }
+          }
+        },
+        "subtle": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.700}",
+          "$description": "Secondary text and descriptions. Light: dy/color/neutral/700.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["TEXT_FILL"],
+              "variableId": "VariableID:112:421"
+            }
+          }
+        }
+      }
+    }
+  }
+}
