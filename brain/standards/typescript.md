@@ -32,7 +32,7 @@ export interface InputProps extends Omit<
   'size'
 > {
   ref?: React.Ref<HTMLInputElement>; // React 19: forwarded ref arrives as a prop
-  size?: 'sm' | 'md' | 'lg'; // design-system visual scale
+  size?: 's' | 'm' | 'l'; // design-system visual scale
   htmlSize?: React.InputHTMLAttributes<HTMLInputElement>['size']; // native HTML attribute, re-mapped
 }
 
@@ -45,7 +45,7 @@ export interface PasswordFieldProps extends TextFieldProps {
 export interface Props {
   className?: string; // ❌ already provided by React.HTMLAttributes
   onClick?: () => void; // ❌ already provided by native attributes
-  size?: 'sm' | 'md' | 'lg';
+  size?: 's' | 'm' | 'l';
 }
 ```
 
@@ -58,23 +58,23 @@ export interface Props {
 /* ✅ Correct: Shared prop names and default assumptions */
 export interface ButtonProps {
   isDisabled?: boolean;
-  size?: 'sm' | 'md' | 'lg'; // Defaults to 'md'
+  size?: 's' | 'm' | 'l'; // Defaults to 'm'
 }
 
 export interface SwitchProps {
   isDisabled?: boolean;
-  size?: 'sm' | 'md' | 'lg'; // Defaults to 'md'
+  size?: 's' | 'm' | 'l'; // Defaults to 'm'
 }
 
 /* ❌ Incorrect: Inconsistent naming and mismatched defaults across components */
 export interface ButtonProps {
   disabled?: boolean; // ❌ Deviates from isDisabled pattern
-  size?: 'sm' | 'md' | 'lg'; // Defaults to 'md'
+  size?: 's' | 'm' | 'l'; // Defaults to 'm'
 }
 
 export interface SwitchProps {
   isDisabled?: boolean;
-  size?: 'sm' | 'md' | 'lg'; // ❌ Defaults to 'sm'
+  size?: 's' | 'm' | 'l'; // ❌ Defaults to 's'
 }
 ```
 
@@ -188,13 +188,13 @@ export function parseConfig(raw: any): ButtonConfig {
 
 ### TS-07 · String-Literal Unions over Enums
 
-- Fixed sets of variant, size, state, or option values **MUST** be modeled as string-literal unions (e.g., `'sm' | 'md' | 'lg'`).
+- Fixed sets of variant, size, state, or option values **MUST** be modeled as string-literal unions (e.g., `'s' | 'm' | 'l'`).
 - TypeScript `enum` and `const enum` declarations are **STRICTLY FORBIDDEN**; they emit runtime code, resist tree-shaking, and widen poorly across module boundaries.
 - Shared unions **MUST** be declared once as an exported named type and reused rather than re-inlined per component.
 
 ```ts
 /* ✅ Correct: exported string-literal union reused across components */
-export type Size = 'sm' | 'md' | 'lg';
+export type Size = 's' | 'm' | 'l';
 
 export interface ButtonProps {
   size?: Size;
@@ -202,9 +202,9 @@ export interface ButtonProps {
 
 /* ❌ Incorrect: enum emits runtime code and blocks tree-shaking */
 export enum Size {
-  Small = 'sm',
-  Medium = 'md',
-  Large = 'lg',
+  Small = 's',
+  Medium = 'm',
+  Large = 'l',
 }
 ```
 
