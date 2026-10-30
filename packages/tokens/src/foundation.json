@@ -1,0 +1,263 @@
+{
+  "dy": {
+    "border-width": {
+      "default": {
+        "$type": "dimension",
+        "$value": { "value": 1, "unit": "px" },
+        "$description": "Stroke weight for ordinary borders — inputs, cards, dividers, outline buttons and chips (1px). The system uses exactly two stroke weights: this one, and border-width/focus at 2px for focus indicators. Scoped to stroke weight so it is never offered for spacing or radius.",
+        "$extensions": {
+          "com.figma": {
+            "scopes": ["STROKE_FLOAT"],
+            "variableId": "VariableID:115:409"
+          }
+        }
+      },
+      "focus": {
+        "$type": "dimension",
+        "$value": { "value": 2, "unit": "px" },
+        "$description": "Stroke weight for focus indicators (2px). Paired with border/focus for color, and the heavier of the two steps in the border-width scale. Keep at or above 2px so the indicator stays perceivable at standard zoom (WCAG 2.4.11).",
+        "$extensions": {
+          "com.figma": {
+            "scopes": ["STROKE_FLOAT"],
+            "variableId": "VariableID:115:408"
+          }
+        }
+      }
+    },
+    "motion": {
+      "duration": {
+        "base": {
+          "$type": "duration",
+          "$value": { "value": 300, "unit": "ms" },
+          "$description": "300ms — the default for disclosure, expansion and most component transitions. Matches the Chip and small-Accordion annotations.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:412" }
+          }
+        },
+        "fast": {
+          "$type": "duration",
+          "$value": { "value": 150, "unit": "ms" },
+          "$description": "150ms — hover, focus and small color or opacity changes. Short enough to feel immediately responsive to a pointer.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:411" }
+          }
+        },
+        "instant": {
+          "$type": "duration",
+          "$value": { "value": 50, "unit": "ms" },
+          "$description": "50ms — a near-instant state change. Used where content should appear without a perceived transition (the medium Accordion &amp;quot;snap&amp;quot; behavior). Below ~100ms most users read the change as instantaneous.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:410" }
+          }
+        },
+        "slow": {
+          "$type": "duration",
+          "$value": { "value": 550, "unit": "ms" },
+          "$description": "550ms — deliberate, attention-directing motion for large surfaces (the large Accordion open). Use sparingly; anything longer feels sluggish.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:413" }
+          }
+        }
+      },
+      "easing": {
+        "bounce": {
+          "$type": "cubicBezier",
+          "$value": [0.34, 1.56, 0.64, 1],
+          "$description": "Overshoot easing for playful emphasis (the small Accordion open). Overshoots past the target then settles. Use rarely; it draws attention deliberately.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:418" }
+          }
+        },
+        "ease-in-out": {
+          "$type": "cubicBezier",
+          "$value": [0.42, 0, 0.58, 1],
+          "$description": "Symmetric ease. Use for reversible state changes where neither direction should feel dominant. Used by the Progress bar fill transition and the large Accordion open.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:417" }
+          }
+        },
+        "entrance": {
+          "$type": "cubicBezier",
+          "$value": [0, 0, 0.2, 1],
+          "$description": "For elements entering the screen — starts at full speed and decelerates. Pair with duration/base.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:415" }
+          }
+        },
+        "exit": {
+          "$type": "cubicBezier",
+          "$value": [0.4, 0, 1, 1],
+          "$description": "For elements leaving the screen — accelerates away. Pair with duration/fast; exits should be quicker than entrances.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:416" }
+          }
+        },
+        "standard": {
+          "$type": "cubicBezier",
+          "$value": [0.4, 0, 0.2, 1],
+          "$description": "The default easing for elements moving within the viewport. Accelerates quickly, decelerates gently.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:115:414" }
+          }
+        }
+      }
+    },
+    "size": {
+      "component": {
+        "l": {
+          "$type": "dimension",
+          "$value": { "value": 40, "unit": "px" },
+          "$description": "Minimum control height / square control size. 40px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:422"
+            }
+          }
+        },
+        "m": {
+          "$type": "dimension",
+          "$value": { "value": 36, "unit": "px" },
+          "$description": "Minimum control height / square control size. 36px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:421"
+            }
+          }
+        },
+        "s": {
+          "$type": "dimension",
+          "$value": { "value": 24, "unit": "px" },
+          "$description": "Minimum control height / square control size. 24px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:420"
+            }
+          }
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": { "value": 48, "unit": "px" },
+          "$description": "Minimum control height / square control size. 48px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:423"
+            }
+          }
+        },
+        "xs": {
+          "$type": "dimension",
+          "$value": { "value": 16, "unit": "px" },
+          "$description": "Minimum control height / square control size. 16px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:419"
+            }
+          }
+        }
+      },
+      "content": {
+        "inline": {
+          "max": {
+            "$type": "dimension",
+            "$value": { "value": 1130, "unit": "px" },
+            "$description": "Content-level bounding-box inline size. 1130. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["WIDTH_HEIGHT"],
+                "variableId": "VariableID:115:427"
+              }
+            }
+          }
+        }
+      },
+      "icon": {
+        "2xl": {
+          "$type": "dimension",
+          "$value": { "value": 48, "unit": "px" },
+          "$description": "Icon bounding-box size. 48px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:431"
+            }
+          }
+        },
+        "l": {
+          "$type": "dimension",
+          "$value": { "value": 24, "unit": "px" },
+          "$description": "Icon bounding-box size. 24px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:429"
+            }
+          }
+        },
+        "m": {
+          "$type": "dimension",
+          "$value": { "value": 20, "unit": "px" },
+          "$description": "Icon bounding-box size. 20px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:428"
+            }
+          }
+        },
+        "s": {
+          "$type": "dimension",
+          "$value": { "value": 16, "unit": "px" },
+          "$description": "Icon bounding-box size. 16px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:426"
+            }
+          }
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": { "value": 32, "unit": "px" },
+          "$description": "Icon bounding-box size. 32px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:430"
+            }
+          }
+        },
+        "xs": {
+          "$type": "dimension",
+          "$value": { "value": 12, "unit": "px" },
+          "$description": "Icon bounding-box size. 12px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["WIDTH_HEIGHT"],
+              "variableId": "VariableID:115:424"
+            }
+          }
+        }
+      },
+      "page": {
+        "inline": {
+          "max": {
+            "$type": "dimension",
+            "$value": { "value": 1280, "unit": "px" },
+            "$description": "Page-level bounding-box inline size. 1280px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["WIDTH_HEIGHT"],
+                "variableId": "VariableID:115:425"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

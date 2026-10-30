@@ -1,0 +1,180 @@
+{
+  "$comment": "WCAG 2.2 AA pairs checked on every token build: 4.5:1 for text (1.4.3), 3:1 for borders and focus indicators (1.4.11). text-disabled is exempt. Add a pair whenever a new text or border token is paired with a surface.",
+  "pairs": [
+    {
+      "foreground": "dy-color-text-default",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-subtle",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-link-default",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-link-hover",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-default",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-focus",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-default",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-subtle",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-link-default",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-link-hover",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-default",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-focus",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-inverse",
+      "background": "dy-color-surface-inverse",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-primary-default",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-primary-hover",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-primary-active",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-secondary-default",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-secondary-hover",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-secondary-active",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-positive",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-positive",
+      "background": "dy-color-surface-positive-subtle",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-positive-strong",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-positive",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-negative",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-negative",
+      "background": "dy-color-surface-negative-subtle",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-negative-strong",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-negative",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-attention",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-attention",
+      "background": "dy-color-surface-attention-subtle",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-attention-strong",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-attention",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-notice",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-notice",
+      "background": "dy-color-surface-notice-subtle",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-notice-strong",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-notice",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    }
+  ]
+}
