@@ -78,7 +78,7 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 interface StatusIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: 'ok' | 'neutral' | 'warning';
   variant?: 'filled' | 'ghost' | 'outlined';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 's' | 'm' | 'l';
 }
 
 // StatusIndicator.tsx
@@ -86,7 +86,7 @@ export const StatusIndicator = React.forwardRef<
   HTMLDivElement,
   StatusIndicatorProps
 >(function StatusIndicator(
-  { type = 'neutral', variant = 'filled', size = 'md', className, ...htmlAttributes },
+  { type = 'neutral', variant = 'filled', size = 'm', className, ...htmlAttributes },
   externalRef
 ) {
   const internalProps = {
@@ -111,7 +111,7 @@ export const StatusIndicator = React.forwardRef<
   .status-indicator { ... }
   .type-neutral { ... }
   .variant-ghost { ... }
-  .size-md { ... }
+  .size-m { ... }
 }
 
 /* ❌ Incorrect: Un-prefixed or conditionally assigned classes */
@@ -233,7 +233,7 @@ export function Button({
       --button-color-surface: var(--dy-color-surface-action-secondary-default);
     }
 
-    &.size-sm {
+    &.size-s {
       --button-space-padding: var(--dy-space-2);
     }
 
@@ -411,7 +411,7 @@ export function Button({
 ### CSS-12 · Native Nesting & Explicit Ampersand Binding
 
 - Pseudo-classes, pseudo-elements, sub-elements, and state variants **MUST** be nested inside the main block using native CSS nesting syntax.
-- Nested rules **MUST** explicitly use the ampersand (`&`) prefix when targeting modifiers (`&.size-lg`), attributes (`&[disabled]`), pseudo-classes (`&:focus-visible`), or pseudo-elements (`&::before`).
+- Nested rules **MUST** explicitly use the ampersand (`&`) prefix when targeting modifiers (`&.size-l`), attributes (`&[disabled]`), pseudo-classes (`&:focus-visible`), or pseudo-elements (`&::before`).
 
 ```css
 /* ✅ Correct: Native nesting using explicit ampersand binding */

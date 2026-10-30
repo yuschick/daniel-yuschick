@@ -113,7 +113,7 @@ export const StatusIndicator = React.forwardRef<
   {
     type = 'neutral',
     variant = 'filled',
-    size = 'md',
+    size = 'm',
     className,
     ...htmlAttributes
   },
@@ -438,7 +438,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
     {
       variant = 'filled',
-      size = 'md',
+      size = 'm',
       isDisabled = false,
       isPending = false,
       className,

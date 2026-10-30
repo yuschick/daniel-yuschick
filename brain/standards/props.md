@@ -39,7 +39,7 @@ Every prop belongs to exactly one semantic pillar. This prevents "prop-bleeding,
 ### PROP-02 · Universal Defaults
 
 - A prop shared across multiple components **MUST** use an identical name, type, and **default value** everywhere it appears.
-- If `size` defaults to `md` on `Button`, it **MUST** default to `md` on `Input`, `Select`, `Avatar`, and every other component that exposes `size`.
+- If `size` defaults to `m` on `Button`, it **MUST** default to `m` on `Input`, `Select`, `Avatar`, and every other component that exposes `size`.
 - Shared defaults are defined once in the [Shared Type Registry](#shared-type-registry) and **MUST NOT** be redefined per component. (Reinforces `TS-02` in [typescript.md](typescript.md).)
 
 ### PROP-03 · Props Describe the Component, Not Its Context
@@ -122,7 +122,7 @@ Every prop belongs to exactly one semantic pillar. This prevents "prop-bleeding,
 ```ts
 /* ✅ Correct: one characteristic, one registry-typed prop */
 interface ButtonProps {
-  size?: Size; // Defaults to 'md'
+  size?: Size; // Defaults to 'm'
 }
 
 /* ❌ Incorrect: ambiguous, compounding booleans */
@@ -148,18 +148,18 @@ These are the system-wide props. Where a value column lists a named type (e.g., 
 
 ### Layout & Composition
 
-| Prop / Pattern | Description                                                              | Type                             | Values (see registry)        | Default         |
-| :------------- | :----------------------------------------------------------------------- | :------------------------------- | :--------------------------- | :-------------- |
-| `[base]Start`  | Element placed at the start of the parent's orientation axis.            | `ReactNode`                      |                              |                 |
-| `[base]End`    | Element placed at the end of the parent's orientation axis.              | `ReactNode`                      |                              |                 |
-| `[base]Ref`    | A React ref for DOM manipulation.                                        | `RefObject<HTMLElement \| null>` |                              |                 |
-| `direction`    | The layout axis used to arrange grouped elements.                        | `Orientation`                    | `column`, `row`              |                 |
-| `flow`         | Rendering order of internal elements along the orientation axis.         | `Flow`                           | `default`, `reverse`         | `default`       |
-| `gap`          | Token-based space between internal child elements.                       | `Gap`                            | `xs`, `sm`, `md`, `lg`, `xl` |                 |
-| `offset`       | External token-based space between the component and its anchor/trigger. | `Offset`                         | `xs`, `sm`, `md`, `lg`, `xl` |                 |
-| `placement`    | External alignment of the component relative to an anchor/trigger.       | `Placement`                      | see `Placement`              |                 |
-| `position`     | How an internal child element is positioned within the component.        | `Position`                       | see `Position`               |                 |
-| `renderInRef`  | The portal target element for rendering.                                 | `RefObject<HTMLElement \| null>` |                              | `document.body` |
+| Prop / Pattern | Description                                                              | Type                             | Values (see registry)     | Default         |
+| :------------- | :----------------------------------------------------------------------- | :------------------------------- | :------------------------ | :-------------- |
+| `[base]Start`  | Element placed at the start of the parent's orientation axis.            | `ReactNode`                      |                           |                 |
+| `[base]End`    | Element placed at the end of the parent's orientation axis.              | `ReactNode`                      |                           |                 |
+| `[base]Ref`    | A React ref for DOM manipulation.                                        | `RefObject<HTMLElement \| null>` |                           |                 |
+| `direction`    | The layout axis used to arrange grouped elements.                        | `Orientation`                    | `column`, `row`           |                 |
+| `flow`         | Rendering order of internal elements along the orientation axis.         | `Flow`                           | `default`, `reverse`      | `default`       |
+| `gap`          | Token-based space between internal child elements.                       | `Gap`                            | `xs`, `s`, `m`, `l`, `xl` |                 |
+| `offset`       | External token-based space between the component and its anchor/trigger. | `Offset`                         | `xs`, `s`, `m`, `l`, `xl` |                 |
+| `placement`    | External alignment of the component relative to an anchor/trigger.       | `Placement`                      | see `Placement`           |                 |
+| `position`     | How an internal child element is positioned within the component.        | `Position`                       | see `Position`            |                 |
+| `renderInRef`  | The portal target element for rendering.                                 | `RefObject<HTMLElement \| null>` |                           | `document.body` |
 
 ### Visual & Style
 
@@ -170,11 +170,11 @@ These are the system-wide props. Where a value column lists a named type (e.g., 
 | `[base]Text`      | A plain string value only.                      | `string`              |                                                          |           |
 | `[base]AriaLabel` | A plain-text, non-visual `aria-label`.          | `string`              |                                                          |           |
 | `density`         | The visual "air" / white space.                 | `Density`             | `compact`, `default`, `relaxed`                          | `default` |
-| `elevation`       | The visual depth of the component.              | `Elevation`           | `none`, `sm`, `md`, `lg`                                 | `none`    |
+| `elevation`       | The visual depth of the component.              | `Elevation`           | `none`, `s`, `m`, `l`                                    | `none`    |
 | `fit`             | The fill strategy of the component.             | `Fit`                 | `fill`, `hug`                                            | `hug`     |
 | `intent`          | The visual meaning or purpose of the element.   | `Intent`              | `attention`, `negative`, `neutral`, `notice`, `positive` | `neutral` |
 | `shape`           | The geometric silhouette (border radius).       | `Shape`               | `circle`, `pill`, `rounded`, `sharp`                     | `sharp`   |
-| `size`            | The relative scale of a component's dimensions. | `Size`                | `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `xxl`               | `md`      |
+| `size`            | The relative scale of a component's dimensions. | `Size`                | `2xs`, `xs`, `s`, `m`, `l`, `xl`, `2xl`                  | `m`       |
 | `variant`         | The visual style / skin of a component.         | `Variant`             | `filled`, `ghost`, `inline`, `outlined`                  | `filled`  |
 | `visibility`      | Whether the element is shown or hidden.         | `Visibility`          | `hidden`, `visible`                                      |           |
 
@@ -188,17 +188,16 @@ The canonical source of truth for these shared types is [`packages/react/src/typ
 // Canonical source: packages/react/src/types/common.ts
 import type { Placement } from '@floating-ui/react';
 
-type TShirtSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+// Single letters at the core (xs, s, m, l, xl). Components use xs–xl; 2xs and 2xl exist only for edge cases.
+// Further steps would continue the numeric prefix (3xs, 3xl).
+type TShirtSize = '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl';
 
 export const DENSITIES = ['compact', 'default', 'relaxed'] as const;
 export type Density = (typeof DENSITIES)[number]; // Default: 'default'
 
-export const ELEVATIONS = [
-  'none',
-  'sm',
-  'md',
-  'lg',
-] as const satisfies readonly ('none' | TShirtSize)[];
+export const ELEVATIONS = ['none', 's', 'm', 'l'] as const satisfies readonly (
+  'none' | TShirtSize
+)[];
 export type Elevation = (typeof ELEVATIONS)[number]; // Default: 'none'
 
 export const FITS = ['fill', 'hug'] as const;
@@ -209,9 +208,9 @@ export type Flow = (typeof FLOWS)[number]; // Default: 'default'
 
 export const GAPS = [
   'xs',
-  'sm',
-  'md',
-  'lg',
+  's',
+  'm',
+  'l',
   'xl',
 ] as const satisfies readonly TShirtSize[];
 export type Gap = (typeof GAPS)[number];
@@ -227,9 +226,9 @@ export type Intent = (typeof INTENTS)[number]; // Default: 'neutral'
 
 export const OFFSETS = [
   'xs',
-  'sm',
-  'md',
-  'lg',
+  's',
+  'm',
+  'l',
   'xl',
 ] as const satisfies readonly TShirtSize[];
 export type Offset = (typeof OFFSETS)[number];
@@ -258,15 +257,15 @@ export const SHAPES = ['circle', 'pill', 'rounded', 'sharp'] as const;
 export type Shape = (typeof SHAPES)[number]; // Default: 'sharp'
 
 export const SIZES = [
-  'xxs',
+  '2xs',
   'xs',
-  'sm',
-  'md',
-  'lg',
+  's',
+  'm',
+  'l',
   'xl',
-  'xxl',
+  '2xl',
 ] as const satisfies readonly TShirtSize[];
-export type Size = (typeof SIZES)[number]; // Default: 'md'
+export type Size = (typeof SIZES)[number]; // Default: 'm'
 
 export const VARIANTS = ['filled', 'ghost', 'inline', 'outlined'] as const;
 export type Variant = (typeof VARIANTS)[number]; // Default: 'filled'

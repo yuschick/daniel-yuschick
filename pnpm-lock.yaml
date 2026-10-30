@@ -181,6 +181,18 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
 
+  packages/tokens:
+    devDependencies:
+      '@dy/configs':
+        specifier: workspace:*
+        version: link:../configs
+      eslint:
+        specifier: 10.12.0
+        version: 10.12.0(supports-color@10.2.2)
+      prettier:
+        specifier: 3.9.6
+        version: 3.9.6
+
 packages:
 
   '@babel/code-frame@7.29.7':
@@ -1873,6 +1885,7 @@ packages:
   prettier@3.9.6:
     resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
     engines: {node: '>=14'}
+    hasBin: true
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
