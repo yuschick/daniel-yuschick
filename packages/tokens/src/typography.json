@@ -1,0 +1,193 @@
+{
+  "dy": {
+    "font": {
+      "family": {
+        "body": {
+          "$type": "fontFamily",
+          "$value": "{dy.font.family.default}",
+          "$description": "Body text typeface. → dy/font/family/default.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FONT_FAMILY"],
+              "variableId": "VariableID:114:420"
+            }
+          }
+        },
+        "heading": {
+          "$type": "fontFamily",
+          "$value": "{dy.font.family.default}",
+          "$description": "Heading typeface (same as body for now; can diverge per theme). → dy/font/family/default.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FONT_FAMILY"],
+              "variableId": "VariableID:114:421"
+            }
+          }
+        }
+      },
+      "line-height": {
+        "default": {
+          "$type": "number",
+          "$value": "{dy.font.line-height.150}",
+          "$description": "Unitless line height 1.5. Body text (meets the 1.5 guidance of WCAG 1.4.8). Use with any font size. Hidden from pickers: Figma reads a number variable bound to line height as pixels, so apply line height in Figma through text styles with a percentage line height. → dy/font/line-height/150.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:116:412" }
+          }
+        },
+        "loose": {
+          "$type": "number",
+          "$value": "{dy.font.line-height.200}",
+          "$description": "Unitless line height 2. Long-form reading and very small text. Use with any font size. Hidden from pickers: Figma reads a number variable bound to line height as pixels, so apply line height in Figma through text styles with a percentage line height. → dy/font/line-height/200.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:116:414" }
+          }
+        },
+        "none": {
+          "$type": "number",
+          "$value": "{dy.font.line-height.100}",
+          "$description": "Unitless line height 1. Line height equal to the font size, for single-line UI such as buttons and badges. Use with any font size. Hidden from pickers: Figma reads a number variable bound to line height as pixels, so apply line height in Figma through text styles with a percentage line height. → dy/font/line-height/100.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:116:408" }
+          }
+        },
+        "tight": {
+          "$type": "number",
+          "$value": "{dy.font.line-height.120}",
+          "$description": "Unitless line height 1.2. Headings and short, large text. Use with any font size. Hidden from pickers: Figma reads a number variable bound to line height as pixels, so apply line height in Figma through text styles with a percentage line height. → dy/font/line-height/120.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:116:410" }
+          }
+        }
+      },
+      "size": {
+        "body": {
+          "l": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.300}",
+            "$description": "Lead paragraphs: font size. → dy/font/size/300.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:429"
+              }
+            }
+          },
+          "m": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.200}",
+            "$description": "Default body text: font size. → dy/font/size/200.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:427"
+              }
+            }
+          },
+          "s": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.100}",
+            "$description": "Small body text, captions and helper text: font size. → dy/font/size/100.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:425"
+              }
+            }
+          }
+        },
+        "heading": {
+          "l": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.700}",
+            "$description": "Large heading: font size. → dy/font/size/700.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:437"
+              }
+            }
+          },
+          "m": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.600}",
+            "$description": "Medium heading: font size. → dy/font/size/600.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:435"
+              }
+            }
+          },
+          "s": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.500}",
+            "$description": "Small heading: font size. → dy/font/size/500.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:433"
+              }
+            }
+          },
+          "xl": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.900}",
+            "$description": "Largest heading: font size. → dy/font/size/900.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:439"
+              }
+            }
+          },
+          "xs": {
+            "$type": "dimension",
+            "$value": "{dy.font.size.400}",
+            "$description": "Smallest heading: font size. → dy/font/size/400.",
+            "$extensions": {
+              "com.figma": {
+                "scopes": ["FONT_SIZE"],
+                "variableId": "VariableID:114:431"
+              }
+            }
+          }
+        }
+      },
+      "weight": {
+        "body": {
+          "$type": "fontWeight",
+          "$value": "{dy.font.weight.regular}",
+          "$description": "Body text weight. → dy/font/weight/regular.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FONT_STYLE"],
+              "variableId": "VariableID:114:422"
+            }
+          }
+        },
+        "heading": {
+          "$type": "fontWeight",
+          "$value": "{dy.font.weight.bold}",
+          "$description": "Heading weight. → dy/font/weight/bold.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FONT_STYLE"],
+              "variableId": "VariableID:114:424"
+            }
+          }
+        },
+        "strong": {
+          "$type": "fontWeight",
+          "$value": "{dy.font.weight.semi-bold}",
+          "$description": "Emphasis within body text. → dy/font/weight/semi-bold.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FONT_STYLE"],
+              "variableId": "VariableID:114:423"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,636 @@
+{
+  "dy": {
+    "color": {
+      "attention": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.amber.50}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:475" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.amber.100}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:476" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.amber.200}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:477" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.amber.300}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:478" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.amber.400}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:479" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.amber.500}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:480" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.amber.600}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:481" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.amber.700}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:482" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.amber.800}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:483" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.amber.900}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:484" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.amber.950}",
+          "$description": "THEME ROLE — Warnings (intent=&quot;attention&quot;). Rhubarb: dy/color/amber/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:485" }
+          }
+        }
+      },
+      "negative": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.red.50}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:464" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.red.100}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:465" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.red.200}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:466" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.red.300}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:467" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.red.400}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:468" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.red.500}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:469" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.red.600}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:470" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.red.700}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:471" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.red.800}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:472" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.red.900}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:473" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.red.950}",
+          "$description": "THEME ROLE — Errors and destructive actions (intent=&quot;negative&quot;). Rhubarb: dy/color/red/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:474" }
+          }
+        }
+      },
+      "neutral": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.gray.50}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:519" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.gray.100}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:520" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.gray.200}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:521" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.gray.300}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:522" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.gray.400}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:523" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.gray.500}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:524" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.gray.600}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:525" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.gray.700}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:526" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.gray.800}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:527" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.gray.900}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:528" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.gray.950}",
+          "$description": "THEME ROLE — Text, surfaces and borders. Rhubarb: dy/color/gray/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:529" }
+          }
+        }
+      },
+      "notice": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.blue.50}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:486" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.blue.100}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:487" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.blue.200}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:488" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.blue.300}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:489" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.blue.400}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:490" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.blue.500}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:491" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.blue.600}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:492" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.blue.700}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:493" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.blue.800}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:494" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.blue.900}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:495" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.blue.950}",
+          "$description": "THEME ROLE — Information (intent=&quot;notice&quot;). Rhubarb: dy/color/blue/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:496" }
+          }
+        }
+      },
+      "positive": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.green.50}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:453" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.green.100}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:454" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.green.200}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:455" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.green.300}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:456" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.green.400}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:457" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.green.500}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:458" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.green.600}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:459" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.green.700}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:460" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.green.800}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:461" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.green.900}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:462" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.green.950}",
+          "$description": "THEME ROLE — Success (intent=&quot;positive&quot;). Rhubarb: dy/color/green/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:463" }
+          }
+        }
+      },
+      "primary": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.50}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:497" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.100}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:498" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.200}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:499" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.300}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:500" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.400}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:501" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.500}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:502" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.600}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:503" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.700}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:504" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.800}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:505" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.900}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:506" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.rhubarb.950}",
+          "$description": "THEME ROLE — Brand and main actions. Rhubarb: dy/color/rhubarb/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:507" }
+          }
+        }
+      },
+      "secondary": {
+        "50": {
+          "$type": "color",
+          "$value": "{dy.color.pine.50}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/50. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:508" }
+          }
+        },
+        "100": {
+          "$type": "color",
+          "$value": "{dy.color.pine.100}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/100. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:509" }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "{dy.color.pine.200}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/200. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:510" }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "{dy.color.pine.300}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/300. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:511" }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "{dy.color.pine.400}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/400. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:512" }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "{dy.color.pine.500}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/500. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:513" }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "{dy.color.pine.600}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/600. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:514" }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "{dy.color.pine.700}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/700. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:515" }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "{dy.color.pine.800}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/800. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:516" }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "{dy.color.pine.900}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/900. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:517" }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "{dy.color.pine.950}",
+          "$description": "THEME ROLE — Supporting actions and accents. Rhubarb: dy/color/pine/950. Do not bind components directly; use a color semantic token.",
+          "$extensions": {
+            "com.figma": { "scopes": [], "variableId": "VariableID:111:518" }
+          }
+        }
+      }
+    }
+  }
+}

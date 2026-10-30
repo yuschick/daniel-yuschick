@@ -1,0 +1,50 @@
+{
+  "dy": {
+    "border-radius": {
+      "circle": {
+        "$type": "dimension",
+        "$value": "{dy.corner-radius.1200}",
+        "$description": "Shape &quot;circle&quot;, for square elements. In CSS this should resolve to 50% rather than the pixel value. → dy/corner-radius/1200.",
+        "$extensions": {
+          "com.figma": {
+            "scopes": ["CORNER_RADIUS"],
+            "variableId": "VariableID:114:418"
+          }
+        }
+      },
+      "pill": {
+        "$type": "dimension",
+        "$value": "{dy.corner-radius.1200}",
+        "$description": "Shape &quot;pill&quot;: fully rounded ends. → dy/corner-radius/1200.",
+        "$extensions": {
+          "com.figma": {
+            "scopes": ["CORNER_RADIUS"],
+            "variableId": "VariableID:114:417"
+          }
+        }
+      },
+      "rounded": {
+        "$type": "dimension",
+        "$value": "{dy.corner-radius.100}",
+        "$description": "Shape &quot;rounded&quot;. → dy/corner-radius/100.",
+        "$extensions": {
+          "com.figma": {
+            "scopes": ["CORNER_RADIUS"],
+            "variableId": "VariableID:114:416"
+          }
+        }
+      },
+      "sharp": {
+        "$type": "dimension",
+        "$value": "{dy.corner-radius.000}",
+        "$description": "Shape &quot;sharp&quot; (default): square corners. → dy/corner-radius/000.",
+        "$extensions": {
+          "com.figma": {
+            "scopes": ["CORNER_RADIUS"],
+            "variableId": "VariableID:114:415"
+          }
+        }
+      }
+    }
+  }
+}
