@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import {
   buildTokenFiles,
+  decodeEntities,
   mergeParts,
   toDtcgColor,
   toFileName,
@@ -273,6 +274,24 @@ describe('buildTokenFiles', () => {
     assert.throws(
       () => buildTokenFiles({ collections: [primitives, duplicate] }),
       /exists in both/,
+    );
+  });
+});
+
+describe('decodeEntities', () => {
+  it('decodes the escaping Figma applies to descriptions', () => {
+    assert.equal(
+      decodeEntities({
+        text: 'intent=&quot;positive&quot; &amp; it&#39;s &lt;b&gt;',
+      }),
+      'intent="positive" & it\'s <b>',
+    );
+  });
+
+  it('decodes one level only, so &amp;quot; becomes &quot;', () => {
+    assert.equal(
+      decodeEntities({ text: 'a &amp;quot;b&amp;quot;' }),
+      'a &quot;b&quot;',
     );
   });
 });

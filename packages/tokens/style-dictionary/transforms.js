@@ -77,6 +77,19 @@ export function toCssCubicBezier({ value }) {
 }
 
 /**
+ * Figma stores numbers as 32-bit floats, so 1.2 arrives as 1.2000000476837158.
+ *
+ * @param {{ value: unknown }} options
+ * @returns {string} The number rounded to four decimal places, without trailing zeros
+ */
+export function toCssNumber({ value }) {
+  if (typeof value === 'string') {
+    return value;
+  }
+  return trim({ value: Number(value) });
+}
+
+/**
  * @param {{ value: unknown }} options
  * @returns {string} The family, quoted if needed, followed by the fallback stack
  */
@@ -130,6 +143,14 @@ export const transforms = {
     filter: (token) => token.$type === 'cubicBezier',
     /** @param {Token} token */
     transform: (token) => toCssCubicBezier({ value: token.$value }),
+  },
+  'dy/number': {
+    type: 'value',
+    transitive: true,
+    /** @param {Token} token */
+    filter: (token) => token.$type === 'number',
+    /** @param {Token} token */
+    transform: (token) => toCssNumber({ value: token.$value }),
   },
   'dy/font-family': {
     type: 'value',

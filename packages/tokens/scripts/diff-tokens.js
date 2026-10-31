@@ -161,9 +161,12 @@ function readFilesAtRef({ ref, repoDir }) {
   try {
     listing = execFileSync(
       'git',
-      ['ls-tree', '--name-only', `${ref}:${repoDir}`],
+      ['ls-tree', '--full-tree', '--name-only', `${ref}:${repoDir}`],
       {
         encoding: 'utf8',
+        // A missing directory is expected on a first sync; keep git's own
+        // "fatal: Not a valid object name" message out of the output
+        stdio: ['ignore', 'pipe', 'ignore'],
       },
     );
   } catch {

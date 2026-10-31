@@ -35,6 +35,23 @@ const DIMENSION_NAME =
  */
 
 /**
+ * Figma returns variable descriptions HTML-escaped (a typed `"` reads back as
+ * `&quot;`). One level is decoded, with `&amp;` last so `&amp;quot;` isn't
+ * turned into a quote.
+ *
+ * @param {{ text: string }} options
+ * @returns {string}
+ */
+export function decodeEntities({ text }) {
+  return text
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+}
+
+/**
  * Throws unless the part's payload still hashes to the value computed in Figma.
  *
  * @param {{ part: ExportPart, source: string }} options
@@ -311,7 +328,7 @@ export function buildTokenFiles({ collections }) {
         }
 
         if (variable.description) {
-          token.$description = variable.description;
+          token.$description = decodeEntities({ text: variable.description });
         }
         token.$extensions = {
           'com.figma': { scopes: variable.scopes, variableId: variable.id },
