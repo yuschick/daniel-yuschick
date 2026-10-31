@@ -7,6 +7,7 @@ import {
   toCssDimension,
   toCssDuration,
   toCssFontFamily,
+  toCssNumber,
   transforms,
 } from './transforms.js';
 
@@ -98,6 +99,13 @@ describe('toCssDimension', () => {
 });
 
 describe('other types', () => {
+  it('rounds Figma float noise and trims zeros', () => {
+    assert.equal(toCssNumber({ value: 1.2000000476837158 }), '1.2');
+    assert.equal(toCssNumber({ value: 1.5 }), '1.5');
+    assert.equal(toCssNumber({ value: 2 }), '2');
+    assert.equal(toCssNumber({ value: '1.2' }), '1.2');
+  });
+
   it('writes durations with their unit', () => {
     assert.equal(toCssDuration({ value: { value: 150, unit: 'ms' } }), '150ms');
   });

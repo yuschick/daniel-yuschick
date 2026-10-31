@@ -3,7 +3,7 @@ name: sync-tokens
 description: Export Figma variables as W3C DTCG token files into packages/tokens/src and open a pull request. Run only when Daniel invokes /sync-tokens.
 disable-model-invocation: true
 argument-hint: '[base-branch]'
-allowed-tools: Bash(git status *) Bash(git branch --show-current) Bash(git fetch *) Bash(git ls-remote *) Bash(git cat-file *) Bash(git ls-tree *) Bash(git show *) Bash(git switch *) Bash(gh auth status) Bash(node packages/tokens/scripts/*) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__use_figma
+allowed-tools: Bash(git status *) Bash(git branch --show-current) Bash(git fetch *) Bash(git ls-remote *) Bash(git cat-file *) Bash(git ls-tree *) Bash(git show *) Bash(git switch *) Bash(gh auth status) Bash(/opt/homebrew/bin/gh auth status) Bash(node packages/tokens/scripts/*) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__use_figma
 ---
 
 # Sync tokens from Figma
@@ -18,7 +18,7 @@ Figma variables are the source of truth. This skill reads them (read-only), writ
 Stop and report if either check fails:
 
 - `git status --porcelain` is empty (the skill switches branches).
-- `gh auth status` succeeds.
+- `gh auth status` succeeds. `gh` may not be on the shell's PATH; if `gh` isn't found, call `/opt/homebrew/bin/gh` and use that path for every `gh` command below.
 
 Record the current branch with `git branch --show-current` so you can return to it.
 
@@ -50,7 +50,7 @@ If the diff prints `No token changes.`, stop and report that Figma and `<base>` 
 ## 5. Branch, commit and open the PR
 
 1. `git switch -c tokens/sync-<run-id> origin/<base>`
-2. Replace the JSON files in `packages/tokens/src/` with the files from `<work>/dtcg/` (remove token files that are no longer generated).
+2. Replace the JSON files in `packages/tokens/src/` with the files from `<work>/dtcg/`: first `find packages/tokens/src -maxdepth 1 -name '*.json' -delete` (never a `*.json` glob, which zsh turns into an error when nothing matches), then `mkdir -p packages/tokens/src` and copy the new files in.
 3. Commit only `packages/tokens/src/` with the message `chore(tokens): sync from Figma`, ending with the attribution lines your harness specifies.
 4. Push and open the PR against `<base>`:
    - Title: `chore(tokens): sync from Figma (<YYYY-MM-DD>)`
