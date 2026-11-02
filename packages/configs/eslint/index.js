@@ -231,6 +231,9 @@ export function createBaseConfig({ tsconfigRootDir }) {
             ],
           },
         ],
+        // Prettier leaves backtick strings alone, so this keeps plain strings
+        // single-quoted; template literals are still fine with interpolation
+        quotes: ['error', 'single', { avoidEscape: true }],
         'no-restricted-syntax': ['error', ...restrictedSyntax],
       },
     },

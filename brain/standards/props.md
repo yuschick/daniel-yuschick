@@ -155,124 +155,58 @@ These are the system-wide props. Where a value column lists a named type (e.g., 
 | `[base]Ref`    | A React ref for DOM manipulation.                                        | `RefObject<HTMLElement \| null>` |                           |                 |
 | `direction`    | The layout axis used to arrange grouped elements.                        | `Orientation`                    | `column`, `row`           |                 |
 | `flow`         | Rendering order of internal elements along the orientation axis.         | `Flow`                           | `default`, `reverse`      | `default`       |
-| `gap`          | Token-based space between internal child elements.                       | `Gap`                            | `xs`, `s`, `m`, `l`, `xl` |                 |
-| `offset`       | External token-based space between the component and its anchor/trigger. | `Offset`                         | `xs`, `s`, `m`, `l`, `xl` |                 |
+| `gap`          | Token-based space between internal child elements.                       | `Gap`                            | `xs`, `s`, `m`, `l`, `xl` | `m`             |
+| `offset`       | External token-based space between the component and its anchor/trigger. | `Offset`                         | `xs`, `s`, `m`, `l`, `xl` | `m`             |
 | `placement`    | External alignment of the component relative to an anchor/trigger.       | `Placement`                      | see `Placement`           |                 |
 | `position`     | How an internal child element is positioned within the component.        | `Position`                       | see `Position`            |                 |
 | `renderInRef`  | The portal target element for rendering.                                 | `RefObject<HTMLElement \| null>` |                           | `document.body` |
 
 ### Visual & Style
 
-| Prop / Pattern    | Description                                     | Type                  | Values (see registry)                                    | Default   |
-| :---------------- | :---------------------------------------------- | :-------------------- | :------------------------------------------------------- | :-------- |
-| `[base]Content`   | Arbitrary `ReactNode` children.                 | `ReactNode`           |                                                          |           |
-| `[base]Message`   | Text that may include formatting.               | `string \| ReactNode` |                                                          |           |
-| `[base]Text`      | A plain string value only.                      | `string`              |                                                          |           |
-| `[base]AriaLabel` | A plain-text, non-visual `aria-label`.          | `string`              |                                                          |           |
-| `density`         | The visual "air" / white space.                 | `Density`             | `compact`, `default`, `relaxed`                          | `default` |
-| `elevation`       | The visual depth of the component.              | `Elevation`           | `none`, `s`, `m`, `l`                                    | `none`    |
-| `fit`             | The fill strategy of the component.             | `Fit`                 | `fill`, `hug`                                            | `hug`     |
-| `intent`          | The visual meaning or purpose of the element.   | `Intent`              | `attention`, `negative`, `neutral`, `notice`, `positive` | `neutral` |
-| `shape`           | The geometric silhouette (border radius).       | `Shape`               | `circle`, `pill`, `rounded`, `sharp`                     | `sharp`   |
-| `size`            | The relative scale of a component's dimensions. | `Size`                | `2xs`, `xs`, `s`, `m`, `l`, `xl`, `2xl`                  | `m`       |
-| `variant`         | The visual style / skin of a component.         | `Variant`             | `filled`, `ghost`, `inline`, `outlined`                  | `filled`  |
-| `visibility`      | Whether the element is shown or hidden.         | `Visibility`          | `hidden`, `visible`                                      |           |
+| Prop / Pattern    | Description                                     | Type                  | Values (see registry)                                                            | Default   |
+| :---------------- | :---------------------------------------------- | :-------------------- | :------------------------------------------------------------------------------- | :-------- |
+| `[base]Content`   | Arbitrary `ReactNode` children.                 | `ReactNode`           |                                                                                  |           |
+| `[base]Message`   | Text that may include formatting.               | `string \| ReactNode` |                                                                                  |           |
+| `[base]Text`      | A plain string value only.                      | `string`              |                                                                                  |           |
+| `[base]AriaLabel` | A plain-text, non-visual `aria-label`.          | `string`              |                                                                                  |           |
+| `density`         | The visual "air" / white space.                 | `Density`             | `compact`, `default`, `relaxed`                                                  | `default` |
+| `elevation`       | The visual depth of the component.              | `Elevation`           | `none`, `s`, `m`, `l`                                                            | `none`    |
+| `fit`             | The fill strategy of the component.             | `Fit`                 | `fill`, `hug`                                                                    | `hug`     |
+| `intent`          | The visual meaning or purpose of the element.   | `Intent`              | `attention`, `negative`, `neutral`, `notice`, `positive`, `primary`, `secondary` | `primary` |
+| `shape`           | The geometric silhouette (border radius).       | `Shape`               | `circle`, `pill`, `rounded`, `sharp`                                             | `sharp`   |
+| `size`            | The relative scale of a component's dimensions. | `Size`                | `xs`, `s`, `m`, `l`, `xl`                                                        | `m`       |
+| `variant`         | The visual style / skin of a component.         | `Variant`             | `filled`, `ghost`, `inline`, `outlined`                                          | `filled`  |
+| `visibility`      | Whether the element is shown or hidden.         | `Visibility`          | `hidden`, `visible`                                                              |           |
 
 ---
 
 ## Shared Type Registry
 
-The canonical source of truth for these shared types is [`packages/react/src/types/common.ts`](../../packages/react/src/types/common.ts); the block below mirrors it. Each value set is declared once as a `readonly` const array plus a derived string-literal union (never an `enum`; see `TS-07` in [typescript.md](typescript.md)), then imported wherever the prop is used.
+The single source of truth for these shared types is [`packages/react/src/types/common.ts`](../../packages/react/src/types/common.ts). It is not mirrored here: the table above lists each prop's values and default, and the `@default` tag in each type's doc comment is the machine-readable default. Public exports go through `packages/react/src/types/index.ts`.
+
+Each value set is declared once as a `readonly` const array plus a derived string-literal union (never an `enum`; see `TS-07` in [typescript.md](typescript.md)), then imported wherever the prop is used.
 
 ```ts
-// Canonical source: packages/react/src/types/common.ts
-import type { Placement } from '@floating-ui/react';
+// packages/react/src/types/common.ts
+type TShirtSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
-// Single letters at the core (xs, s, m, l, xl). Components use xs–xl; 2xs and 2xl exist only for edge cases.
-// Further steps would continue the numeric prefix (3xs, 3xl).
-type TShirtSize = '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl';
-
-export const DENSITIES = ['compact', 'default', 'relaxed'] as const;
-export type Density = (typeof DENSITIES)[number]; // Default: 'default'
-
-export const ELEVATIONS = ['none', 's', 'm', 'l'] as const satisfies readonly (
-  'none' | TShirtSize
-)[];
-export type Elevation = (typeof ELEVATIONS)[number]; // Default: 'none'
-
-export const FITS = ['fill', 'hug'] as const;
-export type Fit = (typeof FITS)[number]; // Default: 'hug'
-
-export const FLOWS = ['default', 'reverse'] as const;
-export type Flow = (typeof FLOWS)[number]; // Default: 'default'
-
-export const GAPS = [
-  'xs',
-  's',
-  'm',
-  'l',
-  'xl',
-] as const satisfies readonly TShirtSize[];
-export type Gap = (typeof GAPS)[number];
-
-export const INTENTS = [
-  'attention',
-  'negative',
-  'neutral',
-  'notice',
-  'positive',
-] as const;
-export type Intent = (typeof INTENTS)[number]; // Default: 'neutral'
-
-export const OFFSETS = [
-  'xs',
-  's',
-  'm',
-  'l',
-  'xl',
-] as const satisfies readonly TShirtSize[];
-export type Offset = (typeof OFFSETS)[number];
-
-export const ORIENTATIONS = ['column', 'row'] as const;
-export type Orientation = (typeof ORIENTATIONS)[number]; // Default: component-defined
-
-export const POSITIONS: Placement[] = [
-  'bottom-end',
-  'bottom-start',
-  'bottom',
-  'left-end',
-  'left-start',
-  'left',
-  'right-end',
-  'right-start',
-  'right',
-  'top-end',
-  'top-start',
-  'top',
-];
-export type { Placement };
-export type Position = Placement;
-
-export const SHAPES = ['circle', 'pill', 'rounded', 'sharp'] as const;
-export type Shape = (typeof SHAPES)[number]; // Default: 'sharp'
-
+/**
+ * @default 'm'
+ */
 export const SIZES = [
-  '2xs',
   'xs',
   's',
   'm',
   'l',
   'xl',
-  '2xl',
 ] as const satisfies readonly TShirtSize[];
-export type Size = (typeof SIZES)[number]; // Default: 'm'
-
-export const VARIANTS = ['filled', 'ghost', 'inline', 'outlined'] as const;
-export type Variant = (typeof VARIANTS)[number]; // Default: 'filled'
-
-export const VISIBILITIES = ['hidden', 'visible'] as const;
-export type Visibility = (typeof VISIBILITIES)[number];
+export type Size = (typeof SIZES)[number];
 ```
+
+- **MUST** use `as const satisfies readonly …[]`, never a type annotation such as `SIZES: TShirtSize[]`. An annotation widens the derived union to the whole base type, so a set like `Elevation` would accept values its array doesn't contain.
+- **MUST** give every type with a default an `@default` tag, and add a new shared value to `common.ts` and `types/index.ts`, not inline in a component.
+- Components use sizes `xs` through `xl`. `Elevation` and `Density` are defined for completeness but no tokens back them yet.
+- `intent` covers both status meanings (`attention`, `negative`, `neutral`, `notice`, `positive`) and emphasis (`primary`, `secondary`).
 
 ---
 

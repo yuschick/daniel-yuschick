@@ -430,6 +430,7 @@ export function Button(props: ButtonProps) {
 - All internally computed attributes, default values, computed ARIA states, and class names **MUST** be defined as a standalone local constant named `internalProps`.
 - Components **MUST** pass `internalProps` and `htmlAttributes` (or `[composedComponentName]AndHTMLAttributes`) into the `mergeProps()` utility function, assigning the output to a constant named `mergedProps`.
 - The `mergedProps` object **MUST** be the single spread applied to the root rendered element (`{...mergedProps}`).
+- `mergeProps` is an in-house utility in `src/internal/utils/mergeProps/` (see `FS-02`): it is not exported to consumers and not taken from a third-party library such as `react-aria`.
 - The `mergeProps()` utility function **MUST** safely concatenate CSS class names, combine inline `style` objects, execute chained event handlers without swallowing user callbacks, and prioritize incoming explicit external attributes.
 
 ```tsx
@@ -515,7 +516,7 @@ export function Button({
 'use client';
 
 import * as React from 'react';
-import { mergeProps } from '@dy/react/utils';
+import { mergeProps } from '../../internal/utils';
 import styles from './Switch.module.css';
 
 export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
