@@ -163,20 +163,20 @@ These are the system-wide props. Where a value column lists a named type (e.g., 
 
 ### Visual & Style
 
-| Prop / Pattern    | Description                                     | Type                  | Values (see registry)                                                            | Default   |
-| :---------------- | :---------------------------------------------- | :-------------------- | :------------------------------------------------------------------------------- | :-------- |
-| `[base]Content`   | Arbitrary `ReactNode` children.                 | `ReactNode`           |                                                                                  |           |
-| `[base]Message`   | Text that may include formatting.               | `string \| ReactNode` |                                                                                  |           |
-| `[base]Text`      | A plain string value only.                      | `string`              |                                                                                  |           |
-| `[base]AriaLabel` | A plain-text, non-visual `aria-label`.          | `string`              |                                                                                  |           |
-| `density`         | The visual "air" / white space.                 | `Density`             | `compact`, `default`, `relaxed`                                                  | `default` |
-| `elevation`       | The visual depth of the component.              | `Elevation`           | `none`, `s`, `m`, `l`                                                            | `none`    |
-| `fit`             | The fill strategy of the component.             | `Fit`                 | `fill`, `hug`                                                                    | `hug`     |
-| `intent`          | The visual meaning or purpose of the element.   | `Intent`              | `attention`, `negative`, `neutral`, `notice`, `positive`, `primary`, `secondary` | `primary` |
-| `shape`           | The geometric silhouette (border radius).       | `Shape`               | `circle`, `pill`, `rounded`, `sharp`                                             | `sharp`   |
-| `size`            | The relative scale of a component's dimensions. | `Size`                | `xs`, `s`, `m`, `l`, `xl`                                                        | `m`       |
-| `variant`         | The visual style / skin of a component.         | `Variant`             | `filled`, `ghost`, `inline`, `outlined`                                          | `filled`  |
-| `visibility`      | Whether the element is shown or hidden.         | `Visibility`          | `hidden`, `visible`                                                              |           |
+| Prop / Pattern    | Description                                     | Type                  | Values (see registry)                                                                        | Default   |
+| :---------------- | :---------------------------------------------- | :-------------------- | :------------------------------------------------------------------------------------------- | :-------- |
+| `[base]Content`   | Arbitrary `ReactNode` children.                 | `ReactNode`           |                                                                                              |           |
+| `[base]Message`   | Text that may include formatting.               | `string \| ReactNode` |                                                                                              |           |
+| `[base]Text`      | A plain string value only.                      | `string`              |                                                                                              |           |
+| `[base]AriaLabel` | A plain-text, non-visual `aria-label`.          | `string`              |                                                                                              |           |
+| `density`         | The visual "air" / white space.                 | `Density`             | `compact`, `default`, `relaxed`                                                              | `default` |
+| `elevation`       | The visual depth of the component.              | `Elevation`           | `none`, `s`, `m`, `l`                                                                        | `none`    |
+| `fit`             | The fill strategy of the component.             | `Fit`                 | `fill`, `hug`                                                                                | `hug`     |
+| `intent`          | The visual meaning or purpose of the element.   | `Intent`              | `attention`, `negative`, `neutral`, `notice`, `positive`, `primary`, `secondary`, `tertiary` | `primary` |
+| `shape`           | The geometric silhouette (border radius).       | `Shape`               | `circle`, `pill`, `rounded`, `sharp`                                                         | `sharp`   |
+| `size`            | The relative scale of a component's dimensions. | `Size`                | `xs`, `s`, `m`, `l`, `xl`                                                                    | `m`       |
+| `variant`         | The visual style / skin of a component.         | `Variant`             | `filled`, `ghost`, `inline`, `outlined`                                                      | `filled`  |
+| `visibility`      | Whether the element is shown or hidden.         | `Visibility`          | `hidden`, `visible`                                                                          |           |
 
 ---
 
@@ -206,7 +206,7 @@ export type Size = (typeof SIZES)[number];
 - **MUST** use `as const satisfies readonly …[]`, never a type annotation such as `SIZES: TShirtSize[]`. An annotation widens the derived union to the whole base type, so a set like `Elevation` would accept values its array doesn't contain.
 - **MUST** give every type with a default an `@default` tag, and add a new shared value to `common.ts` and `types/index.ts`, not inline in a component.
 - Components use sizes `xs` through `xl`. `Elevation` and `Density` are defined for completeness but no tokens back them yet.
-- `intent` covers both status meanings (`attention`, `negative`, `neutral`, `notice`, `positive`) and emphasis (`primary`, `secondary`).
+- `intent` covers both status meanings (`attention`, `negative`, `neutral`, `notice`, `positive`) and emphasis (`primary`, `secondary`, `tertiary`).
 
 ---
 
