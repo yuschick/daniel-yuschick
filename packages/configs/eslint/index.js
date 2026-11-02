@@ -42,6 +42,7 @@ export function createBaseConfig({ tsconfigRootDir }) {
       '**/coverage/',
       '**/dist/',
       '**/out/',
+      '**/storybook-static/',
       '**/next-env.d.ts',
     ]),
     js.configs.recommended,
@@ -247,9 +248,9 @@ export function createBaseConfig({ tsconfigRootDir }) {
       files: ['**/*.{js,mjs,cjs}'],
       extends: [tseslint.configs.disableTypeChecked],
     },
-    // Tools such as ESLint, Prettier and Next.js require a default export
+    // Tools such as ESLint, Prettier, Next.js and Storybook require a default export
     {
-      files: ['**/*.config.{js,mjs,cjs,ts}'],
+      files: ['**/*.config.{js,mjs,cjs,ts}', '**/.storybook/*.ts'],
       rules: {
         'import-x/no-default-export': 'off',
       },

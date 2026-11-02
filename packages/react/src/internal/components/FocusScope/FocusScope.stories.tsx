@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 import { FocusScope } from './FocusScope';
 
@@ -163,7 +163,8 @@ export const Default: Story = {
 
       await userEvent.click(closeBtn);
 
-      await expect(triggerBtn).toHaveFocus();
+      // Focus is restored on the next animation frame.
+      await waitFor(() => expect(triggerBtn).toHaveFocus());
     });
   },
 };
@@ -202,7 +203,8 @@ export const Nested: Story = {
         const nestedTrigger = within(canvas.getByTestId(OVERLAY)).getByTestId(
           NESTED_TRIGGER,
         );
-        await expect(nestedTrigger).toHaveFocus();
+        // Focus is restored on the next animation frame.
+        await waitFor(() => expect(nestedTrigger).toHaveFocus());
       },
     );
 
@@ -211,7 +213,8 @@ export const Nested: Story = {
       async () => {
         const closeBtn = canvas.getByTestId(CLOSE_BTN);
         await userEvent.click(closeBtn);
-        await expect(triggerBtn).toHaveFocus();
+        // Focus is restored on the next animation frame.
+        await waitFor(() => expect(triggerBtn).toHaveFocus());
       },
     );
   },
