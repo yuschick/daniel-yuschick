@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 import { FocusScope } from './FocusScope';
 
@@ -18,7 +18,7 @@ const meta: Meta<typeof FocusScope> = {
   parameters: {
     docs: {
       description: {
-        component: `The \`FocusScope\` component captures the currently focused element when \`enabled\` becomes \`true\` and restores focus to it when \`enabled\` returns to \`false\`. It supports nested overlays via a shared Last In First Out (LIFO) stack, ensuring focus is always returned to the correct trigger in the correct order.
+        component: `The \`FocusScope\` component captures the currently focused element when \`enabled\` becomes \`true\` and restores focus to it when \`enabled\` returns to \`false\`. Each scope restores only the element it captured, so nested overlays return focus to the correct trigger as they close, and a scope that mounts closed never moves focus.
 
 This is a behavioral wrapper that renders no additional DOM elements — it simply wraps children in a fragment.
 
@@ -163,13 +163,14 @@ export const Default: Story = {
 
       await userEvent.click(closeBtn);
 
-      await expect(triggerBtn).toHaveFocus();
+      // Focus is restored on the next animation frame.
+      await waitFor(() => expect(triggerBtn).toHaveFocus());
     });
   },
 };
 
 /**
- * Demonstrates LIFO focus restoration across nested overlays.
+ * Demonstrates focus restoration across nested overlays.
  * Closing the inner overlay restores focus to its trigger, and closing the outer restores to the original trigger.
  */
 export const Nested: Story = {
@@ -202,7 +203,8 @@ export const Nested: Story = {
         const nestedTrigger = within(canvas.getByTestId(OVERLAY)).getByTestId(
           NESTED_TRIGGER,
         );
-        await expect(nestedTrigger).toHaveFocus();
+        // Focus is restored on the next animation frame.
+        await waitFor(() => expect(nestedTrigger).toHaveFocus());
       },
     );
 
@@ -211,7 +213,8 @@ export const Nested: Story = {
       async () => {
         const closeBtn = canvas.getByTestId(CLOSE_BTN);
         await userEvent.click(closeBtn);
-        await expect(triggerBtn).toHaveFocus();
+        // Focus is restored on the next animation frame.
+        await waitFor(() => expect(triggerBtn).toHaveFocus());
       },
     );
   },

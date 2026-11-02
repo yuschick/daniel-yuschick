@@ -23,16 +23,17 @@ Run all of them after every change and report failures plainly, naming what ran.
 
 ## Layout
 
-| Path               | Holds                                                               |
-| :----------------- | :------------------------------------------------------------------ |
-| `apps/web`         | The portfolio site                                                  |
-| `apps/docs`        | Design system documentation                                         |
-| `packages/react`   | `@dy/react`, the component library (single entry point, `index.ts`) |
-| `packages/tokens`  | `@dy/tokens`: tokens synced from Figma, built to CSS                |
-| `packages/configs` | `@dy/configs`: ESLint, Stylelint and TypeScript configs             |
-| `brain/`           | Context: Daniel's identity and voice, catalogs, coding standards    |
-| `content/`         | Writing and speaking work, with its own `AGENTS.md`                 |
-| `.claude/skills/`  | Versioned skills, e.g. `/sync-tokens`                               |
+| Path                 | Holds                                                                  |
+| :------------------- | :--------------------------------------------------------------------- |
+| `apps/web`           | The portfolio site                                                     |
+| `apps/docs`          | Design system documentation                                            |
+| `packages/react`     | `@dy/react`, the component library (single entry point, `index.ts`)    |
+| `packages/storybook` | `@dy/storybook`: one Storybook for every package; stories run as tests |
+| `packages/tokens`    | `@dy/tokens`: tokens synced from Figma, built to CSS                   |
+| `packages/configs`   | `@dy/configs`: ESLint, Stylelint and TypeScript configs                |
+| `brain/`             | Context: Daniel's identity and voice, catalogs, coding standards       |
+| `content/`           | Writing and speaking work, with its own `AGENTS.md`                    |
+| `.claude/skills/`    | Versioned skills, e.g. `/sync-tokens`                                  |
 
 ## Standards
 

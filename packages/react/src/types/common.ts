@@ -81,6 +81,7 @@ export type Offset = (typeof OFFSETS)[number];
  * Positive indicates a successful or affirmative action (e.g.: a save button).
  * Primary indicates the main action or emphasis (e.g.: a submit button).
  * Secondary indicates a less prominent action or emphasis (e.g.: a cancel button).
+ * Tertiary indicates the least prominent action or emphasis (e.g.: a low-priority link-style action).
  * @default 'primary'
  */
 export const INTENTS = [
@@ -91,6 +92,7 @@ export const INTENTS = [
   'positive',
   'primary',
   'secondary',
+  'tertiary',
 ] as const;
 export type Intent = (typeof INTENTS)[number];
 

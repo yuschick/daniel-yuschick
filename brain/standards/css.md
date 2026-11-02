@@ -76,22 +76,24 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 /* ✅ Correct: Every variant prop is explicitly prefixed */
 // StatusIndicator.types.ts
 interface StatusIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>;
   type?: 'ok' | 'neutral' | 'warning';
   variant?: 'filled' | 'ghost' | 'outlined';
   size?: 's' | 'm' | 'l';
 }
 
 // StatusIndicator.tsx
-export const StatusIndicator = React.forwardRef<
-  HTMLDivElement,
-  StatusIndicatorProps
->(function StatusIndicator(
-  { type = 'neutral', variant = 'filled', size = 'm', className, ...htmlAttributes },
-  externalRef
-) {
+export const StatusIndicator = function StatusIndicator({
+  ref: externalRef,
+  type = 'neutral',
+  variant = 'filled',
+  size = 'm',
+  className,
+  ...htmlAttributes
+}: StatusIndicatorProps) {
   const internalProps = {
     ref: externalRef,
-    className: clsx(
+    className: cx(
       styles['status-indicator'],
       styles[`type-${type}`],
       styles[`variant-${variant}`],
@@ -101,8 +103,7 @@ export const StatusIndicator = React.forwardRef<
   };
 
   return <div {...mergeProps(internalProps, htmlAttributes)} />;
-});
-
+};
 ```
 
 ```css
@@ -118,7 +119,7 @@ export const StatusIndicator = React.forwardRef<
 export function StatusIndicator({ type, variant, size }: StatusIndicatorProps) {
   return (
     <div
-      className={clsx(
+      className={cx(
         styles['status-indicator'],
         styles[type], // ❌ Missing `type-` prefix
         variant === 'ghost' ? styles.ghost : styles.filled // ❌ Imperative check & un-prefixed
