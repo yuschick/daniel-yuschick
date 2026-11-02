@@ -30,11 +30,11 @@ export default createReactConfig({ tsconfigRootDir: import.meta.dirname });
 
 Rules for standards that no published plugin covers. Each lives in [`eslint-react/plugin/rules/`](eslint-react/plugin/rules) with a test next to it (`pnpm test`).
 
-| Rule                        | Standard | Requires                                                                       |
-| :-------------------------- | :------- | :----------------------------------------------------------------------------- |
-| `dy/one-component-per-file` | RX-06    | One JSX-rendering component per file                                           |
-| `dy/ref-naming`             | RX-02    | `ref: externalRef` in props; `useRef` results named `internal*Ref`             |
-| `dy/rest-spread-name`       | TS-01    | Remaining props named `...htmlAttributes` or `...[component]AndHTMLAttributes` |
+| Rule                        | Standard | Requires                                                                                  |
+| :-------------------------- | :------- | :---------------------------------------------------------------------------------------- |
+| `dy/one-component-per-file` | RX-06    | One JSX-rendering component per file                                                      |
+| `dy/ref-naming`             | RX-02    | Components: `ref: externalRef` and `internal*Ref`; hooks and utilities: refs end in `Ref` |
+| `dy/rest-spread-name`       | TS-01    | Remaining props named `...htmlAttributes` or `...[component]AndHTMLAttributes`            |
 
 ### Other rules backing the standards
 

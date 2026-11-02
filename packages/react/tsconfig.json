@@ -2,7 +2,16 @@
   "extends": "@dy/configs/typescript/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
-    "strictNullChecks": true
+    "rootDir": "./src",
+    "strictNullChecks": true,
+    "paths": {
+      "@package-components/*": ["./src/components/*"],
+      "@package-hooks/*": ["./src/hooks/*"],
+      "@package-internal/*": ["./src/internal/*"],
+      "@package-internal-hooks/*": ["./src/internal/hooks/*"],
+      "@package-providers/*": ["./src/providers/*"],
+      "@package-types/*": ["./src/types/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

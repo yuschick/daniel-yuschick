@@ -1,0 +1,94 @@
+---
+description: 'DY Design System file and directory structure for the @dy/react package.'
+applyTo: 'packages/react/**'
+paths:
+  - 'packages/react/**'
+---
+
+# DY Design System — Structure Rules
+
+> **Core Philosophy:** If you know where one thing lives, you know where everything lives.
+
+Rule IDs are permanent: rules may be reordered or retired, but an ID is never reused. This file governs _where files live and what they are called_ in `packages/react`. It points to the rules that govern their contents instead of repeating them: `RX-04`, `RX-05` and `RX-06` in [react.md](react.md), `TS-01` in [typescript.md](typescript.md) and `CSS-05` in [css.md](css.md). See the [standards index](README.md) for every domain.
+
+> **Status:** nothing checks these rules yet; they are advisory until a structure test exists (see [AGENTS.md](../../AGENTS.md#enforced-vs-advisory)).
+
+## Structure Rules
+
+### FS-01 · Package Layout
+
+- `packages/react/src` **MUST** be organized into these folders, each exposing its public surface through an `index.ts`:
+
+```bash
+📁 src/
+├── components/     # public components, one folder each
+├── docs/           # Storybook documentation pages
+├── hooks/          # public hooks
+├── internal/       # everything consumers must never import (see FS-02)
+├── providers/      # public context providers
+├── types/          # shared types (common.ts is the Shared Type Registry)
+└── index.ts        # the package's only public entry point (RX-05)
+```
+
+- Component specs live outside `src`, in `packages/react/specs/<component>.md`, and must be approved before a component is built.
+
+### FS-02 · Internal Mirrors Public
+
+- `src/internal/` **MUST** mirror the public layout it needs (`components/`, `hooks/`, `types/`, `utils/`) and **MUST** hold only code that exists to support the public components.
+- Nothing in `internal/` may be exported from `src/index.ts` or from any public `index.ts`. Public code may import from `internal/`; consumers never can.
+- A helper used by one component stays in that component's folder. It moves to `internal/` only when a second component needs it, and to a public folder only when consumers need it too.
+
+### FS-03 · Folder Names and Barrels
+
+- Component folders **MUST** be `PascalCase`; hook folders `camelCase` with a `use` prefix; utility folders `camelCase`.
+- Every folder **MUST** have an `index.ts` containing only named exports (`export { Button } from './Button'`), never `export *` and never default exports (RX-04, RX-05). Types are exported with `export type`.
+
+### FS-04 · Component Folder
+
+- A component folder **MUST** contain these sibling files, named after the folder: `[Name].tsx`, `[Name].types.ts` (TS-01), `[Name].module.css` (CSS-05), `[Name].stories.tsx` and `index.ts`.
+- A stateless component's logic hook (`use[Name].ts`, RX-09) is a sibling file and **MUST NOT** be exported from `index.ts`. A stateful component's public hook (e.g. `useAccordion`) is a sibling file and **MUST** be exported.
+- Every file declares one component (RX-06), so the parts of a composite component are sibling files in the parent's folder: `DialogHeader.tsx`, `DialogContent.tsx`, `DialogFooter.tsx`, `DialogClose.tsx`. They are consumed as `Dialog.Header`, `Dialog.Content` and so on.
+
+```bash
+✅ Correct
+📁 Dialog/
+├── Dialog.tsx
+├── DialogClose.tsx
+├── DialogContent.tsx
+├── DialogFooter.tsx
+├── DialogHeader.tsx
+├── Dialog.module.css
+├── Dialog.stories.tsx
+├── Dialog.types.ts
+├── useDialog.ts
+└── index.ts
+
+❌ Incorrect
+📁 Dialog/
+├── Dialog.tsx
+├── Dialog.test.tsx      # ❌ component tests live in Storybook (FS-05)
+├── DialogParts.tsx      # ❌ several components in one file (RX-06)
+└── styles.css           # ❌ not [Name].module.css (CSS-05)
+```
+
+### FS-05 · Where Tests Live
+
+- All component tests (unit, interaction, usability and accessibility) **MUST** be written as Storybook tests in `[Name].stories.tsx`. Components **MUST NOT** have separate `[Name].test.ts(x)` files.
+- Hooks and utilities **MUST** have a sibling test file named after them, e.g. `useControllableState.test.ts` next to `useControllableState.ts`.
+
+```bash
+📁 hooks/useControllableState/
+├── index.ts
+├── useControllableState.ts
+└── useControllableState.test.ts
+```
+
+---
+
+## Pre-Submission Checklist
+
+- [ ] Folders sit in the layout from FS-01 and specs live in `packages/react/specs` (FS-01)
+- [ ] Nothing from `internal/` is exported publicly; helpers moved up only when a second consumer needed them (FS-02)
+- [ ] Folder names follow their casing; every `index.ts` has named exports only (FS-03)
+- [ ] The component folder holds exactly the files in FS-04, one component per file, sub-components as siblings (FS-04)
+- [ ] Component tests are Storybook tests; hooks and utilities have sibling test files (FS-05)

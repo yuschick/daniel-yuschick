@@ -2,14 +2,15 @@
 
 The single source of truth for how code in this repo is written. Each file covers one domain, and every rule carries a permanent ID so it can be cited in reviews, lint messages and AI output (e.g. "violates `RX-04`").
 
-| File                           | IDs      | Applies to       | Governs                                     |
-| :----------------------------- | :------- | :--------------- | :------------------------------------------ |
-| [a11y.md](a11y.md)             | `A11Y-*` | `**/*.{tsx,css}` | Accessibility (release-blocking)            |
-| [css.md](css.md)               | `CSS-*`  | `**/*.css`       | Component stylesheets                       |
-| [general.md](general.md)       | `GEN-*`  | Everything       | Lint discipline, naming                     |
-| [props.md](props.md)           | `PROP-*` | `**/*.{ts,tsx}`  | Public prop names, values and defaults      |
-| [react.md](react.md)           | `RX-*`   | `**/*.tsx`       | Component definition, state and composition |
-| [typescript.md](typescript.md) | `TS-*`   | `**/*.{ts,tsx}`  | Types, interfaces and functions             |
+| File                           | IDs      | Applies to          | Governs                                     |
+| :----------------------------- | :------- | :------------------ | :------------------------------------------ |
+| [a11y.md](a11y.md)             | `A11Y-*` | `**/*.{tsx,css}`    | Accessibility (release-blocking)            |
+| [css.md](css.md)               | `CSS-*`  | `**/*.css`          | Component stylesheets                       |
+| [general.md](general.md)       | `GEN-*`  | Everything          | Lint discipline, naming                     |
+| [props.md](props.md)           | `PROP-*` | `**/*.{ts,tsx}`     | Public prop names, values and defaults      |
+| [react.md](react.md)           | `RX-*`   | `**/*.tsx`          | Component definition, state and composition |
+| [structure.md](structure.md)   | `FS-*`   | `packages/react/**` | File and directory structure                |
+| [typescript.md](typescript.md) | `TS-*`   | `**/*.{ts,tsx}`     | Types, interfaces and functions             |
 
 ## Precedence
 
