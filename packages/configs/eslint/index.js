@@ -234,6 +234,11 @@ export function createBaseConfig({ tsconfigRootDir }) {
         // Prettier leaves backtick strings alone, so this keeps plain strings
         // single-quoted; template literals are still fine with interpolation
         quotes: ['error', 'single', { avoidEscape: true }],
+        // Vite's built-in env flags on `import.meta.env`, not Turborepo env vars
+        'turbo/no-undeclared-env-vars': [
+          'error',
+          { allowList: ['^BASE_URL$', '^DEV$', '^MODE$', '^PROD$', '^SSR$'] },
+        ],
         'no-restricted-syntax': ['error', ...restrictedSyntax],
       },
     },

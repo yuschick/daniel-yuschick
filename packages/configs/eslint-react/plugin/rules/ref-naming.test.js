@@ -21,6 +21,32 @@ ruleTester.run('ref-naming', refNaming, {
       code: 'const internalContainerRef = useRef(null);',
     },
     {
+      name: 'a hook may name its refs anything that ends in Ref',
+      code: `
+        export function useScrollLock() {
+          const hasLockRef = useRef(false);
+          const callbackRef = React.useRef(null);
+          return { hasLockRef, callbackRef };
+        }
+      `,
+    },
+    {
+      name: 'a ref created in a callback inside a hook is judged as a hook ref',
+      code: `
+        export function useReturnFocus() {
+          const handle = useCallback(() => {
+            const triggerRef = useRef(null);
+            return triggerRef;
+          }, []);
+          return handle;
+        }
+      `,
+    },
+    {
+      name: 'a hook may use a ref prop under any name',
+      code: 'function useThing({ ref }) { return ref; }',
+    },
+    {
       name: 'non-component functions are ignored',
       code: 'function buildProps({ ref }) { return ref; }',
     },
@@ -42,8 +68,33 @@ ruleTester.run('ref-naming', refNaming, {
     },
     {
       name: 'ambiguous useRef name',
-      code: 'const myRef = React.useRef(null);',
+      code: `
+        export const Panel = function Panel() {
+          const myRef = React.useRef(null);
+          return <div ref={myRef} />;
+        };
+      `,
       errors: [{ messageId: 'internalRef', data: { name: 'myRef' } }],
+    },
+    {
+      name: 'a component must name internal refs internal*Ref even with a Ref suffix',
+      code: `
+        export const Panel = function Panel() {
+          const triggerRef = useRef(null);
+          return <div ref={triggerRef} />;
+        };
+      `,
+      errors: [{ messageId: 'internalRef', data: { name: 'triggerRef' } }],
+    },
+    {
+      name: 'a hook ref without the Ref suffix',
+      code: 'function useScrollLock() { const hasLock = useRef(false); return hasLock; }',
+      errors: [{ messageId: 'refSuffix', data: { name: 'hasLock' } }],
+    },
+    {
+      name: 'a ref created outside any function needs the Ref suffix',
+      code: 'const cache = useRef(null);',
+      errors: [{ messageId: 'refSuffix', data: { name: 'cache' } }],
     },
   ],
 });

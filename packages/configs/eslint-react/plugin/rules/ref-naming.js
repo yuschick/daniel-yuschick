@@ -1,6 +1,11 @@
-import { getDestructuredProps } from '../utils/component.js';
+import {
+  getDestructuredProps,
+  getEnclosingFunctionName,
+  isComponentName,
+} from '../utils/component.js';
 
 const INTERNAL_REF = /^internal([A-Z][A-Za-z0-9]*)?Ref$/;
+const REF_SUFFIX = /Ref$/;
 
 /**
  * @param {import('eslint').Rule.Node | null | undefined} node
@@ -31,12 +36,14 @@ export const refNaming = {
     type: 'suggestion',
     docs: {
       description:
-        "Require the ref prop to be destructured as 'externalRef' and useRef results to be named 'internal[Name]Ref' (RX-02).",
+        "Require a component's ref prop to be destructured as 'externalRef' and its useRef results named 'internal[Name]Ref'; hooks and utilities only need a 'Ref' suffix (RX-02).",
     },
     messages: {
       externalRef: "Destructure the ref prop as 'ref: externalRef' (RX-02).",
       internalRef:
-        "Name refs created with useRef 'internalRef' or 'internal[Name]Ref', not '{{name}}' (RX-02).",
+        "Name refs created with useRef in a component 'internalRef' or 'internal[Name]Ref', not '{{name}}' (RX-02).",
+      refSuffix:
+        "Name refs created with useRef with a 'Ref' suffix, not '{{name}}' (RX-02).",
     },
     schema: [],
   },
@@ -75,10 +82,17 @@ export const refNaming = {
           return;
         }
 
-        if (!INTERNAL_REF.test(node.id.name)) {
+        const isComponent = isComponentName(
+          getEnclosingFunctionName(context.sourceCode.getAncestors(node)),
+        );
+        const isValid = isComponent
+          ? INTERNAL_REF.test(node.id.name)
+          : REF_SUFFIX.test(node.id.name);
+
+        if (!isValid) {
           context.report({
             node: node.id,
-            messageId: 'internalRef',
+            messageId: isComponent ? 'internalRef' : 'refSuffix',
             data: { name: node.id.name },
           });
         }

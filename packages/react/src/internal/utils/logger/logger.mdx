@@ -1,0 +1,57 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Internal/Utilities/Logger" />
+
+# Logger
+
+The `logger` utility provides a way to log warnings and errors with scoped deduplication and optional stack traces in development environments. This is useful for surfacing development issues without overwhelming the console or causing memory leaks.
+
+## Import
+
+```tsx
+import { logger } from '@package-internal/utils';
+```
+
+## Usage
+
+### Basic Usage
+
+```ts
+logger.warn('Interactive elements require an aria-label.', {
+  scope: 'IconButton',
+});
+```
+
+### Advanced Usage With Stack Trace
+
+```ts
+logger.error('useDialogContext must be used within a DialogRoot provider.', {
+  scope: 'useDialogContext',
+});
+```
+
+### Clearing Logs
+
+```ts
+// Clear a specific scope
+logger.clear('Button');
+
+// Clear all scopes
+logger.clear();
+```
+
+## Parameters
+
+| Name      | Type   | Description          | Default |
+| --------- | ------ | -------------------- | ------- |
+| `message` | string | The message to log   |         |
+| `scope`   | string | The scope of the log |         |
+
+## Return Value
+
+| Name           | Type     | Description                                                                |
+| -------------- | -------- | -------------------------------------------------------------------------- |
+| `logger`       | object   | The logger instance                                                        |
+| `logger.clear` | function | Clears the logs for a specific scope or all scopes if no scope is provided |
+| `logger.error` | function | Logs an error message with optional stack trace and scoped deduplication   |
+| `logger.warn`  | function | Logs a warning message with optional stack trace and scoped deduplication  |

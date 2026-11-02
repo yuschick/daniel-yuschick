@@ -58,11 +58,12 @@ export const VisuallyHidden = ({
 VisuallyHidden.displayName = 'VisuallyHidden'; // ❌ Forbidden manual assignment
 ```
 
-### RX-02 · Forwarded Ref Parameter Naming & Disambiguation
+### RX-02 · Ref Naming & Disambiguation
 
-- The forwarded ref **MUST** be named `externalRef`, whether it arrives as the `ref` prop destructured as `ref: externalRef` (React 19) or as the second `React.forwardRef` argument (React 18).
+- **In components,** the forwarded ref **MUST** be named `externalRef`, whether it arrives as the `ref` prop destructured as `ref: externalRef` (React 19) or as the second `React.forwardRef` argument (React 18).
 - Leaving the `ref` prop un-renamed, or using generic names like `forwardedRef` or `myRef`, is **STRICTLY FORBIDDEN**.
-- Internal refs created via `useRef()` **MUST** use an `internalRef` identifier (e.g., `internalRef`, `internalContainerRef`).
+- **In components,** internal refs created via `useRef()` **MUST** use an `internalRef` identifier (e.g., `internalRef`, `internalContainerRef`).
+- **In hooks and utilities,** refs (created with `useRef()` or accepted as props and options) **MAY** use any descriptive name, provided it ends with `Ref` (e.g., `callbackRef`, `hasLockRef`, `triggerRef`). The `externalRef` and `internalRef` names are reserved for the component boundary they describe.
 - When a component needs both its own DOM ref and the forwarded ref, it **MUST** merge `externalRef` and `internalRef` with `useMergedRefs`.
 
 ```tsx
@@ -651,7 +652,7 @@ export function useViewportWidth(): number {
 ## Pre-Submission Checklist
 
 - [ ] `export const` + named function; ref forwarded as `externalRef` (React 19 `ref` prop / React 18 `forwardRef`); no manual `displayName` (RX-01)
-- [ ] `externalRef` / `internalRef` naming; merged via `useMergedRefs` (RX-02)
+- [ ] Components: `externalRef` / `internalRef` naming, merged via `useMergedRefs`; hooks and utilities: refs end with `Ref` (RX-02)
 - [ ] Explicit defaults in the destructuring signature — no `defaultProps`/inline fallbacks (RX-03)
 - [ ] Named exports only; explicit `index.ts` public surface; one component per file (RX-04, RX-05, RX-06)
 - [ ] Controlled + uncontrolled supported via discriminated unions and `useControllableState` (RX-07)

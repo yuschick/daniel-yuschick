@@ -37,3 +37,42 @@ export function getDestructuredProps(node) {
 
   return props;
 }
+
+/**
+ * Returns the name of the nearest enclosing function that has one, so a ref
+ * created inside a callback is attributed to the component or hook around it.
+ *
+ * @param {import('eslint').Rule.Node[]} ancestors Ancestors, outermost first
+ * @returns {string | null}
+ */
+export function getEnclosingFunctionName(ancestors) {
+  for (const ancestor of [...ancestors].reverse()) {
+    if (
+      ancestor.type !== 'FunctionDeclaration' &&
+      ancestor.type !== 'FunctionExpression' &&
+      ancestor.type !== 'ArrowFunctionExpression'
+    ) {
+      continue;
+    }
+
+    const nameNode =
+      ancestor.id ??
+      (ancestor.parent.type === 'VariableDeclarator'
+        ? ancestor.parent.id
+        : null);
+
+    if (nameNode?.type === 'Identifier') {
+      return nameNode.name;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * @param {string | null} name
+ * @returns {boolean} Whether the name is PascalCase, the convention for components
+ */
+export function isComponentName(name) {
+  return name !== null && PASCAL_CASE.test(name);
+}
