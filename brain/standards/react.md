@@ -432,6 +432,7 @@ export function Button(props: ButtonProps) {
 - Components **MUST** pass `internalProps` and `htmlAttributes` (or `[composedComponentName]AndHTMLAttributes`) into the `mergeProps()` utility function, assigning the output to a constant named `mergedProps`.
 - The `mergedProps` object **MUST** be the single spread applied to the root rendered element (`{...mergedProps}`).
 - `mergeProps` is an in-house utility in `src/internal/utils/mergeProps/` (see `FS-02`): it is not exported to consumers and not taken from a third-party library such as `react-aria`.
+- Class names are joined with the internal `cx` helper (`src/internal/utils/cx/`), plain string joining that skips falsy values; do not add a class-name library.
 - The `mergeProps()` utility function **MUST** safely concatenate CSS class names, combine inline `style` objects, execute chained event handlers without swallowing user callbacks, and prioritize incoming explicit external attributes.
 
 ```tsx

@@ -82,6 +82,7 @@ export interface SwitchProps {
 
 - Utility functions, helpers, and custom hooks accepting two or more parameters **MUST** encapsulate them into a single typed options object.
 - Functions **MUST NOT** use multiple positional arguments.
+- **Exception:** merge-style utilities whose call shape _is_ their API may take positional arguments: `mergeProps(internalProps, externalProps)` (RX-10) and the variadic `cx(...classNames)`. Any other exception needs a rule here first.
 
 ```ts
 /* ✅ Correct: Single options object parameter */
