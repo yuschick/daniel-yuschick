@@ -17,13 +17,10 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 
 - Components **MUST** be defined with an `export const [ComponentName] = ...` binding whose render function is a **named** function matching the component name, so the display name is always derived from the function. Manual `Component.displayName = '...'` assignments are **STRICTLY FORBIDDEN**.
 - **MUST NOT** pass anonymous arrow functions or anonymous function expressions as the render function.
-- The forwarded ref **MUST** be named `externalRef` (see RX-02). The forwarding mechanism depends on the React version the package targets:
-  - **React 19 (this project's default):** `ref` is a regular prop. Components **MUST** declare `ref?: React.Ref<T>` on their props interface and destructure it as `ref: externalRef`. `React.forwardRef` **MUST NOT** be used.
-  - **React 18 (legacy):** Components **MUST** wrap the render function in `React.forwardRef<T, [ComponentName]Props>(function [ComponentName](props, externalRef) { ... })`.
-- Examples in the remaining rules use the React 18 `forwardRef` form for brevity; the React 19 equivalent drops `forwardRef` and destructures `ref: externalRef` from props.
+- The package targets React 19, where `ref` is a regular prop. Components **MUST** declare `ref?: React.Ref<T>` on their props interface (TS-01) and destructure it as `ref: externalRef` (RX-02). `React.forwardRef` **MUST NOT** be used.
 
 ```tsx
-/* ✅ Correct — React 19: ref is a prop, destructured and renamed to externalRef */
+/* ✅ Correct: named function; ref is a prop, destructured and renamed to externalRef */
 export const VisuallyHidden = function VisuallyHidden({
   ref: externalRef,
   children,
@@ -36,7 +33,7 @@ export const VisuallyHidden = function VisuallyHidden({
   );
 };
 
-/* ✅ Correct — React 18: named function expression inside React.forwardRef */
+/* ❌ Incorrect: React.forwardRef is legacy under React 19 */
 export const VisuallyHidden = React.forwardRef<
   HTMLDivElement,
   VisuallyHiddenProps
@@ -60,21 +57,21 @@ VisuallyHidden.displayName = 'VisuallyHidden'; // ❌ Forbidden manual assignmen
 
 ### RX-02 · Ref Naming & Disambiguation
 
-- **In components,** the forwarded ref **MUST** be named `externalRef`, whether it arrives as the `ref` prop destructured as `ref: externalRef` (React 19) or as the second `React.forwardRef` argument (React 18).
+- **In components,** the `ref` prop **MUST** be destructured as `ref: externalRef`.
 - Leaving the `ref` prop un-renamed, or using generic names like `forwardedRef` or `myRef`, is **STRICTLY FORBIDDEN**.
 - **In components,** internal refs created via `useRef()` **MUST** use an `internalRef` identifier (e.g., `internalRef`, `internalContainerRef`).
 - **In hooks and utilities,** refs (created with `useRef()` or accepted as props and options) **MAY** use any descriptive name, provided it ends with `Ref` (e.g., `callbackRef`, `hasLockRef`, `triggerRef`). The `externalRef` and `internalRef` names are reserved for the component boundary they describe.
-- When a component needs both its own DOM ref and the forwarded ref, it **MUST** merge `externalRef` and `internalRef` with `useMergedRefs`.
+- When a component needs both its own DOM ref and the forwarded ref, it **MUST** merge `externalRef` and `internalRef` with `useMergeRefs`.
 
 ```tsx
-/* ✅ Correct — React 19: ref destructured as externalRef, merged with internalRef */
+/* ✅ Correct: ref destructured as externalRef, merged with internalRef */
 export const VisuallyHidden = function VisuallyHidden({
   ref: externalRef,
   children,
   ...htmlAttributes
 }: VisuallyHiddenProps) {
   const internalRef = React.useRef<HTMLDivElement>(null);
-  const visuallyHiddenRef = useMergedRefs(externalRef, internalRef);
+  const visuallyHiddenRef = useMergeRefs([externalRef, internalRef]);
 
   return (
     <div ref={visuallyHiddenRef} {...htmlAttributes}>
@@ -107,22 +104,17 @@ export const VisuallyHidden = function VisuallyHidden({
 
 ```tsx
 /* ✅ Correct: Explicit default values assigned during signature destructuring */
-export const StatusIndicator = React.forwardRef<
-  HTMLDivElement,
-  StatusIndicatorProps
->(function StatusIndicator(
-  {
-    type = 'neutral',
-    variant = 'filled',
-    size = 'm',
-    className,
-    ...htmlAttributes
-  },
-  externalRef,
-) {
+export const StatusIndicator = function StatusIndicator({
+  ref: externalRef,
+  type = 'neutral',
+  variant = 'filled',
+  size = 'm',
+  className,
+  ...htmlAttributes
+}: StatusIndicatorProps) {
   const internalProps = {
     ref: externalRef,
-    className: clsx(
+    className: cx(
       styles['status-indicator'],
       styles[`type-${type}`],
       styles[`variant-${variant}`],
@@ -134,19 +126,20 @@ export const StatusIndicator = React.forwardRef<
   const mergedProps = mergeProps(internalProps, htmlAttributes);
 
   return <div {...mergedProps} />;
-});
+};
 
 /* ❌ Incorrect: Missing parameter defaults, relying on inline fallbacks inside JSX */
-export const StatusIndicator = React.forwardRef<
-  HTMLDivElement,
-  StatusIndicatorProps
->(function StatusIndicator(
-  { type, variant, size, className, ...htmlAttributes },
-  externalRef,
-) {
+export const StatusIndicator = function StatusIndicator({
+  ref: externalRef,
+  type,
+  variant,
+  size,
+  className,
+  ...htmlAttributes
+}: StatusIndicatorProps) {
   const internalProps = {
     ref: externalRef,
-    className: clsx(
+    className: cx(
       styles['status-indicator'],
       styles[`type-${type || 'neutral'}`], // ❌ Imperative inline fallback
       styles[`variant-${variant ?? 'filled'}`], // ❌ Imperative inline fallback
@@ -154,7 +147,7 @@ export const StatusIndicator = React.forwardRef<
     ),
   };
   return <div {...mergeProps(internalProps, htmlAttributes)} />;
-});
+};
 
 /* ❌ Incorrect: Using deprecated defaultProps static property */
 StatusIndicator.defaultProps = {
@@ -265,40 +258,36 @@ export interface UncontrolledCheckboxProps extends Omit<
 
 export type CheckboxProps = ControlledCheckboxProps | UncontrolledCheckboxProps;
 
-export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  function Checkbox(
-    {
-      checked: controlledChecked,
-      defaultChecked = false,
-      onCheckedChange,
-      className,
-      ...htmlAttributes
-    },
-    externalRef,
-  ) {
-    const [isChecked, setIsChecked] = useControllableState({
-      value: controlledChecked,
-      defaultValue: defaultChecked,
-      onChange: onCheckedChange,
-    });
+export const Checkbox = function Checkbox({
+  ref: externalRef,
+  checked: controlledChecked,
+  defaultChecked = false,
+  onCheckedChange,
+  className,
+  ...htmlAttributes
+}: CheckboxProps) {
+  const [isChecked, setIsChecked] = useControllableState({
+    value: controlledChecked,
+    defaultValue: defaultChecked,
+    onChange: onCheckedChange,
+  });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setIsChecked(event.target.checked);
-    };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
 
-    const internalProps = {
-      ref: externalRef,
-      type: 'checkbox' as const,
-      checked: isChecked,
-      onChange: handleChange,
-      className: clsx(styles.checkbox, className),
-    };
+  const internalProps = {
+    ref: externalRef,
+    type: 'checkbox' as const,
+    checked: isChecked,
+    onChange: handleChange,
+    className: cx(styles.checkbox, className),
+  };
 
-    const mergedProps = mergeProps(internalProps, htmlAttributes);
+  const mergedProps = mergeProps(internalProps, htmlAttributes);
 
-    return <input {...mergedProps} />;
-  },
-);
+  return <input {...mergedProps} />;
+};
 
 /* ❌ Incorrect: Single-mode support and invalid props allowed at runtime */
 export interface CheckboxProps {
@@ -410,7 +399,7 @@ const accordion = useAccordion();
 
 /* ✅ Correct: Stateless Component Decoupled via Internal Hook */
 function useButton(props: ButtonProps) {
-  const resolvedClassName = clsx(styles.button, styles[`variant-${props.variant ?? 'filled'}`]);
+  const resolvedClassName = cx(styles.button, styles[`variant-${props.variant ?? 'filled'}`]);
   return {
     buttonProps: {
       className: resolvedClassName,
@@ -437,56 +426,52 @@ export function Button(props: ButtonProps) {
 
 ```tsx
 /* ✅ Correct: Standardized internalProps -> mergeProps -> mergedProps execution flow */
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(
-    {
-      variant = 'filled',
-      size = 'm',
-      isDisabled = false,
-      isPending = false,
+export const Button = function Button({
+  ref: externalRef,
+  variant = 'filled',
+  size = 'm',
+  isDisabled = false,
+  isPending = false,
+  className,
+  onClick,
+  children,
+  ...htmlAttributes
+}: ButtonProps) {
+  /*
+   ** The native HTML 'disabled' attribute is one of the rare cases where it does more harm than good.
+   ** When using 'disabled' the element is not clickable, but it's also not focusable or readable by assistive technologies.
+   ** Instead, we use aria-disabled and prevent click/press events manually.
+   ** This way, disabled buttons can still be understood by assistive technologies while being non-operational.
+   */
+  const isInoperable = isDisabled || isPending;
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (isInoperable) {
+      event.preventDefault();
+      return;
+    }
+    onClick?.(event);
+  };
+
+  const internalProps = {
+    ref: externalRef,
+    type: 'button' as const,
+    'aria-disabled': isInoperable ? 'true' : undefined,
+    'aria-busy': isPending ? 'true' : undefined,
+    'data-pending': isPending ? 'true' : undefined,
+    className: cx(
+      styles.button,
+      styles[`variant-${variant}`],
+      styles[`size-${size}`],
       className,
-      onClick,
-      children,
-      ...htmlAttributes
-    },
-    externalRef,
-  ) {
-    /*
-     ** The native HTML 'disabled' attribute is one of the rare cases where it does more harm than good.
-     ** When using 'disabled' the element is not clickable, but it's also not focusable or readable by assistive technologies.
-     ** Instead, we use aria-disabled and prevent click/press events manually.
-     ** This way, disabled buttons can still be understood by assistive technologies while being non-operational.
-     */
-    const isInoperable = isDisabled || isPending;
+    ),
+    onClick: handleClick,
+  };
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (isInoperable) {
-        event.preventDefault();
-        return;
-      }
-      onClick?.(event);
-    };
+  const mergedProps = mergeProps(internalProps, htmlAttributes);
 
-    const internalProps = {
-      ref: externalRef,
-      type: 'button' as const,
-      'aria-disabled': isInoperable ? 'true' : undefined,
-      'aria-busy': isPending ? 'true' : undefined,
-      'data-pending': isPending ? 'true' : undefined,
-      className: clsx(
-        styles.button,
-        styles[`variant-${variant}`],
-        styles[`size-${size}`],
-        className,
-      ),
-      onClick: handleClick,
-    };
-
-    const mergedProps = mergeProps(internalProps, htmlAttributes);
-
-    return <button {...mergedProps}>{children}</button>;
-  },
-);
+  return <button {...mergedProps}>{children}</button>;
+};
 
 /* ❌ Incorrect: Direct inline attribute spreading without mergeProps resolution */
 export function Button({
@@ -498,7 +483,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={clsx(styles.button, className)}
+      className={cx(styles.button, className)}
       onClick={onClick} // ❌ Manual event binding prone to overriding internal logic
       {...htmlAttributes} // ❌ Direct spread risks clobbering computed attributes or class names
     />
@@ -521,24 +506,24 @@ import * as React from 'react';
 import { mergeProps } from '../../internal/utils';
 import styles from './Switch.module.css';
 
-export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
-  function Switch(
-    { defaultChecked = false, onCheckedChange, ...htmlAttributes },
-    externalRef,
-  ) {
-    const [isChecked, setIsChecked] = useControllableState({
-      defaultValue: defaultChecked,
-      onChange: onCheckedChange,
-    });
-    // ...
-  },
-);
+export const Switch = function Switch({
+  ref: externalRef,
+  defaultChecked = false,
+  onCheckedChange,
+  ...htmlAttributes
+}: SwitchProps) {
+  const [isChecked, setIsChecked] = useControllableState({
+    defaultValue: defaultChecked,
+    onChange: onCheckedChange,
+  });
+  // ...
+};
 
 /* ❌ Incorrect: static presentational component forced onto the client boundary */
 ('use client'); // ❌ No state, effects, or handlers — must remain a Server Component
 
 export function Divider({ className, ...htmlAttributes }: DividerProps) {
-  return <hr className={clsx(styles.divider, className)} {...htmlAttributes} />;
+  return <hr className={cx(styles.divider, className)} {...htmlAttributes} />;
 }
 ```
 
@@ -556,29 +541,35 @@ export function useResolvedId(id?: string): string {
   return id ?? generatedId;
 }
 
-export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField({ id, label, ...htmlAttributes }, externalRef) {
-    const inputId = useResolvedId(id);
+export const TextField = function TextField({
+  ref: externalRef,
+  id,
+  label,
+  ...htmlAttributes
+}: TextFieldProps) {
+  const inputId = useResolvedId(id);
 
-    const internalProps = { ref: externalRef, id: inputId };
-    const mergedProps = mergeProps(internalProps, htmlAttributes);
+  const internalProps = { ref: externalRef, id: inputId };
+  const mergedProps = mergeProps(internalProps, htmlAttributes);
 
-    return (
-      <>
-        <label htmlFor={inputId}>{label}</label>
-        <input {...mergedProps} />
-      </>
-    );
-  },
-);
+  return (
+    <>
+      <label htmlFor={inputId}>{label}</label>
+      <input {...mergedProps} />
+    </>
+  );
+};
 
 /* ❌ Incorrect: direct useId call and a non-deterministic fallback id */
-export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField({ id, label, ...htmlAttributes }, externalRef) {
-    const inputId = id ?? `field-${Math.random()}`; // ❌ Hydration mismatch and collisions
-    return <input id={inputId} ref={externalRef} {...htmlAttributes} />;
-  },
-);
+export const TextField = function TextField({
+  ref: externalRef,
+  id,
+  label,
+  ...htmlAttributes
+}: TextFieldProps) {
+  const inputId = id ?? `field-${Math.random()}`; // ❌ Hydration mismatch and collisions
+  return <input id={inputId} ref={externalRef} {...htmlAttributes} />;
+};
 ```
 
 ### RX-13 · Event Handler & Callback Naming
@@ -589,36 +580,40 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
 ```tsx
 /* ✅ Correct: internal handle[Event] wraps and invokes the on[Event] prop */
-export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
-  function Toggle({ onPressedChange, ...htmlAttributes }, externalRef) {
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      onPressedChange?.(
-        event.currentTarget.getAttribute('aria-pressed') !== 'true',
-      );
-    };
+export const Toggle = function Toggle({
+  ref: externalRef,
+  onPressedChange,
+  ...htmlAttributes
+}: ToggleProps) {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onPressedChange?.(
+      event.currentTarget.getAttribute('aria-pressed') !== 'true',
+    );
+  };
 
-    const internalProps = { ref: externalRef, onClick: handleClick };
-    const mergedProps = mergeProps(internalProps, htmlAttributes);
+  const internalProps = { ref: externalRef, onClick: handleClick };
+  const mergedProps = mergeProps(internalProps, htmlAttributes);
 
-    return <button type="button" {...mergedProps} />;
-  },
-);
+  return <button type="button" {...mergedProps} />;
+};
 
 /* ❌ Incorrect: mismatched naming for handler and prop */
-export const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
-  function Toggle({ onClick, ...htmlAttributes }, externalRef) {
-    const clicked = (event: React.MouseEvent<HTMLButtonElement>) =>
-      onClick?.(event); // ❌ Not handleClick
-    return (
-      <button
-        type="button"
-        onClick={clicked}
-        ref={externalRef}
-        {...htmlAttributes}
-      />
-    );
-  },
-);
+export const Toggle = function Toggle({
+  ref: externalRef,
+  onClick,
+  ...htmlAttributes
+}: ToggleProps) {
+  const clicked = (event: React.MouseEvent<HTMLButtonElement>) =>
+    onClick?.(event); // ❌ Not handleClick
+  return (
+    <button
+      type="button"
+      onClick={clicked}
+      ref={externalRef}
+      {...htmlAttributes}
+    />
+  );
+};
 ```
 
 ### RX-14 · SSR Safety
@@ -637,8 +632,8 @@ export function useViewportWidth(): number | undefined {
   React.useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return width;
@@ -647,13 +642,15 @@ export function useViewportWidth(): number | undefined {
 /* ❌ Incorrect: reads window during render — throws on the server, mismatches on hydration */
 export function useViewportWidth(): number {
   return window.innerWidth; // ❌ Browser global accessed during render
+}
+```
 
 ---
 
 ## Pre-Submission Checklist
 
-- [ ] `export const` + named function; ref forwarded as `externalRef` (React 19 `ref` prop / React 18 `forwardRef`); no manual `displayName` (RX-01)
-- [ ] Components: `externalRef` / `internalRef` naming, merged via `useMergedRefs`; hooks and utilities: refs end with `Ref` (RX-02)
+- [ ] `export const` + named function; `ref` prop destructured as `externalRef`, no `forwardRef`; no manual `displayName` (RX-01)
+- [ ] Components: `externalRef` / `internalRef` naming, merged via `useMergeRefs`; hooks and utilities: refs end with `Ref` (RX-02)
 - [ ] Explicit defaults in the destructuring signature — no `defaultProps`/inline fallbacks (RX-03)
 - [ ] Named exports only; explicit `index.ts` public surface; one component per file (RX-04, RX-05, RX-06)
 - [ ] Controlled + uncontrolled supported via discriminated unions and `useControllableState` (RX-07)
@@ -664,4 +661,3 @@ export function useViewportWidth(): number {
 - [ ] IDs via `useResolvedId` (RX-12)
 - [ ] Handlers named `handle[Event]`; callback props named `on[Event]` (RX-13)
 - [ ] No browser globals during render; SSR-safe initial state (RX-14)
-```
