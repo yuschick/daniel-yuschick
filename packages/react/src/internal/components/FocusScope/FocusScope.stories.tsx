@@ -18,7 +18,7 @@ const meta: Meta<typeof FocusScope> = {
   parameters: {
     docs: {
       description: {
-        component: `The \`FocusScope\` component captures the currently focused element when \`enabled\` becomes \`true\` and restores focus to it when \`enabled\` returns to \`false\`. It supports nested overlays via a shared Last In First Out (LIFO) stack, ensuring focus is always returned to the correct trigger in the correct order.
+        component: `The \`FocusScope\` component captures the currently focused element when \`enabled\` becomes \`true\` and restores focus to it when \`enabled\` returns to \`false\`. Each scope restores only the element it captured, so nested overlays return focus to the correct trigger as they close, and a scope that mounts closed never moves focus.
 
 This is a behavioral wrapper that renders no additional DOM elements — it simply wraps children in a fragment.
 
@@ -170,7 +170,7 @@ export const Default: Story = {
 };
 
 /**
- * Demonstrates LIFO focus restoration across nested overlays.
+ * Demonstrates focus restoration across nested overlays.
  * Closing the inner overlay restores focus to its trigger, and closing the outer restores to the original trigger.
  */
 export const Nested: Story = {

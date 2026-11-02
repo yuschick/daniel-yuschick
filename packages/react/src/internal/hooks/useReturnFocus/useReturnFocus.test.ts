@@ -193,6 +193,43 @@ describe('useReturnFocus', () => {
       });
     });
 
+    it('should not move focus when a closed nested scope mounts', async () => {
+      // Dialog A opens and focus moves into it
+      const hookA = renderHook(
+        ({ enabled }) => {
+          useReturnFocus(enabled);
+        },
+        {
+          initialProps: { enabled: true },
+        },
+      );
+
+      const dialogAButton = document.createElement('button');
+      document.body.appendChild(dialogAButton);
+      dialogAButton.focus();
+
+      // Dialog B's scope mounts closed inside Dialog A
+      renderHook(
+        ({ enabled }) => {
+          useReturnFocus(enabled);
+        },
+        {
+          initialProps: { enabled: false },
+        },
+      );
+
+      // Let any scheduled restoration frame run
+      await new Promise(requestAnimationFrame);
+      expect(document.activeElement).toBe(dialogAButton);
+
+      // Dialog A still returns focus to its own trigger
+      hookA.rerender({ enabled: false });
+
+      await vi.waitFor(() => {
+        expect(document.activeElement).toBe(trigger);
+      });
+    });
+
     it('should handle closing nested dialogs in reverse order gracefully', async () => {
       // Dialog A opens
       const hookA = renderHook(
