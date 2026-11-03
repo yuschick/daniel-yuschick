@@ -1,7 +1,7 @@
 /**
  * TShirtSize represents the sizing scale used throughout the design system.
  */
-type TShirtSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type TShirtSize = '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl';
 
 /**
  * Densities represent the compactness of a component's layout.

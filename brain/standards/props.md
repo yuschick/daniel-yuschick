@@ -188,7 +188,7 @@ Each value set is declared once as a `readonly` const array plus a derived strin
 
 ```ts
 // packages/react/src/types/common.ts
-type TShirtSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type TShirtSize = '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl';
 
 /**
  * @default 'm'

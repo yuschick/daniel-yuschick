@@ -154,7 +154,7 @@ export function StatusIndicator({ type, variant, size }: StatusIndicatorProps) {
 /* ✅ Correct: Styles bound directly to native/ARIA & data attributes */
 @layer dy.react {
   .button {
-    background-color: var(--dy-color-surface-action-primary);
+    background-color: var(--dy-color-surface-action-brand);
 
     &[aria-disabled='true'] {
       background-color: var(--dy-color-surface-neutral-disabled);
@@ -220,9 +220,9 @@ export function Button({
 @layer dy.react {
   .button {
     /* 1. Define Local Component Tokens (mapped to System Tokens) */
-    --button-color-surface: var(--dy-color-surface-action-primary-default);
+    --button-color-surface: var(--dy-color-surface-action-brand-default);
     --button-color-foreground: var(--dy-color-text-on-action);
-    --button-space-padding: var(--dy-space-3);
+    --button-space-padding: var(--dy-space-m);
 
     /* 2. Single Declaration using Local Variables */
     background-color: var(--button-color-surface);
@@ -231,11 +231,11 @@ export function Button({
 
     /* 3. Variant & State Selectors ONLY Mutate Local Variables */
     &.variant-secondary {
-      --button-color-surface: var(--dy-color-surface-action-secondary-default);
+      --button-color-surface: var(--dy-color-surface-action-strong-default);
     }
 
     &.size-s {
-      --button-space-padding: var(--dy-space-2);
+      --button-space-padding: var(--dy-space-xs);
     }
 
     &[aria-disabled='true'] {
@@ -248,12 +248,12 @@ export function Button({
 /* ❌ Incorrect: Repeating properties across state selectors */
 @layer dy.react {
   .button {
-    background-color: var(--dy-color-surface-action-primary-default);
+    background-color: var(--dy-color-surface-action-brand-default);
     color: var(--dy-color-text-on-action);
 
     &.variant-secondary {
       background-color: var(
-        --dy-color-surface-action-secondary-default
+        --dy-color-surface-action-strong-default
       ); /* ❌ Repeated property */
     }
 
@@ -326,12 +326,12 @@ export function Button({
 /* ✅ Correct: Hover styles isolated to hover-capable devices */
 @layer dy.react {
   .button {
-    --button-color-surface: var(--dy-color-surface-action-primary-default);
+    --button-color-surface: var(--dy-color-surface-action-brand-default);
     background-color: var(--button-color-surface);
 
     @media (hover: hover) {
       &:hover {
-        --button-color-surface: var(--dy-color-surface-action-primary-hover);
+        --button-color-surface: var(--dy-color-surface-action-brand-hover);
       }
     }
   }
@@ -340,10 +340,10 @@ export function Button({
 /* ❌ Incorrect: Root-level hover creates sticky touch states */
 @layer dy.react {
   .button {
-    background-color: var(--dy-color-surface-action-primary-default);
+    background-color: var(--dy-color-surface-action-brand-default);
 
     &:hover {
-      background-color: var(--dy-color-surface-action-primary-hover);
+      background-color: var(--dy-color-surface-action-brand-hover);
     }
   }
 }
@@ -360,8 +360,8 @@ export function Button({
   .card {
     inline-size: 100%;
     block-size: 12.5rem;
-    margin-block-start: var(--dy-space-4);
-    padding-inline-start: var(--dy-space-3);
+    margin-block-start: var(--dy-space-l);
+    padding-inline-start: var(--dy-space-m);
     inset-block-start: 0;
   }
 }
