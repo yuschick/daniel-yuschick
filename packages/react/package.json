@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0 && stylelint \"**/*.css\" --max-warnings 0 --allow-empty-input",
+    "lint": "eslint . --max-warnings 0 && stylelint \"src/**/*.css\" --max-warnings 0 --allow-empty-input",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "build": "tsdown"
