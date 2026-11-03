@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readdir, readFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -7,7 +7,7 @@ import { parseArgs } from 'node:util';
 export const NO_CHANGES = 'No token changes.';
 
 /**
- * @typedef {{ file: string, type: string, value: string }} FlatToken
+ * @typedef {{ file: string, type: string, value: string, description: string }} FlatToken
  */
 
 /**
@@ -54,6 +54,9 @@ export function flattenTokens({ files }) {
         file,
         type: String(/** @type {{ $type?: string }} */ (node).$type ?? ''),
         value: describeValue({ value: node.$value }),
+        description: String(
+          /** @type {{ $description?: string }} */ (node).$description ?? '',
+        ),
       });
       return;
     }
@@ -87,8 +90,15 @@ export function compareTokens({ base, head }) {
       );
     })
     .sort();
+  const described = [...head.keys()]
+    .filter((path) => {
+      const before = base.get(path);
+      const after = head.get(path);
+      return before && after && before.description !== after.description;
+    })
+    .sort();
 
-  return { added, removed, changed };
+  return { added, removed, changed, described };
 }
 
 /**
@@ -98,9 +108,12 @@ export function compareTokens({ base, head }) {
  * @returns {string}
  */
 export function formatSummary({ base, head }) {
-  const { added, removed, changed } = compareTokens({ base, head });
+  const { added, removed, changed, described } = compareTokens({
+    base,
+    head,
+  });
 
-  if (added.length + removed.length + changed.length === 0) {
+  if (added.length + removed.length + changed.length + described.length === 0) {
     return NO_CHANGES;
   }
 
@@ -112,7 +125,7 @@ export function formatSummary({ base, head }) {
     '| :-- | :-- | :-- | :-- |',
   ];
   const sections = [
-    `**${String(added.length)} added, ${String(changed.length)} changed, ${String(removed.length)} removed** (${String(head.size)} tokens in total)`,
+    `**${String(added.length)} added, ${String(changed.length)} changed, ${String(removed.length)} removed**, ${String(described.length)} descriptions updated (${String(head.size)} tokens in total)`,
   ];
 
   if (changed.length > 0) {
@@ -143,6 +156,26 @@ export function formatSummary({ base, head }) {
       [
         ...table,
         ...removed.map((path) => row({ path, token: base.get(path) })),
+      ].join('\n'),
+    );
+  }
+
+  if (described.length > 0) {
+    /** @param {{ text: string | undefined }} options */
+    const cell = ({ text }) => (text ? text.replace(/\|/g, '\\|') : '_(none)_');
+    sections.push(
+      [
+        '<details>',
+        `<summary>Descriptions updated (${String(described.length)})</summary>`,
+        '',
+        '| Token | Before | After |',
+        '| :-- | :-- | :-- |',
+        ...described.map(
+          (path) =>
+            `| \`${path}\` | ${cell({ text: base.get(path)?.description })} | ${cell({ text: head.get(path)?.description })} |`,
+        ),
+        '',
+        '</details>',
       ].join('\n'),
     );
   }
@@ -212,12 +245,13 @@ async function main() {
       base: { type: 'string' },
       dir: { type: 'string' },
       'repo-dir': { type: 'string', default: 'packages/tokens/src' },
+      out: { type: 'string' },
     },
   });
 
   if (!values.base || !values.dir) {
     throw new Error(
-      'Usage: node diff-tokens.js --base <git ref> --dir <new token dir> [--repo-dir packages/tokens/src]',
+      'Usage: node diff-tokens.js --base <git ref> --dir <new token dir> [--repo-dir packages/tokens/src] [--out <summary.md>]',
     );
   }
 
@@ -227,7 +261,13 @@ async function main() {
   const head = flattenTokens({
     files: await readFilesInDir({ dir: resolve(values.dir) }),
   });
-  process.stdout.write(`${formatSummary({ base, head })}\n`);
+  const summary = formatSummary({ base, head });
+
+  // --out keeps the exact summary for the PR body, so it isn't retyped
+  if (values.out) {
+    await writeFile(resolve(values.out), `${summary}\n`);
+  }
+  process.stdout.write(`${summary}\n`);
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
