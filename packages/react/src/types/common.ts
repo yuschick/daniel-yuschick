@@ -50,11 +50,13 @@ export type Flow = (typeof FLOWS)[number];
  * @default 'm'
  */
 export const GAPS = [
+  '2xs',
   'xs',
   's',
   'm',
   'l',
   'xl',
+  '2xl',
 ] as const satisfies readonly TShirtSize[];
 export type Gap = (typeof GAPS)[number];
 
@@ -64,11 +66,13 @@ export type Gap = (typeof GAPS)[number];
  * @default 'm'
  */
 export const OFFSETS = [
+  '2xs',
   'xs',
   's',
   'm',
   'l',
   'xl',
+  '2xl',
 ] as const satisfies readonly TShirtSize[];
 export type Offset = (typeof OFFSETS)[number];
 
