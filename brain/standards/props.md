@@ -148,18 +148,18 @@ These are the system-wide props. Where a value column lists a named type (e.g., 
 
 ### Layout & Composition
 
-| Prop / Pattern | Description                                                              | Type                             | Values (see registry)     | Default         |
-| :------------- | :----------------------------------------------------------------------- | :------------------------------- | :------------------------ | :-------------- |
-| `[base]Start`  | Element placed at the start of the parent's orientation axis.            | `ReactNode`                      |                           |                 |
-| `[base]End`    | Element placed at the end of the parent's orientation axis.              | `ReactNode`                      |                           |                 |
-| `[base]Ref`    | A React ref for DOM manipulation.                                        | `RefObject<HTMLElement \| null>` |                           |                 |
-| `direction`    | The layout axis used to arrange grouped elements.                        | `Orientation`                    | `column`, `row`           |                 |
-| `flow`         | Rendering order of internal elements along the orientation axis.         | `Flow`                           | `default`, `reverse`      | `default`       |
+| Prop / Pattern | Description                                                              | Type                             | Values (see registry)                   | Default         |
+| :------------- | :----------------------------------------------------------------------- | :------------------------------- | :-------------------------------------- | :-------------- |
+| `[base]Start`  | Element placed at the start of the parent's orientation axis.            | `ReactNode`                      |                                         |                 |
+| `[base]End`    | Element placed at the end of the parent's orientation axis.              | `ReactNode`                      |                                         |                 |
+| `[base]Ref`    | A React ref for DOM manipulation.                                        | `RefObject<HTMLElement \| null>` |                                         |                 |
+| `direction`    | The layout axis used to arrange grouped elements.                        | `Orientation`                    | `column`, `row`                         |                 |
+| `flow`         | Rendering order of internal elements along the orientation axis.         | `Flow`                           | `default`, `reverse`                    | `default`       |
 | `gap`          | Token-based space between internal child elements.                       | `Gap`                            | `2xs`, `xs`, `s`, `m`, `l`, `xl`, `2xl` | `m`             |
 | `offset`       | External token-based space between the component and its anchor/trigger. | `Offset`                         | `2xs`, `xs`, `s`, `m`, `l`, `xl`, `2xl` | `m`             |
-| `placement`    | External alignment of the component relative to an anchor/trigger.       | `Placement`                      | see `Placement`           |                 |
-| `position`     | How an internal child element is positioned within the component.        | `Position`                       | see `Position`            |                 |
-| `renderInRef`  | The portal target element for rendering.                                 | `RefObject<HTMLElement \| null>` |                           | `document.body` |
+| `placement`    | External alignment of the component relative to an anchor/trigger.       | `Placement`                      | see `Placement`                         |                 |
+| `position`     | How an internal child element is positioned within the component.        | `Position`                       | see `Position`                          |                 |
+| `renderInRef`  | The portal target element for rendering.                                 | `RefObject<HTMLElement \| null>` |                                         | `document.body` |
 
 ### Visual & Style
 
