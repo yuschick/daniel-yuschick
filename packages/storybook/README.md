@@ -24,6 +24,8 @@ Stories are read from source, not from a package's `dist`, so two things have to
 
 Every story is a test (FS-05). The Vitest addon renders each story in headless Chromium through Playwright, runs its `play` function, then runs axe. `a11y.test: 'error'` makes any axe violation fail the test (A11Y-14).
 
+Two browser commands in `.storybook/browserCommands.mjs` let stories check what `userEvent` can't reach: `emulateMedia` for forced colors and reduced motion, and `forcePseudoState` for `:hover`, `:active` and `:focus-visible`. Stories call them through `getBrowserCommands()`, which returns `undefined` in the Storybook UI. They replace Vitest's general `cdp()` API, which Storybook keeps locked because unlocking it also allows file writes and code execution through the Vitest API.
+
 Playwright's browser is not installed by `pnpm install`. Install it once per machine:
 
 ```sh
