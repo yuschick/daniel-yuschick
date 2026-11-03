@@ -106,8 +106,8 @@
       "component": {
         "l": {
           "$type": "dimension",
-          "$value": { "value": 40, "unit": "px" },
-          "$description": "Minimum control height / square control size. 40px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$value": { "value": 56, "unit": "px" },
+          "$description": "Minimum control height / square control size. 56px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
           "$extensions": {
             "com.figma": {
               "scopes": ["WIDTH_HEIGHT"],
@@ -117,8 +117,8 @@
         },
         "m": {
           "$type": "dimension",
-          "$value": { "value": 36, "unit": "px" },
-          "$description": "Minimum control height / square control size. 36px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$value": { "value": 44, "unit": "px" },
+          "$description": "Minimum control height / square control size. 44px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
           "$extensions": {
             "com.figma": {
               "scopes": ["WIDTH_HEIGHT"],
@@ -128,8 +128,8 @@
         },
         "s": {
           "$type": "dimension",
-          "$value": { "value": 24, "unit": "px" },
-          "$description": "Minimum control height / square control size. 24px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$value": { "value": 36, "unit": "px" },
+          "$description": "Minimum control height / square control size. 36px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
           "$extensions": {
             "com.figma": {
               "scopes": ["WIDTH_HEIGHT"],
@@ -139,8 +139,8 @@
         },
         "xl": {
           "$type": "dimension",
-          "$value": { "value": 48, "unit": "px" },
-          "$description": "Minimum control height / square control size. 48px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
+          "$value": { "value": 64, "unit": "px" },
+          "$description": "Minimum control height / square control size. 64px. PRIMITIVE — reference from components rather than typing raw numbers, so the scale stays consistent.",
           "$extensions": {
             "com.figma": {
               "scopes": ["WIDTH_HEIGHT"],
