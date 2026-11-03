@@ -82,7 +82,7 @@
         "secondary": {
           "$type": "color",
           "$value": "{dy.color.secondary.600}",
-          "$description": "Boundary for secondary. Light: dy/color/primary/600.",
+          "$description": "Boundary for secondary. Light: dy/color/secondary/600.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -115,11 +115,11 @@
       },
       "surface": {
         "action": {
-          "primary": {
+          "brand": {
             "active": {
               "$type": "color",
               "$value": "{dy.color.primary.800}",
-              "$description": "Primary action background while pressed. Light: dy/color/primary/800.",
+              "$description": "Brand intent action background while pressed; pair with text/on-action. Light: dy/color/primary/800.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -130,7 +130,7 @@
             "default": {
               "$type": "color",
               "$value": "{dy.color.primary.600}",
-              "$description": "Primary action background; pair with text/on-action. Light: dy/color/primary/600.",
+              "$description": "Brand intent action background; pair with text/on-action. Light: dy/color/primary/600.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -141,7 +141,7 @@
             "hover": {
               "$type": "color",
               "$value": "{dy.color.primary.700}",
-              "$description": "Primary action background on hover. Light: dy/color/primary/700.",
+              "$description": "Brand intent action background on hover; pair with text/on-action. Light: dy/color/primary/700.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -150,46 +150,11 @@
               }
             }
           },
-          "secondary": {
-            "active": {
-              "$type": "color",
-              "$value": "{dy.color.secondary.800}",
-              "$description": "Secondary action background while pressed. Light: dy/color/secondary/800.",
-              "$extensions": {
-                "com.figma": {
-                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
-                  "variableId": "VariableID:112:418"
-                }
-              }
-            },
-            "default": {
-              "$type": "color",
-              "$value": "{dy.color.secondary.600}",
-              "$description": "Secondary action background; pair with text/on-action. Light: dy/color/secondary/600.",
-              "$extensions": {
-                "com.figma": {
-                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
-                  "variableId": "VariableID:112:416"
-                }
-              }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{dy.color.secondary.700}",
-              "$description": "Secondary action background on hover. Light: dy/color/secondary/700.",
-              "$extensions": {
-                "com.figma": {
-                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
-                  "variableId": "VariableID:112:417"
-                }
-              }
-            }
-          },
-          "tertiary": {
+          "strong": {
             "active": {
               "$type": "color",
               "$value": "{dy.color.neutral.950}",
-              "$description": "Tertiary action background while pressed; pair with text/on-action. Light: dy/color/neutral/950.",
+              "$description": "Strong intent action background while pressed; pair with text/on-action. Light: dy/color/neutral/950.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -200,7 +165,7 @@
             "default": {
               "$type": "color",
               "$value": "{dy.color.neutral.900}",
-              "$description": "Tertiary action background; pair with text/on-action. Light: dy/color/neutral/900.",
+              "$description": "Strong intent action background; pair with text/on-action. Light: dy/color/neutral/900.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -211,11 +176,46 @@
             "hover": {
               "$type": "color",
               "$value": "{dy.color.neutral.800}",
-              "$description": "Tertiary action background on hover; pair with text/on-action. Light: dy/color/neutral/800.",
+              "$description": "Strong intent action background on hover; pair with text/on-action. Light: dy/color/neutral/800.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                   "variableId": "VariableID:151:3280"
+                }
+              }
+            }
+          },
+          "subtle": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.100}",
+              "$description": "Subtle intent action surface when pressed.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:165:414"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.50}",
+              "$description": "Subtle intent action surface.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:165:412"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.white}",
+              "$description": "Subtle intent action surface on hover.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:165:413"
                 }
               }
             }
@@ -387,6 +387,113 @@
         }
       },
       "text": {
+        "action": {
+          "brand": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.primary.700}",
+              "$description": "Brand intent action label and icon when pressed.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:417"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.primary.700}",
+              "$description": "Brand intent action label and icon.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:415"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.primary.800}",
+              "$description": "Brand intent action label and icon on hover.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:416"
+                }
+              }
+            }
+          },
+          "strong": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.900}",
+              "$description": "Strong intent action label and icon when pressed.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:420"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.900}",
+              "$description": "Strong intent action label and icon.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:418"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.900}",
+              "$description": "Strong intent action label and icon on hover.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:419"
+                }
+              }
+            }
+          },
+          "subtle": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.900}",
+              "$description": "Subtle intent action label and icon when pressed.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:423"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.700}",
+              "$description": "Subtle intent action label and icon.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:421"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.800}",
+              "$description": "Subtle intent action label and icon on hover.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+                  "variableId": "VariableID:165:422"
+                }
+              }
+            }
+          }
+        },
         "attention": {
           "$type": "color",
           "$value": "{dy.color.attention.700}",
@@ -415,7 +522,7 @@
           "$description": "Disabled text (exempt from contrast minimums; never the only cue). Light: dy/color/neutral/500.",
           "$extensions": {
             "com.figma": {
-              "scopes": ["TEXT_FILL"],
+              "scopes": ["SHAPE_FILL", "TEXT_FILL"],
               "variableId": "VariableID:112:422"
             }
           }
@@ -483,7 +590,7 @@
           "$description": "Text and icons on action surfaces. Light: dy/color/white.",
           "$extensions": {
             "com.figma": {
-              "scopes": ["TEXT_FILL"],
+              "scopes": ["SHAPE_FILL", "TEXT_FILL"],
               "variableId": "VariableID:112:424"
             }
           }

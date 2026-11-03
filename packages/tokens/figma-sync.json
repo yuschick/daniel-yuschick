@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "collections": {
+    "VariableCollectionId:112:407": {
+      "name": "Portfolio Color",
+      "fingerprint": "c1a9f1e3",
+      "files": ["color.light.json"]
+    },
+    "VariableCollectionId:115:407": {
+      "name": "Portfolio Foundation",
+      "fingerprint": "081a27dd",
+      "files": ["foundation.json"]
+    },
+    "VariableCollectionId:107:440": {
+      "name": "Portfolio Primitives",
+      "fingerprint": "d70ba82f",
+      "files": ["primitives.json"]
+    },
+    "VariableCollectionId:114:414": {
+      "name": "Portfolio Shape",
+      "fingerprint": "9a42b108",
+      "files": ["shape.json"]
+    },
+    "VariableCollectionId:114:408": {
+      "name": "Portfolio Space",
+      "fingerprint": "11a3593e",
+      "files": ["space.json"]
+    },
+    "VariableCollectionId:111:452": {
+      "name": "Portfolio Theme",
+      "fingerprint": "148d59a9",
+      "files": ["theme.rhubarb.json"]
+    },
+    "VariableCollectionId:114:419": {
+      "name": "Portfolio Typography",
+      "fingerprint": "1e98942b",
+      "files": ["typography.json"]
+    }
+  }
+}

@@ -1,7 +1,7 @@
 /**
  * TShirtSize represents the sizing scale used throughout the design system.
  */
-type TShirtSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+type TShirtSize = '2xs' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl';
 
 /**
  * Densities represent the compactness of a component's layout.
@@ -50,11 +50,13 @@ export type Flow = (typeof FLOWS)[number];
  * @default 'm'
  */
 export const GAPS = [
+  '2xs',
   'xs',
   's',
   'm',
   'l',
   'xl',
+  '2xl',
 ] as const satisfies readonly TShirtSize[];
 export type Gap = (typeof GAPS)[number];
 
@@ -64,11 +66,13 @@ export type Gap = (typeof GAPS)[number];
  * @default 'm'
  */
 export const OFFSETS = [
+  '2xs',
   'xs',
   's',
   'm',
   'l',
   'xl',
+  '2xl',
 ] as const satisfies readonly TShirtSize[];
 export type Offset = (typeof OFFSETS)[number];
 
