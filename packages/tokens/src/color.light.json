@@ -68,6 +68,28 @@
             }
           }
         },
+        "primary": {
+          "$type": "color",
+          "$value": "{dy.color.primary.600}",
+          "$description": "Boundary for primary. Light: dy/color/primary/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:147:1804"
+            }
+          }
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{dy.color.secondary.600}",
+          "$description": "Boundary for secondary. Light: dy/color/primary/600.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["STROKE_COLOR"],
+              "variableId": "VariableID:148:1941"
+            }
+          }
+        },
         "strong": {
           "$type": "color",
           "$value": "{dy.color.neutral.700}",
@@ -159,6 +181,41 @@
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
                   "variableId": "VariableID:112:417"
+                }
+              }
+            }
+          },
+          "tertiary": {
+            "active": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.950}",
+              "$description": "Tertiary action background while pressed; pair with text/on-action. Light: dy/color/neutral/950.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:151:3284"
+                }
+              }
+            },
+            "default": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.900}",
+              "$description": "Tertiary action background; pair with text/on-action. Light: dy/color/neutral/900.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:151:3276"
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{dy.color.neutral.800}",
+              "$description": "Tertiary action background on hover; pair with text/on-action. Light: dy/color/neutral/800.",
+              "$extensions": {
+                "com.figma": {
+                  "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+                  "variableId": "VariableID:151:3280"
                 }
               }
             }

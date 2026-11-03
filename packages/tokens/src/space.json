@@ -4,7 +4,7 @@
       "l": {
         "$type": "dimension",
         "$value": "{dy.spacing.300}",
-        "$description": "Large space (gap and offset &quot;l&quot;). → dy/spacing/300.",
+        "$description": "Large space (gap and offset \"l\"). → dy/spacing/300.",
         "$extensions": {
           "com.figma": { "scopes": ["GAP"], "variableId": "VariableID:114:412" }
         }
@@ -12,7 +12,7 @@
       "m": {
         "$type": "dimension",
         "$value": "{dy.spacing.200}",
-        "$description": "Medium space (gap and offset &quot;m&quot;). → dy/spacing/200.",
+        "$description": "Medium space (gap and offset \"m\"). → dy/spacing/200.",
         "$extensions": {
           "com.figma": { "scopes": ["GAP"], "variableId": "VariableID:114:411" }
         }
@@ -20,7 +20,7 @@
       "s": {
         "$type": "dimension",
         "$value": "{dy.spacing.100}",
-        "$description": "Small space (gap and offset &quot;s&quot;). → dy/spacing/100.",
+        "$description": "Small space (gap and offset \"s\"). → dy/spacing/100.",
         "$extensions": {
           "com.figma": { "scopes": ["GAP"], "variableId": "VariableID:114:410" }
         }
@@ -28,7 +28,7 @@
       "xl": {
         "$type": "dimension",
         "$value": "{dy.spacing.400}",
-        "$description": "Extra-large space (gap and offset &quot;xl&quot;). → dy/spacing/400.",
+        "$description": "Extra-large space (gap and offset \"xl\"). → dy/spacing/400.",
         "$extensions": {
           "com.figma": { "scopes": ["GAP"], "variableId": "VariableID:114:413" }
         }
@@ -36,7 +36,7 @@
       "xs": {
         "$type": "dimension",
         "$value": "{dy.spacing.050}",
-        "$description": "Extra-small space (gap and offset &quot;xs&quot;). → dy/spacing/050.",
+        "$description": "Extra-small space (gap and offset \"xs\"). → dy/spacing/050.",
         "$extensions": {
           "com.figma": { "scopes": ["GAP"], "variableId": "VariableID:114:409" }
         }

@@ -1023,7 +1023,7 @@
         "default": {
           "$type": "fontFamily",
           "$value": "Inclusive Sans",
-          "$description": "Typography primitive — font default: Inter. PRIMITIVE — compose through a text semantic token rather than binding directly.",
+          "$description": "Typography primitive — font default: Inclusive Sans. PRIMITIVE — compose through a text semantic token rather than binding directly.",
           "$extensions": {
             "com.figma": { "scopes": [], "variableId": "VariableID:107:461" }
           }
