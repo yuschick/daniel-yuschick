@@ -60,7 +60,7 @@ const primitives = {
       type: 'STRING',
       description: '',
       scopes: [],
-      values: { 'Mode 1': 'Semi Bold' },
+      values: { 'Mode 1': 'SemiBold' },
     },
     {
       id: 'V:6',

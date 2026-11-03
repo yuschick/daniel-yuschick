@@ -8,12 +8,12 @@
     },
     "VariableCollectionId:115:407": {
       "name": "Portfolio Foundation",
-      "fingerprint": "081a27dd",
+      "fingerprint": "f64ab64d",
       "files": ["foundation.json"]
     },
     "VariableCollectionId:107:440": {
       "name": "Portfolio Primitives",
-      "fingerprint": "d70ba82f",
+      "fingerprint": "f2375e47",
       "files": ["primitives.json"]
     },
     "VariableCollectionId:114:414": {

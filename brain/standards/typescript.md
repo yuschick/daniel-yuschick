@@ -19,6 +19,7 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 - The prop interface and all supporting types **MUST** live in a sibling `[ComponentName].types.ts` file next to `[ComponentName].tsx` — they **MUST NOT** be declared inline in the component file.
 - Supporting sub-types or union members **MUST** be declared before the primary `[ComponentName]Props` interface.
 - Interfaces **MUST** extend the native React attribute type of the rendered element (`React.HTMLAttributes<T>`, `React.ButtonHTMLAttributes<T>`, `React.InputHTMLAttributes<T>`, etc.) rather than manually re-declaring standard HTML props.
+- Interactive components with token-driven styling **MUST** remove `className` and `style` from their native attributes through `SanitizedHTMLAttributes` (`internal/types/type-helpers.ts`), so consumers can't restyle them around the tokens.
 - Under React 19 (this project's target), the interface **MUST** also declare `ref?: React.Ref<T>` so the forwarded ref can be destructured as `ref: externalRef` (see RX-01, RX-02).
 - Native props that collide with a design-system term **MUST** be removed with `Omit<T, K>` and re-exposed under an `html[Property]` name (e.g., `htmlSize`).
 - Every component **MUST** destructure and spread its remaining native attributes as `...htmlAttributes` — never `...rest` or `...props`.

@@ -33,7 +33,7 @@ Run all of them after every change and report failures plainly, naming what ran.
 | `packages/configs`   | `@dy/configs`: ESLint, Stylelint and TypeScript configs                |
 | `brain/`             | Context: Daniel's identity and voice, catalogs, coding standards       |
 | `content/`           | Writing and speaking work, with its own `AGENTS.md`                    |
-| `.claude/skills/`    | Versioned skills, e.g. `/sync-tokens`                                  |
+| `.claude/skills/`    | Versioned skills, e.g. `/sync-tokens`, `/spec`                         |
 
 ## Standards
 
@@ -62,9 +62,9 @@ Judgment calls (for example `PROP-01`, `PROP-03`, `RX-08`, `RX-09`) and everythi
 
 A component, or a change to a public API, needs an approved spec before any code.
 
-1. Write the spec in `packages/react/specs/<component>.md` with `status: draft`: the API (per `PROP-*` and the Shared Type Registry), anatomy and composition, states, the WAI-ARIA pattern it follows, and the tokens it uses.
-2. **Stop.** Ask Daniel to approve it. Don't implement until it says `status: approved`.
-3. Build to the spec. If the work needs to deviate, update the spec and say so rather than diverging silently.
+1. Run `/spec <figma-url>` to write `packages/react/specs/<component>.md` and its facts: the API (per `PROP-*` and the Shared Type Registry), anatomy and composition, states, the WAI-ARIA pattern it follows, and the tokens it uses.
+2. **Stop.** The skill opens a PR containing only the spec. A spec is approved only when a human merges that PR into `main`. Agents never approve or merge a PR, and `status: approved` means nothing until it's on `main`.
+3. Build to the spec, in a separate PR. If the work needs to deviate, update the spec and say so rather than diverging silently.
 
 Typo fixes, dependency bumps and fully specified bug fixes don't need a spec. The test: if you'd want to argue about the approach after seeing the diff, it needed a spec first.
 
