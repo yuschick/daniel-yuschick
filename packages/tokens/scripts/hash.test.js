@@ -19,14 +19,14 @@ const fnv1aBody = ({ source }) => {
 };
 
 describe('fnv1a', () => {
-  it('is identical to the copy in the Figma read script', async () => {
+  it('is identical to the copy in the Figma export script', async () => {
     const packageSource = await readFile(
       new URL('./hash.js', import.meta.url),
       'utf8',
     );
     const skillSource = await readFile(
       new URL(
-        '../../../.claude/skills/sync-tokens/scripts/read-collection.js',
+        '../../../.claude/skills/sync-tokens/scripts/export-variables.js',
         import.meta.url,
       ),
       'utf8',

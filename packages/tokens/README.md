@@ -5,8 +5,10 @@ The DY Design System's design tokens, synced from Figma. Figma variables are the
 ## How tokens get here
 
 1. A token changes in the Figma file (`HiDiGLs2OsVWyqnCo7aEjF`).
-2. Daniel runs `/sync-tokens` in Claude Code. The [skill](../../.claude/skills/sync-tokens/SKILL.md) reads every variable collection through the Figma MCP, converts it with [`scripts/figma-to-dtcg.js`](scripts/figma-to-dtcg.js), and opens a PR with a summary from [`scripts/diff-tokens.js`](scripts/diff-tokens.js).
+2. Daniel runs `/sync-tokens` in Claude Code. The [skill](../../.claude/skills/sync-tokens/SKILL.md) lists the variable collections through the Figma MCP, exports only those that changed since the last sync ([`scripts/sync-plan.js`](scripts/sync-plan.js)), converts them with [`scripts/figma-to-dtcg.js`](scripts/figma-to-dtcg.js), and opens a PR with a summary from [`scripts/diff-tokens.js`](scripts/diff-tokens.js).
 3. The PR is reviewed and merged.
+
+[`figma-sync.json`](figma-sync.json) (generated, do not edit) records each collection's fingerprint, a hash Figma computes over the whole collection, and the files it produced. A collection whose fingerprint matches is not exported again; its committed files are reused. Bump `FORMAT_VERSION` in `sync-plan.js` whenever the converter's output changes for the same input, so the next sync re-exports everything.
 
 ## `src/`: generated, do not edit
 
@@ -22,11 +24,11 @@ One [W3C DTCG](https://www.designtokens.org/tr/drafts/format/) file per Figma co
 | `typography.json`    | Type roles                   | Yes          |
 | `foundation.json`    | Sizes, border widths, motion | Yes          |
 
-Primitives and theme roles exist only to resolve references at build time; the browser only ever sees the top layer.
+Primitives and theme roles exist only to resolve references at build time; the browser only ever sees the top layer. Their variables carry no `$description`: those descriptions only document Figma, so they're left out of the export.
 
 ## Integrity
 
-Figma's MCP returns exports to the agent rather than to disk, so each export is hashed inside Figma and re-hashed by the converter. A mismatch stops the sync. The converter also fails on any variable type it has no mapping for, on references outside the export, and on duplicate token paths.
+Figma's MCP returns exports to the agent rather than to disk, so each export is hashed inside Figma and re-hashed by the converter. Each exported collection must also match the fingerprint Figma listed for it, and every changed collection must be exported. Any mismatch stops the sync. The converter also fails on any variable type it has no mapping for, on references outside the export and the reused files, and on duplicate token paths.
 
 ## Build: `dist/` (generated, gitignored)
 

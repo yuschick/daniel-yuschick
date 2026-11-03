@@ -6,6 +6,14 @@ import { parseArgs } from 'node:util';
 import { format, resolveConfig } from 'prettier';
 
 import { fnv1a } from './hash.js';
+import {
+  FORMAT_VERSION,
+  fingerprintCollection,
+  planSync,
+  readListing,
+  readState,
+} from './sync-plan.js';
+import { HIDDEN_FILE } from '../style-dictionary/config.js';
 
 // Mode names that mean "this collection has no real modes", so files get no suffix
 const UNNAMED_MODES = new Set(['Default', 'Mode 1', 'Value']);
@@ -32,6 +40,8 @@ const DIMENSION_NAME =
  * @typedef {{ collection: { id: string, name: string, modes: string[] }, total: number, offset: number, variables: FigmaVariable[] }} ExportPayload
  * @typedef {{ hash: string, payload: ExportPayload }} ExportPart
  * @typedef {{ fileName: string, tokens: Record<string, unknown> }} TokenFile
+ * @typedef {TokenFile & { collectionName: string }} ReusedFile
+ * @typedef {{ reference: string, type: string }} TokenReference
  */
 
 /**
@@ -76,8 +86,12 @@ export function verifyPart({ part, source }) {
 export function mergeParts({ parts }) {
   /** @type {Map<string, ExportPayload>} */
   const collections = new Map();
+  // File names sort as text (`.120` before `.60`), so order slices by offset
+  const ordered = [...parts].sort(
+    (first, second) => first.payload.offset - second.payload.offset,
+  );
 
-  for (const { payload } of parts) {
+  for (const { payload } of ordered) {
     const existing = collections.get(payload.collection.id);
 
     if (existing) {
@@ -251,23 +265,69 @@ function setToken({ tree, path, token, source }) {
 }
 
 /**
+ * Calls `visit` for every token in a DTCG tree.
+ *
+ * @param {{ node: unknown, path?: string[], visit: (options: { path: string[], token: Record<string, unknown> }) => void }} options
+ */
+export function walkTokens({ node, path = [], visit }) {
+  if (!node || typeof node !== 'object') {
+    return;
+  }
+  if ('$value' in node) {
+    visit({ path, token: /** @type {Record<string, unknown>} */ (node) });
+    return;
+  }
+  for (const [key, child] of Object.entries(node)) {
+    if (!key.startsWith('$')) {
+      walkTokens({ node: child, path: [...path, key], visit });
+    }
+  }
+}
+
+/**
  * Converts merged Figma collections into DTCG token files, one per
  * collection and mode, with references kept as `{dy.…}` aliases.
+ * `reusedFiles` are the committed files of collections that didn't change:
+ * they're returned as they are, and references into them resolve through
+ * the Figma variable ID each token keeps in `$extensions`.
  *
- * @param {{ collections: ExportPayload[] }} options
+ * @param {{ collections: ExportPayload[], reusedFiles?: ReusedFile[] }} options
  * @returns {TokenFile[]}
  */
-export function buildTokenFiles({ collections }) {
+export function buildTokenFiles({ collections, reusedFiles = [] }) {
   /** @type {Map<string, FigmaVariable>} */
   const byId = new Map(
     collections.flatMap(({ variables }) =>
       variables.map((variable) => [variable.id, variable]),
     ),
   );
+  /** @type {Map<string, TokenReference>} */
+  const reusedById = new Map();
   /** @type {Map<string, string>} */
   const pathOwners = new Map();
   /** @type {TokenFile[]} */
   const files = [];
+
+  for (const { collectionName, fileName, tokens } of reusedFiles) {
+    walkTokens({
+      node: tokens,
+      visit: ({ path, token }) => {
+        const extensions =
+          /** @type {{ 'com.figma'?: { variableId?: string } } | undefined} */ (
+            token.$extensions
+          );
+        const variableId = extensions?.['com.figma']?.variableId;
+        if (variableId) {
+          reusedById.set(variableId, {
+            reference: `{${path.join('.')}}`,
+            type: String(token.$type),
+          });
+        }
+        pathOwners.set(path.join('.'), collectionName);
+      },
+    });
+    files.push({ fileName, tokens });
+  }
 
   const sortedCollections = [...collections].sort((first, second) =>
     first.collection.name.localeCompare(second.collection.name),
@@ -310,15 +370,19 @@ export function buildTokenFiles({ collections }) {
         let token;
         if (typeof value === 'object') {
           const target = byId.get(value.alias);
-          if (!target) {
+          const reused = reusedById.get(value.alias);
+          if (target) {
+            token = {
+              $type: toDtcgType({ variable: target }),
+              $value: `{${target.name.split('/').join('.')}}`,
+            };
+          } else if (reused) {
+            token = { $type: reused.type, $value: reused.reference };
+          } else {
             throw new Error(
               `${variable.name}: references ${value.alias}, which isn't in this export (a variable from another file or library?).`,
             );
           }
-          token = {
-            $type: toDtcgType({ variable: target }),
-            $value: `{${target.name.split('/').join('.')}}`,
-          };
         } else {
           const type = toDtcgType({ variable });
           token = {
@@ -327,7 +391,8 @@ export function buildTokenFiles({ collections }) {
           };
         }
 
-        if (variable.description) {
+        // Hidden collections never ship, so their descriptions only document Figma
+        if (variable.description && !HIDDEN_FILE.test(fileName)) {
           token.$description = decodeEntities({ text: variable.description });
         }
         token.$extensions = {
@@ -395,29 +460,149 @@ export async function writeTokenFiles({ files, outputDir }) {
   }
 }
 
+/**
+ * @param {{ collection: ExportPayload['collection'] }} options
+ * @returns {string[]} The token file names a collection produces
+ */
+function fileNamesFor({ collection }) {
+  return collection.modes.map((modeName) =>
+    toFileName({
+      collectionName: collection.name,
+      modeName,
+      modeCount: collection.modes.length,
+    }),
+  );
+}
+
+/**
+ * Checks the export against Figma's listing: every exported collection must
+ * match the fingerprint Figma computed for it, and every listed collection
+ * must be either exported or unchanged since the last sync.
+ *
+ * @param {{ listed: import('./sync-plan.js').ListedCollection[], state: import('./sync-plan.js').SyncState | undefined, collections: ExportPayload[] }} options
+ * @returns {import('./sync-plan.js').ListedCollection[]} The unchanged collections to reuse
+ */
+export function checkExport({ listed, state, collections }) {
+  const listedById = new Map(listed.map((entry) => [entry.id, entry]));
+  const exportedIds = new Set();
+
+  for (const payload of collections) {
+    const { id, name } = payload.collection;
+    const entry = listedById.get(id);
+
+    if (!entry) {
+      throw new Error(
+        `${name}: exported but not in the collection listing. List the collections again.`,
+      );
+    }
+    if (fingerprintCollection({ payload }) !== entry.fingerprint) {
+      throw new Error(
+        `${name}: export doesn't match the fingerprint Figma listed. The collection changed during the sync or a slice is stale; list and export it again.`,
+      );
+    }
+    exportedIds.add(id);
+  }
+
+  const { changed, unchanged } = planSync({ listed, state });
+  const missing = changed.filter(({ id }) => !exportedIds.has(id));
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Changed since the last sync but not exported: ${missing.map(({ name }) => name).join(', ')}.`,
+    );
+  }
+  return unchanged.filter(({ id }) => !exportedIds.has(id));
+}
+
+/**
+ * @param {{ listed: import('./sync-plan.js').ListedCollection[], collections: ExportPayload[], reused: import('./sync-plan.js').ListedCollection[], state: import('./sync-plan.js').SyncState | undefined }} options
+ * @returns {import('./sync-plan.js').SyncState}
+ */
+export function buildState({ listed, collections, reused, state }) {
+  const exportedFiles = new Map(
+    collections.map(({ collection }) => [
+      collection.id,
+      fileNamesFor({ collection }),
+    ]),
+  );
+  const reusedIds = new Set(reused.map(({ id }) => id));
+
+  return {
+    formatVersion: FORMAT_VERSION,
+    collections: Object.fromEntries(
+      [...listed]
+        .sort((first, second) => first.name.localeCompare(second.name))
+        .map(({ id, name, fingerprint }) => [
+          id,
+          {
+            name,
+            fingerprint,
+            files: reusedIds.has(id)
+              ? (state?.collections[id]?.files ?? [])
+              : (exportedFiles.get(id) ?? []),
+          },
+        ]),
+    ),
+  };
+}
+
 async function main() {
   const { values } = parseArgs({
     options: {
       input: { type: 'string' },
+      collections: { type: 'string' },
       output: { type: 'string' },
+      state: { type: 'string' },
     },
   });
 
-  if (!values.input || !values.output) {
+  if (!values.input || !values.collections || !values.output || !values.state) {
     throw new Error(
-      'Usage: node figma-to-dtcg.js --input <export parts dir> --output <token dir>',
+      'Usage: node figma-to-dtcg.js --input <export parts dir> --collections <listing.json> --output <token dir> --state <figma-sync.json>',
     );
   }
 
-  const parts = await readParts({ inputDir: resolve(values.input) });
-  const collections = mergeParts({ parts });
-  const files = buildTokenFiles({ collections });
-  await writeTokenFiles({ files, outputDir: resolve(values.output) });
+  const outputDir = resolve(values.output);
+  const statePath = resolve(values.state);
+  const listed = await readListing({ path: resolve(values.collections) });
+  const state = await readState({ path: statePath });
+  const collections = mergeParts({
+    parts: await readParts({ inputDir: resolve(values.input) }),
+  });
+  const reused = checkExport({ listed, state, collections });
+
+  // Read the files being reused before writeTokenFiles clears the directory
+  /** @type {ReusedFile[]} */
+  const reusedFiles = [];
+  for (const { id, name } of reused) {
+    for (const fileName of state?.collections[id]?.files ?? []) {
+      reusedFiles.push({
+        collectionName: name,
+        fileName,
+        tokens: JSON.parse(await readFile(join(outputDir, fileName), 'utf8')),
+      });
+    }
+  }
+
+  const files = buildTokenFiles({ collections, reusedFiles });
+  await writeTokenFiles({ files, outputDir });
+
+  const nextState = buildState({ listed, collections, reused, state });
+  const prettierConfig = (await resolveConfig(statePath)) ?? {};
+  await writeFile(
+    statePath,
+    await format(JSON.stringify(nextState), {
+      ...prettierConfig,
+      parser: 'json',
+    }),
+  );
 
   process.stdout.write(
-    `Wrote ${String(files.length)} token files from ${String(collections.length)} collections:\n${files
-      .map(({ fileName }) => `- ${fileName}`)
-      .join('\n')}\n`,
+    [
+      `Wrote ${String(files.length)} token files.`,
+      `Exported: ${collections.map(({ collection }) => collection.name).join(', ')}`,
+      `Reused: ${reused.map(({ name }) => name).join(', ') || 'none'}`,
+    ].join('\n') + '\n',
   );
 }
 

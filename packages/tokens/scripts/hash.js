@@ -1,7 +1,7 @@
 /**
  * 32-bit FNV-1a hash of a string, as 8 hex characters.
  *
- * The Figma read script (`.claude/skills/sync-tokens/scripts/read-collection.js`)
+ * The Figma export script (`.claude/skills/sync-tokens/scripts/export-variables.js`)
  * contains an identical copy. It hashes each export inside Figma, and
  * `figma-to-dtcg.js` re-hashes the copy written to disk, so any difference
  * introduced while saving the export is caught before tokens are generated.

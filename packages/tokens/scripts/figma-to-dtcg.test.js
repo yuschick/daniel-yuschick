@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  buildState,
   buildTokenFiles,
+  checkExport,
   decodeEntities,
   mergeParts,
   toDtcgColor,
@@ -10,6 +12,7 @@ import {
   verifyPart,
 } from './figma-to-dtcg.js';
 import { fnv1a } from './hash.js';
+import { FORMAT_VERSION, fingerprintCollection } from './sync-plan.js';
 
 /** @param {object} payload */
 const part = (payload) => ({ hash: fnv1a(JSON.stringify(payload)), payload });
@@ -124,6 +127,23 @@ describe('mergeParts', () => {
     };
     const [merged] = mergeParts({ parts: [part(first), part(second)] });
     assert.equal(merged?.variables.length, 7);
+  });
+
+  it('merges slices in offset order, whatever order their files sort in', () => {
+    const first = {
+      ...primitives,
+      variables: primitives.variables.slice(0, 3),
+    };
+    const second = {
+      ...primitives,
+      offset: 3,
+      variables: primitives.variables.slice(3),
+    };
+    const [merged] = mergeParts({ parts: [part(second), part(first)] });
+    assert.deepEqual(
+      merged?.variables.map(({ id }) => id),
+      primitives.variables.map(({ id }) => id),
+    );
   });
 
   it('rejects a collection with missing variables', () => {
@@ -274,6 +294,144 @@ describe('buildTokenFiles', () => {
     assert.throws(
       () => buildTokenFiles({ collections: [primitives, duplicate] }),
       /exists in both/,
+    );
+  });
+});
+
+describe('buildTokenFiles with reused files', () => {
+  const [primitivesFile] = buildTokenFiles({ collections: [primitives] });
+  const reusedFiles = [
+    {
+      collectionName: 'Portfolio Primitives',
+      fileName: 'primitives.json',
+      tokens: /** @type {Record<string, unknown>} */ (primitivesFile?.tokens),
+    },
+  ];
+  const files = buildTokenFiles({ collections: [color], reusedFiles });
+  const byName = Object.fromEntries(
+    files.map(({ fileName, tokens }) => [fileName, tokens]),
+  );
+
+  it('returns reused files unchanged', () => {
+    assert.deepEqual(byName['primitives.json'], primitivesFile?.tokens);
+  });
+
+  it('resolves references into a reused file by Figma variable ID', () => {
+    const token =
+      byName['color.light.json']?.dy.color.surface.action.primary.default;
+    assert.equal(token?.$value, '{dy.color.rhubarb.600}');
+    assert.equal(token?.$type, 'color');
+  });
+
+  it('rejects a path that a reused file already defines', () => {
+    const duplicate = {
+      ...color,
+      variables: [
+        { ...primitives.variables[1], id: 'V:20', values: { Light: 16 } },
+      ],
+    };
+    assert.throws(
+      () => buildTokenFiles({ collections: [duplicate], reusedFiles }),
+      /exists in both/,
+    );
+  });
+});
+
+describe('hidden collections', () => {
+  it('drop variable descriptions', () => {
+    const [file] = buildTokenFiles({ collections: [primitives] });
+    const token = file?.tokens.dy.color.rhubarb[600];
+    assert.equal(token && '$description' in token, false);
+  });
+
+  it('keep descriptions in shipped collections', () => {
+    const files = buildTokenFiles({ collections: [primitives, color] });
+    const colorFile = files.find(
+      ({ fileName }) => fileName === 'color.light.json',
+    );
+    assert.equal(
+      colorFile?.tokens.dy.color.surface.action.primary.default.$description,
+      'Primary action background.',
+    );
+  });
+});
+
+describe('checkExport', () => {
+  /** @param {{ payload: typeof primitives, fingerprint?: string }} options */
+  const listed = ({ payload, fingerprint }) => ({
+    ...payload.collection,
+    total: payload.total,
+    fingerprint: fingerprint ?? fingerprintCollection({ payload }),
+  });
+  const state = {
+    formatVersion: FORMAT_VERSION,
+    collections: {
+      'C:1': {
+        name: 'Portfolio Primitives',
+        fingerprint: fingerprintCollection({ payload: primitives }),
+        files: ['primitives.json'],
+      },
+    },
+  };
+
+  it('returns unchanged collections to reuse', () => {
+    const reused = checkExport({
+      listed: [listed({ payload: primitives }), listed({ payload: color })],
+      state,
+      collections: [color],
+    });
+    assert.deepEqual(
+      reused.map(({ id }) => id),
+      ['C:1'],
+    );
+  });
+
+  it('rejects an export that does not match its listed fingerprint', () => {
+    assert.throws(
+      () =>
+        checkExport({
+          listed: [listed({ payload: color, fingerprint: '00000000' })],
+          state,
+          collections: [color],
+        }),
+      /doesn't match the fingerprint/,
+    );
+  });
+
+  it('rejects a changed collection that was not exported', () => {
+    assert.throws(
+      () =>
+        checkExport({
+          listed: [listed({ payload: primitives }), listed({ payload: color })],
+          state,
+          collections: [],
+        }),
+      /not exported: Portfolio Color/,
+    );
+  });
+
+  it('records each collection with its fingerprint and files', () => {
+    const listing = [
+      listed({ payload: primitives }),
+      listed({ payload: color }),
+    ];
+    const reused = checkExport({
+      listed: listing,
+      state,
+      collections: [color],
+    });
+    const next = buildState({
+      listed: listing,
+      collections: [color],
+      reused,
+      state,
+    });
+    assert.equal(next.formatVersion, FORMAT_VERSION);
+    assert.deepEqual(next.collections['C:1']?.files, ['primitives.json']);
+    assert.deepEqual(next.collections['C:2']?.files, ['color.light.json']);
+    assert.equal(
+      next.collections['C:2']?.fingerprint,
+      fingerprintCollection({ payload: color }),
     );
   });
 });
