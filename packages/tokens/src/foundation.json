@@ -45,7 +45,7 @@
         "instant": {
           "$type": "duration",
           "$value": { "value": 50, "unit": "ms" },
-          "$description": "50ms — a near-instant state change. Used where content should appear without a perceived transition (the medium Accordion &amp;quot;snap&amp;quot; behavior). Below ~100ms most users read the change as instantaneous.",
+          "$description": "50ms — a near-instant state change. Used where content should appear without a perceived transition (the medium Accordion \"snap\" behavior). Below ~100ms most users read the change as instantaneous.",
           "$extensions": {
             "com.figma": { "scopes": [], "variableId": "VariableID:115:410" }
           }
