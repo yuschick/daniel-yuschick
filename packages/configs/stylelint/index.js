@@ -16,8 +16,9 @@ const GLOBAL_KEYWORDS = [
  */
 function tokenValues({ token, keywords = [] }) {
   return [
-    `/var\\(--dy-${token}-.*\\)/`,
-    `/var\\(--[a-z]+(-[a-z]+)*-${token}(-[a-z]+)*\\)/`,
+    // Prettier wraps long var() values, so whitespace can sit inside the parens.
+    `/var\\(\\s*--dy-${token}-[^)]*\\)/`,
+    `/var\\(\\s*--[a-z]+(-[a-z]+)*-${token}(-[a-z]+)*\\s*\\)/`,
     ...keywords,
     ...GLOBAL_KEYWORDS,
   ];
