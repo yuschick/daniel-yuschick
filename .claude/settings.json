@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(gh pr merge *)",
+      "Bash(/opt/homebrew/bin/gh pr merge *)",
+      "Bash(gh pr review *)",
+      "Bash(/opt/homebrew/bin/gh pr review *)",
+      "Bash(git push origin main*)",
+      "Bash(git push origin HEAD:main*)",
+      "Bash(git push -u origin main*)"
+    ]
+  }
+}
