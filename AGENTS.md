@@ -34,6 +34,7 @@ Run all of them after every change and report failures plainly, naming what ran.
 | `brain/`             | Context: Daniel's identity and voice, catalogs, coding standards       |
 | `content/`           | Writing and speaking work, with its own `AGENTS.md`                    |
 | `.claude/skills/`    | Versioned skills, e.g. `/sync-tokens`, `/spec`                         |
+| `.claude/agents/`    | Versioned subagents, e.g. `spec-reviewer`                              |
 
 ## Standards
 
