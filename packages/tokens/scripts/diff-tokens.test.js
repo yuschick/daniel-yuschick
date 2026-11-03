@@ -26,7 +26,11 @@ const baseFiles = {
         },
       },
       spacing: {
-        200: { $type: 'dimension', $value: { value: 16, unit: 'px' } },
+        200: {
+          $type: 'dimension',
+          $value: { value: 16, unit: 'px' },
+          $description: 'Old | note',
+        },
       },
       radius: { 100: { $type: 'dimension', $value: { value: 8, unit: 'px' } } },
     },
@@ -50,7 +54,11 @@ const headFiles = {
         },
       },
       spacing: {
-        200: { $type: 'dimension', $value: { value: 16, unit: 'px' } },
+        200: {
+          $type: 'dimension',
+          $value: { value: 16, unit: 'px' },
+          $description: 'New note',
+        },
         300: { $type: 'dimension', $value: { value: 24, unit: 'px' } },
       },
     },
@@ -87,13 +95,58 @@ describe('compareTokens', () => {
       added: ['dy.spacing.300'],
       removed: ['dy.radius.100'],
       changed: ['dy.color.rhubarb.600'],
+      described: ['dy.spacing.200'],
     });
   });
 
   it('summarizes changes with before and after values', () => {
     const summary = formatSummary({ base, head });
-    assert.match(summary, /1 added, 1 changed, 1 removed/);
+    assert.match(summary, /1 added, 1 changed, 1 removed\*\*, 1 descriptions/);
     assert.match(summary, /`#c2294a` \| `#bb2443`/);
+  });
+
+  it('lists description changes, escaping table pipes', () => {
+    const summary = formatSummary({ base, head });
+    assert.match(
+      summary,
+      /\| `dy\.spacing\.200` \| Old \\\| note \| New note \|/,
+    );
+  });
+
+  it('counts a description-only change as a change', () => {
+    const onlyDescribed = flattenTokens({
+      files: {
+        'primitives.json': {
+          dy: {
+            spacing: {
+              200: {
+                $type: 'dimension',
+                $value: { value: 16, unit: 'px' },
+              },
+            },
+          },
+        },
+      },
+    });
+    const withDescription = flattenTokens({
+      files: {
+        'primitives.json': {
+          dy: {
+            spacing: {
+              200: {
+                $type: 'dimension',
+                $value: { value: 16, unit: 'px' },
+                $description: 'Added.',
+              },
+            },
+          },
+        },
+      },
+    });
+    assert.notEqual(
+      formatSummary({ base: onlyDescribed, head: withDescription }),
+      NO_CHANGES,
+    );
   });
 
   it('says so when nothing changed', () => {
