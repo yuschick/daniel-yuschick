@@ -68,32 +68,17 @@
     },
     {
       "foreground": "dy-color-text-on-action",
-      "background": "dy-color-surface-action-primary-default",
+      "background": "dy-color-surface-action-brand-default",
       "minimum": 4.5
     },
     {
       "foreground": "dy-color-text-on-action",
-      "background": "dy-color-surface-action-primary-hover",
+      "background": "dy-color-surface-action-brand-hover",
       "minimum": 4.5
     },
     {
       "foreground": "dy-color-text-on-action",
-      "background": "dy-color-surface-action-primary-active",
-      "minimum": 4.5
-    },
-    {
-      "foreground": "dy-color-text-on-action",
-      "background": "dy-color-surface-action-secondary-default",
-      "minimum": 4.5
-    },
-    {
-      "foreground": "dy-color-text-on-action",
-      "background": "dy-color-surface-action-secondary-hover",
-      "minimum": 4.5
-    },
-    {
-      "foreground": "dy-color-text-on-action",
-      "background": "dy-color-surface-action-secondary-active",
+      "background": "dy-color-surface-action-brand-active",
       "minimum": 4.5
     },
     {
@@ -174,6 +159,111 @@
     {
       "foreground": "dy-color-border-notice",
       "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-strong-default",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-strong-hover",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-on-action",
+      "background": "dy-color-surface-action-strong-active",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-subtle-default",
+      "background": "dy-color-surface-action-subtle-default",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-subtle-hover",
+      "background": "dy-color-surface-action-subtle-hover",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-subtle-active",
+      "background": "dy-color-surface-action-subtle-active",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-brand-default",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-brand-hover",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-brand-active",
+      "background": "dy-color-surface-sunken",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-strong-default",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-strong-hover",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-strong-active",
+      "background": "dy-color-surface-sunken",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-subtle-default",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-subtle-hover",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-action-subtle-active",
+      "background": "dy-color-surface-sunken",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-border-primary",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-primary",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-primary",
+      "background": "dy-color-surface-sunken",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-strong",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-strong",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-border-strong",
+      "background": "dy-color-surface-sunken",
       "minimum": 3
     }
   ]
