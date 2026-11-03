@@ -1,6 +1,14 @@
 {
   "dy": {
     "space": {
+      "2xl": {
+        "$type": "dimension",
+        "$value": "{dy.spacing.600}",
+        "$description": "2x-large space. → dy/spacing/600.",
+        "$extensions": {
+          "com.figma": { "scopes": ["GAP"], "variableId": "VariableID:175:412" }
+        }
+      },
       "2xs": {
         "$type": "dimension",
         "$value": "{dy.spacing.050}",

@@ -3,7 +3,7 @@
   "collections": {
     "VariableCollectionId:112:407": {
       "name": "Portfolio Color",
-      "fingerprint": "3aa66602",
+      "fingerprint": "c1a9f1e3",
       "files": ["color.light.json"]
     },
     "VariableCollectionId:115:407": {
@@ -23,7 +23,7 @@
     },
     "VariableCollectionId:114:408": {
       "name": "Portfolio Space",
-      "fingerprint": "fc715508",
+      "fingerprint": "11a3593e",
       "files": ["space.json"]
     },
     "VariableCollectionId:111:452": {

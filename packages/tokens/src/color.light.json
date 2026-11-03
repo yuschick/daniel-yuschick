@@ -472,7 +472,7 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
+              "$value": "{dy.color.neutral.700}",
               "$description": "Subtle intent action label and icon.",
               "$extensions": {
                 "com.figma": {
@@ -483,7 +483,7 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
+              "$value": "{dy.color.neutral.800}",
               "$description": "Subtle intent action label and icon on hover.",
               "$extensions": {
                 "com.figma": {
