@@ -48,14 +48,15 @@ Coding standards live in `brain/standards/`, one file per domain (`CSS-*`, `TS-*
 
 A rule that a tool enforces fails the build. Every rule not listed as enforced is **advisory**: it relies on review, so apply it deliberately.
 
-| Enforced by                                            | Rules                                                                            |
-| :----------------------------------------------------- | :------------------------------------------------------------------------------- |
-| ESLint (`@dy/configs/eslint`)                          | GEN-01, GEN-02, TS-06, TS-07, RX-04, RX-05                                       |
-| ESLint, custom `dy` rules (`@dy/configs/eslint-react`) | RX-01 (display names), RX-02, RX-06, TS-01 (rest spread name)                    |
-| ESLint, `jsx-a11y-x` strict                            | The statically checkable part of `A11Y-*`                                        |
-| Stylelint (`@dy/configs/stylelint`)                    | CSS-01, CSS-02, CSS-07 (tokens only), CSS-10                                     |
-| TypeScript                                             | TS-08 and RX-07 (invalid prop combinations), once components exist               |
-| Token build (`@dy/tokens`)                             | No primitive or theme tokens in CSS, exact OKLCH round-trip, WCAG contrast pairs |
+| Enforced by                                            | Rules                                                                                                      |
+| :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
+| ESLint (`@dy/configs/eslint`)                          | GEN-01, GEN-02, TS-06, TS-07, RX-04, RX-05                                                                 |
+| ESLint, custom `dy` rules (`@dy/configs/eslint-react`) | RX-01 (display names), RX-02, RX-06, TS-01 (rest spread name)                                              |
+| ESLint, `jsx-a11y-x` strict                            | The statically checkable part of `A11Y-*`                                                                  |
+| Stylelint (`@dy/configs/stylelint`)                    | CSS-01, CSS-02, CSS-07 (tokens only), CSS-10                                                               |
+| TypeScript                                             | TS-08 and RX-07 (invalid prop combinations), once components exist                                         |
+| Token build (`@dy/tokens`)                             | No primitive or theme tokens in CSS, exact OKLCH round-trip, WCAG contrast pairs                           |
+| `/build` gates and hooks                               | The spec's exact API and tokens, the scope of a build, GEN-01 suppressions, human approval of shared rules |
 
 Judgment calls (for example `PROP-01`, `PROP-03`, `RX-08`, `RX-09`) and everything behavioral in `A11Y-*` (keyboard operation, focus order, screen reader output) need a human or reviewer pass. Tests and axe checks come with each component, not before.
 
@@ -65,7 +66,7 @@ A component, or a change to a public API, needs an approved spec before any code
 
 1. Run `/spec <figma-url>` to write `packages/react/specs/<component>.md` and its facts: the API (per `PROP-*` and the Shared Type Registry), anatomy and composition, states, the WAI-ARIA pattern it follows, and the tokens it uses.
 2. **Stop.** The skill opens a PR containing only the spec. A spec is approved only when a human merges that PR into `main`. Agents never approve or merge a PR, and `status: approved` means nothing until it's on `main`.
-3. Run `/build <component> <figma-url>` to build to the spec, in a separate PR. It proves the work with deterministic gates and a cold `component-reviewer`, for 3 review rounds at most, then opens a draft PR. If the spec is wrong, stop: it changes through its own PR, merged by a human, and the build resumes from there. A build never edits its own spec.
+3. Run `/build <component>` to build to the spec, in a separate PR. It proves the work with deterministic gates, hooks and a cold `component-reviewer`, for 3 review rounds at most, then opens a draft PR, or stops and asks if a round 3 fails. `--step` pauses after each stage, and `--staging` rehearses everything without committing, pushing or opening a PR. If the spec is wrong, stop: it changes through its own PR, merged by a human, and the build resumes from there. A build never edits its own spec.
 
 Typo fixes, dependency bumps and fully specified bug fixes don't need a spec. The test: if you'd want to argue about the approach after seeing the diff, it needed a spec first.
 

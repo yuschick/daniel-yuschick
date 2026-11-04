@@ -39,6 +39,7 @@ import {
   nextReport,
   readApprovals,
   readReviewState,
+  readRun,
   treeHash,
 } from './shared.js';
 
@@ -246,7 +247,7 @@ const ask = (reason, mode) =>
     : deny(`${reason} This needs a person, and ${mode} mode may not ask one.`);
 
 /**
- * @param {{ tool: string, input: Record<string, any>, component: string, mode: string, root: string, cwd: string, isReadyForPullRequest: () => boolean, findReviewerProblem: (input: Record<string, any>) => string | null }} options
+ * @param {{ tool: string, input: Record<string, any>, component: string, mode: string, root: string, cwd: string, run: { staging: boolean } | null, isReadyForPullRequest: () => boolean, findReviewerProblem: (input: Record<string, any>) => string | null }} options
  * @returns {{ decision: 'allow' | 'ask' | 'deny', reason: string }}
  */
 export function decideTool({
@@ -256,6 +257,7 @@ export function decideTool({
   mode,
   root,
   cwd,
+  run,
   isReadyForPullRequest,
   findReviewerProblem,
 }) {
@@ -282,14 +284,33 @@ export function decideTool({
     const repoPath = toRepoPath(input.file_path ?? input.notebook_path ?? '');
     if (repoPath === null) return allow();
     const access = classifyPath(repoPath, component);
-    if (access === 'allow') return allow();
+    if (access === 'deny') {
+      return deny(`${repoPath} is outside what a /build may change.`);
+    }
+    if (run === null) {
+      return deny(
+        'Run preflight.js first: nothing is written until the spec is proven approved and Figma unchanged.',
+      );
+    }
     return access === 'ask'
       ? ask(`${repoPath} is a shared rule. Approve this edit?`, mode)
-      : deny(`${repoPath} is outside what a /build may change.`);
+      : allow();
   }
 
   if (tool === 'Bash') {
     const { commands, isUnsafe } = parseCommand(input.command ?? '');
+    if (
+      run?.staging &&
+      commands.some(
+        ([program, first, second]) =>
+          (program === 'git' && (first === 'commit' || first === 'push')) ||
+          (/(^|\/)gh$/.test(program) && first === 'pr' && second === 'create'),
+      )
+    ) {
+      return deny(
+        'This is a staging build, so nothing is committed, pushed or opened as a PR.',
+      );
+    }
     const isPullRequest = commands.some(
       ([program, first, second]) =>
         /(^|\/)gh$/.test(program) && first === 'pr' && second === 'create',
@@ -564,6 +585,7 @@ function main() {
         mode,
         root: process.cwd(),
         cwd,
+        run: readRun(componentPaths(component).cache),
         isReadyForPullRequest: () => {
           const { cache } = componentPaths(component);
           return (

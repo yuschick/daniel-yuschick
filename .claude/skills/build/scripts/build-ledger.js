@@ -5,7 +5,7 @@ import { parseArgs } from 'node:util';
 
 import { buildBundle } from '../../spec/scripts/bundle-review.js';
 import { parseSpec } from '../../spec/scripts/check-spec.js';
-import { componentPaths, git, treeHash } from './shared.js';
+import { componentPaths, git, readRun, treeHash } from './shared.js';
 
 const SENTENCE_END = /(?<=\.)\s+(?=[A-Z`])/;
 const CHECKLIST_ITEM = /^- \[ \] (.+)$/gm;
@@ -111,7 +111,6 @@ function main() {
   const { values } = parseArgs({
     options: {
       component: { type: 'string' },
-      base: { type: 'string', default: 'origin/main' },
       standards: { type: 'string', default: 'brain/standards' },
       screenshot: { type: 'string', multiple: true, default: [] },
     },
@@ -146,7 +145,7 @@ function main() {
   }
   const sharedDiff = git([
     'diff',
-    values.base,
+    readRun(paths.cache)?.base ?? 'origin/main',
     '--',
     'brain/standards',
     'packages/react/src/types',

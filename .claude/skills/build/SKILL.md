@@ -1,9 +1,9 @@
 ---
 name: build
-description: Build a component from its approved spec, prove it with deterministic gates and a cold review, and open a draft pull request. It never edits a spec, approves a PR or merges one. Run only when Daniel invokes /build.
+description: Build a component from its approved spec, prove it with deterministic gates and a cold review, and open a draft pull request, or rehearse all of it with --staging. It never edits a spec, approves a PR or merges one. Run only when Daniel invokes /build.
 disable-model-invocation: true
-argument-hint: '<component> <figma-url>'
-allowed-tools: Bash(node .claude/skills/build/scripts/*) Bash(node .claude/skills/spec/scripts/parse-figma-url.js *) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *) Bash(git push -u origin build/*) Bash(gh pr create --draft *) Bash(/opt/homebrew/bin/gh pr create --draft *) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_screenshot
+argument-hint: '<component> [--step] [--staging]'
+allowed-tools: Bash(node .claude/skills/build/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *) Bash(git push -u origin build/*) Bash(gh pr create --draft *) Bash(/opt/homebrew/bin/gh pr create --draft *) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__get_screenshot
 hooks:
   PreToolUse:
     - matcher: 'Edit|Write|NotebookEdit|Bash|Agent|Task|SendMessage'
@@ -52,22 +52,28 @@ Never try to get around a denial. It means the work has gone outside the build, 
 
 ## Input
 
-`$0` is the lowercase component name, and `$1` is the Figma URL. Ask for whichever is missing, then validate the URL with `node .claude/skills/spec/scripts/parse-figma-url.js "<url>"`.
+`$0` is the lowercase component name, which names its spec. Ask if it's missing. The rest of `$ARGUMENTS` can hold two flags:
+
+- **`--step`** pauses after every numbered stage. Run `build-hooks.js pause --reason "<stage> done"`, summarize what the stage produced, and wait for Daniel. Use it whenever he's tuning this skill.
+- **`--staging`** is a rehearsal on a real component, on top of the unmerged skill. Every check runs as usual, but nothing is committed, pushed or opened as a PR, and the hooks deny all three. The work stays uncommitted for Daniel to inspect, and step 8 reports instead.
+
+Figma file key: `HiDiGLs2OsVWyqnCo7aEjF`. The node is `figmaNode` in the spec.
 
 ## 1. Preflight
 
-Stop and report on any failure. Don't work around one.
+Stop and report on any failure. Don't work around one. **Nothing can be written to the component until this passes.**
 
-1. Create `build/<component>` from an up-to-date `main`, unless you're already on it.
-2. Run `pnpm --filter @dy/tokens build`, then:
+If `node_modules/.cache/build/<component>/run.json` exists and you're on `build/<component>`, this build is resuming, so skip to wherever the work stands. The gates recheck the approval either way.
+
+1. Get on `build/<component>`. If it doesn't exist, create it: from an up-to-date `main`, or from the current branch for `--staging`. If it exists but belongs to earlier work, stop and ask Daniel.
+2. **Check Figma for drift.** Call `create_session`, load `figma-use`, then run `.claude/skills/spec/scripts/extract-component.js` through `use_figma` with only `__NODE_ID__` replaced. Keep the `hash` it returns. If Figma can't be reached, stop.
+3. Run `pnpm --filter @dy/tokens build`, then pass that hash and any flags:
 
    ```sh
-   node .claude/skills/build/scripts/preflight.js --component <component>
+   node .claude/skills/build/scripts/preflight.js --component <component> --figma-hash <hash> [--staging] [--step]
    ```
 
-   This confirms the spec and facts match `origin/main`, which is the only thing that makes them approved. It ignores `status`.
-
-3. **Check Figma for drift.** Call `create_session`, load `figma-use`, then run `.claude/skills/spec/scripts/extract-component.js` through `use_figma` with only `__NODE_ID__` replaced. Compare its `hash` with the facts file's. If they differ, Figma has moved on from the approved spec, so stop and suggest `/spec`. If Figma can't be reached, stop.
+   This confirms the spec and facts match `origin/main`, which is the only thing that makes them approved, and that Figma hasn't moved on. It ignores `status`. If Figma has moved on, suggest `/spec`.
 
 ## 2. Read
 
@@ -92,7 +98,7 @@ Write the real component until the tests pass, following the spec row by row. Ch
 node .claude/skills/build/scripts/run-gates.js --component <component>
 ```
 
-Add `--base <branch>` only when this branch is stacked on another. It runs the skills' own tests, including the seeded defects that prove the checks can fail, then the component checks, `pnpm turbo run lint check-types build test` and `pnpm format:check`, and pins the results to a hash of the code.
+It runs the skills' own tests, including the seeded defects that prove the checks can fail, then rechecks that the spec is approved, then the component checks, `pnpm turbo run lint check-types build test` and `pnpm format:check`, and pins the results to a hash of the code.
 
 The component checks compare the code with the spec in both directions: the compiler proves the exact props and values, and a script proves the exact tokens. They also reject inline styles, raw colors, suppressions without a rule, reason and tracking issue, and any tracked change outside the build's scope.
 
@@ -100,7 +106,7 @@ Fix every failure and rerun. **Never invent a tracking issue to pass a check:** 
 
 ## 6. Cold review
 
-Run this only when the gates print `GATES: PASS`. Commit first, so each round is recoverable.
+Run this only when the gates print `GATES: PASS`. Commit first, so each round is recoverable, unless this is `--staging`.
 
 1. Capture what the reviewer will see:
 
@@ -141,7 +147,9 @@ Whenever you stop for Daniel, record why with `build-hooks.js pause`. If he deci
 
 ## 8. Draft pull request
 
-A PR only follows a passing review. The hook refuses one unless the gates and the most recent review both passed this exact code. Rerun `check-review.js` first: it must still print `RESULT: PASS`.
+**If this is `--staging`, there's no PR.** Report the result, the rounds used, the findings by round, any shared rules changed, every file written and anything about the flow itself that went wrong or felt off. Then stop, because Daniel inspects the work from here.
+
+Otherwise, a PR only follows a passing review. The hook refuses one unless the gates and the most recent review both passed this exact code. Rerun `check-review.js` first: it must still print `RESULT: PASS`.
 
 Push with `git push -u origin build/<component>` and open a **draft** PR into `main` using the template in `.github/pull_request_template.md`. Always include:
 
@@ -157,6 +165,11 @@ End with the attribution line your harness specifies. Report the URL and stop. M
 ## Limits
 
 - Gates run locally. Until CI exists and `main` requires it, they detect problems rather than block a merge.
+- `--step` relies on you stopping. The hooks can't tell which stage you're in, so it's advisory.
+- `--staging` proves the flow, not delivery: pushing, CI and the PR itself stay untested until a real build.
+- A staging run answers for what changed since its preflight. To try a change to this skill, commit it to the skill branch, discard the staging work, recreate `build/<component>` from there and rerun preflight.
+- The Figma hash reaches preflight through you, so it catches drift and a skipped check, not a false hash.
+- Pre-approved tools last only until Daniel's next message, so after a `--step` pause, commands may prompt him.
 - The hooks recognize shell commands, not every effect they can have, so a build script or a command Daniel approves could still write somewhere protected. The scope gate catches that afterwards.
 - Approvals and gate results live in `node_modules/.cache`. Hooks deny the file tools there, but a shell command Daniel approves could still change them.
 - Claude Code's docs don't list skill hooks as running inside subagents, which is why only the read-only reviewer may start.

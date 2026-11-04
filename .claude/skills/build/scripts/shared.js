@@ -66,6 +66,18 @@ export function readApprovals(cache) {
   return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : {};
 }
 
+/**
+ * What preflight recorded. No record means preflight hasn't passed, and the
+ * base lives here so the author can't pick one that hides its changes.
+ *
+ * @param {string} cache
+ * @returns {{ staging: boolean, step: boolean, base: string } | null}
+ */
+export function readRun(cache) {
+  const path = resolve(cache, 'run.json');
+  return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : null;
+}
+
 export const MAX_REVIEW_ROUNDS = 3;
 export const MAX_INVALID_REPORTS = 2;
 const REPORT = /^report-(\d+)\.md$/;

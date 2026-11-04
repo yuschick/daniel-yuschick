@@ -138,6 +138,7 @@ describe('hook decisions', () => {
       mode: 'default',
       root,
       cwd: root,
+      run: { staging: false },
       isReadyForPullRequest: () => true,
       findReviewerProblem: () => null,
       ...overrides,
@@ -292,6 +293,55 @@ describe('hook decisions', () => {
     assert.match(refused.reason, /gates and the cold review must pass/);
   });
 
+  it('writes nothing to the component or shared rules before preflight passes', () => {
+    for (const file_path of [
+      '/repo/packages/react/src/components/Chip/Chip.tsx',
+      '/repo/brain/standards/props.md',
+    ]) {
+      const { decision, reason } = decide(
+        'Write',
+        { file_path },
+        { run: null },
+      );
+      assert.equal(decision, 'deny');
+      assert.match(reason, /preflight/);
+    }
+  });
+
+  it('commits, pushes and opens nothing in a staging build', () => {
+    for (const command of [
+      'git commit -m a',
+      'git add a.ts && git commit -m a',
+      'git push -u origin build/chip',
+      'gh pr create --draft --title a',
+      '/opt/homebrew/bin/gh pr create --draft --title a',
+    ]) {
+      const { decision, reason } = decide(
+        'Bash',
+        { command },
+        { run: { staging: true } },
+      );
+      assert.equal(decision, 'deny', command);
+      assert.match(reason, /staging/);
+    }
+    assert.equal(
+      decide(
+        'Bash',
+        { command: 'git status --short' },
+        { run: { staging: true } },
+      ).decision,
+      'allow',
+    );
+    assert.equal(
+      decide(
+        'Write',
+        { file_path: '/repo/packages/react/src/components/Chip/Chip.tsx' },
+        { run: { staging: true } },
+      ).decision,
+      'allow',
+    );
+  });
+
   it('leaves tools it does not guard alone', () => {
     assert.equal(decide('Read', { file_path: '/repo/a' }).decision, 'allow');
   });
@@ -416,6 +466,38 @@ describe('the hooks, as Claude Code runs them', () => {
   describe('on a build branch', () => {
     before(() => {
       git('switch', '--quiet', '-c', 'build/chip');
+      write(
+        'node_modules/.cache/build/chip/run.json',
+        JSON.stringify({ staging: false, step: false, base: 'origin/main' }),
+      );
+    });
+
+    it('denies a component write until preflight has recorded a pass', () => {
+      const run = join(repo, 'node_modules/.cache/build/chip/run.json');
+      const saved = readFileSync(run, 'utf8');
+      rmSync(run);
+      const { output } = runHook('pre', {
+        tool_name: 'Write',
+        tool_input: { file_path: join(repo, `${COMPONENT}/Chip.tsx`) },
+      });
+      writeFileSync(run, saved);
+      assert.equal(output.hookSpecificOutput.permissionDecision, 'deny');
+      assert.match(
+        output.hookSpecificOutput.permissionDecisionReason,
+        /preflight/,
+      );
+    });
+
+    it('denies a commit when preflight recorded a staging build', () => {
+      const run = join(repo, 'node_modules/.cache/build/chip/run.json');
+      const saved = readFileSync(run, 'utf8');
+      writeFileSync(run, JSON.stringify({ staging: true }));
+      const { output } = runHook('pre', {
+        tool_name: 'Bash',
+        tool_input: { command: 'git commit -m a' },
+      });
+      writeFileSync(run, saved);
+      assert.equal(output.hookSpecificOutput.permissionDecision, 'deny');
     });
 
     it('denies a protected file', () => {

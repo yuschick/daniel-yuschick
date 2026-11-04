@@ -29,7 +29,7 @@ import {
   parseReport,
   recordReview,
 } from './check-review.js';
-import { checkPreflight } from './preflight.js';
+import { checkApproval, checkPreflight } from './preflight.js';
 import { listGates, runGates } from './run-gates.js';
 import { findReviewLimit, hasPassingReview } from './shared.js';
 
@@ -94,7 +94,10 @@ const spec = parseSpec(SPEC);
 describe('preflight', () => {
   const clean = {
     branch: 'build/chip',
+    component: 'chip',
     trackedChanges: '',
+    figmaHash: 'abc',
+    factsHash: 'abc',
     spec: { local: SPEC, approved: SPEC },
     facts: { local: '{}', approved: '{}' },
   };
@@ -116,8 +119,13 @@ describe('preflight', () => {
     assert.match(edited[0], /differs/);
   });
 
-  it('rejects main, tracked changes and open questions', () => {
-    assert.match(checkPreflight({ ...clean, branch: 'main' })[0], /branch/);
+  it('rejects any branch the hooks do not guard', () => {
+    for (const branch of ['main', 'feat/build-skill', 'build/other']) {
+      assert.match(checkPreflight({ ...clean, branch })[0], /build\/chip/);
+    }
+  });
+
+  it('rejects tracked changes and open questions', () => {
     assert.match(
       checkPreflight({ ...clean, trackedChanges: ' M a.ts' })[0],
       /tracked/,
@@ -128,6 +136,22 @@ describe('preflight', () => {
       spec: { local: open, approved: open },
     });
     assert.match(errors[0], /open questions/);
+  });
+
+  it('rejects facts that Figma has moved on from', () => {
+    assert.match(
+      checkPreflight({ ...clean, figmaHash: 'moved' })[0],
+      /Figma has moved on/,
+    );
+  });
+
+  it('lets the gates recheck approval while the work is uncommitted', () => {
+    const { trackedChanges, figmaHash, factsHash, ...approval } = clean;
+    assert.deepEqual(checkApproval(approval), []);
+    assert.match(
+      checkApproval({ ...approval, spec: { local: SPEC, approved: null } })[0],
+      /isn't approved/,
+    );
   });
 });
 
@@ -599,9 +623,10 @@ describe('gates', () => {
     const gates = listGates({ component: 'chip', base: 'origin/main' });
     assert.deepEqual(
       gates.map(({ name }) => name),
-      ['checker', 'component', 'turbo', 'format'],
+      ['checker', 'approval', 'component', 'turbo', 'format'],
     );
     assert.match(gates[0].command, /build\/scripts\/\*\.test\.js/);
+    assert.match(gates[1].command, /--approval-only/);
   });
 
   it('runs every gate after a failure and strips terminal colors', () => {

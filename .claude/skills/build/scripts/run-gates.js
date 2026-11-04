@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { componentPaths, treeHash } from './shared.js';
+import { componentPaths, readRun, treeHash } from './shared.js';
 
 const OUTPUT_TAIL_LINES = 40;
 
@@ -47,6 +47,10 @@ export function listGates({ component, base }) {
         'node --test .claude/skills/build/scripts/*.test.js .claude/skills/spec/scripts/*.test.js',
     },
     {
+      name: 'approval',
+      command: `node .claude/skills/build/scripts/preflight.js --component ${component} --approval-only`,
+    },
+    {
       name: 'component',
       command: `node .claude/skills/build/scripts/check-component.js --component ${component} --base ${base}`,
     },
@@ -60,17 +64,17 @@ export function listGates({ component, base }) {
 
 function main() {
   const { values } = parseArgs({
-    options: {
-      component: { type: 'string' },
-      base: { type: 'string', default: 'origin/main' },
-    },
+    options: { component: { type: 'string' } },
   });
   if (!values.component)
     throw new Error('Usage: run-gates.js --component <name>');
 
+  const run = readRun(componentPaths(values.component).cache);
+  if (run === null) throw new Error('Run preflight.js first.');
+
   const before = treeHash();
   const gates = runGates(
-    listGates({ component: values.component, base: values.base }),
+    listGates({ component: values.component, base: run.base }),
     (command) => {
       const result = spawnSync(command, { shell: true, encoding: 'utf8' });
       return { status: result.status, output: result.stdout + result.stderr };
