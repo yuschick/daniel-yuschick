@@ -5,7 +5,13 @@ import { parseArgs } from 'node:util';
 
 import { parseSpec } from '../../spec/scripts/check-spec.js';
 import { checkApiTypes } from './check-api.js';
-import { componentPaths, git } from './shared.js';
+import {
+  classifyPath,
+  componentPaths,
+  git,
+  hashFile,
+  readApprovals,
+} from './shared.js';
 
 const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
 const INLINE_STYLE = /\bstyle\s*=\s*\{|\bstyle\s*:|\.style\b/;
@@ -16,16 +22,6 @@ const SUPPRESSION =
 const ISSUE_REFERENCE = /#\d+|\/issues\/\d+/;
 const MANIFEST = 'packages/tokens/dist/manifest.json';
 const COMPONENTS = 'packages/react/src/components';
-const ALWAYS_IN_SCOPE = [
-  `${COMPONENTS}/index.ts`,
-  'packages/react/src/index.ts',
-];
-// A change here must also trace to a Decision, which the cold review checks.
-const REGISTRY = [
-  'brain/standards/props.md',
-  'packages/react/src/types/common.ts',
-  'packages/react/src/types/index.ts',
-];
 
 const dataRows = (section) => section?.rows.slice(1) ?? [];
 
@@ -219,22 +215,29 @@ export function checkDefaults({ sections, source }) {
 }
 
 /**
- * @param {{ changedFiles: string[], componentDirectory: string, spec: string, facts: string }} options
+ * @param {{ changedFiles: string[], component: string, spec: string, facts: string, isApproved: (file: string) => boolean }} options
  * @returns {string[]}
  */
-export function checkScope({ changedFiles, componentDirectory, spec, facts }) {
+export function checkScope({
+  changedFiles,
+  component,
+  spec,
+  facts,
+  isApproved,
+}) {
   const errors = [];
   for (const file of changedFiles) {
+    const access = classifyPath(file, component);
     if (file === spec || file === facts) {
       errors.push(
         `${file} is the approved spec: amend it in its own PR, never here.`,
       );
-    } else if (
-      !file.startsWith(`${componentDirectory}/`) &&
-      !ALWAYS_IN_SCOPE.includes(file) &&
-      !REGISTRY.includes(file)
-    ) {
+    } else if (access === 'deny') {
       errors.push(`${file} is outside the build's scope.`);
+    } else if (access === 'ask' && !isApproved(file)) {
+      errors.push(
+        `${file} is a shared rule, changed without human approval. Only Daniel can approve it, when prompted.`,
+      );
     }
   }
   return errors;
@@ -256,7 +259,8 @@ function changedSince(base) {
   ];
 }
 
-const isExampleFile = (file) => /\.(stories|test)\.tsx?$|\.mdx$/.test(file);
+export const isExampleFile = (file) =>
+  /\.(stories|test)\.tsx?$|\.mdx$/.test(file);
 
 function main() {
   const { values } = parseArgs({
@@ -332,12 +336,14 @@ function main() {
       errors.push(`packages/react/src/index.ts doesn't export ${name}.`);
     }
   }
+  const approvals = readApprovals(paths.cache);
   errors.push(
     ...checkScope({
       changedFiles: changedSince(values.base),
-      componentDirectory: directory,
+      component: values.component,
       spec: paths.spec,
       facts: paths.facts,
+      isApproved: (file) => approvals[file] === hashFile(file),
     }),
   );
 

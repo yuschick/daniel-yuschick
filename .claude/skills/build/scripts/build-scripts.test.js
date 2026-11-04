@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 import { parseSpec } from '../../spec/scripts/check-spec.js';
@@ -231,18 +232,35 @@ describe('component checks', () => {
     );
   });
 
+  it('only accepts a shared rule a person approved', () => {
+    const options = {
+      changedFiles: [
+        'packages/react/src/types/common.ts',
+        'brain/standards/a.md',
+      ],
+      component: 'chip',
+      spec: 'packages/react/specs/chip.md',
+      facts: 'packages/react/specs/chip.facts.json',
+    };
+    const refused = checkScope({ ...options, isApproved: () => false });
+    assert.equal(refused.length, 2);
+    assert.match(refused[0], /without human approval/);
+    assert.deepEqual(checkScope({ ...options, isApproved: () => true }), []);
+  });
+
   it('rejects spec edits and files outside the component', () => {
     const options = {
-      componentDirectory: 'packages/react/src/components/Chip',
-      spec: 'specs/chip.md',
-      facts: 'specs/chip.facts.json',
+      component: 'chip',
+      spec: 'packages/react/specs/chip.md',
+      facts: 'packages/react/specs/chip.facts.json',
+      isApproved: () => false,
     };
     assert.deepEqual(
       checkScope({
         ...options,
         changedFiles: [
           'packages/react/src/components/Chip/Chip.tsx',
-          'packages/react/src/types/common.ts',
+          'packages/react/src/components/index.ts',
           'packages/react/src/index.ts',
         ],
       }),
@@ -251,7 +269,7 @@ describe('component checks', () => {
     assert.equal(
       checkScope({
         ...options,
-        changedFiles: ['specs/chip.md', 'apps/web/page.tsx'],
+        changedFiles: ['packages/react/specs/chip.md', 'apps/web/page.tsx'],
       }).length,
       2,
     );
@@ -359,6 +377,22 @@ describe('review report', () => {
     assert.deepEqual(findRepeats({ current: second, previous: [first] }), [
       'B1',
     ]);
+  });
+});
+
+describe('the skill', () => {
+  const skill = readFileSync(new URL('../SKILL.md', import.meta.url), 'utf8');
+  const frontMatter = skill.slice(0, skill.indexOf('\n---', 4));
+
+  it('registers every hook, and a guard that fails blocks the call', () => {
+    for (const event of ['pre', 'post', 'stop']) {
+      assert.match(frontMatter, new RegExp(`build-hooks\\.js" ${event}'`));
+    }
+    assert.match(
+      frontMatter,
+      /matcher: 'Edit\|Write\|NotebookEdit\|Bash\|Agent\|Task'/,
+    );
+    assert.match(frontMatter, /build-hooks\.js" pre'\n\s+onFailure: block/);
   });
 });
 

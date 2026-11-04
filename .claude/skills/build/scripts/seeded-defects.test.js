@@ -4,6 +4,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   writeFileSync,
@@ -128,6 +129,8 @@ const BUILD_FILES = {
     'export const Conformance = { play: () => checkConformance({}) };\n',
 };
 
+let repo;
+
 /** Each one edits a passing build. Edits that change nothing throw, so a seed can't pass vacuously. */
 const SEEDED_DEFECTS = [
   {
@@ -225,6 +228,24 @@ const SEEDED_DEFECTS = [
     expected: /ERROR: pnpm-lock\.yaml is outside/,
   },
   {
+    name: 'a shared rule changed without approval',
+    file: 'packages/react/src/types/common.ts',
+    edit: (source) => `// A changed rule.\n${source}`,
+    expected: /common\.ts is a shared rule, changed without human approval/,
+  },
+  {
+    name: 'an approval forged for different content',
+    file: 'packages/react/src/types/common.ts',
+    edit: (source) => {
+      writeFileSync(
+        join(repo, 'node_modules/.cache/build/chip/approvals.json'),
+        JSON.stringify({ 'packages/react/src/types/common.ts': 'stale' }),
+      );
+      return `// A changed rule.\n${source}`;
+    },
+    expected: /without human approval/,
+  },
+  {
     name: 'an edited spec',
     file: 'packages/react/specs/chip.md',
     edit: (source) => source.replace('A chip.', 'A better chip.'),
@@ -233,8 +254,6 @@ const SEEDED_DEFECTS = [
 ];
 
 describe('seeded defects', () => {
-  let repo;
-
   const git = (...args) => {
     const result = spawnSync(
       'git',
@@ -272,7 +291,7 @@ describe('seeded defects', () => {
   };
 
   before(() => {
-    repo = mkdtempSync(join(tmpdir(), 'dy-seeded-defects-'));
+    repo = realpathSync(mkdtempSync(join(tmpdir(), 'dy-seeded-defects-')));
     git('init', '--quiet');
     writeFiles(BASE_FILES);
     // The real packages, so the fixture compiles with the real compiler.
@@ -287,6 +306,9 @@ describe('seeded defects', () => {
     git('tag', BASE_TAG);
     writeFiles(BUILD_FILES);
     commitAll('build');
+    mkdirSync(join(repo, 'node_modules/.cache/build/chip'), {
+      recursive: true,
+    });
   });
 
   afterEach(() => {
