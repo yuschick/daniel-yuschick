@@ -1,9 +1,13 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 import { parseSpec } from '../../spec/scripts/check-spec.js';
-import { buildLedger } from './build-ledger.js';
+import {
+  buildLedger,
+  buildReviewerPrompt,
+  buildStandardsLedger,
+} from './build-ledger.js';
 import {
   parseCompilerOutput,
   readTypeExpression,
@@ -19,9 +23,15 @@ import {
   checkTokensExist,
   expectedTokens,
 } from './check-component.js';
-import { checkReport, findRepeats, parseReport } from './check-review.js';
+import {
+  checkReport,
+  findRepeats,
+  parseReport,
+  recordReview,
+} from './check-review.js';
 import { checkPreflight } from './preflight.js';
 import { listGates, runGates } from './run-gates.js';
+import { findReviewLimit, hasPassingReview } from './shared.js';
 
 const SPEC = `---
 component: Chip
@@ -323,60 +333,251 @@ describe('ledger', () => {
   });
 });
 
+describe('standards rows', () => {
+  it('makes every checklist item a row, across every standard', () => {
+    const rows = buildStandardsLedger({
+      'react.md': '# React\n\n- [ ] Second (RX-01)\n',
+      'a11y.md': '- [ ] First (A11Y-01)\nprose\n- [ ] Also first (A11Y-02)\n',
+    });
+    assert.deepEqual(rows, [
+      {
+        id: 'STD1',
+        section: 'Standards: a11y',
+        requirement: 'First (A11Y-01)',
+      },
+      {
+        id: 'STD2',
+        section: 'Standards: a11y',
+        requirement: 'Also first (A11Y-02)',
+      },
+      {
+        id: 'STD3',
+        section: 'Standards: react',
+        requirement: 'Second (RX-01)',
+      },
+    ]);
+  });
+
+  it('finds every item in the real standards', () => {
+    const directory = new URL('../../../../brain/standards/', import.meta.url);
+    const standards = Object.fromEntries(
+      readdirSync(directory)
+        .filter((file) => file.endsWith('.md') && file !== 'README.md')
+        .map((file) => [file, readFileSync(new URL(file, directory), 'utf8')]),
+    );
+    const rows = buildStandardsLedger(standards);
+    assert.ok(rows.length >= 60, `Only ${rows.length} rows.`);
+    assert.ok(rows.some(({ requirement }) => /A11Y-01/.test(requirement)));
+  });
+});
+
+describe('reviewer prompt', () => {
+  it("holds only paths, so it can't brief the reviewer", () => {
+    assert.equal(
+      buildReviewerPrompt({
+        spec: 'a.md',
+        bundle: 'b.md',
+        facts: 'c.json',
+        screenshots: ['d.png', 'e.png'],
+      }),
+      'Spec: a.md\nBundle: b.md\nFacts: c.json\nScreenshots: d.png, e.png',
+    );
+    assert.doesNotMatch(
+      buildReviewerPrompt({
+        spec: 'a.md',
+        bundle: 'b.md',
+        facts: 'c.json',
+        screenshots: [],
+      }),
+      /Screenshots/,
+    );
+  });
+});
+
 describe('review report', () => {
   const ledgerIds = ['B1', 'O1'];
+  const SOURCES = {
+    'a/Chip.tsx': 'one\ntwo\nthree\nfour\n',
+    'Chip.tsx': 'export const Chip = 1;\n',
+  };
+  const readSource = (file) => SOURCES[file] ?? null;
   const report = (rows, verdict = 'PASS', extra = '') =>
     parseReport(
       `REVIEWED: abc\n\n| ID | Verdict | Evidence |\n${rows}\n${extra}\nVERDICT: ${verdict}\n`,
     );
+  const check = (parsed, overrides = {}) =>
+    checkReport({
+      report: parsed,
+      ledgerIds,
+      hash: 'abc',
+      readSource,
+      ...overrides,
+    });
 
-  it('accepts a complete report with evidence', () => {
-    const passing = report(
-      '| B1 | PASS | a/Chip.tsx:4 |\n| O1 | PASS | absent: iconStart in Chip.tsx |',
-    );
+  it('accepts a complete report with evidence that holds up', () => {
     assert.deepEqual(
-      checkReport({ report: passing, ledgerIds, hash: 'abc' }),
+      check(
+        report(
+          '| B1 | PASS | a/Chip.tsx:4 |\n| O1 | PASS | absent: iconStart in Chip.tsx |',
+        ),
+      ),
       [],
     );
   });
 
   it('rejects skipped rows, missing evidence and stale code', () => {
-    const errors = checkReport({
-      report: report('| B1 | PASS | looks good |'),
-      ledgerIds,
-      hash: 'new',
-    });
+    const errors = check(report('| B1 | PASS | looks good |'), { hash: 'new' });
     assert.equal(errors.length, 3);
+  });
+
+  it('rejects a citation of a file or line that does not exist', () => {
+    const errors = check(
+      report(
+        '| B1 | PASS | a/Chip.tsx:999 |\n| O1 | PASS | a/Invented.tsx:1 |',
+      ),
+    );
+    assert.match(errors[0], /past the end/);
+    assert.match(errors[1], /Invented\.tsx, which doesn't exist/);
+  });
+
+  it('rejects a claim that something is absent when it is there', () => {
+    const errors = check(
+      report(
+        '| B1 | PASS | a/Chip.tsx:1 |\n| O1 | PASS | absent: Chip in Chip.tsx |',
+      ),
+    );
+    assert.match(errors[0], /says Chip is absent/);
+    assert.match(
+      check(
+        report(
+          '| B1 | PASS | a/Chip.tsx:1 |\n| O1 | PASS | absent: icon in Nope.tsx |',
+        ),
+      )[0],
+      /Nope\.tsx, which doesn't exist/,
+    );
+  });
+
+  it('only lets a standards row be N/A, and only with a reason', () => {
+    const ids = ['STD1', 'B1'];
+    assert.deepEqual(
+      check(
+        report(
+          '| STD1 | N/A | n/a: no overlay here |\n| B1 | PASS | a/Chip.tsx:1 |',
+        ),
+        { ledgerIds: ids },
+      ),
+      [],
+    );
+    assert.match(
+      check(report('| STD1 | N/A | skip |\n| B1 | PASS | a/Chip.tsx:1 |'), {
+        ledgerIds: ids,
+      })[0],
+      /needs a reason/,
+    );
+    assert.match(
+      check(
+        report('| STD1 | PASS | a/Chip.tsx:1 |\n| B1 | N/A | n/a: skip |'),
+        { ledgerIds: ids },
+      )[0],
+      /can't be N\/A/,
+    );
   });
 
   it('rejects a verdict that contradicts its flags', () => {
     const contradiction = report(
-      '| B1 | FAIL | a.tsx:1 |\n| O1 | PASS | a.tsx:2 |',
+      '| B1 | FAIL | a/Chip.tsx:1 |\n| O1 | PASS | a/Chip.tsx:2 |',
     );
-    assert.match(
-      checkReport({ report: contradiction, ledgerIds, hash: 'abc' })[0],
-      /PASS, but/,
-    );
+    assert.match(check(contradiction)[0], /PASS, but/);
     const unmapped = report(
-      '| B1 | PASS | a.tsx:1 |\n| O1 | PASS | a.tsx:2 |',
+      '| B1 | PASS | a/Chip.tsx:1 |\n| O1 | PASS | a/Chip.tsx:2 |',
       'PASS',
       '- F1 [FAIL] Unrequested prop at a.tsx:9',
     );
-    assert.match(
-      checkReport({ report: unmapped, ledgerIds, hash: 'abc' })[0],
-      /PASS, but/,
-    );
+    assert.match(check(unmapped)[0], /PASS, but/);
   });
 
   it('finds rows flagged again in a later round', () => {
-    const first = report('| B1 | FAIL | a.tsx:1 |', 'FAIL');
-    const second = report(
-      '| B1 | FAIL | a.tsx:3 |\n| O1 | QUESTION | a.tsx:2 |',
-      'FAIL',
+    assert.deepEqual(
+      findRepeats({
+        flagged: ['B1', 'O1'],
+        rounds: [
+          { file: 'report-1.md', flagged: ['B1'] },
+          { file: 'report-2.md', flagged: ['B1', 'O1'] },
+        ],
+        file: 'report-2.md',
+      }),
+      ['B1'],
     );
-    assert.deepEqual(findRepeats({ current: second, previous: [first] }), [
-      'B1',
-    ]);
+  });
+});
+
+describe('review limits', () => {
+  const empty = { rounds: [], invalid: [], history: [], resets: 0 };
+  const failed = (file) => ({
+    state: empty,
+    file,
+    verdict: 'FAIL',
+    hash: 'abc',
+    flagged: ['B1'],
+  });
+
+  it('counts a report once, however often it is checked', () => {
+    const once = recordReview(failed('report-1.md'));
+    const twice = recordReview({ ...failed('report-1.md'), state: once });
+    assert.equal(twice.rounds.length, 1);
+  });
+
+  it('allows two failed rounds and stops at the third', () => {
+    let state = empty;
+    for (const file of ['report-1.md', 'report-2.md']) {
+      state = recordReview({ ...failed(file), state });
+      assert.equal(findReviewLimit(state), null);
+    }
+    state = recordReview({ ...failed('report-3.md'), state });
+    assert.match(findReviewLimit(state), /3 review rounds have failed/);
+  });
+
+  it('stops after two invalid reports, without using a round', () => {
+    let state = recordReview({
+      state: empty,
+      file: 'report-1.md',
+      verdict: 'INVALID',
+      hash: 'abc',
+    });
+    assert.equal(findReviewLimit(state), null);
+    assert.equal(state.rounds.length, 0);
+    state = recordReview({
+      state,
+      file: 'report-2.md',
+      verdict: 'INVALID',
+      hash: 'abc',
+    });
+    assert.match(findReviewLimit(state), /2 reports were invalid/);
+  });
+
+  it('only trusts a pass on the code as it is now', () => {
+    const state = recordReview({
+      state: empty,
+      file: 'report-1.md',
+      verdict: 'PASS',
+      hash: 'abc',
+    });
+    assert.equal(hasPassingReview(state, 'abc'), true);
+    assert.equal(hasPassingReview(state, 'moved'), false);
+    assert.equal(hasPassingReview(empty, 'abc'), false);
+  });
+});
+
+describe('the reviewer', () => {
+  const reviewer = readFileSync(
+    new URL('../../../agents/component-reviewer.md', import.meta.url),
+    'utf8',
+  );
+
+  it('can only read, runs on Opus and saves its own report', () => {
+    assert.match(reviewer, /^tools: Read, Grep, Glob$/m);
+    assert.match(reviewer, /^model: opus$/m);
+    assert.match(reviewer, /build-hooks\.js" review'/);
   });
 });
 
@@ -388,10 +589,7 @@ describe('the skill', () => {
     for (const event of ['pre', 'post', 'stop']) {
       assert.match(frontMatter, new RegExp(`build-hooks\\.js" ${event}'`));
     }
-    assert.match(
-      frontMatter,
-      /matcher: 'Edit\|Write\|NotebookEdit\|Bash\|Agent\|Task'/,
-    );
+    assert.match(frontMatter, /Bash\|Agent\|Task\|SendMessage'/);
     assert.match(frontMatter, /build-hooks\.js" pre'\n\s+onFailure: block/);
   });
 });

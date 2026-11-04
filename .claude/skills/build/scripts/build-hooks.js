@@ -26,12 +26,19 @@ import {
   expectedTokens,
   isExampleFile,
 } from './check-component.js';
+import { processLatestReport } from './check-review.js';
 import {
   classifyPath,
   componentPaths,
+  findReviewLimit,
   git,
   hashFile,
+  hasPassingReview,
+  isReportRecorded,
+  latestReport,
+  nextReport,
   readApprovals,
+  readReviewState,
   treeHash,
 } from './shared.js';
 
@@ -44,7 +51,9 @@ import {
 const BUILD_BRANCH = /^build\/(.+)$/;
 const FILE_TOOLS = new Set(['Edit', 'NotebookEdit', 'Write']);
 const SUBAGENT_TOOLS = new Set(['Agent', 'Task']);
+const RESET_FLAG = '--reset';
 const REVIEWER = 'component-reviewer';
+const SCRIPTS_DIRECTORY = '.claude/skills/build/scripts';
 const REACT_BIN = 'packages/react/node_modules/.bin';
 const MANIFEST = 'packages/tokens/dist/manifest.json';
 const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
@@ -162,6 +171,7 @@ export function isExpectedCommand(tokens, component) {
   const [program, ...args] = tokens;
   const [first, second, third] = args;
 
+  if (args.includes(RESET_FLAG)) return false;
   if (READ_ONLY_COMMANDS.has(program)) return true;
   if (program === 'find') {
     return !args.some((arg) => /^-(exec|ok|delete|fprint|fls)/.test(arg));
@@ -236,7 +246,7 @@ const ask = (reason, mode) =>
     : deny(`${reason} This needs a person, and ${mode} mode may not ask one.`);
 
 /**
- * @param {{ tool: string, input: Record<string, any>, component: string, mode: string, root: string, cwd: string, isReadyForPullRequest: () => boolean }} options
+ * @param {{ tool: string, input: Record<string, any>, component: string, mode: string, root: string, cwd: string, isReadyForPullRequest: () => boolean, findReviewerProblem: (input: Record<string, any>) => string | null }} options
  * @returns {{ decision: 'allow' | 'ask' | 'deny', reason: string }}
  */
 export function decideTool({
@@ -247,18 +257,25 @@ export function decideTool({
   root,
   cwd,
   isReadyForPullRequest,
+  findReviewerProblem,
 }) {
   const toRepoPath = (path) => {
     const repoPath = relative(root, toRealPath(resolve(cwd, path)));
     return repoPath.startsWith('..') || isAbsolute(repoPath) ? null : repoPath;
   };
 
+  if (tool === 'SendMessage') {
+    return deny('A reviewer must start cold, so an agent is never resumed.');
+  }
+
   if (SUBAGENT_TOOLS.has(tool)) {
-    return input.subagent_type === REVIEWER
-      ? allow()
-      : deny(
-          `A build may only start ${REVIEWER}. Other subagents can write without these hooks.`,
-        );
+    if (input.subagent_type !== REVIEWER) {
+      return deny(
+        `A build may only start ${REVIEWER}. Other subagents can write without these hooks.`,
+      );
+    }
+    const problem = findReviewerProblem(input);
+    return problem === null ? allow() : deny(problem);
   }
 
   if (FILE_TOOLS.has(tool)) {
@@ -277,12 +294,26 @@ export function decideTool({
       ([program, first, second]) =>
         /(^|\/)gh$/.test(program) && first === 'pr' && second === 'create',
     );
+    if (
+      !isUnsafe &&
+      commands.length === 1 &&
+      commands[0].includes(RESET_FLAG) &&
+      commands[0][0] === 'node' &&
+      commands[0][1] === `${SCRIPTS_DIRECTORY}/check-review.js`
+    ) {
+      return ask(
+        'Reset the review rounds? That gives this build more reviews after it reached its limit.',
+        mode,
+      );
+    }
     if (isPullRequest) {
       if (!input.command.includes('--draft')) {
         return deny('A build only opens draft pull requests.');
       }
       if (!isReadyForPullRequest()) {
-        return deny('The gates must pass on this exact code before a PR.');
+        return deny(
+          'The gates and the cold review must pass on this exact code before a PR.',
+        );
       }
     }
     const unexpected = commands.filter(
@@ -313,6 +344,38 @@ function isGatesCurrent(cache) {
   if (!existsSync(path)) return false;
   const { passed, treeHash: hash } = JSON.parse(readFileSync(path, 'utf8'));
   return passed === true && hash === treeHash();
+}
+
+/**
+ * @param {{ input: Record<string, any>, cache: string }} options
+ * @returns {string | null} Why this reviewer may not start, if it may not.
+ */
+function findReviewerProblem({ input, cache }) {
+  if (input.model) return 'The reviewer runs on the model its definition sets.';
+  if (!isGatesCurrent(cache)) {
+    return 'The gates must pass on this exact code before a review.';
+  }
+  const state = readReviewState(cache);
+  const limit = findReviewLimit(state);
+  if (limit) return limit;
+  const latest = latestReport(cache);
+  if (latest !== null && !isReportRecorded(state, latest)) {
+    return `${latest} hasn't been recorded. Run check-review.js before another review, so no failed round goes uncounted.`;
+  }
+  const promptPath = resolve(cache, 'reviewer-prompt.txt');
+  if (!existsSync(promptPath)) return 'Run build-ledger.js first.';
+  return input.prompt?.trim() === readFileSync(promptPath, 'utf8').trim()
+    ? null
+    : 'Give the reviewer exactly the prompt build-ledger.js wrote, and nothing else, so it stays cold.';
+}
+
+function handleReview({ input, component }) {
+  const message = input.last_assistant_message;
+  if (!message) return;
+  const { cache } = componentPaths(component);
+  mkdirSync(resolve(cache), { recursive: true });
+  writeFileSync(resolve(cache, nextReport(cache)), message);
+  processLatestReport(component);
 }
 
 function respondToPreToolUse({ decision, reason }) {
@@ -501,14 +564,26 @@ function main() {
         mode,
         root: process.cwd(),
         cwd,
-        isReadyForPullRequest: () =>
-          isGatesCurrent(componentPaths(component).cache),
+        isReadyForPullRequest: () => {
+          const { cache } = componentPaths(component);
+          return (
+            isGatesCurrent(cache) &&
+            hasPassingReview(readReviewState(cache), treeHash())
+          );
+        },
+        findReviewerProblem: (toolInput) =>
+          findReviewerProblem({
+            input: toolInput,
+            cache: componentPaths(component).cache,
+          }),
       }),
     );
   } else if (event === 'post') {
     handlePost({ input, component, mode });
   } else if (event === 'stop') {
     handleStop({ input, component });
+  } else if (event === 'review') {
+    handleReview({ input, component });
   } else {
     throw new Error(`Unknown hook event: ${event}`);
   }
@@ -519,7 +594,8 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     main();
   } catch (error) {
     // Exit code 2 blocks: a guard that crashes must never wave a call through.
+    // Elsewhere it would trap the session or a finished reviewer.
     console.error(`build-hooks: ${error.message}`);
-    process.exitCode = 2;
+    process.exitCode = process.argv[2] === 'pre' ? 2 : 1;
   }
 }

@@ -24,7 +24,11 @@ The gate results passed on this exact code: lint, types, build, tests, format, t
 1. **Spec to code.** Give every ledger row a verdict, opening the code to confirm it. Read rows with several claims claim by claim: one wrong claim fails the row. Trace behavior through the actual handlers, `mergeProps` and the cascade rather than trusting names.
 2. **Code to spec.** Go through the code line by line. Anything with no ledger row behind it is scope creep: a prop, attribute, element, class, handler, style or exported name that the spec doesn't ask for and a standard doesn't require. Also check that every story's name and description match what it does.
 
-Also judge what a script can't: precedence between combined states, whether a test would catch the regression it names, and the checklists in the bundle. If screenshots are named, compare them for layout and states. Figma's font isn't loaded yet (D18), so a different typeface isn't a finding.
+Also judge what a script can't: precedence between combined states, and whether a test would catch the regression it names. If screenshots are named, compare them for layout and states. Figma's font isn't loaded yet (D18), so a different typeface isn't a finding.
+
+## Standards rows
+
+The ledger's `STD` rows are the Pre-Submission Checklists for every standard, including accessibility. Judge each one against this code. A row that truly doesn't apply, such as focus trapping in a component with no overlay, is `N/A` with its reason. Behavior an agent can't observe, such as screen reader output, is judged from the code and left to Daniel's manual checks.
 
 ## Flag only what you can prove
 
@@ -42,11 +46,12 @@ Use exactly this format, so a script can validate it. Don't add a verdict column
 ```markdown
 REVIEWED: <tree hash from the bundle>
 
-| ID  | Verdict | Evidence                                                      |
-| :-- | :------ | :------------------------------------------------------------ |
-| B1  | PASS    | packages/react/src/components/Name/Name.tsx:12                |
-| B2  | FAIL    | packages/react/src/components/Name/useName.ts:30 What's wrong |
-| O1  | PASS    | absent: searched Name.tsx and Name.types.ts for iconStart     |
+| ID   | Verdict | Evidence                                                      |
+| :--- | :------ | :------------------------------------------------------------ |
+| B1   | PASS    | packages/react/src/components/Name/Name.tsx:12                |
+| B2   | FAIL    | packages/react/src/components/Name/useName.ts:30 What's wrong |
+| O1   | PASS    | absent: iconStart in Name.tsx, Name.types.ts                  |
+| STD9 | N/A     | n/a: this component has no overlay                            |
 
 ## Findings
 
@@ -55,7 +60,8 @@ REVIEWED: <tree hash from the bundle>
 VERDICT: FAIL
 ```
 
-- Every ledger row gets one line, with no exceptions. Evidence is a `file:line`, or for something that must be missing, `absent:` and what you searched.
-- Verdicts are `PASS`, `FAIL` or `QUESTION`.
+- Every ledger row gets one line, with no exceptions. Evidence is a `file:line`, or for something that must be missing, `absent: <exact term> in <file>, <file>`. A script checks these: a line past the end of its file, or a term that is in fact there, makes the whole report invalid.
+- Verdicts are `PASS`, `FAIL` or `QUESTION`. `STD` rows may also be `N/A`, with evidence `n/a: <why>`.
 - `## Findings` holds flags with no ledger row, labeled `[FAIL]` or `[QUESTION]`. Write `None.` if there are none.
 - Finish with one line: `VERDICT: PASS` if there are no flags at all, otherwise `VERDICT: FAIL`.
+- Your final message is saved as the report, unchanged, so it must contain only the report.

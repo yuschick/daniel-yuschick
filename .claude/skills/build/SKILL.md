@@ -6,7 +6,7 @@ argument-hint: '<component> <figma-url>'
 allowed-tools: Bash(node .claude/skills/build/scripts/*) Bash(node .claude/skills/spec/scripts/parse-figma-url.js *) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *) Bash(git push -u origin build/*) Bash(gh pr create --draft *) Bash(/opt/homebrew/bin/gh pr create --draft *) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_screenshot
 hooks:
   PreToolUse:
-    - matcher: 'Edit|Write|NotebookEdit|Bash|Agent|Task'
+    - matcher: 'Edit|Write|NotebookEdit|Bash|Agent|Task|SendMessage'
       hooks:
         - type: command
           command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/build-hooks.js" pre'
@@ -105,26 +105,27 @@ Run this only when the gates print `GATES: PASS`. Commit first, so each round is
 1. Capture what the reviewer will see:
 
    ```sh
-   node .claude/skills/build/scripts/build-ledger.js --component <component>
-   node .claude/skills/build/scripts/capture-story.js --story <story-id> --output node_modules/.cache/build/<component>/story.png
+   node .claude/skills/build/scripts/capture-story.js --story components-<component>--conformance --output node_modules/.cache/build/<component>/story.png
+   node .claude/skills/build/scripts/build-ledger.js --component <component> --screenshot node_modules/.cache/build/<component>/story.png
    ```
 
-   Save the Figma component with `get_screenshot` at `maxDimension` 800, if the tool can write it to a file. Otherwise, say that only the Storybook image was reviewed.
+   Pass `--screenshot` for each image. If `get_screenshot` can write the Figma component to a file at `maxDimension` 800, add it too. Otherwise, say that only the Storybook image was reviewed.
 
-2. Start a **new** `component-reviewer` subagent, never a resumed one. Give it only the spec path, bundle path, facts path and screenshot paths. Don't describe the work, your reasoning or earlier rounds.
-3. Save its reply, unchanged, as `node_modules/.cache/build/<component>/review-<round>.md`, then validate it:
+2. Start a **new** `component-reviewer` subagent, with the contents of the `reviewer-prompt.txt` that `build-ledger.js` printed as its entire prompt. The hook refuses any other wording, a model override, code that hasn't passed the gates, and a reviewer past the limits, so don't describe the work, your reasoning or earlier rounds.
+3. The reviewer's own hook saves its final message and records its verdict at once, so you never handle the report, and changing the code can't undo a failed round. Read the result:
 
    ```sh
-   node .claude/skills/build/scripts/check-review.js --component <component> --report <report> [--previous <earlier report>]...
+   node .claude/skills/build/scripts/check-review.js --component <component>
    ```
 
-   - **`RESULT: INVALID`**: the report skipped rows or lacks evidence, so it proves nothing. Start another new reviewer. This doesn't use a round, but stop after 2 invalid reports.
+   - **`RESULT: MISSING`**: the hook didn't save a report. Stop and tell Daniel. Never write one yourself.
+   - **`RESULT: INVALID`**: the report skipped rows, or its evidence didn't hold up against the code, so it proves nothing. Start another new reviewer. This doesn't use a round, but 2 invalid reports stop the build.
    - **`RESULT: PASS`**: go to step 8.
    - **`RESULT: FAIL`**: go to step 7.
 
 ## 7. Route every flag
 
-There are **3 review rounds at most, and never a fourth**. A round is used whenever a valid report fails.
+There are **3 review rounds at most, and never a fourth**. The script counts them and the hook enforces the limit, so a round is used whenever a valid report fails.
 
 | Flag                              | What to do                                                                                                |
 | :-------------------------------- | :-------------------------------------------------------------------------------------------------------- |
@@ -132,18 +133,21 @@ There are **3 review rounds at most, and never a fourth**. A round is used whene
 | `QUESTION`, or the spec is wrong  | Stop and ask Daniel. If the spec must change, it goes through its own PR, then this build resumes.        |
 | You believe the reviewer is wrong | Stop and ask Daniel. Only he can dismiss a finding, and it's recorded in the PR.                          |
 | `REPEAT` printed for a row        | Stop and show Daniel. The same row failing after a fix won't be solved by another round.                  |
-| Round 3 fails                     | Stop and go to step 8 with the failure stated plainly.                                                    |
+| `STOP` printed                    | Stop and show Daniel every open flag, with your recommendation. **There is no PR.**                       |
 
 Fix what a flag names, and don't regenerate the component. A rewrite throws away verified work, and new code can introduce new problems.
 
+Whenever you stop for Daniel, record why with `build-hooks.js pause`. If he decides the build should get more rounds, run `node .claude/skills/build/scripts/check-review.js --component <component> --reset`. The hook prompts him for it, and you never run it on your own judgment.
+
 ## 8. Draft pull request
 
-Before opening it, rerun `check-review.js` on the last report. On a passing run it must still print `RESULT: PASS`, which proves the shipped code is the reviewed code.
+A PR only follows a passing review. The hook refuses one unless the gates and the most recent review both passed this exact code. Rerun `check-review.js` first: it must still print `RESULT: PASS`.
 
 Push with `git push -u origin build/<component>` and open a **draft** PR into `main` using the template in `.github/pull_request_template.md`. Always include:
 
-- **Result**: passed in N rounds, or failed after 3 with its open flags, in a form that can't be mistaken for a pass.
+- **Result**: passed, in how many rounds, and any reset Daniel gave, from `rounds.json`.
 - **Findings by round**: what each reviewer flagged and how it was resolved, including anything Daniel dismissed.
+- **Shared rules changed**: each one with the Decision or conversation behind it, or `None.`
 - **Controls**: label each as `blocking`, `detecting`, `advisory` or `unverified`, naming any limits. Without CI, the gates are `detecting`, because nothing stops a merge.
 - **Manual checks (A11Y-14)**, as unchecked boxes: keyboard operation, and screen reader output for each state. An agent can't confirm these.
 - **Figma**: the link, and a note that the reviewer compared screenshots only if it did.
@@ -161,4 +165,6 @@ End with the attribution line your harness specifies. Report the URL and stop. M
 - Inline styles have no exception yet. A component that truly needs one has to raise it with Daniel, and the check changes through its own PR.
 - `Conformance` checks styles the facts describe. Layout, wrapping and behavior rest on the other stories and the review.
 - Forced pseudo-states prove the CSS for each state, not real pointer input, so behavior stories should still use `userEvent`.
+- The reviewer's report depends on its frontmatter hook, which only runs once the workspace is trusted. If it doesn't run, the build stops rather than falling back to the author.
+- The script checks that evidence exists, not that it supports the verdict. An `absent:` claim is only as good as the term the reviewer chose.
 - A passing review is supporting evidence, not a guarantee. It doesn't replace the human review.

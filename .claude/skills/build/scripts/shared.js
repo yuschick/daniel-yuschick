@@ -1,14 +1,23 @@
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
 import { resolve } from 'node:path';
 
-/** Everything that decides what a component does, so a review stays pinned to it. */
+/** Everything that decides what a component does or how it's judged, so a review stays pinned to it. */
 const REVIEWED_PATHS = [
+  '.claude/agents',
+  '.claude/skills/build',
   'brain/standards',
   'packages/react/specs',
   'packages/react/src',
   'packages/storybook/.storybook',
+  'packages/tokens/src',
 ];
 const BARRELS = [
   'packages/react/src/components/index.ts',
@@ -55,6 +64,86 @@ export function hashFile(file) {
 export function readApprovals(cache) {
   const path = resolve(cache, 'approvals.json');
   return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : {};
+}
+
+export const MAX_REVIEW_ROUNDS = 3;
+export const MAX_INVALID_REPORTS = 2;
+const REPORT = /^report-(\d+)\.md$/;
+
+/**
+ * @param {string} cache
+ * @returns {{ rounds: { file: string, verdict: string, treeHash: string, flagged: string[] }[], invalid: string[], history: object[], resets: number }}
+ */
+export function readReviewState(cache) {
+  const path = resolve(cache, 'rounds.json');
+  return existsSync(path)
+    ? JSON.parse(readFileSync(path, 'utf8'))
+    : { rounds: [], invalid: [], history: [], resets: 0 };
+}
+
+/**
+ * @param {string} cache
+ * @param {ReturnType<typeof readReviewState>} state
+ */
+export function writeReviewState(cache, state) {
+  mkdirSync(resolve(cache), { recursive: true });
+  writeFileSync(resolve(cache, 'rounds.json'), JSON.stringify(state, null, 2));
+}
+
+/**
+ * @param {ReturnType<typeof readReviewState>} state
+ * @returns {string | null} Why another reviewer may not start, if it may not.
+ */
+export function findReviewLimit({ rounds, invalid }) {
+  const failures = rounds.filter(({ verdict }) => verdict === 'FAIL').length;
+  if (failures >= MAX_REVIEW_ROUNDS) {
+    return `${failures} review rounds have failed, which is the limit. Only Daniel can decide what happens next.`;
+  }
+  return invalid.length >= MAX_INVALID_REPORTS
+    ? `${invalid.length} reports were invalid, which is the limit. Show Daniel.`
+    : null;
+}
+
+/**
+ * @param {ReturnType<typeof readReviewState>} state
+ * @param {string} file
+ * @returns {boolean}
+ */
+export function isReportRecorded({ rounds, history, invalid }, file) {
+  return (
+    invalid.includes(file) ||
+    [...rounds, ...history].some((entry) => entry.file === file)
+  );
+}
+
+/**
+ * @param {ReturnType<typeof readReviewState>} state
+ * @param {string} hash
+ * @returns {boolean} Whether the most recent review passed this exact code.
+ */
+export function hasPassingReview({ rounds }, hash) {
+  const last = rounds.at(-1);
+  return last?.verdict === 'PASS' && last.treeHash === hash;
+}
+
+const reportNumbers = (cache) => {
+  const directory = resolve(cache);
+  return existsSync(directory)
+    ? readdirSync(directory)
+        .map((file) => Number(file.match(REPORT)?.[1] ?? 0))
+        .filter(Boolean)
+    : [];
+};
+
+/** @param {string} cache */
+export function latestReport(cache) {
+  const numbers = reportNumbers(cache);
+  return numbers.length > 0 ? `report-${Math.max(...numbers)}.md` : null;
+}
+
+/** @param {string} cache */
+export function nextReport(cache) {
+  return `report-${Math.max(0, ...reportNumbers(cache)) + 1}.md`;
 }
 
 /** @param {string[]} args */

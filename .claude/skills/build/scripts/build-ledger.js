@@ -8,6 +8,7 @@ import { parseSpec } from '../../spec/scripts/check-spec.js';
 import { componentPaths, git, treeHash } from './shared.js';
 
 const SENTENCE_END = /(?<=\.)\s+(?=[A-Z`])/;
+const CHECKLIST_ITEM = /^- \[ \] (.+)$/gm;
 
 const dataRows = (section) => section?.rows.slice(1) ?? [];
 
@@ -63,6 +64,43 @@ export function buildLedger({ sections }) {
   ];
 }
 
+/**
+ * Every Pre-Submission Checklist item becomes a row, so skipping an accessibility
+ * or coding standard fails validation, rather than going unnoticed.
+ *
+ * @param {Record<string, string>} standards File name to its Markdown
+ * @returns {{ id: string, section: string, requirement: string }[]}
+ */
+export function buildStandardsLedger(standards) {
+  const items = Object.keys(standards)
+    .sort()
+    .flatMap((file) =>
+      [...standards[file].matchAll(CHECKLIST_ITEM)].map(([, requirement]) => ({
+        section: `Standards: ${file.replace('.md', '')}`,
+        requirement,
+      })),
+    );
+  return items.map((item, index) => ({ id: `STD${index + 1}`, ...item }));
+}
+
+/**
+ * The only prompt a reviewer may start with, which the hook enforces. If the
+ * author wrote it, the author could brief the reviewer, and it wouldn't be cold.
+ *
+ * @param {{ spec: string, bundle: string, facts: string, screenshots: string[] }} paths
+ * @returns {string}
+ */
+export function buildReviewerPrompt({ spec, bundle, facts, screenshots }) {
+  return [
+    `Spec: ${spec}`,
+    `Bundle: ${bundle}`,
+    `Facts: ${facts}`,
+    ...(screenshots.length > 0
+      ? [`Screenshots: ${screenshots.join(', ')}`]
+      : []),
+  ].join('\n');
+}
+
 function collectFiles(directory) {
   return readdirSync(resolve(directory))
     .sort()
@@ -75,6 +113,7 @@ function main() {
       component: { type: 'string' },
       base: { type: 'string', default: 'origin/main' },
       standards: { type: 'string', default: 'brain/standards' },
+      screenshot: { type: 'string', multiple: true, default: [] },
     },
   });
   if (!values.component)
@@ -93,7 +132,7 @@ function main() {
       ]),
   );
 
-  const ledger = buildLedger(spec);
+  const ledger = [...buildLedger(spec), ...buildStandardsLedger(standards)];
   const directory = `packages/react/src/components/${spec.meta.component}`;
   const code = collectFiles(directory);
   const gates = JSON.parse(
@@ -109,7 +148,7 @@ function main() {
     'diff',
     values.base,
     '--',
-    'brain/standards/props.md',
+    'brain/standards',
     'packages/react/src/types',
     'packages/react/src/index.ts',
     'packages/react/src/components/index.ts',
@@ -141,14 +180,24 @@ function main() {
   ].join('\n\n');
 
   mkdirSync(resolve(paths.cache), { recursive: true });
-  const bundlePath = resolve(paths.cache, 'review-bundle.md');
-  writeFileSync(bundlePath, bundle);
+  const bundlePath = `${paths.cache}/review-bundle.md`;
+  const promptPath = `${paths.cache}/reviewer-prompt.txt`;
+  writeFileSync(resolve(bundlePath), bundle);
   writeFileSync(
     resolve(paths.cache, 'ledger.json'),
     JSON.stringify(ledger, null, 2),
   );
+  writeFileSync(
+    resolve(promptPath),
+    buildReviewerPrompt({
+      spec: paths.spec,
+      bundle: bundlePath,
+      facts: paths.facts,
+      screenshots: values.screenshot,
+    }),
+  );
   console.log(
-    `${bundlePath}\n${ledger.length} ledger rows, ${bundle.length} characters.`,
+    `${promptPath}\n${ledger.length} ledger rows, ${bundle.length} characters.`,
   );
 }
 

@@ -139,6 +139,7 @@ describe('hook decisions', () => {
       root,
       cwd: root,
       isReadyForPullRequest: () => true,
+      findReviewerProblem: () => null,
       ...overrides,
     });
 
@@ -210,6 +211,38 @@ describe('hook decisions', () => {
     assert.equal(decide('Task', {}).decision, 'deny');
   });
 
+  it('refuses a reviewer the review gate rejects, and never resumes one', () => {
+    const refused = decide(
+      'Agent',
+      { subagent_type: 'component-reviewer' },
+      { findReviewerProblem: () => 'Not cold.' },
+    );
+    assert.equal(refused.decision, 'deny');
+    assert.equal(refused.reason, 'Not cold.');
+    assert.equal(decide('SendMessage', { to: 'reviewer' }).decision, 'deny');
+  });
+
+  it('asks a person before resetting the review rounds', () => {
+    const command =
+      'node .claude/skills/build/scripts/check-review.js --component chip --reset';
+    assert.equal(decide('Bash', { command }).decision, 'ask');
+    assert.equal(
+      decide('Bash', { command }, { mode: 'bypassPermissions' }).decision,
+      'deny',
+    );
+    assert.equal(
+      decide('Bash', {
+        command:
+          'node .claude/skills/build/scripts/check-review.js --component chip',
+      }).decision,
+      'allow',
+    );
+    assert.notEqual(
+      decide('Bash', { command: `git status && ${command}` }).decision,
+      'allow',
+    );
+  });
+
   it('asks about an unexpected command and denies one naming a protected path', () => {
     assert.equal(
       decide('Bash', { command: 'pnpm add left-pad' }).decision,
@@ -256,7 +289,7 @@ describe('hook decisions', () => {
       { isReadyForPullRequest: () => false },
     );
     assert.equal(refused.decision, 'deny');
-    assert.match(refused.reason, /gates must pass/);
+    assert.match(refused.reason, /gates and the cold review must pass/);
   });
 
   it('leaves tools it does not guard alone', () => {
@@ -509,6 +542,204 @@ describe('the hooks, as Claude Code runs them', () => {
       const { status, output } = runHook('stop', { stop_hook_active: false });
       assert.equal(status, 0);
       assert.equal(output, null);
+    });
+
+    describe('saving a report', () => {
+      const CACHE = 'node_modules/.cache/build/chip';
+      const readState = () =>
+        JSON.parse(readFileSync(join(repo, `${CACHE}/rounds.json`), 'utf8'));
+      const failingReport = () =>
+        `REVIEWED: ${inRepo(treeHash)}\n\n| ID | Verdict | Evidence |\n| B1 | FAIL | packages/react/specs/chip.md:1 |\n\nVERDICT: FAIL\n`;
+
+      before(() => {
+        write(
+          `${CACHE}/ledger.json`,
+          JSON.stringify([{ id: 'B1', section: 'A', requirement: 'B' }]),
+        );
+      });
+
+      after(() => {
+        rmSync(join(repo, CACHE), { recursive: true, force: true });
+      });
+
+      it('saves the final message itself, numbering each report', () => {
+        for (const number of [1, 2]) {
+          runHook('review', { last_assistant_message: `Report ${number}` });
+          assert.equal(
+            readFileSync(join(repo, `${CACHE}/report-${number}.md`), 'utf8'),
+            `Report ${number}`,
+          );
+        }
+      });
+
+      it('records an unusable report as invalid, not as a round', () => {
+        assert.deepEqual(readState().invalid, ['report-1.md', 'report-2.md']);
+        assert.deepEqual(readState().rounds, []);
+      });
+
+      it('counts a failed round at once, even if the code then changes', () => {
+        rmSync(join(repo, `${CACHE}/rounds.json`));
+        runHook('review', { last_assistant_message: failingReport() });
+        write(`${COMPONENT}/Chip.tsx`, 'export const fixed = 1;\n');
+        const { rounds, invalid } = readState();
+        assert.equal(rounds.length, 1);
+        assert.equal(rounds[0].verdict, 'FAIL');
+        assert.deepEqual(invalid, []);
+
+        const recheck = spawnSync(
+          'node',
+          [
+            HOOKS.replace('build-hooks.js', 'check-review.js'),
+            '--component',
+            'chip',
+          ],
+          { cwd: repo, encoding: 'utf8' },
+        );
+        assert.match(recheck.stdout, /RESULT: INVALID/);
+        assert.equal(readState().rounds.length, 1);
+        assert.deepEqual(readState().invalid, []);
+      });
+    });
+
+    it('never traps a reviewer when saving its report fails', () => {
+      const { status } = runHook('review', {}, 'not json');
+      assert.equal(status, 1);
+    });
+
+    describe('starting a reviewer', () => {
+      const CACHE = 'node_modules/.cache/build/chip';
+      const PROMPT = 'Spec: a.md\nBundle: b.md\nFacts: c.json';
+      const startReviewer = (overrides = {}) =>
+        runHook('pre', {
+          tool_name: 'Agent',
+          tool_input: {
+            subagent_type: 'component-reviewer',
+            prompt: PROMPT,
+            ...overrides,
+          },
+        }).output?.hookSpecificOutput;
+      const setGates = () => {
+        write(
+          `${CACHE}/gates.json`,
+          JSON.stringify({ passed: true, treeHash: inRepo(treeHash) }),
+        );
+      };
+
+      it('refuses before the gates pass on this code', () => {
+        write(`${CACHE}/gates.json`, JSON.stringify({ passed: false }));
+        assert.match(
+          startReviewer().permissionDecisionReason,
+          /gates must pass/,
+        );
+      });
+
+      it('refuses without the generated prompt', () => {
+        setGates();
+        assert.match(startReviewer().permissionDecisionReason, /build-ledger/);
+      });
+
+      it('allows only the exact generated prompt', () => {
+        write(`${CACHE}/reviewer-prompt.txt`, PROMPT);
+        setGates();
+        assert.equal(startReviewer(), undefined);
+        assert.match(
+          startReviewer({
+            prompt: `${PROMPT}\nThe author says this is fine.`,
+          }).permissionDecisionReason,
+          /exactly the prompt/,
+        );
+      });
+
+      it('refuses a model override', () => {
+        assert.match(
+          startReviewer({ model: 'haiku' }).permissionDecisionReason,
+          /model its definition sets/,
+        );
+      });
+
+      it('refuses another reviewer while a report is unrecorded', () => {
+        write(`${CACHE}/report-1.md`, 'A report no one checked.');
+        assert.match(
+          startReviewer().permissionDecisionReason,
+          /report-1\.md hasn't been recorded/,
+        );
+        rmSync(join(repo, `${CACHE}/report-1.md`));
+      });
+
+      it('refuses a fourth reviewer', () => {
+        const failed = (file) => ({
+          file,
+          verdict: 'FAIL',
+          treeHash: 'old',
+          flagged: ['B1'],
+        });
+        write(
+          `${CACHE}/rounds.json`,
+          JSON.stringify({
+            rounds: ['a', 'b', 'c'].map(failed),
+            invalid: [],
+            history: [],
+            resets: 0,
+          }),
+        );
+        assert.match(
+          startReviewer().permissionDecisionReason,
+          /3 review rounds have failed/,
+        );
+      });
+    });
+
+    describe('opening a pull request', () => {
+      const CACHE = 'node_modules/.cache/build/chip';
+      const openPullRequest = () =>
+        runHook('pre', {
+          tool_name: 'Bash',
+          tool_input: { command: 'gh pr create --draft --title a' },
+        }).output?.hookSpecificOutput;
+
+      it('refuses when the gates passed but the review did not', () => {
+        write(
+          `${CACHE}/gates.json`,
+          JSON.stringify({ passed: true, treeHash: inRepo(treeHash) }),
+        );
+        write(
+          `${CACHE}/rounds.json`,
+          JSON.stringify({
+            rounds: [
+              {
+                file: 'a',
+                verdict: 'FAIL',
+                treeHash: inRepo(treeHash),
+                flagged: ['B1'],
+              },
+            ],
+            invalid: [],
+            history: [],
+            resets: 0,
+          }),
+        );
+        assert.equal(openPullRequest().permissionDecision, 'deny');
+      });
+
+      it('allows it when both passed this exact code', () => {
+        write(
+          `${CACHE}/rounds.json`,
+          JSON.stringify({
+            rounds: [
+              {
+                file: 'a',
+                verdict: 'PASS',
+                treeHash: inRepo(treeHash),
+                flagged: [],
+              },
+            ],
+            invalid: [],
+            history: [],
+            resets: 0,
+          }),
+        );
+        assert.equal(openPullRequest(), undefined);
+      });
     });
 
     it('refuses a PR once the code moves on from the gates', () => {
