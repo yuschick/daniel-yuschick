@@ -33,6 +33,31 @@ export function runGates(gates, run) {
   });
 }
 
+/**
+ * The checker runs first: a gate that can't catch its seeded defects proves nothing.
+ *
+ * @param {{ component: string, base: string }} options
+ * @returns {{ name: string, command: string }[]}
+ */
+export function listGates({ component, base }) {
+  return [
+    {
+      name: 'checker',
+      command:
+        'node --test .claude/skills/build/scripts/*.test.js .claude/skills/spec/scripts/*.test.js',
+    },
+    {
+      name: 'component',
+      command: `node .claude/skills/build/scripts/check-component.js --component ${component} --base ${base}`,
+    },
+    {
+      name: 'turbo',
+      command: 'pnpm turbo run lint check-types build test --ui=stream',
+    },
+    { name: 'format', command: 'pnpm format:check' },
+  ];
+}
+
 function main() {
   const { values } = parseArgs({
     options: {
@@ -45,17 +70,7 @@ function main() {
 
   const before = treeHash();
   const gates = runGates(
-    [
-      {
-        name: 'component',
-        command: `node .claude/skills/build/scripts/check-component.js --component ${values.component} --base ${values.base}`,
-      },
-      {
-        name: 'turbo',
-        command: 'pnpm turbo run lint check-types build test --ui=stream',
-      },
-      { name: 'format', command: 'pnpm format:check' },
-    ],
+    listGates({ component: values.component, base: values.base }),
     (command) => {
       const result = spawnSync(command, { shell: true, encoding: 'utf8' });
       return { status: result.status, output: result.stdout + result.stderr };

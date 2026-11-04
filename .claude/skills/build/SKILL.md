@@ -59,7 +59,7 @@ Write the real component until the tests pass, following the spec row by row. Ch
 node .claude/skills/build/scripts/run-gates.js --component <component>
 ```
 
-Add `--base <branch>` only when this branch is stacked on another. It runs the component checks, `pnpm turbo run lint check-types build test` and `pnpm format:check`, and pins the results to a hash of the code.
+Add `--base <branch>` only when this branch is stacked on another. It runs the skills' own tests, including the seeded defects that prove the checks can fail, then the component checks, `pnpm turbo run lint check-types build test` and `pnpm format:check`, and pins the results to a hash of the code.
 
 Fix every failure and rerun. These attempts don't use a review round, but after **3 failed attempts at the same problem**, stop and show Daniel.
 

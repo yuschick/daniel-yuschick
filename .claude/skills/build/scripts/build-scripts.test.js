@@ -12,7 +12,7 @@ import {
 } from './check-component.js';
 import { checkReport, findRepeats, parseReport } from './check-review.js';
 import { checkPreflight } from './preflight.js';
-import { runGates } from './run-gates.js';
+import { listGates, runGates } from './run-gates.js';
 
 const SPEC = `---
 component: Chip
@@ -259,6 +259,15 @@ describe('review report', () => {
 });
 
 describe('gates', () => {
+  it('checks the checker before anything else', () => {
+    const gates = listGates({ component: 'chip', base: 'origin/main' });
+    assert.deepEqual(
+      gates.map(({ name }) => name),
+      ['checker', 'component', 'turbo', 'format'],
+    );
+    assert.match(gates[0].command, /build\/scripts\/\*\.test\.js/);
+  });
+
   it('runs every gate after a failure and strips terminal colors', () => {
     const ran = [];
     const results = runGates(
