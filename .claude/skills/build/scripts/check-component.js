@@ -4,9 +4,17 @@ import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
 import { parseSpec } from '../../spec/scripts/check-spec.js';
+import { checkApiTypes } from './check-api.js';
 import { componentPaths, git } from './shared.js';
 
 const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
+const INLINE_STYLE = /\bstyle\s*=\s*\{|\bstyle\s*:|\.style\b/;
+const RAW_COLOR =
+  /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\(/i;
+const SUPPRESSION =
+  /(eslint-disable(?:-next-line|-line)?|stylelint-disable(?:-next-line|-line)?|@ts-expect-error|@ts-ignore)\b/g;
+const ISSUE_REFERENCE = /#\d+|\/issues\/\d+/;
+const MANIFEST = 'packages/tokens/dist/manifest.json';
 const COMPONENTS = 'packages/react/src/components';
 const ALWAYS_IN_SCOPE = [
   `${COMPONENTS}/index.ts`,
@@ -33,7 +41,8 @@ export function expectedTokens({ sections }) {
   const outOfScope = sections.get('Out of scope')?.text.join('\n') ?? '';
   const tokens = new Set();
   for (const [, property, , token] of dataRows(sections.get('Figma tokens'))) {
-    if (token.startsWith('--dy-') && !outOfScope.includes(property)) {
+    // Backticks, so a word in the prose can't silently drop a required token.
+    if (token.startsWith('--dy-') && !outOfScope.includes(`\`${property}\``)) {
       tokens.add(token);
     }
   }
@@ -57,6 +66,85 @@ export function checkTokens({ expected, css }) {
       .filter((token) => !expected.has(token))
       .map((token) => `CSS uses ${token}, which isn't in the spec.`),
   ];
+}
+
+/**
+ * Stories and tests may show any real token, but not one that doesn't exist.
+ *
+ * @param {{ sources: Record<string, string>, manifestTokens: Record<string, unknown> }} options
+ * @returns {string[]}
+ */
+export function checkTokensExist({ sources, manifestTokens }) {
+  return Object.entries(sources).flatMap(([file, source]) =>
+    [...new Set(source.match(SYSTEM_TOKEN) ?? [])]
+      .filter((token) => !(token.slice(2) in manifestTokens))
+      .map((token) => `${file} uses ${token}, which doesn't exist.`),
+  );
+}
+
+/**
+ * Styling belongs in the CSS module, where Stylelint and the token check can see it.
+ *
+ * @param {{ sources: Record<string, string> }} options
+ * @returns {string[]}
+ */
+export function checkInlineStyles({ sources }) {
+  return Object.entries(sources).flatMap(([file, source]) =>
+    source.split('\n').flatMap((line, index) => {
+      const location = `${file}:${index + 1}`;
+      return [
+        ...(INLINE_STYLE.test(line)
+          ? [`${location} sets an inline style. Styles belong in CSS.`]
+          : []),
+        ...(RAW_COLOR.test(line)
+          ? [`CSS-01: ${location} hardcodes a color. Use a token.`]
+          : []),
+      ];
+    }),
+  );
+}
+
+/** Reads a directive's comment: to its closing marker if it has one, otherwise to the line's end. */
+function readDirective(source, start) {
+  const lineStart = source.lastIndexOf('\n', start) + 1;
+  const isBlock = source.slice(lineStart, start).includes('/*');
+  const end = source.indexOf(isBlock ? '*/' : '\n', start);
+  return source.slice(start, end === -1 ? undefined : end);
+}
+
+/**
+ * GEN-01: the exact rule, why it's bypassed, and a tracked path to resolving it.
+ *
+ * @param {{ sources: Record<string, string> }} options
+ * @returns {string[]}
+ */
+export function checkSuppressions({ sources }) {
+  const errors = [];
+  for (const [file, source] of Object.entries(sources)) {
+    for (const match of source.matchAll(SUPPRESSION)) {
+      const location = `${file}:${source.slice(0, match.index).split('\n').length}`;
+      const directive = match[1];
+      if (directive === '@ts-ignore') {
+        errors.push(
+          `GEN-01: ${location} uses @ts-ignore. Use @ts-expect-error.`,
+        );
+        continue;
+      }
+      const [target, ...reason] = readDirective(source, match.index)
+        .slice(directive.length)
+        .split(' -- ');
+      const explanation = reason.join(' -- ').trim();
+      if (directive !== '@ts-expect-error' && target.trim() === '') {
+        errors.push(`GEN-01: ${location} doesn't name the rule it suppresses.`);
+      }
+      if (explanation === '') {
+        errors.push(`GEN-01: ${location} doesn't explain its suppression.`);
+      } else if (!ISSUE_REFERENCE.test(explanation)) {
+        errors.push(`GEN-01: ${location} doesn't cite a tracking issue.`);
+      }
+    }
+  }
+  return errors;
 }
 
 /**
@@ -110,27 +198,24 @@ export function checkStructure({
 }
 
 /**
- * Checks each API row is declared and each default sits in the signature (RX-03).
+ * Each default sits in the signature (RX-03). The compiler proves the rest of
+ * the API, in `check-api.js`.
  *
  * @param {{ sections: Map<string, { rows: string[][] }>, source: string }} options
  * @returns {string[]}
  */
-export function checkApi({ sections, source }) {
-  const errors = [];
-  for (const [prop, , , defaultValue] of dataRows(sections.get('API'))) {
-    if (prop.startsWith('...')) continue;
-    if (!source.includes(prop))
-      errors.push(`API prop ${prop} isn't implemented.`);
-    if (
-      defaultValue !== '-' &&
-      !source.includes(`${prop} = '${defaultValue}'`)
-    ) {
-      errors.push(
+export function checkDefaults({ sections, source }) {
+  return dataRows(sections.get('API'))
+    .filter(
+      ([prop, , , defaultValue]) =>
+        !prop.startsWith('...') &&
+        defaultValue !== '-' &&
+        !source.includes(`${prop} = '${defaultValue}'`),
+    )
+    .map(
+      ([prop, , , defaultValue]) =>
         `RX-03: ${prop} must default to '${defaultValue}' in the signature.`,
-      );
-    }
-  }
-  return errors;
+    );
 }
 
 /**
@@ -155,20 +240,23 @@ export function checkScope({ changedFiles, componentDirectory, spec, facts }) {
   return errors;
 }
 
-/** Root-level untracked files are personal notes that `git add` never picks up. */
+/** Only untracked files at the root are exempt: they're personal notes, never part of a build. */
 function changedSince(base) {
   const committed = git(['diff', '--name-only', `${base}...HEAD`]).output;
   const working = git(['diff', '--name-only', 'HEAD']).output;
-  const untracked = git(['ls-files', '--others', '--exclude-standard']).output;
+  const untracked = git(['ls-files', '--others', '--exclude-standard'])
+    .output.split('\n')
+    .filter((file) => file.includes('/'));
   return [
     ...new Set(
-      [committed, working, untracked]
-        .join('\n')
-        .split('\n')
-        .filter((file) => file.includes('/')),
+      [...committed.split('\n'), ...working.split('\n'), ...untracked].filter(
+        Boolean,
+      ),
     ),
   ];
 }
+
+const isExampleFile = (file) => /\.(stories|test)\.tsx?$|\.mdx$/.test(file);
 
 function main() {
   const { values } = parseArgs({
@@ -194,22 +282,40 @@ function main() {
       const path = resolve(join(directory, file));
       return existsSync(path) ? readFileSync(path, 'utf8') : '';
     };
+    const files = readdirSync(resolve(directory));
+    const sources = Object.fromEntries(
+      files.map((file) => [join(directory, file), read(file)]),
+    );
+    const shipped = Object.fromEntries(
+      Object.entries(sources).filter(([file]) => !isExampleFile(file)),
+    );
+    const shippedScripts = Object.fromEntries(
+      Object.entries(shipped).filter(([file]) => /\.tsx?$/.test(file)),
+    );
     errors.push(
       ...checkStructure({
         name,
-        files: readdirSync(resolve(directory)),
+        files,
         indexSource: read('index.ts'),
         specText,
         storySource: read(`${name}.stories.tsx`),
       }),
       ...checkTokens({
         expected: expectedTokens(spec),
-        css: read(`${name}.module.css`),
+        css: Object.values(shipped).join('\n'),
       }),
-      ...checkApi({
+      ...checkTokensExist({
+        sources,
+        manifestTokens: JSON.parse(readFileSync(resolve(MANIFEST), 'utf8'))
+          .tokens,
+      }),
+      ...checkInlineStyles({ sources: shippedScripts }),
+      ...checkSuppressions({ sources }),
+      ...checkDefaults({
         sections: spec.sections,
         source: read(`${name}.tsx`) + read(`${name}.types.ts`),
       }),
+      ...checkApiTypes({ spec, cache: paths.cache }),
     );
     if (
       !readFileSync(resolve(`${COMPONENTS}/index.ts`), 'utf8').includes(

@@ -17,7 +17,7 @@ Change nothing. You report; you never fix.
 
 ## What the scripts already proved
 
-The gate results passed on this exact code: lint, types, build, tests, format, the FS-04 files, the exact set of `--dy-*` tokens and the scope of the diff. The `Conformance` story checks rendered styles against the Figma facts in a real browser. Don't repeat these checks. Do check that the tests are able to fail: a story that asserts nothing proves nothing.
+The gate results passed on this exact code: lint, types, build, tests, format, the FS-04 files, the exact set of `--dy-*` tokens, the exact props and values in the API table, no inline styles or raw colors in shipped scripts, a tracking issue on each suppression, and the scope of the diff. The `Conformance` story checks rendered styles against the Figma facts in a real browser. Don't repeat these checks. Do check that the tests are able to fail: a story that asserts nothing proves nothing.
 
 ## Review in both directions
 

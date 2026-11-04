@@ -5,6 +5,7 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -18,9 +19,11 @@ import { after, afterEach, before, describe, it } from 'node:test';
  ** unit tests call one function at a time, so they can't see gaps between them.
  */
 
-const CHECK_COMPONENT = resolve(
-  dirname(fileURLToPath(import.meta.url)),
-  'check-component.js',
+const SCRIPTS = dirname(fileURLToPath(import.meta.url));
+const CHECK_COMPONENT = resolve(SCRIPTS, 'check-component.js');
+const REACT_MODULES = resolve(
+  SCRIPTS,
+  '../../../../packages/react/node_modules',
 );
 const COMPONENT = 'packages/react/src/components/Chip';
 const BASE_TAG = 'fixture-base';
@@ -43,7 +46,7 @@ A \`<span>\`.
 | :-- | :-- | :-- | :-- | :-- | :-- |
 | size | \`Size\` | s, m | m | size | figma |
 | isDisabled | \`boolean\` | - | - | - | PROP-05 |
-| ...htmlAttributes | attrs | - | - | - | TS-01 |
+| ...htmlAttributes | \`SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>\`, without className | - | - | - | TS-01 |
 
 ## Figma tokens
 
@@ -79,13 +82,35 @@ None.
 
 /** What is on `main` before the build starts. */
 const BASE_FILES = {
+  '.gitignore': 'node_modules\n',
   'package.json': '{ "private": true }\n',
   'pnpm-lock.yaml': "lockfileVersion: '9.0'\n",
+  'packages/tokens/dist/manifest.json': '{ "tokens": { "dy-color-a": {} } }\n',
   'packages/react/package.json': '{ "name": "@dy/react" }\n',
   'packages/react/specs/chip.md': SPEC,
   'packages/react/specs/chip.facts.json': '{}\n',
+  'packages/react/tsconfig.json': JSON.stringify({
+    compilerOptions: {
+      jsx: 'react-jsx',
+      lib: ['ES2022', 'DOM'],
+      module: 'ESNext',
+      moduleResolution: 'Bundler',
+      paths: {
+        '@package-components/*': ['./src/components/*'],
+        '@package-internal/*': ['./src/internal/*'],
+        '@package-types/*': ['./src/types/*'],
+      },
+      skipLibCheck: true,
+      strict: true,
+      target: 'ES2022',
+    },
+    include: ['src'],
+  }),
+  'packages/react/src/internal/types/globals.d.ts': 'export {};\n',
+  'packages/react/src/internal/types/type-helpers.ts':
+    "export type SanitizedHTMLAttributes<T> = Omit<T, 'className' | 'style' & keyof T>;\nexport type SanitizedSVGAttributes<T> = T;\nexport type WithChildren<T> = T;\n",
   'packages/react/src/types/common.ts':
-    "export const SIZES = ['s', 'm'] as const;\n",
+    "export const SIZES = ['s', 'm'] as const;\nexport type Size = (typeof SIZES)[number];\n",
 };
 
 /** A build that follows the spec, so every failure comes from its seed. */
@@ -94,9 +119,9 @@ const BUILD_FILES = {
   'packages/react/src/components/index.ts': "export { Chip } from './Chip';\n",
   [`${COMPONENT}/index.ts`]: "export { Chip } from './Chip';\n",
   [`${COMPONENT}/Chip.types.ts`]:
-    "export interface ChipProps {\n  isDisabled?: boolean;\n  size?: 's' | 'm';\n}\n",
+    "import type { SanitizedHTMLAttributes } from '@package-internal/types/type-helpers';\nimport type { Size } from '@package-types/common';\n\nexport interface ChipProps extends SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>> {\n  isDisabled?: boolean;\n  size?: Size;\n}\n",
   [`${COMPONENT}/Chip.tsx`]:
-    "export const Chip = function Chip({ isDisabled, size = 'm' }: ChipProps) {\n  return <span data-size={size} aria-disabled={isDisabled} />;\n};\n",
+    "import type { ChipProps } from './Chip.types';\n\nexport const Chip = function Chip({ isDisabled, size = 'm', ...htmlAttributes }: ChipProps) {\n  return <span {...htmlAttributes} data-size={size} aria-disabled={isDisabled} />;\n};\n",
   [`${COMPONENT}/Chip.module.css`]:
     '.chip {\n  background-color: var(--dy-color-a);\n}\n',
   [`${COMPONENT}/Chip.stories.tsx`]:
@@ -112,52 +137,98 @@ const SEEDED_DEFECTS = [
     expected: /--dy-color-invented/,
   },
   {
-    name: 'a dependency added to a package',
-    file: 'packages/react/package.json',
+    name: 'an invented token in the TSX',
+    file: `${COMPONENT}/Chip.tsx`,
     edit: (source) =>
-      source.replace('"@dy/react"', '"@dy/react", "dependencies": {}'),
-    expected: /packages\/react\/package\.json/,
+      `${source}export const tone = 'var(--dy-color-invented)';\n`,
+    expected: /--dy-color-invented, which isn't in the spec/,
+  },
+  {
+    name: 'an invented token in a story',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) =>
+      `${source}export const tone = 'var(--dy-color-invented)';\n`,
+    expected: /--dy-color-invented, which doesn't exist/,
+  },
+  {
+    name: 'an inline style',
+    file: `${COMPONENT}/Chip.tsx`,
+    edit: (source) =>
+      source.replace(
+        '<span ',
+        "<span style={{ background: 'var(--dy-color-a)' }} ",
+      ),
+    expected: /Chip\.tsx:\d+ sets an inline style/,
+  },
+  {
+    name: 'a raw color in the TSX',
+    file: `${COMPONENT}/Chip.tsx`,
+    edit: (source) => `${source}export const tone = '#ff0000';\n`,
+    expected: /CSS-01: .*Chip\.tsx:\d+ hardcodes a color/,
   },
   {
     name: 'an invented prop',
     file: `${COMPONENT}/Chip.types.ts`,
     edit: (source) =>
       source.replace('isDisabled?', 'isLoading?: boolean;\n  isDisabled?'),
-    expected: /isLoading/,
-    knownGap: true,
+    expected: /Invented prop: .*isLoading/,
+  },
+  {
+    name: 'a spec prop left out',
+    file: `${COMPONENT}/Chip.types.ts`,
+    edit: (source) => source.replace('  isDisabled?: boolean;\n', ''),
+    expected: /Missing prop: .*isDisabled/,
   },
   {
     name: 'an invented value on a shared type',
     file: 'packages/react/src/types/common.ts',
     edit: (source) => source.replace("'m']", "'m', 'ghost']"),
-    expected: /ghost/,
-    knownGap: true,
+    expected: /Invented value on size: .*ghost/,
   },
   {
-    name: 'an invented token and raw colors inline in the TSX',
+    name: 'a spec value left out of a shared type',
+    file: 'packages/react/src/types/common.ts',
+    edit: (source) => source.replace("['s', 'm']", "['m']"),
+    expected: /Missing value on size: .*"s"/,
+  },
+  {
+    name: 'a bare lint suppression',
+    file: `${COMPONENT}/Chip.tsx`,
+    edit: (source) => `// eslint-disable-next-line\n${source}`,
+    expected: /GEN-01: .*doesn't name the rule/,
+  },
+  {
+    name: 'a suppression with only a TODO',
     file: `${COMPONENT}/Chip.tsx`,
     edit: (source) =>
-      source.replace(
-        '<span ',
-        "<span style={{ color: 'var(--dy-color-invented)', background: '#f00' }} ",
-      ),
-    expected: /--dy-color-invented|inline style/,
-    knownGap: true,
+      `// eslint-disable-next-line some/rule -- Why. TODO: follow up\n${source}`,
+    expected: /GEN-01: .*doesn't cite a tracking issue/,
+  },
+  {
+    name: 'a dependency added to a package',
+    file: 'packages/react/package.json',
+    edit: (source) =>
+      source.replace('"@dy/react"', '"@dy/react", "dependencies": {}'),
+    expected: /ERROR: packages\/react\/package\.json is outside/,
   },
   {
     name: 'a dependency added at the repo root',
     file: 'package.json',
     edit: (source) =>
       source.replace('"private": true', '"private": true, "dependencies": {}'),
-    expected: /package\.json/,
-    knownGap: true,
+    expected: /ERROR: package\.json is outside/,
   },
   {
-    name: 'a bare lint suppression',
-    file: `${COMPONENT}/Chip.tsx`,
-    edit: (source) => `// eslint-disable-next-line\n${source}`,
-    expected: /GEN-01/,
-    knownGap: true,
+    name: 'an edited lockfile',
+    file: 'pnpm-lock.yaml',
+    edit: (source) => `${source}# edited\n`,
+    expected: /ERROR: pnpm-lock\.yaml is outside/,
+  },
+  {
+    name: 'an edited spec',
+    file: 'packages/react/specs/chip.md',
+    edit: (source) => source.replace('A chip.', 'A better chip.'),
+    expected: /approved spec/,
   },
 ];
 
@@ -204,6 +275,14 @@ describe('seeded defects', () => {
     repo = mkdtempSync(join(tmpdir(), 'dy-seeded-defects-'));
     git('init', '--quiet');
     writeFiles(BASE_FILES);
+    // The real packages, so the fixture compiles with the real compiler.
+    mkdirSync(join(repo, 'packages/react/node_modules'));
+    for (const name of ['@types', 'react', 'typescript']) {
+      symlinkSync(
+        join(REACT_MODULES, name),
+        join(repo, 'packages/react/node_modules', name),
+      );
+    }
     commitAll('base');
     git('tag', BASE_TAG);
     writeFiles(BUILD_FILES);
@@ -224,21 +303,17 @@ describe('seeded defects', () => {
     assert.equal(status, 0, output);
   });
 
-  for (const { name, file, edit, expected, knownGap } of SEEDED_DEFECTS) {
-    it(
-      `fails on ${name}`,
-      { todo: knownGap ? 'A known gap in the checks' : false },
-      () => {
-        const path = join(repo, file);
-        const source = readFileSync(path, 'utf8');
-        const seeded = edit(source);
-        assert.notEqual(seeded, source, 'The seed changed nothing.');
-        writeFileSync(path, seeded);
+  for (const { name, file, edit, expected } of SEEDED_DEFECTS) {
+    it(`fails on ${name}`, () => {
+      const path = join(repo, file);
+      const source = readFileSync(path, 'utf8');
+      const seeded = edit(source);
+      assert.notEqual(seeded, source, 'The seed changed nothing.');
+      writeFileSync(path, seeded);
 
-        const { status, output } = runCheck();
-        assert.notEqual(status, 0, `The checks passed:\n${output}`);
-        assert.match(output, expected);
-      },
-    );
+      const { status, output } = runCheck();
+      assert.notEqual(status, 0, `The checks passed:\n${output}`);
+      assert.match(output, expected);
+    });
   }
 });

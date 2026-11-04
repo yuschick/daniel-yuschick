@@ -4,10 +4,18 @@ import { describe, it } from 'node:test';
 import { parseSpec } from '../../spec/scripts/check-spec.js';
 import { buildLedger } from './build-ledger.js';
 import {
-  checkApi,
+  parseCompilerOutput,
+  readTypeExpression,
+  renderApiCheck,
+} from './check-api.js';
+import {
+  checkDefaults,
+  checkInlineStyles,
   checkScope,
   checkStructure,
+  checkSuppressions,
   checkTokens,
+  checkTokensExist,
   expectedTokens,
 } from './check-component.js';
 import { checkReport, findRepeats, parseReport } from './check-review.js';
@@ -146,13 +154,81 @@ describe('component checks', () => {
     assert.match(joined, /Conformance/);
   });
 
-  it('requires every API prop and its default in the signature', () => {
+  it('keeps a required token when the out-of-scope prose mentions its property', () => {
+    const prose = parseSpec(
+      SPEC.replace(
+        '| Item | Figma',
+        'Nothing should fill this.\n\n| Item | Figma',
+      ),
+    );
+    assert.ok(expectedTokens(prose).has('--dy-color-a'));
+  });
+
+  it('requires every default in the signature', () => {
     assert.deepEqual(
-      checkApi({ sections: spec.sections, source: "size = 'm', isDisabled" }),
+      checkDefaults({ sections: spec.sections, source: "size = 'm'" }),
       [],
     );
-    const errors = checkApi({ sections: spec.sections, source: 'size' });
-    assert.equal(errors.length, 2);
+    const errors = checkDefaults({ sections: spec.sections, source: 'size' });
+    assert.match(errors[0], /RX-03: size/);
+  });
+
+  it('rejects a token that does not exist, even in a story', () => {
+    const errors = checkTokensExist({
+      sources: { 'Chip.stories.tsx': 'var(--dy-real) var(--dy-invented)' },
+      manifestTokens: { 'dy-real': {} },
+    });
+    assert.deepEqual(errors, [
+      "Chip.stories.tsx uses --dy-invented, which doesn't exist.",
+    ]);
+  });
+
+  it('rejects inline styles and raw colors, with their location', () => {
+    const errors = checkInlineStyles({
+      sources: {
+        'Chip.tsx': "const size = 1;\n<a style={{ color: '#f00' }} />",
+        'useChip.ts': "element.style.color = 'oklch(1 0 0)';",
+      },
+    });
+    assert.equal(errors.length, 4);
+    assert.match(errors[0], /Chip\.tsx:2 sets an inline style/);
+    assert.match(errors[1], /CSS-01: Chip\.tsx:2/);
+  });
+
+  it('accepts class names, handlers and comments about style', () => {
+    assert.deepEqual(
+      checkInlineStyles({
+        sources: {
+          'Chip.tsx':
+            "import styles from './Chip.module.css';\n// A styled chip\n<a className={styles.chip} href='#main' />",
+        },
+      }),
+      [],
+    );
+  });
+
+  it('requires a suppression to name its rule, reason and tracking issue', () => {
+    const check = (source) =>
+      checkSuppressions({ sources: { 'a.ts': source } });
+    assert.deepEqual(
+      check('// eslint-disable-next-line some/rule -- Why. Tracked in #12'),
+      [],
+    );
+    assert.deepEqual(
+      check(
+        '/* stylelint-disable some-rule -- Why.\n   See github.com/a/b/issues/3 */',
+      ),
+      [],
+    );
+    assert.deepEqual(check('// @ts-expect-error -- Why. TODO: #402'), []);
+
+    assert.match(check('// eslint-disable-next-line')[0], /name the rule/);
+    assert.match(check('// eslint-disable-next-line')[1], /explain/);
+    assert.match(check('// @ts-ignore')[0], /@ts-expect-error/);
+    assert.match(
+      check('// eslint-disable-next-line some/rule -- Why. TODO: follow up')[0],
+      /tracking issue/,
+    );
   });
 
   it('rejects spec edits and files outside the component', () => {
@@ -178,6 +254,34 @@ describe('component checks', () => {
         changedFiles: ['specs/chip.md', 'apps/web/page.tsx'],
       }).length,
       2,
+    );
+  });
+});
+
+describe('API check', () => {
+  it('stops at the first comma outside the generics', () => {
+    assert.equal(
+      readTypeExpression('Omit<A, B>, without className or style'),
+      'Omit<A, B>',
+    );
+    assert.equal(readTypeExpression('Omit<A, B>'), 'Omit<A, B>');
+  });
+
+  it('labels a failed assertion by what the spec expected', () => {
+    const { source, labels } = renderApiCheck(spec);
+    assert.match(source, /typeof Chip/);
+    const inventedLine = source
+      .split('\n')
+      .findIndex((line) => line.includes('Exclude<OwnProps'));
+    assert.equal(labels.get(inventedLine + 1), 'Invented prop');
+    assert.deepEqual(
+      parseCompilerOutput({
+        output: `node_modules/.cache/build/chip/api-check.ts(${inventedLine + 1},14): error TS2322: Type '"isLoading"' is not assignable to type 'never'.\n`,
+        labels,
+      }),
+      [
+        `API: Invented prop: Type '"isLoading"' is not assignable to type 'never'.`,
+      ],
     );
   });
 });

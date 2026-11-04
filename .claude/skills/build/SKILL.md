@@ -61,7 +61,9 @@ node .claude/skills/build/scripts/run-gates.js --component <component>
 
 Add `--base <branch>` only when this branch is stacked on another. It runs the skills' own tests, including the seeded defects that prove the checks can fail, then the component checks, `pnpm turbo run lint check-types build test` and `pnpm format:check`, and pins the results to a hash of the code.
 
-Fix every failure and rerun. These attempts don't use a review round, but after **3 failed attempts at the same problem**, stop and show Daniel.
+The component checks compare the code with the spec in both directions: the compiler proves the exact props and values, and a script proves the exact tokens. They also reject inline styles, raw colors, suppressions without a rule, reason and tracking issue, and any tracked change outside the build's scope.
+
+Fix every failure and rerun. **Never invent a tracking issue to pass a check:** if a suppression seems unavoidable, stop and ask Daniel. These attempts don't use a review round, but after **3 failed attempts at the same problem**, stop and show Daniel.
 
 ## 6. Cold review
 
@@ -118,6 +120,9 @@ End with the attribution line your harness specifies. Report the URL and stop. M
 ## Limits
 
 - Gates run locally. Until CI exists and `main` requires it, they detect problems rather than block a merge.
+- The suppression check confirms an issue is cited, not that the issue exists.
+- The API check covers the component's own props. It can't see attributes set inside the component or names exported beside it, which rest on the cold review.
+- Inline styles have no exception yet. A component that truly needs one has to raise it with Daniel, and the check changes through its own PR.
 - `Conformance` checks styles the facts describe. Layout, wrapping and behavior rest on the other stories and the review.
 - Forced pseudo-states prove the CSS for each state, not real pointer input, so behavior stories should still use `userEvent`.
 - A passing review is supporting evidence, not a guarantee. It doesn't replace the human review.
