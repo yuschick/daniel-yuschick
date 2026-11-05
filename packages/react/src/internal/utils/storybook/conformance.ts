@@ -1,4 +1,5 @@
 import { getBrowserCommands } from './browserCommands';
+import { readStyle } from './readStyle';
 
 const TOKEN_REFERENCE = /--dy-[a-z0-9-]+/g;
 
@@ -210,10 +211,6 @@ export function getConformanceAxis<Option extends string>({
   return option;
 }
 
-function readStyle(element: Element, cssProperty: string): string {
-  return getComputedStyle(element).getPropertyValue(cssProperty);
-}
-
 /** Resolves a value the way the browser would for the same property. */
 function resolveExpected(
   probe: HTMLElement,
@@ -221,7 +218,7 @@ function resolveExpected(
   expected: string,
 ): string {
   probe.style.setProperty(cssProperty, expected);
-  const resolved = readStyle(probe, cssProperty);
+  const resolved = readStyle({ cssProperty, element: probe });
   probe.style.removeProperty(cssProperty);
   return resolved;
 }
@@ -286,7 +283,10 @@ export async function checkConformance({
             failures.push(`${testCase.label}: ${token} has no value.`);
           }
         }
-        const actual = readStyle(element, testCase.cssProperty);
+        const actual = readStyle({
+          cssProperty: testCase.cssProperty,
+          element,
+        });
         const expected = resolveExpected(
           probe,
           testCase.cssProperty,
