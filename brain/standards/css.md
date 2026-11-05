@@ -49,20 +49,22 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 /* ✅ Correct: Default is static; motion is opt-in */
 .status-indicator {
   opacity: 1;
-  transition: opacity 150ms ease;
+  transition: opacity var(--dy-motion-duration-fast)
+    var(--dy-motion-easing-standard);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .status-indicator {
     transition:
-      transform 200ms ease,
-      opacity 150ms ease;
+      transform var(--dy-motion-duration-fast) var(--dy-motion-easing-standard),
+      opacity var(--dy-motion-duration-fast) var(--dy-motion-easing-standard);
   }
 }
 
 /* ❌ Incorrect: Motion applied unconditionally at root scope */
 .status-indicator {
-  transition: transform 200ms ease;
+  transition: transform var(--dy-motion-duration-fast)
+    var(--dy-motion-easing-standard);
 }
 ```
 
@@ -270,29 +272,37 @@ export function Button({
 ### CSS-08 · Forced Colors Mode & High-Contrast Boundaries
 
 - Interactive elements (buttons, inputs, checkboxes) and floating UI containers (dialogs, popovers, menus, tooltips) **MUST ALWAYS** retain a defined `border-width` and `border-style`.
-- Visual borders that should appear invisible in default states or themes **MUST** use `border-color: transparent` or `border: 1px solid transparent`.
+- Visual borders that should appear invisible in default states or themes **MUST** use `border-color: transparent` or `border: var(--dy-border-width-default) solid transparent`.
 - **MUST NOT** use `border: none`, `border: 0`, or `border-width: 0` on interactive elements or floating containers.
-- Floating elements using `box-shadow` for elevation **MUST** also include a `1px solid transparent` border so the browser can draw a high-contrast bounding box when shadows are disabled in Forced Colors Mode.
+- Floating elements using `box-shadow` for elevation **MUST** also include a transparent border, `var(--dy-border-width-default) solid transparent`, so the browser can draw a high-contrast bounding box when shadows are disabled in Forced Colors Mode.
 - Focus outlines and states **MUST NOT** be created using `box-shadow` as all shadows are removed in Forced Colors Mode. All focus indicators **MUST** use robust patterns using `outline` and/or `border`.
+- CSS system colors (`ButtonFace`, `ButtonText`, `Canvas`, `CanvasText`, `GrayText`, `Highlight`, `HighlightText`, `LinkText`) **MUST** only appear inside `@media (forced-colors: active)`. They need no token or suppression there, because no token can express one.
 
 ```css
 /* ✅ Correct: Preserves geometry and focus in Forced Colors Mode */
 @layer dy.react {
   /* Ghost button style */
   .button.variant-ghost {
-    border: 1px solid transparent;
+    border: var(--dy-border-width-default) solid transparent;
   }
 
   /* Floating UI elevation */
   .popover {
     box-shadow: var(--dy-elevation-high);
-    border: 1px solid transparent;
+    border: var(--dy-border-width-default) solid transparent;
   }
 
   /* Focus indicator using native outline */
   .button:focus-visible {
-    outline: 2px solid var(--dy-color-border-focus);
-    outline-offset: 2px;
+    outline: var(--dy-border-width-focus) solid var(--dy-color-border-focus);
+    outline-offset: var(--dy-space-2xs);
+  }
+
+  /* System colors, only where forced colors apply */
+  .button[aria-disabled='true'] {
+    @media (forced-colors: active) {
+      --button-color-text: GrayText;
+    }
   }
 }
 
@@ -353,6 +363,7 @@ export function Button({
 
 - All dimensions, directional margins, paddings, borders, and positioning **MUST** use logical CSS properties (`inline-size`, `block-size`, `margin-inline`, `padding-block-start`, `inset-inline-start`, etc.).
 - Physical layout properties (`width`, `height`, `margin-top`, `padding-left`, `top`, `left`, `right`, `bottom`) are **STRICTLY FORBIDDEN**.
+- The box shorthands `padding` and `margin` are permitted, and preferred under CSS-14, even though they map to physical sides. A one- or two-value shorthand is unaffected by text direction, so it only differs in vertical writing modes, which this system doesn't support.
 
 ```css
 /* ✅ Correct: Direction-agnostic logical dimensions and spacing */
@@ -479,6 +490,37 @@ export function Button({
 }
 ```
 
+### CSS-14 · Shorthand Properties by Default
+
+- Declarations **MUST** default to the shorthand property: `padding`, `margin`, `border`, `outline`, `font`, `transition`, `inset`, `gap` and the like. Two or more longhands of one shorthand in a block **MUST** be written as that shorthand.
+- A single longhand is permitted only when the shorthand would change something it shouldn't, such as `padding-inline` where the block padding must stay inherited, or `border-color` in a selector that only changes the color.
+- Values inside a shorthand **MUST** still be tokens (CSS-07).
+
+```css
+/* ✅ Correct: shorthands driven by tokens */
+@layer dy.react {
+  .button {
+    border: var(--dy-border-width-default) solid var(--button-color-border);
+    font: var(--dy-font-weight-strong) var(--button-font-size) /
+      var(--dy-font-line-height-tight) var(--dy-font-family-body);
+    outline: var(--dy-border-width-focus) var(--button-outline-style)
+      var(--dy-color-border-focus);
+    padding: var(--dy-space-xs) var(--button-space-padding-inline);
+  }
+}
+
+/* ❌ Incorrect: longhands that a shorthand already covers */
+@layer dy.react {
+  .button {
+    border-color: var(--button-color-border);
+    border-style: solid;
+    border-width: var(--dy-border-width-default);
+    padding-block: var(--dy-space-xs);
+    padding-inline: var(--button-space-padding-inline);
+  }
+}
+```
+
 ---
 
 ## Pre-Submission Checklist
@@ -492,3 +534,4 @@ export function Button({
 - [ ] Interactive/floating elements keep a defined border; focus via `outline`/`border`, never `box-shadow` (CSS-08)
 - [ ] Logical properties only; native nesting with explicit `&`; `:has()`/`:is()`/`:not()` for relations (CSS-10, CSS-11, CSS-12)
 - [ ] Baseline support or `@supports` fallback (CSS-13)
+- [ ] Shorthand properties by default, longhands only when necessary; system colors only inside forced colors (CSS-14, CSS-08)

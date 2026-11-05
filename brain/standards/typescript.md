@@ -244,6 +244,30 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 ```
 
+### TS-09 · Casts Are the Last Resort
+
+- Type assertions (`as`) **MUST** be avoided wherever an annotation, `satisfies`, a type guard, or a better generic can express the same thing. An unavoidable assertion **MUST** have a comment explaining why nothing else works.
+- `as const` **MUST NOT** be used inside a function. Use `satisfies` with the target type, which keeps literal values literal and also checks the object. `as const` remains correct for module-level value sets such as `SIZES`.
+
+```ts
+/* ✅ Correct: `type` stays 'button', and the object is checked against the element's props */
+const internalProps = {
+  ref: externalRef,
+  type: 'button',
+  'aria-disabled': isDisabled ? 'true' : undefined,
+} satisfies React.ComponentPropsWithRef<'button'>;
+
+/* ✅ Correct: a module-level value set */
+export const SIZES = ['s', 'm', 'l'] as const;
+
+/* ❌ Incorrect: casts that widen nothing and check nothing */
+const internalProps = {
+  ref: externalRef,
+  type: 'button' as const,
+  'aria-disabled': isDisabled ? ('true' as const) : undefined,
+};
+```
+
 ---
 
 ## Pre-Submission Checklist
@@ -256,3 +280,4 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
 - [ ] No `any` — use `unknown` + narrowing (TS-06)
 - [ ] String-literal unions, never `enum` (TS-07)
 - [ ] Invalid prop combinations are compile-time errors via discriminated unions + `never` (TS-08)
+- [ ] No casts where an annotation, `satisfies` or a type guard works; no `as const` inside a function (TS-09)
