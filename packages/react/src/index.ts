@@ -1,2 +1,2 @@
-// Components land here as the design system grows
-export {};
+export { Button } from './components';
+export type { ButtonProps } from './components';
