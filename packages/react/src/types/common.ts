@@ -27,6 +27,16 @@ export const ELEVATIONS = ['none', 's', 'm', 'l'] as const satisfies readonly (
 export type Elevation = (typeof ELEVATIONS)[number];
 
 /**
+ * Emphases represent the priority of a component within a screen region.
+ * Primary indicates the single most important action (e.g.: a submit button).
+ * Secondary indicates a supporting action (e.g.: a cancel button).
+ * Tertiary indicates an incidental action in a dense surface.
+ * @default 'primary'
+ */
+export const EMPHASES = ['primary', 'secondary', 'tertiary'] as const;
+export type Emphasis = (typeof EMPHASES)[number];
+
+/**
  * Fits represent how a component should adjust its size relative to its content.
  * Fill means the component should expand to fill its container.
  * Hug means the component should shrink to fit its content.
@@ -79,24 +89,24 @@ export type Offset = (typeof OFFSETS)[number];
 /**
  * Intents represent the purpose or meaning of a component, often used for styling.
  * Attention indicates something that requires the user's focus (e.g.: a warning message).
+ * Brand indicates the product's primary path (e.g.: a sign up button).
  * Negative indicates an error or destructive action (e.g.: a delete button).
  * Neutral indicates a neutral or default state (e.g.: a plain button).
  * Notice indicates an informational message (e.g.: an informational callout).
  * Positive indicates a successful or affirmative action (e.g.: a save button).
- * Primary indicates the main action or emphasis (e.g.: a submit button).
- * Secondary indicates a less prominent action or emphasis (e.g.: a cancel button).
- * Tertiary indicates the least prominent action or emphasis (e.g.: a low-priority link-style action).
- * @default 'primary'
+ * Strong indicates an action with no brand or destructive weight.
+ * Subtle indicates a supplementary action.
+ * @default 'brand'
  */
 export const INTENTS = [
   'attention',
+  'brand',
   'negative',
   'neutral',
   'notice',
   'positive',
-  'primary',
-  'secondary',
-  'tertiary',
+  'strong',
+  'subtle',
 ] as const;
 export type Intent = (typeof INTENTS)[number];
 
