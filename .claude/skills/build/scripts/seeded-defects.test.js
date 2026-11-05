@@ -126,7 +126,7 @@ const BUILD_FILES = {
   [`${COMPONENT}/Chip.module.css`]:
     '.chip {\n  background-color: var(--dy-color-a);\n}\n',
   [`${COMPONENT}/Chip.stories.tsx`]:
-    "const argTypes = {\n  size: createArgType({ description: 'A size.', type: 'Size' }),\n  isDisabled: createArgType({ description: 'Disabled.', type: 'boolean' }),\n  ...createAdditionalTableGroups({ htmlAttributes: 'HTMLAttributes' }),\n};\nexport const Conformance = { argTypes, play: () => checkConformance({}) };\n",
+    "const argTypes = {\n  size: createArgType({ description: 'A size.', type: 'Size' }),\n  isDisabled: createArgType({ description: 'Disabled.', type: 'boolean' }),\n  ...createAdditionalTableGroups({ htmlAttributes: 'HTMLAttributes' }),\n};\n/** Compares each variant with Figma. */\nexport const Conformance = { argTypes, play: () => checkConformance({}) };\n",
 };
 
 let repo;
@@ -224,6 +224,19 @@ const SEEDED_DEFECTS = [
     file: `${COMPONENT}/Chip.stories.tsx`,
     edit: (source) => `${source}export const meta = { tags: ['!autodocs'] };\n`,
     expected: /FS-07: .*Documentation page/,
+  },
+  {
+    name: 'an arg with no row in the props table',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) => `const meta = { args: { onClick: fn() } };\n${source}`,
+    expected: /FS-07: .*args set onClick/,
+  },
+  {
+    name: 'a story with no description',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) =>
+      source.replace('/** Compares each variant with Figma. */\n', ''),
+    expected: /FS-07: the story Conformance has no description/,
   },
   {
     name: 'a dependency added to a package',

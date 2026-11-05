@@ -601,7 +601,7 @@ describe('the reviewer', () => {
   it('can only read, runs on Opus and saves its own report', () => {
     assert.match(reviewer, /^tools: Read, Grep, Glob$/m);
     assert.match(reviewer, /^model: opus$/m);
-    assert.match(reviewer, /build-hooks\.js" review'/);
+    assert.match(reviewer, /run-hooks\.js" review'/);
   });
 });
 
@@ -611,10 +611,10 @@ describe('the skill', () => {
 
   it('registers every hook, and a guard that fails blocks the call', () => {
     for (const event of ['pre', 'post', 'stop']) {
-      assert.match(frontMatter, new RegExp(`build-hooks\\.js" ${event}'`));
+      assert.match(frontMatter, new RegExp(`run-hooks\\.js" ${event}'`));
     }
     assert.match(frontMatter, /Bash\|Agent\|Task\|SendMessage'/);
-    assert.match(frontMatter, /build-hooks\.js" pre'\n\s+onFailure: block/);
+    assert.match(frontMatter, /run-hooks\.js" pre'\n\s+onFailure: block/);
   });
 });
 

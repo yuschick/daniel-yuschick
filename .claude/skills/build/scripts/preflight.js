@@ -148,8 +148,11 @@ async function main() {
   }
 
   if (!isApprovalOnly) {
-    // A resuming build skips preflight, so anything here is from an earlier run.
-    await rm(resolve(paths.cache), { recursive: true, force: true });
+    // A rehearsal starts clean. A real build keeps its cache, because clearing
+    // it would also reset the review rounds and approvals it has to answer for.
+    if (values.staging) {
+      await rm(resolve(paths.cache), { recursive: true, force: true });
+    }
     await mkdir(resolve(paths.cache), { recursive: true });
     await writeFile(
       resolve(paths.cache, 'run.json'),

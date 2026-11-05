@@ -11,6 +11,7 @@ import {
   MAX_INVALID_REPORTS,
   MAX_REVIEW_ROUNDS,
   readReviewState,
+  REVIEW_HOOK_ERROR,
   treeHash,
   writeReviewState,
 } from './shared.js';
@@ -166,10 +167,14 @@ export function processLatestReport(component) {
   const state = readReviewState(cache);
   const file = latestReport(cache);
   if (file === null) {
+    const hookError = resolve(cache, REVIEW_HOOK_ERROR);
+    const cause = existsSync(hookError)
+      ? readFileSync(hookError, 'utf8')
+      : "The reviewer's hook didn't run.";
     return {
       result: 'MISSING',
       errors: [
-        "The reviewer's report wasn't saved, so its hook didn't run. Stop and tell Daniel. Never write a report yourself.",
+        `The reviewer's report wasn't saved. ${cause} Stop and tell Daniel. Never write a report yourself.`,
       ],
       lines: [],
     };

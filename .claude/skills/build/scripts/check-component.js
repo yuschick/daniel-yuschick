@@ -20,6 +20,7 @@ const RAW_COLOR =
 const SUPPRESSION =
   /(eslint-disable(?:-next-line|-line)?|stylelint-disable(?:-next-line|-line)?|@ts-expect-error|@ts-ignore)\b/g;
 const ISSUE_REFERENCE = /#\d+|\/issues\/\d+/;
+const STORY_EXPORT = /^export const ([A-Z]\w*)\b/gm;
 const MANIFEST = 'packages/tokens/dist/manifest.json';
 const COMPONENTS = 'packages/react/src/components';
 
@@ -214,6 +215,28 @@ export function checkDefaults({ sections, source }) {
     );
 }
 
+const hasArgTypeRow = ({ prop, storySource }) =>
+  new RegExp(`['"]?${prop}['"]?\\s*:\\s*createArgType\\(`).test(storySource);
+
+/** The top-level keys of the first `args` block, which is the story meta's. */
+function readMetaArgs(storySource) {
+  const start = storySource.match(/\bargs:\s*\{/);
+  if (!start) return [];
+  const keys = [];
+  let depth = 1;
+  let index = start.index + start[0].length;
+  for (; depth > 0 && index < storySource.length; index += 1) {
+    const character = storySource[index];
+    if ('{[('.includes(character)) depth += 1;
+    if ('}])'.includes(character)) depth -= 1;
+    const key =
+      depth === 1 &&
+      storySource.slice(index + 1).match(/^\s*['"]?([\w-]+)['"]?:/);
+    if (key && /[{,]|\s/.test(character)) keys.push(key[1]);
+  }
+  return [...new Set(keys)];
+}
+
 /**
  * FS-07: every prop in the spec has a row in the props table, and the component
  * keeps its Documentation page.
@@ -228,15 +251,36 @@ export function checkPropTable({ sections, storySource }) {
         ? []
         : [`FS-07: the stories need createAdditionalTableGroups for ${prop}.`];
     }
-    const row = new RegExp(`['"]?${prop}['"]?\\s*:\\s*createArgType\\(`);
-    return row.test(storySource)
+    return hasArgTypeRow({ prop, storySource })
       ? []
       : [`FS-07: the props table has no createArgType row for ${prop}.`];
   });
   if (storySource.includes('!autodocs')) {
     errors.push("FS-07: the stories can't opt out of the Documentation page.");
   }
+  for (const arg of readMetaArgs(storySource)) {
+    if (!hasArgTypeRow({ prop: arg, storySource })) {
+      errors.push(
+        `FS-07: the meta's args set ${arg}, which has no createArgType row, so it shows ungrouped.`,
+      );
+    }
+  }
   return errors;
+}
+
+/**
+ * FS-07: every story says what it shows. Storybook reads the comment above a
+ * story's export as its description.
+ *
+ * @param {{ storySource: string }} options
+ * @returns {string[]}
+ */
+export function checkStoryDescriptions({ storySource }) {
+  return [...storySource.matchAll(STORY_EXPORT)]
+    .filter(
+      ({ index }) => !storySource.slice(0, index).trimEnd().endsWith('*/'),
+    )
+    .map(([, name]) => `FS-07: the story ${name} has no description comment.`);
 }
 
 /**
@@ -348,6 +392,7 @@ function main() {
         sections: spec.sections,
         storySource: read(`${name}.stories.tsx`),
       }),
+      ...checkStoryDescriptions({ storySource: read(`${name}.stories.tsx`) }),
       ...checkApiTypes({ spec, cache: paths.cache }),
     );
     if (

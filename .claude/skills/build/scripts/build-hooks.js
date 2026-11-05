@@ -40,6 +40,7 @@ import {
   readApprovals,
   readReviewState,
   readRun,
+  REVIEW_HOOK_ERROR,
   treeHash,
 } from './shared.js';
 
@@ -398,11 +399,55 @@ function findReviewerProblem({ input, cache }) {
     : 'Give the reviewer exactly the prompt build-ledger.js wrote, and nothing else, so it stays cold.';
 }
 
+/**
+ * A reviewer can finish by handing its report back through a tool, which leaves
+ * no final text message, so the transcript is the fallback.
+ *
+ * @param {string} transcript JSONL, as Claude Code writes it.
+ * @returns {string | null} The reviewer's last report, or null if it has none.
+ */
+export function readReportFromTranscript(transcript) {
+  for (const line of transcript.trim().split('\n').reverse()) {
+    let entry;
+    try {
+      entry = JSON.parse(line);
+    } catch {
+      continue;
+    }
+    if (entry.type !== 'assistant') continue;
+    for (const part of entry.message?.content ?? []) {
+      const text =
+        part.type === 'text'
+          ? part.text
+          : part.type === 'tool_use' && part.name === 'SubagentHandback'
+            ? part.input?.message
+            : null;
+      if (typeof text === 'string' && text.includes('VERDICT:')) return text;
+    }
+  }
+  return null;
+}
+
+function readReport(input) {
+  if (input.last_assistant_message) return input.last_assistant_message;
+  const path = input.agent_transcript_path ?? input.transcript_path;
+  return path && existsSync(path)
+    ? readReportFromTranscript(readFileSync(path, 'utf8'))
+    : null;
+}
+
 function handleReview({ input, component }) {
-  const message = input.last_assistant_message;
-  if (!message) return;
   const { cache } = componentPaths(component);
   mkdirSync(resolve(cache), { recursive: true });
+  const message = readReport(input);
+  if (!message) {
+    // Says the hook ran and found nothing, which `check-review.js` reports.
+    writeFileSync(
+      resolve(cache, REVIEW_HOOK_ERROR),
+      `The reviewer's hook ran, but found no report. It received: ${Object.keys(input).join(', ')}.`,
+    );
+    return;
+  }
   writeFileSync(resolve(cache, nextReport(cache)), message);
   processLatestReport(component);
 }

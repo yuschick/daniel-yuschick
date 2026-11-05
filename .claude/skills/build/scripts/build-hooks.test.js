@@ -20,6 +20,7 @@ import {
   decideTool,
   isExpectedCommand,
   parseCommand,
+  readReportFromTranscript,
 } from './build-hooks.js';
 import { classifyPath, treeHash } from './shared.js';
 
@@ -143,6 +144,38 @@ describe('hook decisions', () => {
       findReviewerProblem: () => null,
       ...overrides,
     });
+
+  it('finds a report handed back through a tool, or sent as text', () => {
+    const toTranscript = (...content) =>
+      JSON.stringify({ type: 'assistant', message: { content } });
+    const report = 'REVIEWED: abc\n\nVERDICT: FAIL';
+
+    assert.equal(
+      readReportFromTranscript(
+        [
+          'not json',
+          toTranscript({ type: 'text', text: 'VERDICT: PASS' }),
+          toTranscript({
+            type: 'tool_use',
+            name: 'SubagentHandback',
+            input: { message: report },
+          }),
+          JSON.stringify({ type: 'user', message: { content: [] } }),
+        ].join('\n'),
+      ),
+      report,
+    );
+    assert.equal(
+      readReportFromTranscript(toTranscript({ type: 'text', text: report })),
+      report,
+    );
+    assert.equal(
+      readReportFromTranscript(
+        toTranscript({ type: 'text', text: 'Reading.' }),
+      ),
+      null,
+    );
+  });
 
   it('asks a person before leaving for a branch, without reading its name as a path', () => {
     assert.equal(

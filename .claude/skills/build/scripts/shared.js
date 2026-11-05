@@ -196,3 +196,5 @@ export function treeHash() {
   }
   return hash.digest('hex').slice(0, 16);
 }
+
+export const REVIEW_HOOK_ERROR = 'review-hook-error.txt';

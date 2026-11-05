@@ -9,19 +9,19 @@ hooks:
     - matcher: 'Edit|Write|NotebookEdit|Bash|Agent|Task|SendMessage'
       hooks:
         - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/build-hooks.js" pre'
+          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" pre'
           onFailure: block
           timeout: 30
   PostToolUse:
     - matcher: 'Edit|Write|NotebookEdit'
       hooks:
         - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/build-hooks.js" post'
+          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" post'
           timeout: 120
   Stop:
     - hooks:
         - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/build-hooks.js" stop'
+          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" stop'
           timeout: 30
 ---
 
@@ -38,7 +38,7 @@ Turns an approved spec into a component and ends at a draft pull request. **The 
 
 ## The hooks
 
-On a `build/*` branch, Claude Code runs [scripts/build-hooks.js](scripts/build-hooks.js) around your tools, so these aren't choices you make:
+On a `build/*` branch, Claude Code runs [scripts/build-hooks.js](scripts/build-hooks.js), through [scripts/run-hooks.js](scripts/run-hooks.js), around your tools, so these aren't choices you make:
 
 - **Before a tool runs.** The component folder and barrels are open. A shared rule, meaning `brain/standards/` or `packages/react/src/types/`, prompts Daniel for each edit, because only a person can change one. Everything else is denied, including specs, facts, tokens, configs, dependency files and the skills. Other shell commands prompt Daniel, or are denied if they name a protected path, so use the commands in this skill and `git commit -m`. The only subagent you may start is `component-reviewer`, and a PR must be a draft on code that passed the gates.
 - **After each edit.** The tokens, styles and suppressions in that file are checked and it's linted, and any problem comes straight back to you. Fix it before moving on.
@@ -86,8 +86,9 @@ If reading raises a question the spec doesn't answer, ask now, before writing co
 1. Write only what compiles: the types, a stub component that renders the bare element with no styles or logic, and the exports.
 2. Write `<Name>.stories.tsx` and any `use<Name>.test.ts` from the spec, not from an implementation you have in mind. Stories must cover every state and every Behavior row they can.
 3. Add a `Conformance` story that passes the facts to `checkConformance` from `@package-internal/utils/storybook`. Import the facts as `@package-specs/<component>.facts.json` (FS-06). Every Figma fact must be mapped or ignored, and each ignored field needs a comment citing the Decision behind it.
-4. Write the props table in the story's `argTypes` (FS-07): a `createArgType` row for every prop in the spec, `ref` included, showing the type's name with its values as `options`, and `createAdditionalTableGroups` for the native attributes.
-5. Run the tests and **confirm they fail for the right reasons**. A test that passes against a stub proves nothing, so fix it before moving on.
+4. Write the props table in the story's `argTypes` (FS-07): a `createArgType` row for every prop in the spec, `ref` included, showing the type's name with its values as `options`, `createAdditionalTableGroups` for the native attributes, and a row in the `HTML Attributes` category for any native attribute the meta's `args` set. Give every story a comment above its export, true of what it renders.
+5. Don't measure contrast or re-check token values in stories. `contrast-pairs.json` checks each token pair in every theme, `Conformance` proves which tokens render in each state, and axe checks rendered text in every story. If the spec pairs two tokens with no pair in that file, stop and ask Daniel. Read variants with `getConformanceAxis`, so a story needs no casts (TS-09), and pass `forcePseudoState` a selector unique to the story, because a bare `button` takes the first match across every frame and the test silently proves nothing.
+6. Run the tests and **confirm they fail for the right reasons**. A test that passes against a stub proves nothing, so fix it before moving on.
 
 ## 4. Implement
 
