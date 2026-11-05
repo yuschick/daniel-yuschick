@@ -20,6 +20,10 @@ Stories are read from source, not from a package's `dist`, so two things have to
 
 `preview.ts` loads the token CSS from `@dy/tokens/css/dy.css`, so `dev`, `build` and `test` depend on `^build` (see `turbo.json`).
 
+## Documentation
+
+`preview.ts` sets the sidebar order and turns on autodocs for every story file, so each component gets a Documentation page. Its props table is grouped and filled in by `createArgType` and `createAdditionalTableGroups` (FS-07).
+
 ## Tests
 
 Every story is a test (FS-05). The Vitest addon renders each story in headless Chromium through Playwright, runs its `play` function, then runs axe. `a11y.test: 'error'` makes any axe violation fail the test (A11Y-14).

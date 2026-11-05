@@ -12,25 +12,24 @@ describe('createAdditionalTableGroups', () => {
       'htmlAttributes.table.type.summary',
       htmlAttributes,
     );
-  });
-
-  it('should return correct object with only ref', () => {
-    const ref = 'HTMLDivElement';
-    const result = createAdditionalTableGroups({ ref });
-
-    expect(result).toHaveProperty('ref');
-    expect(result).toHaveProperty('ref.table.type.summary', ref);
-  });
-
-  it('should return correct object with both groups', () => {
-    const htmlAttributes = 'HTMLAttributes<HTMLDivElement>';
-    const ref = 'HTMLDivElement';
-    const result = createAdditionalTableGroups({ htmlAttributes, ref });
-
     expect(result).toHaveProperty(
-      'htmlAttributes.table.type.summary',
-      htmlAttributes,
+      'htmlAttributes.table.category',
+      'HTML Attributes',
     );
-    expect(result).toHaveProperty('ref.table.type.summary', ref);
+  });
+
+  it('should return correct object with only svgAttributes', () => {
+    const svgAttributes = 'SVGAttributes<SVGSVGElement>';
+    const result = createAdditionalTableGroups({ svgAttributes });
+
+    expect(result).toHaveProperty('svgAttributes');
+    expect(result).toHaveProperty(
+      'svgAttributes.table.type.summary',
+      svgAttributes,
+    );
+  });
+
+  it('should return nothing without a group', () => {
+    expect(createAdditionalTableGroups({})).toEqual({});
   });
 });

@@ -11,3 +11,4 @@ export type {
   ConformanceLayers,
 } from './conformance';
 export { createAdditionalTableGroups } from './createAdditionalTableGroups';
+export { createArgType } from './createArgType';
