@@ -216,6 +216,7 @@ export function Button({
 - Component CSS custom properties **MUST** use Logical CSS terminology
 - Variant and state selectors (`.variant-primary`, `&[aria-disabled="true"]`) **MUST ONLY** redefine the values of these internal custom properties. They **MUST NOT** repeat raw CSS declarations (like `background-color:` or `padding:`) across multiple selectors.
 - Component tokens **MUST** reference system design tokens (`var(--dy-color-...)` or `var(--dy-space-...)`) rather than hardcoded primitive values.
+- A value that never changes across states, variants or sizes **MAY** use its system token directly, with no component token in between (`border-radius: var(--dy-border-radius-rounded)`).
 
 ```css
 /* ✅ Correct: Single CSS declaration driven by local variable overrides */
