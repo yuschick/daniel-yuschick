@@ -1,4 +1,3 @@
-import { spawnSync } from 'node:child_process';
 import {
   existsSync,
   mkdirSync,
@@ -56,7 +55,6 @@ const SUBAGENT_TOOLS = new Set(['Agent', 'Task']);
 const RESET_FLAG = '--reset';
 const REVIEWER = 'component-reviewer';
 const SCRIPTS_DIRECTORY = '.claude/skills/build/scripts';
-const REACT_BIN = 'packages/react/node_modules/.bin';
 const MANIFEST = 'packages/tokens/dist/manifest.json';
 const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
 // The docs confirm a hook's `ask` reaches a person in these. Elsewhere it may
@@ -499,20 +497,6 @@ export function checkEditedFile({ file, source, expected, manifestTokens }) {
   ];
 }
 
-function runLinter(file) {
-  const linter = file.endsWith('.css') ? 'stylelint' : 'eslint';
-  const bin = resolve(REACT_BIN, linter);
-  if (!/\.(css|tsx?)$/.test(file) || !existsSync(bin)) return [];
-  const result = spawnSync(
-    bin,
-    [relative('packages/react', file), '--max-warnings', '0'],
-    { cwd: resolve('packages/react'), encoding: 'utf8' },
-  );
-  return result.status === 0
-    ? []
-    : [`${linter}:\n${result.stdout}${result.stderr}`.trim()];
-}
-
 function handlePost({ input, component, mode }) {
   const path = input.tool_input?.file_path ?? input.tool_input?.notebook_path;
   if (!path) return;
@@ -533,16 +517,12 @@ function handlePost({ input, component, mode }) {
     return;
   }
 
-  const problems = [
-    ...checkEditedFile({
-      file,
-      source: readFileSync(resolve(file), 'utf8'),
-      expected: expectedTokens(parseSpec(readFileSync(resolve(spec), 'utf8'))),
-      manifestTokens: JSON.parse(readFileSync(resolve(MANIFEST), 'utf8'))
-        .tokens,
-    }),
-    ...runLinter(file),
-  ];
+  const problems = checkEditedFile({
+    file,
+    source: readFileSync(resolve(file), 'utf8'),
+    expected: expectedTokens(parseSpec(readFileSync(resolve(spec), 'utf8'))),
+    manifestTokens: JSON.parse(readFileSync(resolve(MANIFEST), 'utf8')).tokens,
+  });
   if (problems.length > 0) {
     console.log(
       JSON.stringify({ decision: 'block', reason: problems.join('\n') }),

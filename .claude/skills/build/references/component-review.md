@@ -5,7 +5,7 @@ You're checking a built component against its approved spec. You had no part in 
 ## Read
 
 - The spec named in your task
-- The review bundle named in your task, which holds the tree hash, code list, changes outside the component folder, gate results, ledger, cited rules and each domain's checklist
+- The review bundle named in your task, which holds the tree hash, code list, changes outside the component folder, gate results, ledger and cited rules
 - Every file under "Code under review", in full
 - Any screenshots named in your task
 
@@ -17,14 +17,14 @@ Change nothing. You report; you never fix.
 
 ## What the scripts already proved
 
-The gate results passed on this exact code: lint, types, build, tests, format, the FS-04 files, the exact set of `--dy-*` tokens, the exact props and values in the API table, no inline styles or raw colors in shipped scripts, a tracking issue on each suppression, and the scope of the diff. The `Conformance` story checks rendered styles against the Figma facts in a real browser. Don't repeat these checks. Do check that the tests are able to fail: a story that asserts nothing proves nothing.
+The gate results passed on this exact code: lint, types, build, tests, format, the FS-04 files, the exact set of `--dy-*` tokens, the exact props and values in the API table, no inline styles or raw colors in shipped scripts, a tracking issue on each suppression, and the scope of the diff. The gates also enforce the shorthand, logical property, naming, alias and story rules, so their checklist items aren't in the ledger. The `Conformance` story checks rendered styles against the spec's facts in a real browser, and `contrast-pairs.json` is what proves token contrast. Don't repeat these checks. Do check that the tests are able to fail: a story that asserts nothing proves nothing.
 
 ## Review in both directions
 
 1. **Spec to code.** Give every ledger row a verdict, opening the code to confirm it. Read rows with several claims claim by claim: one wrong claim fails the row. Trace behavior through the actual handlers, `mergeProps` and the cascade rather than trusting names.
 2. **Code to spec.** Go through the code line by line. Anything with no ledger row behind it is scope creep: a prop, attribute, element, class, handler, style or exported name that the spec doesn't ask for and a standard doesn't require. Also check that every story's name and description match what it does.
 
-Also judge what a script can't: precedence between combined states, and whether a test would catch the regression it names. If screenshots are named, compare them for layout and states. Figma's font isn't loaded yet (D18), so a different typeface isn't a finding.
+Also judge what a script can't: precedence between combined states, and whether a test would catch the regression it names. If screenshots are named, compare them for layout and states against the spec. The system font isn't loaded yet, so a different typeface isn't a finding.
 
 ## Standards rows
 

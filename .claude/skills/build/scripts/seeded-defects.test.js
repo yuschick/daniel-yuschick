@@ -126,7 +126,7 @@ const BUILD_FILES = {
   [`${COMPONENT}/Chip.module.css`]:
     '.chip {\n  background-color: var(--dy-color-a);\n}\n',
   [`${COMPONENT}/Chip.stories.tsx`]:
-    "const argTypes = {\n  size: createArgType({ description: 'A size.', type: 'Size' }),\n  isDisabled: createArgType({ description: 'Disabled.', type: 'boolean' }),\n  ...createAdditionalTableGroups({ htmlAttributes: 'HTMLAttributes' }),\n};\n/** Compares each variant with Figma. */\nexport const Conformance = { argTypes, play: () => checkConformance({}) };\n",
+    "const argTypes = {\n  size: createArgType({ description: 'A size.', type: 'Size' }),\n  isDisabled: createArgType({ description: 'Disabled.', type: 'boolean' }),\n  ...createAdditionalTableGroups({ htmlAttributes: 'HTMLAttributes' }),\n};\n/** The defaults. */\nexport const Default = {};\n/** Compares each variant with Figma. */\nexport const Conformance = { argTypes, play: () => checkConformance({}) };\n",
 };
 
 let repo;
@@ -230,6 +230,19 @@ const SEEDED_DEFECTS = [
     file: `${COMPONENT}/Chip.stories.tsx`,
     edit: (source) => `const meta = { args: { onClick: fn() } };\n${source}`,
     expected: /FS-07: .*args set onClick/,
+  },
+  {
+    name: 'a story exported before Default',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) => source.replace('export const Default = {};\n', ''),
+    expected: /FS-07: the first story exported must be Default/,
+  },
+  {
+    name: 'a WAI-ARIA pattern with no keyboard story',
+    file: 'packages/react/specs/chip.md',
+    edit: (source) =>
+      source.replace('A chip.', 'A chip. WAI-ARIA pattern: Button.'),
+    expected: /A11Y-14: .*no story uses the keyboard/,
   },
   {
     name: 'a story with no description',

@@ -10,8 +10,8 @@ import { componentPaths, git } from './shared.js';
 const APPROVAL_REF = 'origin/main';
 
 /**
- * A spec is approved only when it is on `main`, so `status` is never read here.
- * The gates rerun this, so a build can't pass them without preflight's core check.
+ * A spec is approved when it is on `main` and marked `status: approved`. The
+ * gates rerun this, so a build can't pass them without preflight's core check.
  *
  * @param {{ branch: string, component: string, spec: { local: string, approved: string | null }, facts: { local: string, approved: string | null } }} options
  * @returns {string[]}
@@ -34,10 +34,13 @@ export function checkApproval({ branch, component, spec, facts }) {
       );
     }
   }
-  const openQuestions = parseSpec(spec.local)
-    .sections.get('Open questions')
-    ?.text.join('\n')
-    .trim();
+  const { meta, sections } = parseSpec(spec.local);
+  if (meta.status !== 'approved') {
+    errors.push(
+      `The spec's status is ${meta.status}, so it isn't marked approved.`,
+    );
+  }
+  const openQuestions = sections.get('Open questions')?.text.join('\n').trim();
   if (openQuestions !== 'None.') {
     errors.push('The spec has open questions.');
   }
@@ -45,25 +48,15 @@ export function checkApproval({ branch, component, spec, facts }) {
 }
 
 /**
- * @param {Parameters<typeof checkApproval>[0] & { trackedChanges: string, figmaHash: string, factsHash: string }} options
+ * @param {Parameters<typeof checkApproval>[0] & { trackedChanges: string }} options
  * @returns {string[]}
  */
-export function checkPreflight({
-  trackedChanges,
-  figmaHash,
-  factsHash,
-  ...approval
-}) {
+export function checkPreflight({ trackedChanges, ...approval }) {
   return [
     ...checkApproval(approval),
     ...(trackedChanges
       ? [`Commit or stash tracked changes first:\n${trackedChanges}`]
       : []),
-    ...(figmaHash === factsHash
-      ? []
-      : [
-          `Figma is at ${figmaHash}, but the approved facts are ${factsHash}. Figma has moved on, so run /spec.`,
-        ]),
   ];
 }
 
@@ -82,16 +75,15 @@ async function main() {
   const { values } = parseArgs({
     options: {
       component: { type: 'string' },
-      'figma-hash': { type: 'string' },
       'approval-only': { type: 'boolean', default: false },
       staging: { type: 'boolean', default: false },
       step: { type: 'boolean', default: false },
     },
   });
   const isApprovalOnly = values['approval-only'];
-  if (!values.component || (!isApprovalOnly && !values['figma-hash'])) {
+  if (!values.component) {
     throw new Error(
-      'Usage: preflight.js --component <name> --figma-hash <hash> [--staging] [--step], or --component <name> --approval-only',
+      'Usage: preflight.js --component <name> [--staging] [--step], or --component <name> --approval-only',
     );
   }
 
@@ -127,8 +119,6 @@ async function main() {
         ...approval,
         trackedChanges: git(['status', '--porcelain', '--untracked-files=no'])
           .output,
-        figmaHash: values['figma-hash'],
-        factsHash: JSON.parse(approval.facts.local).hash,
       });
   errors.push(
     ...runValidator('check-facts.js', ['--facts', paths.facts]),

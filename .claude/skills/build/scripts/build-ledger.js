@@ -9,6 +9,23 @@ import { componentPaths, git, readRun, treeHash } from './shared.js';
 
 const SENTENCE_END = /(?<=\.)\s+(?=[A-Z`])/;
 const CHECKLIST_ITEM = /^- \[ \] (.+)$/gm;
+const CITED_RULE = /\b(?:A11Y|CSS|FS|GEN|PROP|RX|TS)-\d+\b/g;
+// Rules lint or a gate fully enforces (see AGENTS.md), so a reviewer needn't repeat them.
+const TOOL_ENFORCED = new Set([
+  'CSS-01',
+  'CSS-02',
+  'CSS-10',
+  'CSS-14',
+  'FS-06',
+  'FS-07',
+  'GEN-01',
+  'GEN-02',
+  'RX-04',
+  'RX-05',
+  'RX-06',
+  'TS-06',
+  'TS-07',
+]);
 
 const dataRows = (section) => section?.rows.slice(1) ?? [];
 
@@ -64,9 +81,15 @@ export function buildLedger({ sections }) {
   ];
 }
 
+const isToolEnforced = (requirement) => {
+  const rules = requirement.match(CITED_RULE) ?? [];
+  return rules.length > 0 && rules.every((rule) => TOOL_ENFORCED.has(rule));
+};
+
 /**
- * Every Pre-Submission Checklist item becomes a row, so skipping an accessibility
- * or coding standard fails validation, rather than going unnoticed.
+ * Every Pre-Submission Checklist item a tool doesn't already enforce becomes a
+ * row, so skipping an accessibility or coding standard fails validation, rather
+ * than going unnoticed.
  *
  * @param {Record<string, string>} standards File name to its Markdown
  * @returns {{ id: string, section: string, requirement: string }[]}
@@ -75,10 +98,12 @@ export function buildStandardsLedger(standards) {
   const items = Object.keys(standards)
     .sort()
     .flatMap((file) =>
-      [...standards[file].matchAll(CHECKLIST_ITEM)].map(([, requirement]) => ({
-        section: `Standards: ${file.replace('.md', '')}`,
-        requirement,
-      })),
+      [...standards[file].matchAll(CHECKLIST_ITEM)]
+        .filter(([, requirement]) => !isToolEnforced(requirement))
+        .map(([, requirement]) => ({
+          section: `Standards: ${file.replace('.md', '')}`,
+          requirement,
+        })),
     );
   return items.map((item, index) => ({ id: `STD${index + 1}`, ...item }));
 }
@@ -175,7 +200,7 @@ function main() {
             `| ${id} | ${section} | ${requirement.replaceAll('\n', ' ')} |`,
         )
         .join('\n'),
-    buildBundle({ markdown, payload, standards }),
+    buildBundle({ markdown, payload, standards, isBuildReview: true }),
   ].join('\n\n');
 
   mkdirSync(resolve(paths.cache), { recursive: true });

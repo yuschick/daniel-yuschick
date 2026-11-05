@@ -610,27 +610,6 @@ describe('the hooks, as Claude Code runs them', () => {
       assert.equal(output, null);
     });
 
-    it('feeds a linter failure back after an edit', () => {
-      write(
-        'packages/react/node_modules/.bin/stylelint',
-        '#!/bin/sh\necho "the linter refused $1"\nexit 2\n',
-      );
-      chmodSync(
-        join(repo, 'packages/react/node_modules/.bin/stylelint'),
-        0o755,
-      );
-      const { output } = runHook('post', {
-        tool_name: 'Write',
-        tool_input: { file_path: join(repo, `${COMPONENT}/Chip.module.css`) },
-      });
-      rmSync(join(repo, 'packages/react/node_modules/.bin/stylelint'));
-      assert.equal(output.decision, 'block');
-      assert.match(
-        output.reason,
-        /the linter refused src\/components\/Chip\/Chip\.module\.css/,
-      );
-    });
-
     it('pushes back once on stopping with red gates, then warns Daniel', () => {
       const first = runHook('stop', { stop_hook_active: false });
       assert.equal(first.output.decision, 'block');

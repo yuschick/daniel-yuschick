@@ -276,11 +276,35 @@ export function checkPropTable({ sections, storySource }) {
  * @returns {string[]}
  */
 export function checkStoryDescriptions({ storySource }) {
-  return [...storySource.matchAll(STORY_EXPORT)]
-    .filter(
-      ({ index }) => !storySource.slice(0, index).trimEnd().endsWith('*/'),
-    )
-    .map(([, name]) => `FS-07: the story ${name} has no description comment.`);
+  const stories = [...storySource.matchAll(STORY_EXPORT)];
+  return [
+    ...(stories[0]?.[1] === 'Default'
+      ? []
+      : ['FS-07: the first story exported must be Default.']),
+    ...stories
+      .filter(
+        ({ index }) => !storySource.slice(0, index).trimEnd().endsWith('*/'),
+      )
+      .map(
+        ([, name]) => `FS-07: the story ${name} has no description comment.`,
+      ),
+  ];
+}
+
+/**
+ * A11Y-14: a component that follows a WAI-ARIA pattern is keyboard operated, so
+ * its stories have to use the keyboard.
+ *
+ * @param {{ specText: string, storySource: string }} options
+ * @returns {string[]}
+ */
+export function checkKeyboardStories({ specText, storySource }) {
+  return specText.includes('WAI-ARIA pattern') &&
+    !/userEvent\.(?:tab|keyboard)\(/.test(storySource)
+    ? [
+        'A11Y-14: the spec names a WAI-ARIA pattern, but no story uses the keyboard.',
+      ]
+    : [];
 }
 
 /**
@@ -393,6 +417,10 @@ function main() {
         storySource: read(`${name}.stories.tsx`),
       }),
       ...checkStoryDescriptions({ storySource: read(`${name}.stories.tsx`) }),
+      ...checkKeyboardStories({
+        specText,
+        storySource: read(`${name}.stories.tsx`),
+      }),
       ...checkApiTypes({ spec, cache: paths.cache }),
     );
     if (

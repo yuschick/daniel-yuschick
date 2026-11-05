@@ -65,6 +65,17 @@ describe('extractSection', () => {
 describe('buildBundle', () => {
   const bundle = buildBundle({ markdown: 'Uses A11Y-05.', payload, standards });
 
+  it('gives a build review only the cited rules, with nothing from the design', () => {
+    const buildReview = buildBundle({
+      markdown: 'Uses A11Y-05.',
+      payload,
+      standards,
+      isBuildReview: true,
+    });
+    assert.match(buildReview, /Use aria-disabled/);
+    assert.doesNotMatch(buildReview, /Figma|Pre-Submission/);
+  });
+
   it('includes cited rules and leaves out the others', () => {
     assert.match(bundle, /Use aria-disabled/);
     assert.doesNotMatch(bundle, /Uncited rule/);

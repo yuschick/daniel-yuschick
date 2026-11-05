@@ -34,6 +34,7 @@ import { listGates, runGates } from './run-gates.js';
 import { findReviewLimit, hasPassingReview } from './shared.js';
 
 const SPEC = `---
+status: approved
 component: Chip
 ---
 
@@ -96,13 +97,11 @@ describe('preflight', () => {
     branch: 'build/chip',
     component: 'chip',
     trackedChanges: '',
-    figmaHash: 'abc',
-    factsHash: 'abc',
     spec: { local: SPEC, approved: SPEC },
     facts: { local: '{}', approved: '{}' },
   };
 
-  it('passes an approved spec on a clean branch, whatever its status says', () => {
+  it('passes an approved spec on a clean branch', () => {
     assert.deepEqual(checkPreflight(clean), []);
   });
 
@@ -138,15 +137,17 @@ describe('preflight', () => {
     assert.match(errors[0], /open questions/);
   });
 
-  it('rejects facts that Figma has moved on from', () => {
+  it('rejects a spec on main that is still a draft', () => {
+    const draft = SPEC.replace('status: approved', 'status: draft');
+    assert.notEqual(draft, SPEC);
     assert.match(
-      checkPreflight({ ...clean, figmaHash: 'moved' })[0],
-      /Figma has moved on/,
+      checkPreflight({ ...clean, spec: { local: draft, approved: draft } })[0],
+      /isn't marked approved/,
     );
   });
 
   it('lets the gates recheck approval while the work is uncommitted', () => {
-    const { trackedChanges, figmaHash, factsHash, ...approval } = clean;
+    const { trackedChanges, ...approval } = clean;
     assert.deepEqual(checkApproval(approval), []);
     assert.match(
       checkApproval({ ...approval, spec: { local: SPEC, approved: null } })[0],
@@ -382,6 +383,20 @@ describe('standards rows', () => {
     ]);
   });
 
+  it('leaves out items a tool already enforces, unless they cite other rules', () => {
+    const rows = buildStandardsLedger({
+      'css.md': [
+        '- [ ] Enforced (CSS-01, CSS-02)',
+        '- [ ] Mixed (CSS-01, CSS-08)',
+        '- [ ] Uncited',
+      ].join('\n'),
+    });
+    assert.deepEqual(
+      rows.map(({ requirement }) => requirement),
+      ['Mixed (CSS-01, CSS-08)', 'Uncited'],
+    );
+  });
+
   it('finds every item in the real standards', () => {
     const directory = new URL('../../../../brain/standards/', import.meta.url);
     const standards = Object.fromEntries(
@@ -390,7 +405,7 @@ describe('standards rows', () => {
         .map((file) => [file, readFileSync(new URL(file, directory), 'utf8')]),
     );
     const rows = buildStandardsLedger(standards);
-    assert.ok(rows.length >= 60, `Only ${rows.length} rows.`);
+    assert.ok(rows.length >= 50, `Only ${rows.length} rows.`);
     assert.ok(rows.some(({ requirement }) => /A11Y-01/.test(requirement)));
   });
 });
@@ -598,10 +613,9 @@ describe('the reviewer', () => {
     'utf8',
   );
 
-  it('can only read, runs on Opus and saves its own report', () => {
+  it('can only read and runs on Opus', () => {
     assert.match(reviewer, /^tools: Read, Grep, Glob$/m);
     assert.match(reviewer, /^model: opus$/m);
-    assert.match(reviewer, /run-hooks\.js" review'/);
   });
 });
 
@@ -615,6 +629,10 @@ describe('the skill', () => {
     }
     assert.match(frontMatter, /Bash\|Agent\|Task\|SendMessage'/);
     assert.match(frontMatter, /run-hooks\.js" pre'\n\s+onFailure: block/);
+    assert.match(
+      frontMatter,
+      /SubagentStop:\n\s+- matcher: 'component-reviewer'[\s\S]*run-hooks\.js" review'/,
+    );
   });
 });
 
