@@ -265,6 +265,66 @@
       "foreground": "dy-color-border-strong",
       "background": "dy-color-surface-sunken",
       "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-brand-default",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-brand-default",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-brand-hover",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-brand-hover",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-brand-active",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-brand-active",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-strong-default",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-strong-default",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-strong-hover",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-strong-hover",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-strong-active",
+      "background": "dy-color-surface-page",
+      "minimum": 3
+    },
+    {
+      "foreground": "dy-color-surface-action-strong-active",
+      "background": "dy-color-surface-raised",
+      "minimum": 3
     }
   ]
 }
