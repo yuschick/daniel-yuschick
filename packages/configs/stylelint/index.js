@@ -1,3 +1,9 @@
+import { preferShorthand } from './plugin/rules/prefer-shorthand.js';
+import {
+  SYSTEM_COLORS,
+  systemColorsInForcedColors,
+} from './plugin/rules/system-colors-in-forced-colors.js';
+
 const GLOBAL_KEYWORDS = [
   'inherit',
   'initial',
@@ -36,6 +42,8 @@ const config = {
     'stylelint-plugin-logical-css/configs/recommended',
   ],
   plugins: [
+    preferShorthand,
+    systemColorsInForcedColors,
     'stylelint-order',
     'stylelint-plugin-defensive-css',
     'stylelint-plugin-logical-css',
@@ -47,6 +55,10 @@ const config = {
       'always',
       { except: ['first-nested'], ignore: ['after-comment'] },
     ],
+    // Semantic tokens only, including inside shorthands such as `border`, which
+    // the allowed list below can't see into
+    'color-named': 'never',
+    'color-no-hex': true,
     'custom-property-pattern': [
       '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
       { message: 'Expected CSS custom properties to be written in kebab-case' },
@@ -74,7 +86,8 @@ const config = {
       ],
       '/color/': tokenValues({
         token: 'color',
-        keywords: ['currentColor', 'transparent'],
+        // `dy/system-colors-in-forced-colors` keeps system colors in forced colors
+        keywords: ['currentColor', 'transparent', ...SYSTEM_COLORS],
       }),
       'font-size': tokenValues({ token: 'font-size' }),
       'font-weight': tokenValues({ token: 'font-weight' }),
@@ -83,6 +96,15 @@ const config = {
         token: 'space',
         keywords: ['0', 'auto'],
       }),
+    },
+    'declaration-property-unit-disallowed-list': {
+      '/^(animation|transition)/': ['ms', 's'],
+      '/^(border|font|gap|inset|margin|outline|padding)/': [
+        'em',
+        'pt',
+        'px',
+        'rem',
+      ],
     },
     'declaration-property-value-no-unknown': true,
     // CSS-02: all styles live in a cascade layer
@@ -102,6 +124,23 @@ const config = {
     'defensive-css/require-system-font-fallback': [
       true,
       { ignore: ['var\\(--dy-font-family.*\\)'] },
+    ],
+    // CSS-14: two or more longhands of one shorthand must be that shorthand
+    'dy/prefer-shorthand': true,
+    // CSS-08: system colors only where forced colors apply
+    'dy/system-colors-in-forced-colors': true,
+    'function-disallowed-list': [
+      'color',
+      'color-mix',
+      'hsl',
+      'hsla',
+      'hwb',
+      'lab',
+      'lch',
+      'oklab',
+      'oklch',
+      'rgb',
+      'rgba',
     ],
     'max-nesting-depth': 3,
     'no-unknown-animations': true,

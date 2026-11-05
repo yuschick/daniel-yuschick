@@ -22,6 +22,11 @@ export const restrictedSyntax = [
     selector: 'TSEnumDeclaration',
     message: 'Use a string-literal union instead of an enum (TS-07).',
   },
+  {
+    selector: ":function TSAsExpression[typeAnnotation.typeName.name='const']",
+    message:
+      'Use `satisfies` to keep literal types, not `as const` inside a function (TS-09).',
+  },
 ];
 
 /**
@@ -228,6 +233,11 @@ export function createBaseConfig({ tsconfigRootDir }) {
                 group: ['@dy/react/*'],
                 message:
                   'Import from the @dy/react entry point, not its internal files (RX-05).',
+              },
+              {
+                regex: '^(\\.\\./){2,}',
+                message:
+                  'Use a path alias instead of a deep relative import (FS-06).',
               },
             ],
           },
