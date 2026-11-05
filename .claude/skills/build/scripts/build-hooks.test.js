@@ -144,6 +144,17 @@ describe('hook decisions', () => {
       ...overrides,
     });
 
+  it('asks a person before leaving for a branch, without reading its name as a path', () => {
+    assert.equal(
+      decide('Bash', { command: 'git switch feat/build-skill' }).decision,
+      'ask',
+    );
+    assert.equal(
+      decide('Bash', { command: 'git checkout packages/configs' }).decision,
+      'deny',
+    );
+  });
+
   it('allows the component and leaves files outside the repo alone', () => {
     assert.equal(
       decide('Write', {

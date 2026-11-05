@@ -215,6 +215,31 @@ export function checkDefaults({ sections, source }) {
 }
 
 /**
+ * FS-07: every prop in the spec has a row in the props table, and the component
+ * keeps its Documentation page.
+ *
+ * @param {{ sections: Map<string, { rows: string[][] }>, storySource: string }} options
+ * @returns {string[]}
+ */
+export function checkPropTable({ sections, storySource }) {
+  const errors = dataRows(sections.get('API')).flatMap(([prop]) => {
+    if (prop.startsWith('...')) {
+      return storySource.includes('createAdditionalTableGroups(')
+        ? []
+        : [`FS-07: the stories need createAdditionalTableGroups for ${prop}.`];
+    }
+    const row = new RegExp(`['"]?${prop}['"]?\\s*:\\s*createArgType\\(`);
+    return row.test(storySource)
+      ? []
+      : [`FS-07: the props table has no createArgType row for ${prop}.`];
+  });
+  if (storySource.includes('!autodocs')) {
+    errors.push("FS-07: the stories can't opt out of the Documentation page.");
+  }
+  return errors;
+}
+
+/**
  * @param {{ changedFiles: string[], component: string, spec: string, facts: string, isApproved: (file: string) => boolean }} options
  * @returns {string[]}
  */
@@ -318,6 +343,10 @@ function main() {
       ...checkDefaults({
         sections: spec.sections,
         source: read(`${name}.tsx`) + read(`${name}.types.ts`),
+      }),
+      ...checkPropTable({
+        sections: spec.sections,
+        storySource: read(`${name}.stories.tsx`),
       }),
       ...checkApiTypes({ spec, cache: paths.cache }),
     );

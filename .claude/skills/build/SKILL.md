@@ -66,7 +66,7 @@ Stop and report on any failure. Don't work around one. **Nothing can be written 
 If `node_modules/.cache/build/<component>/run.json` exists and you're on `build/<component>`, this build is resuming, so skip to wherever the work stands. The gates recheck the approval either way.
 
 1. Get on `build/<component>`. If it doesn't exist, create it: from an up-to-date `main`, or from the current branch for `--staging`. If it exists but belongs to earlier work, stop and ask Daniel.
-2. **Check Figma for drift.** Call `create_session`, load `figma-use`, then run `.claude/skills/spec/scripts/extract-component.js` through `use_figma` with only `__NODE_ID__` replaced. Keep the `hash` it returns. If Figma can't be reached, stop.
+2. **Check Figma for drift.** Call `create_session`, load `figma-use` (the MCP resource `skill://figma/figma-use/SKILL.md` if it isn't a listed skill), then run `.claude/skills/spec/scripts/extract-component.js` through `use_figma` with only `__NODE_ID__` replaced. Keep the `hash` it returns. If Figma can't be reached, stop.
 3. Run `pnpm --filter @dy/tokens build`, then pass that hash and any flags:
 
    ```sh
@@ -77,7 +77,7 @@ If `node_modules/.cache/build/<component>/run.json` exists and you're on `build/
 
 ## 2. Read
 
-Read the spec in full, the standards it cites, and the Pre-Submission Checklists for `react`, `typescript`, `css`, `a11y`, `props`, `structure` and `general`. Use existing helpers before writing new ones: `mergeProps`, `cx`, `useMergeRefs`, `useResolvedId` and the Shared Type Registry.
+Read the spec in full, the standards it cites, and the Pre-Submission Checklists for `react`, `typescript`, `css`, `a11y`, `props`, `structure` and `general`. Use existing helpers before writing new ones: `mergeProps`, `cx`, `useMergeRefs`, `useResolvedId`, `createArgType`, `createAdditionalTableGroups` and the Shared Type Registry.
 
 If reading raises a question the spec doesn't answer, ask now, before writing code.
 
@@ -85,12 +85,13 @@ If reading raises a question the spec doesn't answer, ask now, before writing co
 
 1. Write only what compiles: the types, a stub component that renders the bare element with no styles or logic, and the exports.
 2. Write `<Name>.stories.tsx` and any `use<Name>.test.ts` from the spec, not from an implementation you have in mind. Stories must cover every state and every Behavior row they can.
-3. Add a `Conformance` story that passes the facts to `checkConformance` from `@package-internal/utils/storybook`. Every Figma fact must be mapped or ignored, and each ignored field needs a comment citing the Decision behind it.
-4. Run the tests and **confirm they fail for the right reasons**. A test that passes against a stub proves nothing, so fix it before moving on.
+3. Add a `Conformance` story that passes the facts to `checkConformance` from `@package-internal/utils/storybook`. Import the facts as `@package-specs/<component>.facts.json` (FS-06). Every Figma fact must be mapped or ignored, and each ignored field needs a comment citing the Decision behind it.
+4. Write the props table in the story's `argTypes` (FS-07): a `createArgType` row for every prop in the spec, `ref` included, showing the type's name with its values as `options`, and `createAdditionalTableGroups` for the native attributes.
+5. Run the tests and **confirm they fail for the right reasons**. A test that passes against a stub proves nothing, so fix it before moving on.
 
 ## 4. Implement
 
-Write the real component until the tests pass, following the spec row by row. Change only the component folder, the barrels (`src/index.ts`, `src/components/index.ts`), and registry files when a Decision calls for it.
+Write the real component until the tests pass, following the spec row by row. Keep literal types with `satisfies`, not casts (TS-09), and default to CSS shorthands (CSS-14). Change only the component folder, the barrels (`src/index.ts`, `src/components/index.ts`), and registry files when a Decision calls for it.
 
 ## 5. Gates
 
@@ -167,7 +168,7 @@ End with the attribution line your harness specifies. Report the URL and stop. M
 - Gates run locally. Until CI exists and `main` requires it, they detect problems rather than block a merge.
 - `--step` relies on you stopping. The hooks can't tell which stage you're in, so it's advisory.
 - `--staging` proves the flow, not delivery: pushing, CI and the PR itself stay untested until a real build.
-- A staging run answers for what changed since its preflight. To try a change to this skill, commit it to the skill branch, discard the staging work, recreate `build/<component>` from there and rerun preflight.
+- A staging run answers for what changed since its preflight. To try a change to this skill, stash the staging work, `git switch` to the skill branch (the hook prompts Daniel), commit the change, point `build/<component>` at it and rerun preflight, which clears the earlier run's cache.
 - The Figma hash reaches preflight through you, so it catches drift and a skipped check, not a false hash.
 - Pre-approved tools last only until Daniel's next message, so after a `--step` pause, commands may prompt him.
 - The hooks recognize shell commands, not every effect they can have, so a build script or a command Daniel approves could still write somewhere protected. The scope gate catches that afterwards.

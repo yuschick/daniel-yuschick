@@ -230,6 +230,9 @@ export function isExpectedCommand(tokens, component) {
   return false;
 }
 
+const toPathCandidates = (tokens) =>
+  tokens[0] === 'git' && tokens[1] === 'switch' ? [] : tokens;
+
 /** Follows symlinks, so a link can't disguise a protected file as an outside one. */
 function toRealPath(path) {
   return existsSync(path)
@@ -342,18 +345,23 @@ export function decideTool({
     );
     if (!isUnsafe && unexpected.length === 0) return allow();
 
-    const touchesProtected = commands.flat().some((token) => {
-      if (token.startsWith('-') || token.includes('://')) return false;
-      const repoPath = toRepoPath(token);
-      return (
-        repoPath !== null &&
-        repoPath !== '' &&
-        (token.includes('/') || existsSync(resolve(cwd, token))) &&
-        classifyPath(repoPath, component) === 'deny'
-      );
-    });
+    // A branch name isn't a path, and a person still approves leaving the branch.
+    const touchesProtected = commands
+      .flatMap(toPathCandidates)
+      .some((token) => {
+        if (token.startsWith('-') || token.includes('://')) return false;
+        const repoPath = toRepoPath(token);
+        return (
+          repoPath !== null &&
+          repoPath !== '' &&
+          (token.includes('/') || existsSync(resolve(cwd, token))) &&
+          classifyPath(repoPath, component) === 'deny'
+        );
+      });
     return touchesProtected
-      ? deny('This command touches a path a /build may not change.')
+      ? deny(
+          'This command names a path a /build may not change, and it is not one a build expects, so it is denied even if it only reads. Use the Read tool, or a command from the skill.',
+        )
       : ask('This command is outside what a /build normally runs.', mode);
   }
 

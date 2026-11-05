@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -148,6 +148,8 @@ async function main() {
   }
 
   if (!isApprovalOnly) {
+    // A resuming build skips preflight, so anything here is from an earlier run.
+    await rm(resolve(paths.cache), { recursive: true, force: true });
     await mkdir(resolve(paths.cache), { recursive: true });
     await writeFile(
       resolve(paths.cache, 'run.json'),

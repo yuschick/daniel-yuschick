@@ -14,6 +14,7 @@ const REVIEWED_PATHS = [
   '.claude/agents',
   '.claude/skills/build',
   'brain/standards',
+  'packages/configs',
   'packages/react/specs',
   'packages/react/src',
   'packages/storybook/.storybook',

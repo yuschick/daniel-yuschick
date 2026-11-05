@@ -126,7 +126,7 @@ const BUILD_FILES = {
   [`${COMPONENT}/Chip.module.css`]:
     '.chip {\n  background-color: var(--dy-color-a);\n}\n',
   [`${COMPONENT}/Chip.stories.tsx`]:
-    'export const Conformance = { play: () => checkConformance({}) };\n',
+    "const argTypes = {\n  size: createArgType({ description: 'A size.', type: 'Size' }),\n  isDisabled: createArgType({ description: 'Disabled.', type: 'boolean' }),\n  ...createAdditionalTableGroups({ htmlAttributes: 'HTMLAttributes' }),\n};\nexport const Conformance = { argTypes, play: () => checkConformance({}) };\n",
 };
 
 let repo;
@@ -206,6 +206,24 @@ const SEEDED_DEFECTS = [
     edit: (source) =>
       `// eslint-disable-next-line some/rule -- Why. TODO: follow up\n${source}`,
     expected: /GEN-01: .*doesn't cite a tracking issue/,
+  },
+  {
+    name: 'a spec prop left out of the props table',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) => source.replace(/ {2}isDisabled: .*\n/, ''),
+    expected: /FS-07: .*no createArgType row for isDisabled/,
+  },
+  {
+    name: 'native attributes left out of the props table',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) => source.replace(/ {2}\.\.\.createAdditional.*\n/, ''),
+    expected: /FS-07: .*createAdditionalTableGroups/,
+  },
+  {
+    name: 'a component opted out of its Documentation page',
+    file: `${COMPONENT}/Chip.stories.tsx`,
+    edit: (source) => `${source}export const meta = { tags: ['!autodocs'] };\n`,
+    expected: /FS-07: .*Documentation page/,
   },
   {
     name: 'a dependency added to a package',

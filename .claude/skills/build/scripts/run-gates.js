@@ -56,7 +56,9 @@ export function listGates({ component, base }) {
     },
     {
       name: 'turbo',
-      command: 'pnpm turbo run lint check-types build test --ui=stream',
+      // `--continue`, so one failed task can't hide the others.
+      command:
+        'pnpm turbo run lint check-types build test --ui=stream --continue',
     },
     { name: 'format', command: 'pnpm format:check' },
   ];
