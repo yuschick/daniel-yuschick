@@ -1,6 +1,7 @@
 export {
   DENSITIES,
   ELEVATIONS,
+  EMPHASES,
   FITS,
   FLOWS,
   GAPS,
@@ -16,6 +17,7 @@ export {
 export type {
   Density,
   Elevation,
+  Emphasis,
   Fit,
   Flow,
   Gap,

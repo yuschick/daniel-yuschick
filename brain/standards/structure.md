@@ -11,7 +11,7 @@ paths:
 
 Rule IDs are permanent: rules may be reordered or retired, but an ID is never reused. This file governs _where files live and what they are called_ in `packages/react`. It points to the rules that govern their contents instead of repeating them: `RX-04`, `RX-05` and `RX-06` in [react.md](react.md), `TS-01` in [typescript.md](typescript.md) and `CSS-05` in [css.md](css.md). See the [standards index](README.md) for every domain.
 
-> **Status:** nothing checks these rules yet; they are advisory until a structure test exists (see [AGENTS.md](../../AGENTS.md#enforced-vs-advisory)).
+> **Status:** ESLint enforces FS-06 and the `/build` gates enforce FS-07's rows and part of FS-04 and FS-05. The rest are advisory until a structure test exists (see [AGENTS.md](../../AGENTS.md#enforced-vs-advisory)).
 
 ## Structure Rules
 
@@ -83,6 +83,46 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 └── useControllableState.test.ts
 ```
 
+### FS-06 · Aliased Imports
+
+- An import that climbs more than one folder **MUST** use a path alias from `packages/react/tsconfig.json` (`@package-hooks/*`, `@package-internal/*`, `@package-specs/*`, `@package-types/*` and so on) instead of a `../../` chain. A sibling (`./`) or a single `../` stays relative.
+
+```ts
+/* ✅ Correct */
+import facts from '@package-specs/button.facts.json';
+
+/* ❌ Incorrect */
+import facts from '../../../specs/button.facts.json';
+```
+
+### FS-07 · Storybook Documentation
+
+- The sidebar order is Daniel Yuschick, Foundations, Components, Hooks, Providers, set once in `.storybook/preview.ts`. Everything beyond that order sorts alphabetically: other groups after these, each group's contents, and each component's stories, with its `Documentation` page first. A public story's `title` **MUST** start with one of these sections (`Components/Button`).
+- Every component **MUST** have a Documentation page with a props table in addition to its stories. Autodocs is on for every story file, so **MUST NOT** opt out with `!autodocs`.
+- Every story **MUST** have a description, written as a comment directly above its export, and the description **MUST** be true of what the story renders and tests.
+- The first story exported **MUST** be `Default`: the single component in its bare minimum use case and default state. It's the Documentation page's main preview, and the sidebar sorts stories regardless of file order.
+- Props table rows **MUST** be grouped under these categories:
+  - `Component Props`: the component's own props, including `ref`.
+  - `HTML Attributes`: the native attributes it passes through, from `createAdditionalTableGroups`, plus a `createArgType` row with this category for any native attribute the story meta's `args` set, such as `onClick`.
+  - `[SubComponentName] Props`: the props of a core component it composes (e.g. `Button Props` on an `IconButton`).
+- Every prop in the spec's API **MUST** have a row built with `createArgType`. The Type column **MUST** show the type's name, with its values passed as `options` so the row toggles open to list them (`Size`, then `s, m, l`).
+
+```tsx
+/* ✅ Correct: the named type, with its values behind the toggle */
+argTypes: {
+  emphasis: createArgType({
+    defaultValue: 'primary',
+    description: 'The priority of the button within a screen region.',
+    options: EMPHASES,
+    type: 'Emphasis',
+  }),
+  ...createAdditionalTableGroups({
+    htmlAttributes:
+      'SanitizedHTMLAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>>',
+  }),
+},
+```
+
 ---
 
 ## Pre-Submission Checklist
@@ -92,3 +132,5 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 - [ ] Folder names follow their casing; every `index.ts` has named exports only (FS-03)
 - [ ] The component folder holds exactly the files in FS-04, one component per file, sub-components as siblings (FS-04)
 - [ ] Component tests are Storybook tests; hooks and utilities have sibling test files (FS-05)
+- [ ] Imports climbing more than one folder use a path alias (FS-06)
+- [ ] The component has a Documentation page; every API prop and meta arg has a `createArgType` row in the right category, with its type's name and values; every story has a true description (FS-07)

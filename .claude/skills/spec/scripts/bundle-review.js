@@ -33,12 +33,19 @@ export function extractSection(text, heading) {
 /**
  * Everything a reviewer needs beyond the spec: cited rules in full and each
  * domain's checklist for spotting omissions. Token tables are left out because
- * the validator already proved they match the facts.
+ * the validator already proved they match the facts. A build review only needs
+ * the cited rules: its ledger holds the checklists, and it judges the spec, not
+ * the design behind it.
  *
- * @param {{ markdown: string, payload: object, standards: Record<string, string> }} options
+ * @param {{ markdown: string, payload: object, standards: Record<string, string>, isBuildReview?: boolean }} options
  * @returns {string}
  */
-export function buildBundle({ markdown, payload, standards }) {
+export function buildBundle({
+  markdown,
+  payload,
+  standards,
+  isBuildReview = false,
+}) {
   const texts = Object.values(standards);
   const rules = collectCitedRules(markdown).map((id) => {
     const section = texts
@@ -47,6 +54,9 @@ export function buildBundle({ markdown, payload, standards }) {
     if (!section) throw new Error(`Cited rule ${id} isn't in the standards.`);
     return section;
   });
+  if (isBuildReview) {
+    return ['## Cited rules', rules.join('\n\n')].join('\n\n');
+  }
   const checklists = Object.entries(standards)
     .map(([file, text]) => {
       const section = extractSection(text, /^## Pre-Submission Checklist/);

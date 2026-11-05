@@ -278,11 +278,11 @@ export const Checkbox = function Checkbox({
 
   const internalProps = {
     ref: externalRef,
-    type: 'checkbox' as const,
+    type: 'checkbox',
     checked: isChecked,
     onChange: handleChange,
     className: cx(styles.checkbox, className),
-  };
+  } satisfies React.ComponentPropsWithRef<'input'>;
 
   const mergedProps = mergeProps(internalProps, htmlAttributes);
 
@@ -417,7 +417,7 @@ export function Button(props: ButtonProps) {
 ### RX-10 · Deterministic Prop Merging via `mergeProps`
 
 - Component implementation functions **MUST NOT** spread destructured `htmlAttributes` or raw prop objects directly onto underlying JSX elements.
-- All internally computed attributes, default values, computed ARIA states, and class names **MUST** be defined as a standalone local constant named `internalProps`.
+- All internally computed attributes, default values, computed ARIA states, and class names **MUST** be defined as a standalone local constant named `internalProps`, checked with `satisfies React.ComponentPropsWithRef<[element]>` so literal values stay literal without a cast (TS-09).
 - Components **MUST** pass `internalProps` and `htmlAttributes` (or `[composedComponentName]AndHTMLAttributes`) into the `mergeProps()` utility function, assigning the output to a constant named `mergedProps`.
 - The `mergedProps` object **MUST** be the single spread applied to the root rendered element (`{...mergedProps}`).
 - `mergeProps` is an in-house utility in `src/internal/utils/mergeProps/` (see `FS-02`): it is not exported to consumers and not taken from a third-party library such as `react-aria`.
@@ -455,7 +455,7 @@ export const Button = function Button({
 
   const internalProps = {
     ref: externalRef,
-    type: 'button' as const,
+    type: 'button',
     'aria-disabled': isInoperable ? 'true' : undefined,
     'aria-busy': isPending ? 'true' : undefined,
     'data-pending': isPending ? 'true' : undefined,
@@ -466,6 +466,8 @@ export const Button = function Button({
       className,
     ),
     onClick: handleClick,
+  } satisfies React.ComponentPropsWithRef<'button'> & {
+    'data-pending'?: 'true';
   };
 
   const mergedProps = mergeProps(internalProps, htmlAttributes);

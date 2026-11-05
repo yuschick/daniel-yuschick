@@ -25,6 +25,7 @@ coverage
 .next/
 out/
 build
+!.claude/skills/build/
 dist
 storybook-static
 

@@ -84,6 +84,7 @@ export interface SwitchProps {
 - Utility functions, helpers, and custom hooks accepting two or more parameters **MUST** encapsulate them into a single typed options object.
 - Functions **MUST NOT** use multiple positional arguments.
 - **Exception:** merge-style utilities whose call shape _is_ their API may take positional arguments: `mergeProps(internalProps, externalProps)` (RX-10) and the variadic `cx(...classNames)`. Any other exception needs a rule here first.
+- This covers helpers in stories and tests too. A helper more than one story file could use belongs in `internal/utils/storybook`, not in the story file.
 
 ```ts
 /* ✅ Correct: Single options object parameter */
@@ -244,6 +245,30 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 ```
 
+### TS-09 · Casts Are the Last Resort
+
+- Type assertions (`as`) **MUST** be avoided wherever an annotation, `satisfies`, a type guard, or a better generic can express the same thing. An unavoidable assertion **MUST** have a comment explaining why nothing else works.
+- `as const` **MUST NOT** be used inside a function. Use `satisfies` with the target type, which keeps literal values literal and also checks the object. `as const` remains correct for module-level value sets such as `SIZES`.
+
+```ts
+/* ✅ Correct: `type` stays 'button', and the object is checked against the element's props */
+const internalProps = {
+  ref: externalRef,
+  type: 'button',
+  'aria-disabled': isDisabled ? 'true' : undefined,
+} satisfies React.ComponentPropsWithRef<'button'>;
+
+/* ✅ Correct: a module-level value set */
+export const SIZES = ['s', 'm', 'l'] as const;
+
+/* ❌ Incorrect: casts that widen nothing and check nothing */
+const internalProps = {
+  ref: externalRef,
+  type: 'button' as const,
+  'aria-disabled': isDisabled ? ('true' as const) : undefined,
+};
+```
+
 ---
 
 ## Pre-Submission Checklist
@@ -256,3 +281,4 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
 - [ ] No `any` — use `unknown` + narrowing (TS-06)
 - [ ] String-literal unions, never `enum` (TS-07)
 - [ ] Invalid prop combinations are compile-time errors via discriminated unions + `never` (TS-08)
+- [ ] No casts where an annotation, `satisfies` or a type guard works; no `as const` inside a function (TS-09)

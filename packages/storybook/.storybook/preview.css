@@ -1,0 +1,5 @@
+/* Stories render on the surface components sit on, not the browser's white canvas. */
+body,
+.docs-story {
+  background-color: var(--dy-color-surface-page);
+}

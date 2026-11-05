@@ -3,11 +3,6 @@ import { useEffect, useRef, type RefObject } from 'react';
 
 import { useEventCallback } from '../useEventCallback';
 
-/*
-SPDX-SnippetBegin
-SPDX-SnippetCopyrightText: AIGENERATED/GitHub Copilot
-SPDX-License-Identifier: LicenseRef-OpAiGenerated
-*/
 type SupportedEventTarget =
   Window | Document | HTMLElement | SVGElement | MediaQueryList;
 
@@ -22,10 +17,6 @@ type EventMapFor<T extends SupportedEventTarget> = T extends Window
         : T extends HTMLElement
           ? HTMLElementEventMap
           : never;
-/*
-SPDX-SnippetEnd
-*/
-
 export interface UseEventListenerProps<
   T extends SupportedEventTarget = Window,
   K extends keyof EventMapFor<T> = keyof EventMapFor<T>,

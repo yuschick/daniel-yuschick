@@ -10,6 +10,7 @@
       "@package-internal/*": ["./src/internal/*"],
       "@package-internal-hooks/*": ["./src/internal/hooks/*"],
       "@package-providers/*": ["./src/providers/*"],
+      "@package-specs/*": ["./specs/*"],
       "@package-types/*": ["./src/types/*"]
     }
   },
