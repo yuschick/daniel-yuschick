@@ -20,6 +20,7 @@ import {
   decideTool,
   isExpectedCommand,
   parseCommand,
+  readReport,
   readReportFromTranscript,
 } from './build-hooks.js';
 import { classifyPath, treeHash } from './shared.js';
@@ -175,6 +176,68 @@ describe('hook decisions', () => {
       ),
       null,
     );
+  });
+
+  describe('reading the report', () => {
+    const report = 'REVIEWED: abc\n\nVERDICT: FAIL';
+    const toEntry = (part) =>
+      JSON.stringify({ type: 'assistant', message: { content: [part] } });
+    let directory;
+    let reviewerTranscript;
+    let authorTranscript;
+
+    before(() => {
+      directory = mkdtempSync(join(tmpdir(), 'dy-build-report-'));
+      reviewerTranscript = join(directory, 'reviewer.jsonl');
+      authorTranscript = join(directory, 'author.jsonl');
+      writeFileSync(
+        reviewerTranscript,
+        toEntry({
+          type: 'tool_use',
+          name: 'SubagentHandback',
+          input: { message: report },
+        }),
+      );
+      writeFileSync(
+        authorTranscript,
+        toEntry({ type: 'text', text: 'VERDICT: PASS' }),
+      );
+    });
+
+    after(() => {
+      rmSync(directory, { recursive: true, force: true });
+    });
+
+    it('reads a handback from the input Claude Code really sends', () => {
+      assert.equal(
+        readReport({ agent_transcript_path: reviewerTranscript }),
+        report,
+      );
+    });
+
+    it("prefers the reviewer's transcript over its closing text", () => {
+      assert.equal(
+        readReport({
+          agent_transcript_path: reviewerTranscript,
+          last_assistant_message: 'All done.',
+        }),
+        report,
+      );
+    });
+
+    it('falls back to the final message when the transcript has no report', () => {
+      assert.equal(
+        readReport({
+          agent_transcript_path: join(directory, 'missing.jsonl'),
+          last_assistant_message: report,
+        }),
+        report,
+      );
+    });
+
+    it("never takes a report from the author's own transcript", () => {
+      assert.equal(readReport({ transcript_path: authorTranscript }), null);
+    });
   });
 
   it('asks a person before leaving for a branch, without reading its name as a path', () => {

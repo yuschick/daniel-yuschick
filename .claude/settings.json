@@ -1,4 +1,18 @@
 {
+  "hooks": {
+    "SubagentStop": [
+      {
+        "matcher": "component-reviewer",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js\" review",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "deny": [
       "Bash(gh pr merge*)",

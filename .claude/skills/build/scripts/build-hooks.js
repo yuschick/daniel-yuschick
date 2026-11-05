@@ -426,12 +426,21 @@ export function readReportFromTranscript(transcript) {
   return null;
 }
 
-function readReport(input) {
-  if (input.last_assistant_message) return input.last_assistant_message;
-  const path = input.agent_transcript_path ?? input.transcript_path;
-  return path && existsSync(path)
-    ? readReportFromTranscript(readFileSync(path, 'utf8'))
-    : null;
+/**
+ * The reviewer's own transcript comes first, because with `SubagentHandback` the
+ * last message is at most closing text, not the report. `transcript_path` is
+ * never read: it's the author's session, which must not be able to write a report.
+ *
+ * @param {{ agent_transcript_path?: string, last_assistant_message?: string }} input
+ * @returns {string | null}
+ */
+export function readReport(input) {
+  const path = input.agent_transcript_path;
+  const report =
+    path && existsSync(path)
+      ? readReportFromTranscript(readFileSync(path, 'utf8'))
+      : null;
+  return report ?? input.last_assistant_message ?? null;
 }
 
 function handleReview({ input, component }) {

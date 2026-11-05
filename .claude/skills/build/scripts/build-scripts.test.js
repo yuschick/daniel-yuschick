@@ -629,9 +629,20 @@ describe('the skill', () => {
     }
     assert.match(frontMatter, /Bash\|Agent\|Task\|SendMessage'/);
     assert.match(frontMatter, /run-hooks\.js" pre'\n\s+onFailure: block/);
+  });
+
+  // A `SubagentStop` hook in the skill's frontmatter never fired for the reviewer.
+  it('registers the review hook in the project settings, not the skill', () => {
+    const { hooks } = JSON.parse(
+      readFileSync(new URL('../../../settings.json', import.meta.url), 'utf8'),
+    );
+
+    assert.doesNotMatch(frontMatter, /SubagentStop/);
+    assert.equal(hooks.SubagentStop.length, 1);
+    assert.equal(hooks.SubagentStop[0].matcher, 'component-reviewer');
     assert.match(
-      frontMatter,
-      /SubagentStop:\n\s+- matcher: 'component-reviewer'[\s\S]*run-hooks\.js" review'/,
+      hooks.SubagentStop[0].hooks[0].command,
+      /run-hooks\.js" review$/,
     );
   });
 });
