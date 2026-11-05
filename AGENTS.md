@@ -48,17 +48,17 @@ Coding standards live in `brain/standards/`, one file per domain (`CSS-*`, `TS-*
 
 A rule that a tool enforces fails the build. Every rule not listed as enforced is **advisory**: it relies on review, so apply it deliberately.
 
-| Enforced by                                            | Rules                                                                                                                              |
-| :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| ESLint (`@dy/configs/eslint`)                          | GEN-01, GEN-02, TS-06, TS-07, TS-09 (`as const` in functions), RX-04, RX-05, FS-06                                                 |
-| ESLint, custom `dy` rules (`@dy/configs/eslint-react`) | RX-01 (display names), RX-02, RX-06, TS-01 (rest spread name)                                                                      |
-| ESLint, `jsx-a11y-x` strict                            | The statically checkable part of `A11Y-*`                                                                                          |
-| Stylelint (`@dy/configs/stylelint`)                    | CSS-01, CSS-02, CSS-07 (tokens only), CSS-08 (system colors), CSS-10, CSS-14                                                       |
-| TypeScript                                             | TS-08 and RX-07 (invalid prop combinations), once components exist                                                                 |
-| Token build (`@dy/tokens`)                             | No primitive or theme tokens in CSS, exact OKLCH round-trip, WCAG contrast pairs                                                   |
-| `/build` gates and hooks                               | The spec's exact API and tokens, FS-07 props table rows, the scope of a build, GEN-01 suppressions, human approval of shared rules |
+| Enforced by                                            | Rules                                                                                                                                                                    |
+| :----------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ESLint (`@dy/configs/eslint`)                          | GEN-01, GEN-02, TS-06, TS-07, TS-09 (`as const` in functions), RX-04, RX-05, FS-06                                                                                       |
+| ESLint, custom `dy` rules (`@dy/configs/eslint-react`) | RX-01 (display names), RX-02, RX-06, TS-01 (rest spread name)                                                                                                            |
+| ESLint, `jsx-a11y-x` strict                            | The statically checkable part of `A11Y-*`                                                                                                                                |
+| Stylelint (`@dy/configs/stylelint`)                    | CSS-01, CSS-02, CSS-07 (tokens only), CSS-08 (system colors), CSS-10, CSS-14                                                                                             |
+| TypeScript                                             | TS-08 and RX-07 (invalid prop combinations), once components exist                                                                                                       |
+| Token build (`@dy/tokens`)                             | No primitive or theme tokens in CSS, exact OKLCH round-trip, WCAG contrast pairs                                                                                         |
+| `/build` gates and hooks                               | The spec's exact API and tokens, FS-07 stories and props table rows, A11Y-14 keyboard stories, the scope of a build, GEN-01 suppressions, human approval of shared rules |
 
-Judgment calls (for example `PROP-01`, `PROP-03`, `RX-08`, `RX-09`) and everything behavioral in `A11Y-*` (keyboard operation, focus order, screen reader output) need a human or reviewer pass. Tests and axe checks come with each component, not before.
+Judgment calls (for example `PROP-01`, `PROP-03`, `RX-08`, `RX-09`) and behavior in `A11Y-*` need a human or reviewer pass. Keyboard support is tested in Storybook, and screen reader output is checked by hand. Tests and axe checks come with each component, not before.
 
 ## Spec before build
 

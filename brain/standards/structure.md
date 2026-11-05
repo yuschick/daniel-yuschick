@@ -100,9 +100,10 @@ import facts from '../../../specs/button.facts.json';
 - The sidebar order is Daniel Yuschick, Foundations, Components, Hooks, Providers, set once in `.storybook/preview.ts`. Everything beyond that order sorts alphabetically: other groups after these, each group's contents, and each component's stories, with its `Documentation` page first. A public story's `title` **MUST** start with one of these sections (`Components/Button`).
 - Every component **MUST** have a Documentation page with a props table in addition to its stories. Autodocs is on for every story file, so **MUST NOT** opt out with `!autodocs`.
 - Every story **MUST** have a description, written as a comment directly above its export, and the description **MUST** be true of what the story renders and tests.
+- The first story exported **MUST** be `Default`: the single component in its bare minimum use case and default state. It's the Documentation page's main preview, and the sidebar sorts stories regardless of file order.
 - Props table rows **MUST** be grouped under these categories:
   - `Component Props`: the component's own props, including `ref`.
-  - `HTML Attributes`: the native attributes it passes through, from `createAdditionalTableGroups`, plus a `createArgType` row with this category for any native attribute a story's `args` set, such as `onClick`.
+  - `HTML Attributes`: the native attributes it passes through, from `createAdditionalTableGroups`, plus a `createArgType` row with this category for any native attribute the story meta's `args` set, such as `onClick`.
   - `[SubComponentName] Props`: the props of a core component it composes (e.g. `Button Props` on an `IconButton`).
 - Every prop in the spec's API **MUST** have a row built with `createArgType`. The Type column **MUST** show the type's name, with its values passed as `options` so the row toggles open to list them (`Size`, then `s, m, l`).
 
