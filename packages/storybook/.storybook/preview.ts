@@ -1,4 +1,5 @@
 import '@dy/tokens/css/dy.css';
+import './preview.css';
 
 import type { Preview } from '@storybook/react-vite';
 
@@ -12,13 +13,19 @@ const preview: Preview = {
     },
     controls: { expanded: true },
     options: {
+      // Storybook reads this statically, so the order must stay an inline literal.
       storySort: {
+        method: 'alphabetical',
         order: [
           'Daniel Yuschick',
           'Foundations',
           'Components',
+          ['*', ['Documentation', '*']],
           'Hooks',
+          ['*', ['Documentation', '*']],
           'Providers',
+          ['*', ['Documentation', '*']],
+          '*',
         ],
       },
     },

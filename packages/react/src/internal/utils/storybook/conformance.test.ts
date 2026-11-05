@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   deriveConformanceCases,
+  getConformanceAxis,
   getConformanceKey,
   getConformanceVariants,
 } from './conformance';
@@ -103,6 +104,22 @@ describe('deriveConformanceCases', () => {
         },
       }),
     ).toThrow('No "none" value');
+  });
+});
+
+describe('getConformanceAxis', () => {
+  const options = ['s', 'm'] as const;
+
+  it('should return the axis value as one of its options', () => {
+    expect(
+      getConformanceAxis({ axes: { size: 'm' }, name: 'size', options }),
+    ).toBe('m');
+  });
+
+  it('should throw on a value Figma holds but the prop does not', () => {
+    expect(() =>
+      getConformanceAxis({ axes: { size: 'xl' }, name: 'size', options }),
+    ).toThrow(/size holds xl/);
   });
 });
 

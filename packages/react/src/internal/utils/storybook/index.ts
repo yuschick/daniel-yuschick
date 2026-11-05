@@ -2,6 +2,7 @@ export { getBrowserCommands } from './browserCommands';
 export {
   checkConformance,
   deriveConformanceCases,
+  getConformanceAxis,
   getConformanceKey,
   getConformanceVariants,
 } from './conformance';

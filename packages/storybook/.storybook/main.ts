@@ -15,6 +15,7 @@ const config: StorybookConfig = {
     '@storybook/addon-vitest',
   ],
   core: { disableTelemetry: true },
+  docs: { defaultName: 'Documentation' },
   viteFinal: (viteConfig) =>
     // Resolve each file's imports through its nearest tsconfig.json, so
     // `@package-*` aliases work without Storybook knowing about them.

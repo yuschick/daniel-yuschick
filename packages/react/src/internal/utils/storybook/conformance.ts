@@ -13,7 +13,8 @@ interface ConformanceFact {
   dependsOn?: string[];
   field: string;
   value?: string;
-  values?: Record<string, string>;
+  // `undefined` because a facts file imported as JSON unions every fact's keys.
+  values?: Record<string, string | undefined>;
 }
 
 export interface ConformanceFacts {
@@ -92,16 +93,21 @@ export function deriveConformanceCases({
 
       const variants: [Record<string, string>, string][] =
         fact.value === undefined
-          ? Object.entries(fact.values ?? {}).map(([key, value]) => {
-              const axisValues = key.split('|');
-              const axes = Object.fromEntries(
-                (fact.dependsOn ?? []).map((axis, index) => [
-                  axis,
-                  axisValues[index] ?? '',
-                ]),
-              );
-              return [axes, value];
-            })
+          ? Object.entries(fact.values ?? {}).flatMap(
+              ([key, value]): [Record<string, string>, string][] => {
+                if (value === undefined) {
+                  return [];
+                }
+                const axisValues = key.split('|');
+                const axes = Object.fromEntries(
+                  (fact.dependsOn ?? []).map((axis, index) => [
+                    axis,
+                    axisValues[index] ?? '',
+                  ]),
+                );
+                return [[axes, value]];
+              },
+            )
           : [[{}, fact.value]];
 
       return variants.map(([axes, value]) => {
@@ -149,6 +155,32 @@ export function getConformanceVariants(
     cases.map(({ axes }) => [getConformanceKey(axes), axes]),
   );
   return [...variants.values()];
+}
+
+export interface GetConformanceAxisOptions<Option extends string> {
+  axes: Record<string, string>;
+  name: string;
+  options: readonly Option[];
+}
+
+/**
+ * Reads one axis of a variant as the prop value it maps to, so a story needs no cast.
+ *
+ * @param options - The variant's axes, the axis to read, and the values it may hold.
+ * @returns The axis value.
+ */
+export function getConformanceAxis<Option extends string>({
+  axes,
+  name,
+  options,
+}: GetConformanceAxisOptions<Option>): Option {
+  const option = options.find((candidate) => candidate === axes[name]);
+  if (option === undefined) {
+    throw new Error(
+      `The Figma axis ${name} holds ${String(axes[name])}, not one of ${options.join(', ')}.`,
+    );
+  }
+  return option;
 }
 
 function readStyle(element: Element, cssProperty: string): string {
