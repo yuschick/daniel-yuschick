@@ -1,5 +1,8 @@
 export { getBrowserCommands } from './browserCommands';
 export {
+  CONFORMANCE_BOX_FIELDS,
+  CONFORMANCE_BOX_NONE,
+  CONFORMANCE_TEXT_FIELDS,
   checkConformance,
   deriveConformanceCases,
   getConformanceAxis,

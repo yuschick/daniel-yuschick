@@ -38,6 +38,33 @@ export interface ConformanceLayer {
 
 export type ConformanceLayers = Record<string, ConformanceLayer>;
 
+/** How a frame's facts map to CSS, the starting point for any component's root layer. */
+export const CONFORMANCE_BOX_FIELDS = {
+  fill: 'background-color',
+  paddingBottom: 'padding-block-end',
+  paddingLeft: 'padding-inline-start',
+  paddingRight: 'padding-inline-end',
+  paddingTop: 'padding-block-start',
+  radius: 'border-start-start-radius',
+  stroke: 'border-block-start-color',
+  strokeWidth: 'border-block-start-width',
+};
+
+/** What a frame's `none` facts become, because CSS-08 keeps a transparent border. */
+export const CONFORMANCE_BOX_NONE = {
+  fill: 'transparent',
+  stroke: 'transparent',
+  strokeWidth: 'var(--dy-border-width-default)',
+};
+
+/** How a text layer's facts map to CSS. */
+export const CONFORMANCE_TEXT_FIELDS = {
+  fill: 'color',
+  fontFamily: 'font-family',
+  fontSize: 'font-size',
+  fontStyle: 'font-weight',
+};
+
 export interface ConformanceCase {
   axes: Record<string, string>;
   cssProperty: string;
