@@ -168,16 +168,18 @@ export function checkStructure({
     }
   }
 
-  const hook = `use${name}`;
-  if (files.includes(`${hook}.ts`)) {
-    if (!files.includes(`${hook}.test.ts`)) {
-      errors.push(`FS-05: ${hook}.test.ts is missing.`);
+  // RX-09: a stateless component's logic is `use[Name]` when it calls a hook,
+  // and `get[Name]Props` when it calls none. Both get the same checks.
+  for (const logic of [`use${name}`, `get${name}Props`]) {
+    if (!files.includes(`${logic}.ts`)) continue;
+    if (!files.includes(`${logic}.test.ts`)) {
+      errors.push(`FS-05: ${logic}.test.ts is missing.`);
     }
     if (
       specText.includes('not exported from `index.ts`') &&
-      indexSource.includes(hook)
+      indexSource.includes(logic)
     ) {
-      errors.push(`RX-09: ${hook} must not be exported from index.ts.`);
+      errors.push(`RX-09: ${logic} must not be exported from index.ts.`);
     }
   }
   if (/export \*/.test(indexSource) || /export default/.test(indexSource)) {
