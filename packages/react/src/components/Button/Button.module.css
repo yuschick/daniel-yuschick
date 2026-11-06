@@ -1,0 +1,176 @@
+@layer dy.react {
+  .button {
+    --button-color-border: var(--button-color-border-default);
+    --button-color-border-disabled: transparent;
+    --button-color-surface: var(--button-color-surface-default);
+    --button-color-surface-disabled: var(--dy-color-surface-neutral-disabled);
+    --button-color-text: var(--button-color-text-default);
+    --button-cursor: default;
+    --button-outline-style: none;
+
+    align-items: center;
+    background-color: var(--button-color-surface);
+    border: var(--dy-border-width-default) solid var(--button-color-border);
+    border-radius: var(--dy-border-radius-rounded);
+    color: var(--button-color-text);
+    cursor: var(--button-cursor);
+    display: inline-flex;
+    flex-wrap: wrap;
+    font: var(--dy-font-weight-strong) var(--button-font-size) /
+      var(--dy-font-line-height-tight) var(--dy-font-family-body);
+    justify-content: center;
+    max-inline-size: 100%;
+    min-block-size: var(--button-size-block-min);
+    outline: var(--dy-border-width-focus) var(--button-outline-style)
+      var(--dy-color-border-focus);
+    outline-offset: var(--dy-space-2xs);
+    padding: var(--dy-space-xs) var(--button-space-padding-inline);
+    text-align: center;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        background-color var(--dy-motion-duration-fast)
+          var(--dy-motion-easing-standard),
+        border-color var(--dy-motion-duration-fast)
+          var(--dy-motion-easing-standard),
+        color var(--dy-motion-duration-fast) var(--dy-motion-easing-standard);
+    }
+
+    & .label {
+      overflow-wrap: anywhere;
+    }
+
+    &.intent-brand {
+      --button-color-border-intent-active: var(--dy-color-border-primary);
+      --button-color-border-intent-default: var(--dy-color-border-primary);
+      --button-color-surface-intent-active: var(
+        --dy-color-surface-action-brand-active
+      );
+      --button-color-surface-intent-default: var(
+        --dy-color-surface-action-brand-default
+      );
+      --button-color-surface-intent-hover: var(
+        --dy-color-surface-action-brand-hover
+      );
+      --button-color-text-active: var(--dy-color-text-action-brand-active);
+      --button-color-text-default: var(--dy-color-text-action-brand-default);
+      --button-color-text-hover: var(--dy-color-text-action-brand-hover);
+    }
+
+    &.intent-strong {
+      --button-color-border-intent-active: var(--dy-color-border-strong);
+      --button-color-border-intent-default: var(--dy-color-border-strong);
+      --button-color-surface-intent-active: var(
+        --dy-color-surface-action-strong-active
+      );
+      --button-color-surface-intent-default: var(
+        --dy-color-surface-action-strong-default
+      );
+      --button-color-surface-intent-hover: var(
+        --dy-color-surface-action-strong-hover
+      );
+      --button-color-text-active: var(--dy-color-text-action-strong-active);
+      --button-color-text-default: var(--dy-color-text-action-strong-default);
+      --button-color-text-hover: var(--dy-color-text-action-strong-hover);
+    }
+
+    &.intent-subtle {
+      --button-color-border-intent-active: var(--dy-color-border-strong);
+      --button-color-border-intent-default: var(--dy-color-border-default);
+      --button-color-surface-intent-active: var(
+        --dy-color-surface-action-subtle-active
+      );
+      --button-color-surface-intent-default: var(
+        --dy-color-surface-action-subtle-default
+      );
+      --button-color-surface-intent-hover: var(
+        --dy-color-surface-action-subtle-hover
+      );
+      --button-color-text-active: var(--dy-color-text-action-subtle-active);
+      --button-color-text-default: var(--dy-color-text-action-subtle-default);
+      --button-color-text-hover: var(--dy-color-text-action-subtle-hover);
+    }
+
+    &.emphasis-primary {
+      --button-color-border-active: transparent;
+      --button-color-border-default: transparent;
+      --button-color-surface-active: var(--button-color-surface-intent-active);
+      --button-color-surface-default: var(
+        --button-color-surface-intent-default
+      );
+      --button-color-surface-hover: var(--button-color-surface-intent-hover);
+    }
+
+    &.emphasis-primary:is(.intent-brand, .intent-strong) {
+      --button-color-text-active: var(--dy-color-text-on-action);
+      --button-color-text-default: var(--dy-color-text-on-action);
+      --button-color-text-hover: var(--dy-color-text-on-action);
+    }
+
+    &.emphasis-secondary {
+      --button-color-border-active: var(--button-color-border-intent-active);
+      --button-color-border-default: var(--button-color-border-intent-default);
+      --button-color-border-disabled: var(--dy-color-border-subtle);
+      --button-color-surface-active: var(--dy-color-surface-sunken);
+      --button-color-surface-default: var(--dy-color-surface-page);
+      --button-color-surface-hover: var(--dy-color-surface-raised);
+    }
+
+    &.emphasis-tertiary {
+      --button-color-border-active: transparent;
+      --button-color-border-default: transparent;
+      --button-color-surface-active: var(--dy-color-surface-sunken);
+      --button-color-surface-default: transparent;
+      --button-color-surface-disabled: transparent;
+      --button-color-surface-hover: var(--dy-color-surface-raised);
+    }
+
+    &.size-l {
+      --button-font-size: var(--dy-font-size-body-l);
+      --button-size-block-min: var(--dy-size-component-l);
+      --button-space-padding-inline: var(--dy-space-l);
+    }
+
+    &.size-m {
+      --button-font-size: var(--dy-font-size-body-m);
+      --button-size-block-min: var(--dy-size-component-m);
+      --button-space-padding-inline: var(--dy-space-m);
+    }
+
+    &.size-s {
+      --button-font-size: var(--dy-font-size-body-s);
+      --button-size-block-min: var(--dy-size-component-s);
+      --button-space-padding-inline: var(--dy-space-s);
+    }
+
+    &:focus-visible {
+      --button-outline-style: solid;
+    }
+
+    @media (hover: hover) {
+      &:hover:not([aria-disabled='true']) {
+        --button-color-surface: var(--button-color-surface-hover);
+        --button-color-text: var(--button-color-text-hover);
+      }
+    }
+
+    &:active:not([aria-disabled='true']) {
+      --button-color-border: var(--button-color-border-active);
+      --button-color-surface: var(--button-color-surface-active);
+      --button-color-text: var(--button-color-text-active);
+    }
+
+    &[aria-disabled='true'] {
+      --button-color-border: var(--button-color-border-disabled);
+      --button-color-surface: var(--button-color-surface-disabled);
+      --button-color-text: var(--dy-color-text-disabled);
+      --button-cursor: not-allowed;
+
+      @media (forced-colors: active) {
+        --button-color-border: GrayText;
+        --button-color-surface: Canvas;
+        --button-color-text: GrayText;
+      }
+    }
+  }
+}
