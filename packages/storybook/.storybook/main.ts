@@ -28,7 +28,7 @@ const config: StorybookConfig = {
   // `preview.ts` instead.
   staticDirs: [{ from: fontsDirectory, to: '/dy-fonts' }],
   managerHead: (head) => `${head ?? ''}
-    <link rel="preload" href="./dy-fonts/InclusiveSans-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./dy-fonts/InclusiveSans-Latin-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./dy-fonts/inclusive-sans.css">
   `,
   docs: { defaultName: 'Documentation' },
