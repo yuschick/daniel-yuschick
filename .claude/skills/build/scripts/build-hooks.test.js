@@ -29,6 +29,7 @@ const HOOKS = resolve(
   dirname(fileURLToPath(import.meta.url)),
   'build-hooks.js',
 );
+const REPO_ROOT = resolve(dirname(HOOKS), '../../../..');
 
 describe('what a build may touch', () => {
   for (const [path, expected] of [
@@ -537,6 +538,15 @@ describe('the hooks, as Claude Code runs them', () => {
     write('packages/react/specs/chip.md', SPEC);
     write('packages/tokens/dist/manifest.json', '{"tokens":{"dy-color-a":{}}}');
     write('packages/react/src/types/common.ts', 'export {};\n');
+    // The real Stylelint and config, so the check after an edit lints for real.
+    write(
+      'packages/react/stylelint.config.mjs',
+      readFileSync(resolve(REPO_ROOT, 'packages/react/stylelint.config.mjs')),
+    );
+    symlinkSync(
+      resolve(REPO_ROOT, 'packages/react/node_modules'),
+      join(repo, 'packages/react/node_modules'),
+    );
     git('add', '-A');
     git(
       '-c',
@@ -664,13 +674,29 @@ describe('the hooks, as Claude Code runs them', () => {
     it('stays quiet after a clean edit', () => {
       write(
         `${COMPONENT}/Chip.module.css`,
-        '.a { color: var(--dy-color-a); }\n',
+        '@layer dy.react {\n  .a {\n    color: var(--dy-color-a);\n  }\n}\n',
       );
       const { output } = runHook('post', {
         tool_name: 'Write',
         tool_input: { file_path: join(repo, `${COMPONENT}/Chip.module.css`) },
       });
       assert.equal(output, null);
+    });
+
+    it('pushes back on a style sheet Stylelint rejects, straight after the edit', () => {
+      write(
+        `${COMPONENT}/Chip.module.css`,
+        '.a { color: var(--dy-color-a); }\n',
+      );
+      const { output } = runHook('post', {
+        tool_name: 'Write',
+        tool_input: { file_path: join(repo, `${COMPONENT}/Chip.module.css`) },
+      });
+      assert.equal(output?.decision, 'block');
+      assert.match(
+        output.reason,
+        /Chip\.module\.css:\d+:\d+: .*require-at-layer/,
+      );
     });
 
     it('pushes back once on stopping with red gates, then warns Daniel', () => {
