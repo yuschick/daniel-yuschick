@@ -46,7 +46,7 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 ### FS-04 · Component Folder
 
 - A component folder **MUST** contain these sibling files, named after the folder: `[Name].tsx`, `[Name].types.ts` (TS-01), `[Name].module.css` (CSS-05), `[Name].stories.tsx` and `index.ts`.
-- A stateless component's logic hook (`use[Name].ts`, RX-09) is a sibling file and **MUST NOT** be exported from `index.ts`. A stateful component's public hook (e.g. `useAccordion`) is a sibling file and **MUST** be exported.
+- A stateless component's logic (`use[Name].ts` when it calls a hook, otherwise `get[Name]Props.ts`, RX-09) is a sibling file with its own sibling test (FS-05), and **MUST NOT** be exported from `index.ts`. A stateful component's public hook (e.g. `useAccordion`) is a sibling file and **MUST** be exported.
 - Every file declares one component (RX-06), so the parts of a composite component are sibling files in the parent's folder: `DialogHeader.tsx`, `DialogContent.tsx`, `DialogFooter.tsx`, `DialogClose.tsx`. They are consumed as `Dialog.Header`, `Dialog.Content` and so on.
 
 ```bash
