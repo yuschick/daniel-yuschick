@@ -1,0 +1,21 @@
+{
+  "name": "@dy/fonts",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./inclusive-sans.css": "./assets/inclusive-sans.css",
+    "./assets/*": "./assets/*"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "lint": "eslint . --max-warnings 0 && stylelint \"assets/**/*.css\" --max-warnings 0"
+  },
+  "devDependencies": {
+    "@dy/configs": "workspace:*",
+    "eslint": "10.12.0",
+    "stylelint": "17.16.0"
+  }
+}

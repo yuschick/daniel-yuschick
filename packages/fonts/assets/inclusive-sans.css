@@ -1,0 +1,23 @@
+/*
+ * Inclusive Sans, self-hosted. The family name must match the value of
+ * `--dy-font-family-*` in @dy/tokens exactly.
+ *
+ * One variable font per style covers every weight token. The `font-weight`
+ * range is the font's own `wght` axis (300–700), read from the files.
+ */
+
+@font-face {
+  font-display: swap;
+  font-family: 'Inclusive Sans';
+  font-style: normal;
+  font-weight: 300 700;
+  src: url('./InclusiveSans-VariableFont_wght.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Inclusive Sans';
+  font-style: italic;
+  font-weight: 300 700;
+  src: url('./InclusiveSans-Italic-VariableFont_wght.woff2') format('woff2');
+}
