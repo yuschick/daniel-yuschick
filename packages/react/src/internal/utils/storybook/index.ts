@@ -16,3 +16,5 @@ export type {
 } from './conformance';
 export { createAdditionalTableGroups } from './createAdditionalTableGroups';
 export { createArgType } from './createArgType';
+export { readStyle } from './readStyle';
+export type { ReadStyleOptions } from './readStyle';

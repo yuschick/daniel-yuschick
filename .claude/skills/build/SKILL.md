@@ -23,12 +23,6 @@ hooks:
         - type: command
           command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" stop'
           timeout: 30
-  SubagentStop:
-    - matcher: 'component-reviewer'
-      hooks:
-        - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" review'
-          timeout: 30
 ---
 
 # Build
@@ -180,6 +174,6 @@ End with the attribution line your harness specifies. Report the URL and stop. M
 - Inline styles have no exception yet. A component that truly needs one has to raise it with Daniel, and the check changes through its own PR.
 - `Conformance` checks styles the facts describe. Layout, wrapping and behavior rest on the other stories and the review.
 - Forced pseudo-states prove the CSS for each state, not real pointer input, so behavior stories should still use `userEvent`.
-- The reviewer's report depends on this skill's `SubagentStop` hook, which only runs once the workspace is trusted and registers when `/build` is invoked. If it doesn't run, the build stops rather than falling back to the author.
+- The reviewer's report depends on a `SubagentStop` hook in `.claude/settings.json`, because the same hook in this skill's frontmatter never fired for the reviewer. It only runs once the workspace is trusted, and it reads the handback from the reviewer's own transcript. If it doesn't run, the build stops rather than falling back to the author.
 - The script checks that evidence exists, not that it supports the verdict. An `absent:` claim is only as good as the term the reviewer chose.
 - A passing review is supporting evidence, not a guarantee. It doesn't replace the human review.
