@@ -67,7 +67,7 @@ Judgment calls (for example `PROP-01`, `PROP-03`, `RX-08`, `RX-09`) and behavior
 A component, or a change to a public API, needs an approved spec before any code.
 
 1. Run `/spec <figma-url>` to write `packages/react/specs/<component>.md` and its facts: the API (per `PROP-*` and the Shared Type Registry), anatomy and composition, states, the WAI-ARIA pattern it follows, and the tokens it uses.
-2. **Stop.** The skill opens a PR containing only the spec. A spec is approved only when a human merges that PR into `main`. Agents never approve or merge a PR, and `status: approved` means nothing until it's on `main`.
+2. **Stop.** The skill opens a PR containing only the spec. A spec is approved only when a human merges that PR into `main`. Agents never approve or merge a PR. Nothing in the file records approval: a spec has no `status` field, and `/build` checks that it's on `main`.
 3. Run `/build <component>` to build to the spec, in a separate PR. It proves the work with deterministic gates, hooks and a cold `component-reviewer`, for 3 review rounds at most, then opens a draft PR, or stops and asks if a round 3 fails. `--step` pauses after each stage, and `--staging` rehearses everything without committing, pushing or opening a PR. If the spec is wrong, stop: it changes through its own PR, merged by a human, and the build resumes from there. A build never edits its own spec.
 
 Typo fixes, dependency bumps and fully specified bug fixes don't need a spec. The test: if you'd want to argue about the approach after seeing the diff, it needed a spec first.

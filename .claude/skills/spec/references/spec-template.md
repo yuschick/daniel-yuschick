@@ -1,5 +1,4 @@
 ---
-status: draft
 component: <Component>
 figmaNode: <node-id>
 factsHash: <hash from the facts file>

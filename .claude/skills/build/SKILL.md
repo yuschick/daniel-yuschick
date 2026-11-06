@@ -70,7 +70,7 @@ If `node_modules/.cache/build/<component>/run.json` exists and you're on `build/
    node .claude/skills/build/scripts/preflight.js --component <component> [--staging] [--step]
    ```
 
-   This confirms the spec and facts match `origin/main` and that the spec is marked `status: approved`, with no open questions.
+   This confirms the spec and facts are on `origin/main` and match it, which is what makes them approved, and that the spec has no open questions. Nothing writes approval into the spec.
 
 ## 2. Read
 
