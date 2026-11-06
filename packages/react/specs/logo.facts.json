@@ -1,0 +1,316 @@
+{
+  "hash": "e7f99bce",
+  "payload": {
+    "source": { "id": "203:990", "name": "Logo", "type": "COMPONENT_SET" },
+    "description": "The single logo component for the system: 2 lockups (mark, full) and 3 sizes, 6 variants in one set.\nPURPOSE: Communicates the Daniel Yuschick (DY) brand in branded regions like the page header and footer. The full lockup pairs the initials mark with the full name for prominent branding. The mark lockup is for subtle accent branding.\nBEHAVIOR: Static and non-interactive, with no hover, focus or pressed states. The full lockup never collapses to the mark lockup in narrow viewports; choose a smaller size instead. The name never wraps.\nCOMPOSITION: The root is a span laid out as inline-flex and vertically centered. The initials mark is an inline SVG whose height is the size token and whose width follows its 119:194 viewBox ratio. In the full lockup the name follows the mark as a span of real HTML text, never an SVG text element, set in the heading font family and weight with a line height of 1. The source text is Daniel Yuschick in title case and is uppercased only with CSS text-transform, never hardcoded as capitals (A11Y-15), so assistive tech reads it as a name, not as letters.\nUSAGE: At most one full lockup per page, in the page header. Everywhere else, including the footer, use the mark lockup. Until Dark mode exists, place the Logo only on surface/page, surface/raised, surface/sunken or surface/overlay, since text/strong is near-black.\nACCESSIBILITY: Mark lockup: the SVG is the only content, so it has role img and the accessible name Daniel Yuschick, given with aria-label rather than an SVG title or desc. Full lockup: the visible name provides the text, so the SVG is hidden from assistive tech with aria-hidden to avoid announcing the name twice. Inside a link, the link takes its accessible name from the Logo; add an aria-label to the link only to add purpose, and it must start with the visible name (WCAG 2.5.3), for example Daniel Yuschick, home. In forced-colors mode the mark and name follow the system text color.\nCODE GENERATION NOTES: lockup (mark | full, default mark) and size (s | m | l, default m) are the only props. Mark and name use dy/color/text/strong, never a literal hex; the SVG paths use currentColor so the mark follows the name color and forced colors. size maps to l/m/s (56/44/36px heights, 24/20/20px name font size). Heights bind to dy/size/component/l|m|s; the name to dy/font/size/heading/s (l) and dy/font/size/heading/xs (m, s), dy/font/family/heading, dy/font/weight/heading and dy/font/line-height/none; the gap between mark and name to dy/space/m (l) and dy/space/s (m, s).",
+    "properties": {
+      "lockup": {
+        "type": "VARIANT",
+        "defaultValue": "mark",
+        "variantOptions": ["mark", "full"]
+      },
+      "size": {
+        "type": "VARIANT",
+        "defaultValue": "m",
+        "variantOptions": ["m", "s", "l"]
+      }
+    },
+    "axes": ["lockup", "size"],
+    "variantCount": 6,
+    "coverage": {
+      "walked": 45,
+      "summarized": 45,
+      "hidden": 0,
+      "insideHidden": 0
+    },
+    "summarized": [
+      {
+        "path": "root",
+        "name": "lockup=mark, size=m",
+        "type": "COMPONENT",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "raw:26.989999771118164",
+              "mark|s": "raw:22.079999923706055",
+              "mark|l": "raw:34.349998474121094",
+              "full|m": "none",
+              "full|s": "none",
+              "full|l": "none"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "token:dy/size/component/m",
+              "mark|s": "token:dy/size/component/s",
+              "mark|l": "token:dy/size/component/l",
+              "full|m": "none",
+              "full|s": "none",
+              "full|l": "none"
+            }
+          },
+          { "field": "fill", "value": "none" },
+          {
+            "field": "layoutMode",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:HORIZONTAL" }
+          },
+          {
+            "field": "alignPrimary",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:MIN" }
+          },
+          {
+            "field": "alignCounter",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:CENTER" }
+          },
+          {
+            "field": "paddingTop",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:0" }
+          },
+          {
+            "field": "paddingRight",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:0" }
+          },
+          {
+            "field": "paddingBottom",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:0" }
+          },
+          {
+            "field": "paddingLeft",
+            "dependsOn": ["lockup"],
+            "values": { "mark": "none", "full": "raw:0" }
+          },
+          {
+            "field": "itemSpacing",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "none",
+              "mark|s": "none",
+              "mark|l": "none",
+              "full|m": "token:dy/space/s",
+              "full|s": "token:dy/space/s",
+              "full|l": "token:dy/space/m"
+            }
+          }
+        ]
+      },
+      {
+        "path": "root/0:Logo Initials",
+        "name": "Logo Initials",
+        "type": "INSTANCE",
+        "mainComponent": "Logo Initials",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:26.989999771118164",
+              "s": "raw:22.079999923706055",
+              "l": "raw:34.349998474121094"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "token:dy/size/component/m",
+              "s": "token:dy/size/component/s",
+              "l": "token:dy/size/component/l"
+            }
+          },
+          { "field": "fill", "value": "none" }
+        ]
+      },
+      {
+        "path": "root/0:Logo Initials/0:initials",
+        "name": "initials",
+        "type": "GROUP",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:26.990314483642578",
+              "s": "raw:22.080238342285156",
+              "l": "raw:34.34973907470703"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "raw:44.00042724609375",
+              "mark|s": "raw:35.99995422363281",
+              "mark|l": "raw:55.99907302856445",
+              "full|m": "raw:44.0001106262207",
+              "full|s": "raw:35.99995422363281",
+              "full|l": "raw:56.00009536743164"
+            }
+          }
+        ]
+      },
+      {
+        "path": "root/0:Logo Initials/0:initials/0:Vector",
+        "name": "Vector",
+        "type": "VECTOR",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:6.934016704559326",
+              "s": "raw:5.672585487365723",
+              "l": "raw:8.824877738952637"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "raw:11.651715278625488",
+              "mark|s": "raw:9.533112525939941",
+              "mark|l": "raw:14.829062461853027",
+              "full|m": "raw:11.651581764221191",
+              "full|s": "raw:9.533112525939941",
+              "full|l": "raw:14.829285621643066"
+            }
+          },
+          { "field": "fill", "value": "token:dy/color/text/strong" }
+        ]
+      },
+      {
+        "path": "root/0:Logo Initials/0:initials/1:Vector",
+        "name": "Vector",
+        "type": "VECTOR",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:6.934016227722168",
+              "s": "raw:5.6725850105285645",
+              "l": "raw:8.824877738952637"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "raw:11.651715278625488",
+              "mark|s": "raw:9.533112525939941",
+              "mark|l": "raw:14.829062461853027",
+              "full|m": "raw:11.651581764221191",
+              "full|s": "raw:9.533112525939941",
+              "full|l": "raw:14.829285621643066"
+            }
+          },
+          { "field": "fill", "value": "token:dy/color/text/strong" }
+        ]
+      },
+      {
+        "path": "root/0:Logo Initials/0:initials/2:Vector",
+        "name": "Vector",
+        "type": "VECTOR",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:12.24425220489502",
+              "s": "raw:10.016786575317383",
+              "l": "raw:15.58318042755127"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "raw:27.826107025146484",
+              "mark|s": "raw:22.76655387878418",
+              "mark|l": "raw:35.41410827636719",
+              "full|m": "raw:27.825788497924805",
+              "full|s": "raw:22.76655387878418",
+              "full|l": "raw:35.41463851928711"
+            }
+          },
+          { "field": "fill", "value": "token:dy/color/text/strong" }
+        ]
+      },
+      {
+        "path": "root/0:Logo Initials/0:initials/3:Vector",
+        "name": "Vector",
+        "type": "VECTOR",
+        "visibleInVariants": 6,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:12.244219779968262",
+              "s": "raw:10.01676082611084",
+              "l": "raw:15.583139419555664"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["lockup", "size"],
+            "values": {
+              "mark|m": "raw:27.826112747192383",
+              "mark|s": "raw:22.766557693481445",
+              "mark|l": "raw:35.41411209106445",
+              "full|m": "raw:27.825794219970703",
+              "full|s": "raw:22.766557693481445",
+              "full|l": "raw:35.41464614868164"
+            }
+          },
+          { "field": "fill", "value": "token:dy/color/text/strong" }
+        ]
+      },
+      {
+        "path": "root/1:Daniel Yuschick",
+        "name": "Daniel Yuschick",
+        "type": "TEXT",
+        "visibleInVariants": 3,
+        "facts": [
+          { "field": "fill", "value": "token:dy/color/text/strong" },
+          { "field": "fontFamily", "value": "token:dy/font/family/heading" },
+          { "field": "fontStyle", "value": "token:dy/font/weight/heading" },
+          {
+            "field": "fontSize",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "token:dy/font/size/heading/xs",
+              "s": "token:dy/font/size/heading/xs",
+              "l": "token:dy/font/size/heading/s"
+            }
+          },
+          {
+            "field": "lineHeight",
+            "value": "raw:{\"unit\":\"PERCENT\",\"value\":100}"
+          },
+          {
+            "field": "letterSpacing",
+            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
+          },
+          { "field": "textCase", "value": "raw:UPPER" }
+        ]
+      }
+    ],
+    "hidden": []
+  }
+}
