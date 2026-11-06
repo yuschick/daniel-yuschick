@@ -325,6 +325,26 @@
       "foreground": "dy-color-surface-action-strong-active",
       "background": "dy-color-surface-raised",
       "minimum": 3
+    },
+    {
+      "foreground": "dy-color-text-strong",
+      "background": "dy-color-surface-page",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-strong",
+      "background": "dy-color-surface-raised",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-strong",
+      "background": "dy-color-surface-sunken",
+      "minimum": 4.5
+    },
+    {
+      "foreground": "dy-color-text-strong",
+      "background": "dy-color-surface-overlay",
+      "minimum": 4.5
     }
   ]
 }
