@@ -23,13 +23,14 @@ There are no other elements, and no padding or margin: the reset zeroes both, an
 
 ## API
 
-| Prop   | Type                               | Values     | Default | Figma  | Source       |
-| :----- | :--------------------------------- | :--------- | :------ | :----- | :----------- |
-| lockup | `Lockup`                           | mark, full | mark    | lockup | figma, D6    |
-| size   | `Extract<Size, 's' \| 'm' \| 'l'>` | s, m, l    | m       | size   | figma, D2    |
-| ref    | `React.Ref<HTMLSpanElement>`       | -          | -       | -      | TS-01, RX-01 |
+| Prop              | Type                                                                                                                                                                                       | Values     | Default | Figma  | Source       |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :------ | :----- | :----------- |
+| lockup            | `Lockup`                                                                                                                                                                                   | mark, full | mark    | lockup | figma, D6    |
+| size              | `Extract<Size, 's' \| 'm' \| 'l'>`                                                                                                                                                         | s, m, l    | m       | size   | figma, D2    |
+| ref               | `React.Ref<HTMLSpanElement>`                                                                                                                                                               | -          | -       | -      | TS-01, RX-01 |
+| ...htmlAttributes | `SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>, 'aria-hidden' \| 'aria-label' \| 'aria-labelledby' \| 'children' \| 'role' \| 'tabIndex'>`, without `className` or `style` | -          | -       | -      | TS-01, D8    |
 
-`LogoProps` extends `SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>` with `role`, `aria-label`, `aria-labelledby`, `aria-hidden`, `tabIndex` and `children` omitted (D8).
+`LogoProps` extends `SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>` with `role`, `aria-label`, `aria-labelledby`, `aria-hidden`, `tabIndex` and `children` omitted (D8), as the `...htmlAttributes` row states.
 
 In the props table (FS-07), `lockup`'s Type is `Lockup` with `LOCKUPS` as its options, and `size`'s Type is `Size` with a stories-local `LOGO_SIZES` array of `s`, `m` and `l` as its options, as Button does.
 
