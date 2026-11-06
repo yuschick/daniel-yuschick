@@ -10,6 +10,7 @@ import {
   getConformanceAxis,
   getConformanceKey,
   getConformanceVariants,
+  readStyle,
 } from '@package-internal/utils/storybook';
 import facts from '@package-specs/button.facts.json';
 import { EMPHASES } from '@package-types/common';
@@ -147,14 +148,6 @@ import { Button } from '@dy/react';
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-const readResolvedStyle = ({
-  cssProperty,
-  element,
-}: {
-  cssProperty: string;
-  element: Element;
-}) => getComputedStyle(element).getPropertyValue(cssProperty);
-
 /**
  * The button in its bare minimum use and default state: `brand`, `primary` and
  * `m`, with a label and nothing else. It renders one native `<button>` of type
@@ -188,7 +181,7 @@ export const Intents: Story = {
   ),
   play: async ({ canvas }) => {
     const fills = BUTTON_INTENTS.map((intent) =>
-      readResolvedStyle({
+      readStyle({
         cssProperty: 'background-color',
         element: canvas.getByRole('button', { name: intent }),
       }),
@@ -215,33 +208,33 @@ export const Emphases: Story = {
   ),
   play: async ({ canvas }) => {
     const TRANSPARENT = 'rgba(0, 0, 0, 0)';
-    const readStyle = ({
+    const readButtonStyle = ({
       cssProperty,
       name,
     }: {
       cssProperty: string;
       name: string;
     }) =>
-      readResolvedStyle({
+      readStyle({
         cssProperty,
         element: canvas.getByRole('button', { name }),
       });
     const readBorderColor = (name: string) =>
-      readStyle({ cssProperty: 'border-block-start-color', name });
+      readButtonStyle({ cssProperty: 'border-block-start-color', name });
 
     for (const name of EMPHASES) {
       await expect(
-        readStyle({ cssProperty: 'border-block-start-style', name }),
+        readButtonStyle({ cssProperty: 'border-block-start-style', name }),
       ).toBe('solid');
       await expect(
-        readStyle({ cssProperty: 'border-block-start-width', name }),
+        readButtonStyle({ cssProperty: 'border-block-start-width', name }),
       ).not.toBe('0px');
     }
     await expect(readBorderColor('primary')).toBe(TRANSPARENT);
     await expect(readBorderColor('secondary')).not.toBe(TRANSPARENT);
     await expect(readBorderColor('tertiary')).toBe(TRANSPARENT);
     await expect(
-      readStyle({ cssProperty: 'background-color', name: 'tertiary' }),
+      readButtonStyle({ cssProperty: 'background-color', name: 'tertiary' }),
     ).toBe(TRANSPARENT);
   },
 };
@@ -281,13 +274,13 @@ export const Sizes: Story = {
 export const Layout: Story = {
   play: async ({ canvas }) => {
     const button = canvas.getByRole('button', { name: 'Button' });
-    const readStyle = (cssProperty: string) =>
-      readResolvedStyle({ cssProperty, element: button });
+    const readButtonStyle = (cssProperty: string) =>
+      readStyle({ cssProperty, element: button });
 
-    await expect(readStyle('display')).toBe('inline-flex');
-    await expect(readStyle('align-items')).toBe('center');
-    await expect(readStyle('justify-content')).toBe('center');
-    await expect(readStyle('text-align')).toBe('center');
+    await expect(readButtonStyle('display')).toBe('inline-flex');
+    await expect(readButtonStyle('align-items')).toBe('center');
+    await expect(readButtonStyle('justify-content')).toBe('center');
+    await expect(readButtonStyle('text-align')).toBe('center');
   },
 };
 
@@ -321,7 +314,7 @@ export const LongLabel: Story = {
     }
 
     const minimumHeight = Number.parseFloat(
-      readResolvedStyle({
+      readStyle({
         cssProperty: 'min-block-size',
         element: wrapping,
       }),
@@ -439,7 +432,7 @@ export const Disabled: Story = {
 
       await step('It shows the not-allowed cursor', async () => {
         await expect(
-          readResolvedStyle({ cssProperty: 'cursor', element: button }),
+          readStyle({ cssProperty: 'cursor', element: button }),
         ).toBe('not-allowed');
       });
     } finally {
@@ -543,26 +536,26 @@ export const FocusRing: Story = {
     for (const name of ['Enabled', 'Disabled']) {
       await step(`${name} shows the ring`, async () => {
         const button = canvas.getByRole('button', { name });
-        const readStyle = (cssProperty: string) =>
-          readResolvedStyle({ cssProperty, element: button });
+        const readButtonStyle = (cssProperty: string) =>
+          readStyle({ cssProperty, element: button });
         const colorsAtRest = [
-          readStyle('background-color'),
-          readStyle('border-block-start-color'),
-          readStyle('color'),
+          readButtonStyle('background-color'),
+          readButtonStyle('border-block-start-color'),
+          readButtonStyle('color'),
         ];
-        await expect(readStyle('outline-style')).toBe('none');
+        await expect(readButtonStyle('outline-style')).toBe('none');
 
         await userEvent.tab();
         await expect(button).toHaveFocus();
 
-        await expect(readStyle('outline-style')).toBe('solid');
-        await expect(readStyle('outline-width')).not.toBe('0px');
-        await expect(readStyle('outline-offset')).not.toBe('0px');
-        await expect(readStyle('box-shadow')).toBe('none');
+        await expect(readButtonStyle('outline-style')).toBe('solid');
+        await expect(readButtonStyle('outline-width')).not.toBe('0px');
+        await expect(readButtonStyle('outline-offset')).not.toBe('0px');
+        await expect(readButtonStyle('box-shadow')).toBe('none');
         await expect([
-          readStyle('background-color'),
-          readStyle('border-block-start-color'),
-          readStyle('color'),
+          readButtonStyle('background-color'),
+          readButtonStyle('border-block-start-color'),
+          readButtonStyle('color'),
         ]).toEqual(colorsAtRest);
       });
     }
@@ -590,9 +583,9 @@ export const StatePrecedence: Story = {
       return;
     }
     const readColors = (element: Element) => [
-      readResolvedStyle({ cssProperty: 'background-color', element }),
-      readResolvedStyle({ cssProperty: 'border-block-start-color', element }),
-      readResolvedStyle({ cssProperty: 'color', element }),
+      readStyle({ cssProperty: 'background-color', element }),
+      readStyle({ cssProperty: 'border-block-start-color', element }),
+      readStyle({ cssProperty: 'color', element }),
     ];
     const enabled = canvas.getByRole('button', { name: 'Enabled' });
     const disabled = canvas.getByRole('button', { name: 'Disabled' });
@@ -672,37 +665,49 @@ export const ForcedColors: Story = {
           const element = canvas.getByRole('button', {
             name: `disabled ${emphasis}`,
           });
-          const readStyle = (cssProperty: string) =>
-            readResolvedStyle({ cssProperty, element });
+          const readButtonStyle = (cssProperty: string) =>
+            readStyle({ cssProperty, element });
 
-          await expect(readStyle('color')).toBe(resolveColor('GrayText'));
-          await expect(readStyle('border-block-start-color')).toBe(
+          await expect(readButtonStyle('color')).toBe(resolveColor('GrayText'));
+          await expect(readButtonStyle('border-block-start-color')).toBe(
             resolveColor('GrayText'),
           );
-          await expect(readStyle('background-color')).toBe(
+          await expect(readButtonStyle('background-color')).toBe(
             resolveColor('Canvas'),
           );
         });
 
         await step(`Enabled ${emphasis} keeps its boundary`, async () => {
           const element = canvas.getByRole('button', { name: emphasis });
-          const readStyle = (cssProperty: string) =>
-            readResolvedStyle({ cssProperty, element });
+          const readButtonStyle = (cssProperty: string) =>
+            readStyle({ cssProperty, element });
 
-          await expect(readStyle('color')).not.toBe(resolveColor('GrayText'));
-          await expect(readStyle('border-block-start-style')).toBe('solid');
-          await expect(readStyle('border-block-start-width')).not.toBe('0px');
+          await expect(readButtonStyle('color')).not.toBe(
+            resolveColor('GrayText'),
+          );
+          await expect(readButtonStyle('border-block-start-style')).toBe(
+            'solid',
+          );
+          await expect(readButtonStyle('border-block-start-width')).not.toBe(
+            '0px',
+          );
         });
       }
 
-      await step('Focus keeps its outline', async () => {
-        const element = canvas.getByRole('button', { name: 'primary' });
-        await userEvent.tab();
-        await expect(element).toHaveFocus();
-        await expect(
-          readResolvedStyle({ cssProperty: 'outline-style', element }),
-        ).toBe('solid');
-      });
+      // The enabled buttons render first, in EMPHASES order, so each Tab
+      // reaches the next one.
+      for (const emphasis of EMPHASES) {
+        await step(`Focus on ${emphasis} keeps its outline`, async () => {
+          const element = canvas.getByRole('button', { name: emphasis });
+          const readButtonStyle = (cssProperty: string) =>
+            readStyle({ cssProperty, element });
+
+          await userEvent.tab();
+          await expect(element).toHaveFocus();
+          await expect(readButtonStyle('outline-style')).toBe('solid');
+          await expect(readButtonStyle('outline-width')).not.toBe('0px');
+        });
+      }
     } finally {
       probe.remove();
       await commands.emulateMedia({ forcedColors: null, reducedMotion: null });
@@ -720,21 +725,21 @@ export const ReducedMotion: Story = {
       return;
     }
     const button = canvas.getByRole('button', { name: 'Button' });
-    const readStyle = (cssProperty: string) =>
-      readResolvedStyle({ cssProperty, element: button });
+    const readButtonStyle = (cssProperty: string) =>
+      readStyle({ cssProperty, element: button });
 
     try {
       await step('Colors transition with no preference', async () => {
         await commands.emulateMedia({ reducedMotion: 'no-preference' });
-        await expect(readStyle('transition-property')).toBe(
+        await expect(readButtonStyle('transition-property')).toBe(
           'background-color, border-color, color',
         );
-        await expect(readStyle('transition-duration')).not.toBe('0s');
+        await expect(readButtonStyle('transition-duration')).not.toBe('0s');
       });
 
       await step('Nothing transitions with reduced motion', async () => {
         await commands.emulateMedia({ reducedMotion: 'reduce' });
-        await expect(readStyle('transition-duration')).toBe('0s');
+        await expect(readButtonStyle('transition-duration')).toBe('0s');
       });
     } finally {
       await commands.emulateMedia({ reducedMotion: null });
