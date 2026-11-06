@@ -1,7 +1,10 @@
+import '@dy/fonts/inclusive-sans.css';
 import '@dy/tokens/css/dy.css';
 import './preview.css';
 
 import type { Preview } from '@storybook/react-vite';
+
+import { theme } from './theme';
 
 const preview: Preview = {
   // Every component gets a Documentation page with its props table (FS-07).
@@ -12,6 +15,8 @@ const preview: Preview = {
       test: 'error',
     },
     controls: { expanded: true },
+    // Documentation pages use the same theme as the manager UI.
+    docs: { theme },
     options: {
       // Storybook reads this statically, so the order must stay an inline literal.
       storySort: {
