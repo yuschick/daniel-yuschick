@@ -47,3 +47,19 @@ jobs:
 
       - name: Lint, type-check, build and test
         run: pnpm turbo run lint check-types build test --ui=stream
+
+      # Merging a spec approves it, so every spec must be ready to build: valid
+      # against its facts and the built tokens, with no open questions and no
+      # `status` field claiming approval. Runs after the build, which writes
+      # the token manifest the check reads.
+      - name: Check specs are ready to approve
+        # Checks every spec before failing, so one run reports them all.
+        run: |
+          failed=0
+          for spec in packages/react/specs/*.md; do
+            echo "::group::$spec"
+            node .claude/skills/spec/scripts/check-spec.js --ready \
+              --spec "$spec" --facts "${spec%.md}.facts.json" || failed=1
+            echo "::endgroup::"
+          done
+          exit "$failed"
