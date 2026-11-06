@@ -20,12 +20,14 @@ Stories are read from source, not from a package's `dist`, so two things have to
 
 `preview.ts` loads the token CSS from `@dy/tokens/css/dy.css`, so `dev`, `build` and `test` depend on `^build` (see `turbo.json`).
 
-## Fonts
+## Global CSS and fonts
 
 Inclusive Sans comes from `@dy/fonts`, and reaches Storybook's two apps in two ways:
 
 - **Stories and docs pages** (the preview iframe): `preview.ts` imports `@dy/fonts/inclusive-sans.css`, and Vite bundles the font files.
 - **Storybook's own UI** (the manager): it's a prebuilt app that can't import CSS, so `main.ts` serves the package's `assets/` folder at `/dy-fonts` through `staticDirs`, and `managerHead` links its CSS and preloads the roman font.
+
+Stories and docs pages also load `@dy/css/reset.css`, which applies `--dy-font-family-body` to `body`. Without it the font is declared but nothing uses it. The reset sits in `@layer dy.reset`, so Storybook's own unlayered docs styles still beat it.
 
 `theme.ts` sets Storybook's `fontBase` from `--dy-font-family-body` in the token manifest, and is used by the manager (`manager.ts`) and by the docs pages (`parameters.docs.theme`). Storybook's theme can't read CSS custom properties, so the manifest keeps the font stack from being typed out twice.
 

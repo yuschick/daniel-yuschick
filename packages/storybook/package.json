@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@dy/configs": "workspace:*",
+    "@dy/css": "workspace:*",
     "@dy/fonts": "workspace:*",
     "@dy/react": "workspace:*",
     "@dy/tokens": "workspace:*",
