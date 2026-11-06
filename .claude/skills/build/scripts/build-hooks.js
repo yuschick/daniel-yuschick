@@ -26,6 +26,7 @@ import {
   isExampleFile,
 } from './check-component.js';
 import { processLatestReport } from './check-review.js';
+import { lintStyleSheet } from './lint-styles.js';
 import {
   classifyPath,
   componentPaths,
@@ -485,6 +486,7 @@ function recordApproval(file, cache) {
 /**
  * The fast loop: what can be judged from one file, straight after an edit. The
  * file can be unfinished, so a token the spec wants but it lacks isn't a problem yet.
+ * A style sheet is also linted, by `lintStyleSheet` in `handlePost`.
  *
  * @param {{ file: string, source: string, expected: Set<string>, manifestTokens: Record<string, unknown> }} options
  * @returns {string[]}
@@ -526,12 +528,19 @@ function handlePost({ input, component, mode }) {
     return;
   }
 
-  const problems = checkEditedFile({
-    file,
-    source: readFileSync(resolve(file), 'utf8'),
-    expected: expectedTokens(parseSpec(readFileSync(resolve(spec), 'utf8'))),
-    manifestTokens: JSON.parse(readFileSync(resolve(MANIFEST), 'utf8')).tokens,
-  });
+  const source = readFileSync(resolve(file), 'utf8');
+  const problems = [
+    ...checkEditedFile({
+      file,
+      source,
+      expected: expectedTokens(parseSpec(readFileSync(resolve(spec), 'utf8'))),
+      manifestTokens: JSON.parse(readFileSync(resolve(MANIFEST), 'utf8'))
+        .tokens,
+    }),
+    ...(file.endsWith('.css')
+      ? lintStyleSheet({ file, source, root: process.cwd() })
+      : []),
+  ];
   if (problems.length > 0) {
     console.log(
       JSON.stringify({ decision: 'block', reason: problems.join('\n') }),

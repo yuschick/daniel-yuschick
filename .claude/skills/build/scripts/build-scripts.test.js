@@ -180,6 +180,19 @@ describe('component checks', () => {
     assert.match(joined, /Conformance/);
   });
 
+  it('holds hook-free logic in get[Name]Props to the same checks (RX-09)', () => {
+    const errors = checkStructure({
+      name: 'Chip',
+      files: ['Chip.tsx', 'getChipProps.ts'],
+      indexSource: "export { getChipProps } from './getChipProps';",
+      specText: 'internal, not exported from `index.ts`',
+      storySource: '',
+    });
+    const joined = errors.join('\n');
+    assert.match(joined, /getChipProps\.test\.ts is missing/);
+    assert.match(joined, /getChipProps must not be exported/);
+  });
+
   it('keeps a required token when the out-of-scope prose mentions its property', () => {
     const prose = parseSpec(
       SPEC.replace(
