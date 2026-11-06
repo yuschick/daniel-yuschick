@@ -2,10 +2,18 @@
  * The DY Design System's reset. It removes browser defaults that fight the
  * system and sets type from tokens, so it needs @dy/tokens' CSS on the page.
  *
- * The order statement repeats the one in @dy/tokens, so the cascade is the
- * same whichever file loads first. `layers.test.js` keeps the two identical.
+ * It also owns the cascade: this is the only place the layer order is
+ * declared, so it must load before any other layered CSS. Each layer beats
+ * the ones before it:
+ *
+ * - dy.reset: this file
+ * - dy.base: element defaults, written by each app (and Storybook), never
+ *   by this package. It sits before the tokens so it can't override them.
+ * - dy.tokens, dy.themes: @dy/tokens
+ * - dy.react: @dy/react components
+ * - dy.utilities: single-purpose overrides
  */
-@layer dy.reset, dy.tokens, dy.themes, dy.react, dy.utilities;
+@layer dy.reset, dy.base, dy.tokens, dy.themes, dy.react, dy.utilities;
 
 @layer dy.reset {
   /* 1. Use a more intuitive box-sizing model, and remove default spacing */

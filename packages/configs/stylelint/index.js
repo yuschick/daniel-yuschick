@@ -51,9 +51,13 @@ const config = {
   // GEN-01: every disable comment explains itself
   reportDescriptionlessDisables: true,
   rules: {
+    // Consecutive statements such as `@import` stay grouped, with no blank line
     'at-rule-empty-line-before': [
       'always',
-      { except: ['first-nested'], ignore: ['after-comment'] },
+      {
+        except: ['blockless-after-same-name-blockless', 'first-nested'],
+        ignore: ['after-comment'],
+      },
     ],
     // Semantic tokens only, including inside shorthands such as `border`, which
     // the allowed list below can't see into
@@ -107,11 +111,13 @@ const config = {
       ],
     },
     'declaration-property-value-no-unknown': true,
-    // CSS-02: all styles live in a cascade layer
+    // CSS-02: all styles live in a cascade layer. @dy/css owns the order, and
+    // its tests keep these names identical to it.
     'defensive-css/require-at-layer': [
       true,
       {
         supportedLayerNames: [
+          'dy.base',
           'dy.react',
           'dy.reset',
           'dy.themes',

@@ -1,32 +1,50 @@
 # `@dy/css`
 
-The DY Design System's global CSS: the styles that apply to a whole page rather than to one component. Today that's the reset.
+The DY Design System's global CSS: the styles that apply to a whole page rather than to one component. It owns the cascade layer order, and ships the reset and a single entry point that loads everything a page needs.
 
 ## Use
 
 ```ts
-import '@dy/fonts/inclusive-sans.css';
-import '@dy/tokens/css/dy.css';
-import '@dy/css/reset.css';
+import '@dy/css/global.css';
 ```
 
-The reset sets body type from tokens, so it needs `@dy/tokens`' CSS on the page, and `@dy/fonts` for the typeface those tokens name. Import order doesn't decide the cascade: the token CSS and the reset declare the same layer order, so whichever loads first sets it.
+`global.css` imports the reset, the Inclusive Sans faces from [`@dy/fonts`](../fonts/README.md) and the token CSS from [`@dy/tokens`](../tokens/README.md). Vite and Next.js inline `@import`s, so the browser gets one stylesheet. Import it once, at the app's root (Storybook's `preview.ts`, or the root `layout.tsx` in Next.js), before any component.
 
-| Export        | Contains                        |
-| :------------ | :------------------------------ |
-| `./reset.css` | The reset, in `@layer dy.reset` |
+| Export         | Contains                                                       |
+| :------------- | :------------------------------------------------------------- |
+| `./global.css` | The reset, fonts and tokens, in that order                     |
+| `./reset.css`  | The layer order, and the reset in `@layer dy.reset` on its own |
+
+Use `reset.css` alone only when the fonts and tokens are loaded some other way. It still has to come before them.
 
 There's no build step. The CSS ships as written, and the consumer's bundler handles it.
 
 ## The cascade
 
 ```css
-@layer dy.reset, dy.tokens, dy.themes, dy.react, dy.utilities;
+@layer dy.reset, dy.base, dy.tokens, dy.themes, dy.react, dy.utilities;
 ```
 
-`dy.reset` is the first and weakest layer, so any component style in `dy.react` beats it, whatever its specificity. Unlayered CSS beats every layer, so an app's own styles always win too.
+Each layer beats the ones before it, whatever the specificity, and unlayered CSS beats every layer.
 
-The reset repeats the order statement from `@dy/tokens` so the cascade can't depend on which file loads first. [`layers.test.js`](src/layers.test.js) fails if the two drift apart, and if any rule sits outside `dy.reset`.
+| Layer          | Holds                                                  | Written by          |
+| :------------- | :----------------------------------------------------- | :------------------ |
+| `dy.reset`     | Removing browser defaults                              | `@dy/css`           |
+| `dy.base`      | Element defaults: page color and surface, links, prose | Each app, Storybook |
+| `dy.tokens`    | Theme-neutral custom properties                        | `@dy/tokens`        |
+| `dy.themes`    | Color custom properties, per theme                     | `@dy/tokens`        |
+| `dy.react`     | Component styles                                       | `@dy/react`         |
+| `dy.utilities` | Single-purpose overrides                               | Not used yet        |
+
+`dy.base` is declared here but left empty: this package writes no base styles. An app (or Storybook) adds its own in `@layer dy.base { … }`, using semantic tokens. It sits before the tokens, so a base style can never redefine a token's value, which only changes in Figma. Elements and custom properties don't compete otherwise, so the tokens' position doesn't affect anything else.
+
+**This is the only place the order is declared.** The browser fixes a layer's position the first time it sees the layer's name, so the order statement must load before any other layered CSS. That's why `global.css` imports the reset first, and why it has to load before any component. Nothing else repeats the statement, including the token CSS. Stylelint keeps its own list of allowed layer names, which can't import from this package without a dependency cycle. [`layers.test.js`](src/layers.test.js) fails if:
+
+- the order is declared anywhere but the reset
+- the Stylelint list and the order differ
+- `global.css` doesn't import the reset first
+- the reset has rules outside `dy.reset`
+- the token CSS fills a layer the order doesn't name
 
 ## What the reset does, and why
 
@@ -47,7 +65,7 @@ Features that aren't Baseline Widely Available yet (`text-size-adjust`, `-webkit
 Left out on purpose:
 
 - **A root stacking context** (`#root { isolation: isolate }`). The wrapper's ID depends on the framework, and Next.js App Router has none, so an app sets it on its own root element.
-- **Body color and background.** Those belong to the theme, so they're set by the app.
+- **Body color and background**, and any other element styling. That's base, not reset: an app writes it in `dy.base`.
 - **A global reduced-motion kill switch.** Components gate their own motion (CSS-03), and the switch would need `!important`.
 
 ## Lint
@@ -57,4 +75,4 @@ Left out on purpose:
 ## Scripts
 
 - `pnpm lint`: ESLint and Stylelint
-- `pnpm test`: checks the layer order against `@dy/tokens`
+- `pnpm test`: checks that the layer order has one owner and every layer is in it

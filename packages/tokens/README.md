@@ -36,10 +36,12 @@ Figma's MCP returns exports to the agent rather than to disk, so each export is 
 
 | Output                   | Contains                                                                |
 | :----------------------- | :---------------------------------------------------------------------- |
-| `css/dy.css`             | Layer order plus everything below: what apps import (`@dy/tokens/css`)  |
+| `css/dy.css`             | Everything below: what `@dy/css/global.css` imports (`@dy/tokens/css`)  |
 | `css/tokens.css`         | Theme-neutral tokens in `@layer dy.tokens` on `:root`                   |
 | `css/themes/<theme>.css` | Colors in `@layer dy.themes`; the default theme also applies to `:root` |
 | `manifest.json`          | Every shipped token with its type and CSS value                         |
+
+The CSS fills the `dy.tokens` and `dy.themes` layers but doesn't declare their order: [`@dy/css`](../css/README.md) owns the cascade. Load the tokens through `@dy/css/global.css`, or after `@dy/css/reset.css`, so the order is set before any layer appears.
 
 How Figma values become CSS ([`style-dictionary/config.js`](style-dictionary/config.js), [`style-dictionary/transforms.js`](style-dictionary/transforms.js)):
 

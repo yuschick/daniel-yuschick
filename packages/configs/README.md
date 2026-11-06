@@ -78,7 +78,7 @@ Native CSS only: no preprocessors or PostCSS plugins. Extend the config rather t
 | `logical-css/*`                                         | CSS-10   |
 | `reportDescriptionlessDisables`                         | GEN-01   |
 
-Allowed cascade layers: `dy.react`, `dy.reset`, `dy.themes`, `dy.tokens`, `dy.utilities`.
+Allowed cascade layers: `dy.base`, `dy.react`, `dy.reset`, `dy.themes`, `dy.tokens`, `dy.utilities`. Their order is owned by [`@dy/css`](../css/README.md), whose tests keep this list identical to it.
 
 ## TypeScript
 

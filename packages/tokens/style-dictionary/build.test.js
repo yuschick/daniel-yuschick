@@ -192,11 +192,8 @@ describe('buildTokens', () => {
     await rm(workDir, { recursive: true, force: true });
   });
 
-  it('declares the cascade layer order first', () => {
-    assert.match(
-      css,
-      /@layer dy\.reset, dy\.tokens, dy\.themes, dy\.react, dy\.utilities;/,
-    );
+  it('leaves the cascade layer order to @dy/css', () => {
+    assert.doesNotMatch(css, /^@layer [^{]+;$/m);
   });
 
   it('ships top-layer tokens with resolved, converted values', () => {

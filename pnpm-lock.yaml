@@ -151,13 +151,17 @@ importers:
         version: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
 
   packages/css:
+    dependencies:
+      '@dy/fonts':
+        specifier: workspace:*
+        version: link:../fonts
+      '@dy/tokens':
+        specifier: workspace:*
+        version: link:../tokens
     devDependencies:
       '@dy/configs':
         specifier: workspace:*
         version: link:../configs
-      '@dy/tokens':
-        specifier: workspace:*
-        version: link:../tokens
       eslint:
         specifier: 10.12.0
         version: 10.12.0(supports-color@10.2.2)
