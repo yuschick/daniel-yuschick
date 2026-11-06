@@ -195,6 +195,23 @@ const SEEDED_DEFECTS = [
     expected: /Missing value on size: .*"s"/,
   },
   {
+    name: 'a spec with no ...htmlAttributes row',
+    file: 'packages/react/specs/chip.md',
+    edit: (source) => source.replace(/^\| \.\.\.htmlAttributes .*\n/m, ''),
+    expected: /no \.\.\.htmlAttributes row/,
+  },
+  {
+    // Only an unescaped union compiles, so this also proves `\|` is read as `|`.
+    name: 'native attributes the spec omits with an escaped union',
+    file: 'packages/react/specs/chip.md',
+    edit: (source) =>
+      source.replace(
+        '`SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>`',
+        "`Omit<SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>, 'id' \\| 'title'>`",
+      ),
+    expected: /Invented prop: .*"id" \| "title"/,
+  },
+  {
     name: 'a bare lint suppression',
     file: `${COMPONENT}/Chip.tsx`,
     edit: (source) => `// eslint-disable-next-line\n${source}`,
