@@ -10,8 +10,9 @@ import { componentPaths, git } from './shared.js';
 const APPROVAL_REF = 'origin/main';
 
 /**
- * A spec is approved when it is on `main` and marked `status: approved`. The
- * gates rerun this, so a build can't pass them without preflight's core check.
+ * A spec is approved when it is on `main`: merging its PR is the approval, and
+ * nothing in the file records it. The gates rerun this, so a build can't pass
+ * them without preflight's core check.
  *
  * @param {{ branch: string, component: string, spec: { local: string, approved: string | null }, facts: { local: string, approved: string | null } }} options
  * @returns {string[]}
@@ -34,12 +35,7 @@ export function checkApproval({ branch, component, spec, facts }) {
       );
     }
   }
-  const { meta, sections } = parseSpec(spec.local);
-  if (meta.status !== 'approved') {
-    errors.push(
-      `The spec's status is ${meta.status}, so it isn't marked approved.`,
-    );
-  }
+  const { sections } = parseSpec(spec.local);
   const openQuestions = sections.get('Open questions')?.text.join('\n').trim();
   if (openQuestions !== 'None.') {
     errors.push('The spec has open questions.');
@@ -123,6 +119,7 @@ async function main() {
   errors.push(
     ...runValidator('check-facts.js', ['--facts', paths.facts]),
     ...runValidator('check-spec.js', [
+      '--ready',
       '--facts',
       paths.facts,
       '--spec',

@@ -48,9 +48,9 @@ If it prints `ERROR`, report that and stop. Use only the `fileKey` and `nodeId` 
 
 ## 2. Draft
 
-**If `packages/react/specs/<component>.md` already exists, this is a rerun.** Keep its Decisions, and set `status: draft`. If its `factsHash` matches, keep the spec as it is and go to step 4. If not, regenerate the Figma tokens table, update `factsHash`, and change only what the new facts require. Ask only about what changed; a recorded decision is never asked again unless the facts contradict it.
+**If `packages/react/specs/<component>.md` already exists, this is a rerun.** Keep its Decisions. If its `factsHash` matches, keep the spec as it is and go to step 4. If not, regenerate the Figma tokens table, update `factsHash`, and change only what the new facts require. Ask only about what changed; a recorded decision is never asked again unless the facts contradict it.
 
-Otherwise, write it from [references/spec-template.md](references/spec-template.md), with `status: draft` and `factsHash` set to the facts hash. Produce the Figma tokens table only from the script; never write it by hand:
+Otherwise, write it from [references/spec-template.md](references/spec-template.md), with `factsHash` set to the facts hash. Produce the Figma tokens table only from the script; never write it by hand:
 
 ```sh
 node .claude/skills/spec/scripts/check-spec.js --facts <facts> --print-rows
@@ -68,7 +68,7 @@ Every fact question, and anything else no source settles, goes to Daniel one dec
 node .claude/skills/spec/scripts/check-spec.js --facts <facts> --spec packages/react/specs/<component>.md
 ```
 
-Fix every error by correcting the spec or asking. Never loosen the validator to pass.
+Fix every error by correcting the spec or asking. Never loosen the validator to pass. A spec has no `status` field: it's approved by being merged into `main`, so nothing in the file can claim it.
 
 ## 5. Cold review
 
@@ -84,14 +84,13 @@ Blocking findings go back to step 3, and the review runs again with a fresh agen
 
 ## 6. Pull request
 
-Continue only when Open questions reads `None.` and the validator passes.
+Continue only when the validator passes with `--ready`, which also requires Open questions to read `None.` CI runs the same check on every spec, so a spec with open questions can't merge.
 
-1. Set `status: approved`. This proposes the spec for approval; it grants nothing until the PR merges.
-2. Re-run the validator.
-3. Create branch `spec/<component>` from an up-to-date `main`, commit only the spec and its facts, push with `git push -u origin spec/<component>`, and open a PR into `main` that contains only those two files.
-4. In the PR body, list every Decision, because only a person can confirm that those citing `Daniel` are real. Also list the last review's remaining findings and the number of review rounds. End with the attribution line your harness specifies.
+1. Re-run the validator with `--ready` added.
+2. Create branch `spec/<component>` from an up-to-date `main`, commit only the spec and its facts, push with `git push -u origin spec/<component>`, and open a PR into `main` that contains only those two files.
+3. In the PR body, list every Decision, because only a person can confirm that those citing `Daniel` are real. Also list the last review's remaining findings and the number of review rounds. End with the attribution line your harness specifies.
 
-Report the PR URL and stop. Merging is a human decision, and nothing may be built from the spec until it's on `main`.
+Report the PR URL and stop. Merging is a human decision, and it is the approval: nothing may be built from the spec until it's on `main`, and nothing edits the spec to record it.
 
 ## Limits
 

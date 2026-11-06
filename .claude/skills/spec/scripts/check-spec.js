@@ -133,16 +133,28 @@ const splitSources = (cell) =>
  * Checks a spec against the saved facts, the shipped tokens and the standards.
  * A row with no valid source is an invented feature until proven otherwise.
  *
- * @param {{ spec: ReturnType<typeof parseSpec>, facts: { hash: string, payload: object }, manifest: { tokens: Record<string, unknown> }, ruleIds: Set<string>, markdown: string }} options
+ * A spec is approved by being on `main`, never by a field, so `status` is
+ * rejected. `isReady` asks whether it can open a PR: no open questions left.
+ *
+ * @param {{ spec: ReturnType<typeof parseSpec>, facts: { hash: string, payload: object }, manifest: { tokens: Record<string, unknown> }, ruleIds: Set<string>, markdown: string, isReady?: boolean }} options
  * @returns {string[]} Errors
  */
-export function checkSpec({ spec, facts, manifest, ruleIds, markdown }) {
+export function checkSpec({
+  spec,
+  facts,
+  manifest,
+  ruleIds,
+  markdown,
+  isReady = false,
+}) {
   const errors = [];
   const { meta, sections } = spec;
   const { payload } = facts;
 
-  if (!['draft', 'approved'].includes(meta.status)) {
-    errors.push('status must be draft or approved.');
+  if ('status' in meta) {
+    errors.push(
+      'Remove status: a spec is approved by merging it into main, not by a field.',
+    );
   }
   if (meta.factsHash !== facts.hash) {
     errors.push(
@@ -278,8 +290,10 @@ export function checkSpec({ spec, facts, manifest, ruleIds, markdown }) {
   const openQuestions = (sections.get('Open questions')?.text ?? [])
     .join('\n')
     .trim();
-  if (meta.status === 'approved' && openQuestions !== 'None.') {
-    errors.push('An approved spec must say "None." under Open questions.');
+  if (isReady && openQuestions !== 'None.') {
+    errors.push(
+      'A spec ready for review must say "None." under Open questions.',
+    );
   }
   return errors;
 }
@@ -302,6 +316,7 @@ async function main() {
       facts: { type: 'string' },
       spec: { type: 'string' },
       'print-rows': { type: 'boolean', default: false },
+      ready: { type: 'boolean', default: false },
       manifest: {
         type: 'string',
         default: 'packages/tokens/dist/manifest.json',
@@ -335,6 +350,7 @@ async function main() {
     manifest: await readJson(values.manifest),
     ruleIds: await collectRuleIds(resolve(values.standards)),
     markdown,
+    isReady: values.ready,
   });
   for (const error of errors) console.error(`ERROR: ${error}`);
   console.log(`${errors.length} errors.`);

@@ -1,5 +1,4 @@
 ---
-status: approved
 component: Button
 figmaNode: 148:2149
 factsHash: fe888985

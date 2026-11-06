@@ -34,7 +34,6 @@ import { listGates, runGates } from './run-gates.js';
 import { findReviewLimit, hasPassingReview } from './shared.js';
 
 const SPEC = `---
-status: approved
 component: Chip
 ---
 
@@ -135,15 +134,6 @@ describe('preflight', () => {
       spec: { local: open, approved: open },
     });
     assert.match(errors[0], /open questions/);
-  });
-
-  it('rejects a spec on main that is still a draft', () => {
-    const draft = SPEC.replace('status: approved', 'status: draft');
-    assert.notEqual(draft, SPEC);
-    assert.match(
-      checkPreflight({ ...clean, spec: { local: draft, approved: draft } })[0],
-      /isn't marked approved/,
-    );
   });
 
   it('lets the gates recheck approval while the work is uncommitted', () => {

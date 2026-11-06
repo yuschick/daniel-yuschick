@@ -45,7 +45,7 @@ const manifest = {
 const ruleIds = new Set(['A11Y-05', 'CSS-03']);
 
 function specMarkdown({
-  status = 'draft',
+  status,
   hash = facts.hash,
   apiRows = '| size | Size | m, l | m | size | figma |\n| children | ReactNode | - | - | label | figma |',
   tokenRows = '| root | fill | all | `--dy-color-a` | figma |\n| root | height | m | `--dy-size-m` | figma |\n| root | height | l | `--dy-size-l` | figma |',
@@ -56,8 +56,7 @@ function specMarkdown({
   open = 'None.',
 } = {}) {
   return `---
-status: ${status}
-factsHash: ${hash}
+${status ? `status: ${status}\n` : ''}factsHash: ${hash}
 ---
 
 ## Purpose
@@ -110,7 +109,7 @@ ${open}
 `;
 }
 
-const run = (options) => {
+const run = (options, { isReady = false } = {}) => {
   const markdown = specMarkdown(options);
   return checkSpec({
     spec: parseSpec(markdown),
@@ -118,6 +117,7 @@ const run = (options) => {
     manifest,
     ruleIds,
     markdown,
+    isReady,
   });
 };
 
@@ -225,11 +225,18 @@ describe('checkSpec', () => {
     assert.match(run({ hash: 'deadbeef' }).join(), /factsHash deadbeef/);
   });
 
-  it('allows open questions on a draft but not on an approved spec', () => {
+  it('allows open questions while drafting but not once ready', () => {
     assert.deepEqual(run({ open: '- What about x?' }), []);
     assert.match(
-      run({ status: 'approved', open: '- What about x?' }).join(),
-      /approved spec/,
+      run({ open: '- What about x?' }, { isReady: true }).join(),
+      /ready for review/,
     );
+    assert.deepEqual(run({}, { isReady: true }), []);
+  });
+
+  it('rejects a status field, because approval is being on main', () => {
+    for (const status of ['draft', 'approved']) {
+      assert.match(run({ status }).join(), /Remove status/);
+    }
   });
 });
