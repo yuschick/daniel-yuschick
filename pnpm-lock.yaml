@@ -150,6 +150,21 @@ importers:
         specifier: 17.16.0
         version: 17.16.0(supports-color@10.2.2)(typescript@6.0.3)
 
+  packages/css:
+    devDependencies:
+      '@dy/configs':
+        specifier: workspace:*
+        version: link:../configs
+      '@dy/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      eslint:
+        specifier: 10.12.0
+        version: 10.12.0(supports-color@10.2.2)
+      stylelint:
+        specifier: 17.16.0
+        version: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
+
   packages/fonts:
     devDependencies:
       '@dy/configs':
@@ -228,6 +243,9 @@ importers:
       '@dy/configs':
         specifier: workspace:*
         version: link:../configs
+      '@dy/css':
+        specifier: workspace:*
+        version: link:../css
       '@dy/fonts':
         specifier: workspace:*
         version: link:../fonts

@@ -1,0 +1,111 @@
+/*
+ * The DY Design System's reset. It removes browser defaults that fight the
+ * system and sets type from tokens, so it needs @dy/tokens' CSS on the page.
+ *
+ * The order statement repeats the one in @dy/tokens, so the cascade is the
+ * same whichever file loads first. `layers.test.js` keeps the two identical.
+ */
+@layer dy.reset, dy.tokens, dy.themes, dy.react, dy.utilities;
+
+@layer dy.reset {
+  /* 1. Use a more intuitive box-sizing model, and remove default spacing */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    /* 2. Stop iOS Safari inflating text in landscape. Pinch-zoom still works. */
+    @supports (-webkit-text-size-adjust: none) or (text-size-adjust: none) {
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+    }
+
+    /* 3. Let height and width transition to and from keywords such as `auto` */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (interpolate-size: allow-keywords) {
+        interpolate-size: allow-keywords;
+      }
+    }
+  }
+
+  /* 4. Set body type from tokens, so everything inherits the system font */
+  body {
+    font: var(--dy-font-weight-body) var(--dy-font-size-body-m) /
+      var(--dy-font-line-height-default) var(--dy-font-family-body);
+
+    /* 5. Improve text rendering on macOS */
+    @supports (-webkit-font-smoothing: antialiased) {
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+
+  /* 6. Improve media defaults */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    block-size: auto;
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  /* 7. Form controls inherit type and color instead of using the UA's */
+  input,
+  button,
+  textarea,
+  select {
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+  }
+
+  /* 8. Avoid text overflows */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  /* 9. Improve line wrapping. Unsupported browsers keep the default wrap. */
+  p {
+    @supports (text-wrap: pretty) {
+      text-wrap: pretty;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  /*
+   * 10. Remove list markers only from lists that opt in with role="list".
+   * Prose lists keep their bullets, and the explicit role keeps the list
+   * semantics Safari drops from lists without markers.
+   */
+
+  :is(ol, ul, menu)[role='list'] {
+    list-style-type: '';
+  }
+
+  /* 11. Leave room above the targets of in-page links */
+  :target,
+  :is(h1, h2, h3, h4, h5, h6) {
+    scroll-margin-block-start: var(--dy-space-2xl);
+  }
+}

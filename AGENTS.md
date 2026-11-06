@@ -31,6 +31,7 @@ Run all of them after every change and report failures plainly, naming what ran.
 | `packages/storybook` | `@dy/storybook`: one Storybook for every package; stories run as tests |
 | `packages/tokens`    | `@dy/tokens`: tokens synced from Figma, built to CSS                   |
 | `packages/fonts`     | `@dy/fonts`: self-hosted typefaces as `@font-face` CSS and WOFF2       |
+| `packages/css`       | `@dy/css`: global CSS, starting with the reset                         |
 | `packages/configs`   | `@dy/configs`: ESLint, Stylelint and TypeScript configs                |
 | `brain/`             | Context: Daniel's identity and voice, catalogs, coding standards       |
 | `content/`           | Writing and speaking work, with its own `AGENTS.md`                    |
