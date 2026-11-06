@@ -94,6 +94,65 @@ describe('deriveConformanceCases', () => {
     ).toThrow('root layoutMode');
   });
 
+  describe('pinning a layer to the variants it is visible in', () => {
+    const pinnedFacts: ConformanceFacts = {
+      axes: ['lockup', 'size'],
+      properties: {
+        lockup: { defaultValue: 'mark' },
+        size: { defaultValue: 'm' },
+      },
+      summarized: [
+        {
+          path: 'root/name',
+          facts: [
+            { field: 'fill', value: 'token:dy/color/text' },
+            {
+              field: 'fontSize',
+              dependsOn: ['size'],
+              values: { m: 'token:dy/font/m', l: 'token:dy/font/l' },
+            },
+          ],
+        },
+      ],
+    };
+    const nameLayer = {
+      axes: { lockup: 'full' },
+      fields: { fill: 'color', fontSize: 'font-size' },
+      part: 'span',
+    };
+
+    it('resolves its facts to the pinned axes, not the defaults', () => {
+      const cases = deriveConformanceCases({
+        facts: pinnedFacts,
+        layers: { 'root/name': nameLayer },
+      });
+
+      expect(cases.map(({ axes, expected }) => [axes, expected])).toEqual([
+        [{ lockup: 'full', size: 'm' }, 'var(--dy-color-text)'],
+        [{ lockup: 'full', size: 'm' }, 'var(--dy-font-m)'],
+        [{ lockup: 'full', size: 'l' }, 'var(--dy-font-l)'],
+      ]);
+    });
+
+    it('throws on a pin to an axis the facts do not have', () => {
+      expect(() =>
+        deriveConformanceCases({
+          facts: pinnedFacts,
+          layers: { 'root/name': { ...nameLayer, axes: { lockups: 'full' } } },
+        }),
+      ).toThrow('root/name pins the axis lockups');
+    });
+
+    it('throws when a fact names a variant the pin excludes', () => {
+      expect(() =>
+        deriveConformanceCases({
+          facts: pinnedFacts,
+          layers: { 'root/name': { ...nameLayer, axes: { size: 'l' } } },
+        }),
+      ).toThrow('root/name fontSize holds a value for size m');
+    });
+  });
+
   it('throws on a "none" with no CSS value to compare', () => {
     expect(() =>
       deriveConformanceCases({

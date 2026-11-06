@@ -25,6 +25,12 @@ export interface ConformanceFacts {
 }
 
 export interface ConformanceLayer {
+  /**
+   * The variant axes this layer is visible in, when it isn't the defaults, such
+   * as `{ lockup: 'full' }` for a layer only one lockup renders. A fact on this
+   * layer that names a different value for a pinned axis is an error.
+   */
+  axes?: Record<string, string>;
   /** Figma field to the logical CSS property that must carry its token. */
   fields: Record<string, string>;
   /** Fields with no CSS to check. Each one must cite the Decision behind it. */
@@ -109,6 +115,14 @@ export function deriveConformanceCases({
     if (!layer) {
       throw new Error(`No conformance mapping for the Figma layer ${path}.`);
     }
+    const pinnedAxes = layer.axes ?? {};
+    for (const axis of Object.keys(pinnedAxes)) {
+      if (!facts.axes.includes(axis)) {
+        throw new Error(
+          `${path} pins the axis ${axis}, which the facts don't have.`,
+        );
+      }
+    }
 
     return layerFacts.flatMap((fact) => {
       if (layer.ignored?.includes(fact.field)) {
@@ -139,9 +153,17 @@ export function deriveConformanceCases({
           : [[{}, fact.value]];
 
       return variants.map(([axes, value]) => {
+        for (const [axis, pinnedValue] of Object.entries(pinnedAxes)) {
+          if (axis in axes && axes[axis] !== pinnedValue) {
+            throw new Error(
+              `${path} ${fact.field} holds a value for ${axis} ${String(axes[axis])}, but the layer is pinned to ${pinnedValue}.`,
+            );
+          }
+        }
         const resolvedAxes = {
           ...defaultAxes,
           ...(layer.state ? { state: layer.state } : {}),
+          ...pinnedAxes,
           ...axes,
         };
         const expected =
