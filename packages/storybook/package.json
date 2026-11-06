@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@dy/configs": "workspace:*",
+    "@dy/fonts": "workspace:*",
     "@dy/react": "workspace:*",
     "@dy/tokens": "workspace:*",
     "@storybook/addon-a11y": "10.6.2",

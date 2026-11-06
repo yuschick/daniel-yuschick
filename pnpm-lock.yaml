@@ -228,6 +228,9 @@ importers:
       '@dy/configs':
         specifier: workspace:*
         version: link:../configs
+      '@dy/fonts':
+        specifier: workspace:*
+        version: link:../fonts
       '@dy/react':
         specifier: workspace:*
         version: link:../react
