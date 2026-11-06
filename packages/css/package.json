@@ -1,0 +1,26 @@
+{
+  "name": "@dy/css",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./global.css": "./src/global.css",
+    "./reset.css": "./src/reset.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "lint": "eslint . --max-warnings 0 && stylelint \"src/**/*.css\" --max-warnings 0",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@dy/fonts": "workspace:*",
+    "@dy/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@dy/configs": "workspace:*",
+    "eslint": "10.12.0",
+    "stylelint": "17.16.0"
+  }
+}

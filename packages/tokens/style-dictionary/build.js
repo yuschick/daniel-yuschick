@@ -11,12 +11,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import StyleDictionary from 'style-dictionary';
 
-import {
-  COLOR_FILE,
-  DEFAULT_THEME,
-  HIDDEN_FILE,
-  LAYER_ORDER,
-} from './config.js';
+import { COLOR_FILE, DEFAULT_THEME, HIDDEN_FILE } from './config.js';
 import { transforms } from './transforms.js';
 import {
   findContrastFailures,
@@ -164,12 +159,9 @@ export async function buildTokens({ srcDir, distDir, pairs }) {
       }),
     ]),
   );
-  const bundle = [
-    HEADER,
-    `@layer ${LAYER_ORDER.join(', ')};`,
-    tokensCss,
-    ...themeCss.values(),
-  ].join('\n\n');
+  // The layer order belongs to @dy/css, whose reset declares it, so the
+  // bundle only fills the dy.tokens and dy.themes layers.
+  const bundle = [HEADER, tokensCss, ...themeCss.values()].join('\n\n');
 
   // Verify before writing, so a failing build never leaves partial output
   const defaultColors = colorTokensByTheme.get(DEFAULT_THEME) ?? [];
@@ -216,7 +208,6 @@ export async function buildTokens({ srcDir, distDir, pairs }) {
           defaultTheme: DEFAULT_THEME,
           themes,
           modes,
-          layers: LAYER_ORDER,
           tokens: Object.fromEntries(
             [...neutralTokens, ...defaultColors]
               .sort((first, second) => first.name.localeCompare(second.name))

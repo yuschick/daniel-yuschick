@@ -1,0 +1,11 @@
+/*
+ * Everything a page needs from the DY Design System, in one import. Bundlers
+ * inline these @imports, so the browser gets a single stylesheet.
+ *
+ * The reset comes first because it declares the cascade layer order, which
+ * has to exist before any other layer appears. After that, order doesn't
+ * matter: the layers decide which styles win, not the import order.
+ */
+@import './reset.css';
+@import '@dy/fonts/inclusive-sans.css';
+@import '@dy/tokens/css/dy.css';

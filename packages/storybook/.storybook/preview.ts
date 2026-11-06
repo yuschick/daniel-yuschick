@@ -1,5 +1,4 @@
-import '@dy/fonts/inclusive-sans.css';
-import '@dy/tokens/css/dy.css';
+import '@dy/css/global.css';
 import './preview.css';
 
 import type { Preview } from '@storybook/react-vite';

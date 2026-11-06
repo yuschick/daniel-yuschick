@@ -27,12 +27,3 @@ export const HIDDEN_FILE = /^(primitives|theme\.[^.]+)\.json$/;
 
 /** Source files holding theme- and mode-dependent color. */
 export const COLOR_FILE = /^color\.[^.]+\.json$/;
-
-/** Cascade layer order, matching CSS-02 and the Stylelint config. */
-export const LAYER_ORDER = [
-  'dy.reset',
-  'dy.tokens',
-  'dy.themes',
-  'dy.react',
-  'dy.utilities',
-];

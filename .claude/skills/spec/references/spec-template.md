@@ -42,6 +42,7 @@ Name the WAI-ARIA pattern. Commonly missed, so settle each one that applies:
 - **Contrast surfaces:** which surface each pair is measured against, including elements with no fill.
 - **Overrides:** what happens when consumer attributes conflict with a prop.
 - **Forced colors, reduced motion, text resizing and long content.**
+- **Reset baseline:** every page loads `@dy/css/reset.css`, which sets `margin` and `padding` to zero on every element and pseudo-element, makes media block-level, and keeps list markers unless a list has `role="list"`. Native elements such as `button`, `input`, `fieldset`, `dialog` and `ul` start with no spacing, so every padding, margin and gap the component shows needs a token row. None may rely on a browser default.
 
 | Requirement | Source |
 | :---------- | :----- |

@@ -18,14 +18,16 @@ Stories are read from source, not from a package's `dist`, so two things have to
 - **Path aliases.** Vite's `resolve.tsconfigPaths` resolves each file through its nearest `tsconfig.json`, so `@package-*` imports in `packages/react` use that package's `paths`. Storybook never lists the aliases itself.
 - **CSS Modules.** Vite handles `*.module.css` natively, and `@layer` blocks pass through unchanged.
 
-`preview.ts` loads the token CSS from `@dy/tokens/css/dy.css`, so `dev`, `build` and `test` depend on `^build` (see `turbo.json`).
+`preview.ts` loads the token CSS (through `@dy/css/global.css`), so `dev`, `build` and `test` depend on `^build` (see `turbo.json`).
 
-## Fonts
+## Global CSS and fonts
 
 Inclusive Sans comes from `@dy/fonts`, and reaches Storybook's two apps in two ways:
 
-- **Stories and docs pages** (the preview iframe): `preview.ts` imports `@dy/fonts/inclusive-sans.css`, and Vite bundles the font files.
+- **Stories and docs pages** (the preview iframe): `preview.ts` imports `@dy/css/global.css`, which imports `@dy/fonts/inclusive-sans.css`, and Vite bundles the font files.
 - **Storybook's own UI** (the manager): it's a prebuilt app that can't import CSS, so `main.ts` serves the package's `assets/` folder at `/dy-fonts` through `staticDirs`, and `managerHead` links its CSS and preloads the roman font.
+
+`preview.ts` loads everything through one import, `@dy/css/global.css`: the reset, the fonts and the token CSS. The reset applies `--dy-font-family-body` to `body`. Without it, the font is declared but nothing uses it. The reset sits in `@layer dy.reset`, so Storybook's own unlayered docs styles still beat it. `preview.css` is unlayered for now, and can move into `@layer dy.base` once there are base styles to share with the apps.
 
 `theme.ts` sets Storybook's `fontBase` from `--dy-font-family-body` in the token manifest, and is used by the manager (`manager.ts`) and by the docs pages (`parameters.docs.theme`). Storybook's theme can't read CSS custom properties, so the manifest keeps the font stack from being typed out twice.
 

@@ -15,7 +15,7 @@ A script has already confirmed that every row has a source, every token exists, 
 
 1. **Ambiguity.** Could two competent builders read a row and produce different results?
 2. **Invention.** Does a row claim more than its source says? Open the cited rule or fact and confirm it supports the row.
-3. **Omission.** What would a builder have to guess? Consider combined states and their precedence, where logic lives under RX-09, which surface each contrast pair is measured against, keyboard, screen readers, forced colors, reduced motion, text resizing and long labels.
+3. **Omission.** What would a builder have to guess? Consider combined states and their precedence, where logic lives under RX-09, which surface each contrast pair is measured against, keyboard, screen readers, forced colors, reduced motion, text resizing and long labels. Also any spacing the spec leaves to browser defaults: the reset in `@dy/css` sets every element's `margin` and `padding` to zero, so it won't be there.
 4. **Contradiction.** Do rows disagree with each other, the facts, or a standard? `A11Y-*` outranks everything, including Figma.
 5. **Scope.** Is anything in the build requirements also out of scope, or vice versa?
 
