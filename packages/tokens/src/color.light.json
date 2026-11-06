@@ -606,6 +606,17 @@
             }
           }
         },
+        "strong": {
+          "$type": "color",
+          "$value": "{dy.color.neutral.950}",
+          "$description": "Highest-contrast text and brand marks, like the Logo. Light: dy/color/neutral/950.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["SHAPE_FILL", "TEXT_FILL"],
+              "variableId": "VariableID:208:442"
+            }
+          }
+        },
         "subtle": {
           "$type": "color",
           "$value": "{dy.color.neutral.700}",
