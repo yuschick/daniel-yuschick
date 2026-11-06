@@ -371,8 +371,10 @@ export function Accordion({
   - **MUST** expose an exported public hook (e.g., `useAccordion`) returning a state store object (`UseAccordionReturn`) to enable 100% programmatic control from external triggers.
   - The component interface **MUST** accept an optional `store?: UseAccordionReturn` prop. When provided, the store **MUST** take precedence over local state.
 - **Stateless Components:**
-  - **MUST** extract all DOM computation, ARIA calculation, and class name resolution into an internal custom hook (e.g., `useButton`).
-  - Internal rendering hooks for stateless components **MUST NOT** be exported from the public entry point (`index.ts`); they exist strictly to decouple business/DOM logic from visual JSX rendering.
+  - **MUST** extract all DOM computation, ARIA calculation, and class name resolution out of the JSX, into one internal sibling module, so the component file stays a pure JSX template.
+  - When that logic calls a React hook (e.g., `useCallback`, `useResolvedId`), it **MUST** be an internal hook named `use[Name]` in `use[Name].ts` (e.g., `useButton`), typed with `Use[Name]Options` and `Use[Name]Return` (TS-05).
+  - When it calls no hook, it **MUST** be a plain function named `get[Name]Props` in `get[Name]Props.ts` (e.g., `getLogoProps`), typed with `Get[Name]PropsOptions` and `Get[Name]PropsReturn`, with the return type declared explicitly. A `use` prefix on a function that calls no hook is **STRICTLY FORBIDDEN**, because it makes callers follow the Rules of Hooks for nothing (enforced by `@eslint-react/no-unnecessary-use-prefix`). If the function later needs a hook, it is renamed to `use[Name]`.
+  - Either form **MUST NOT** be exported from the public entry point (`index.ts`); they exist strictly to decouple business/DOM logic from visual JSX rendering.
 
 ```ts
 /* ✅ Correct: Stateful Component with Hook Store Escape Hatch */
@@ -397,13 +399,20 @@ const accordion = useAccordion();
   <Accordion.Panel>Controlled externally without direct prop drilling</Accordion.Panel>
 </Accordion>
 
-/* ✅ Correct: Stateless Component Decoupled via Internal Hook */
-function useButton(props: ButtonProps) {
-  const resolvedClassName = cx(styles.button, styles[`variant-${props.variant ?? 'filled'}`]);
+/* ✅ Correct: Stateless Component Decoupled via Internal Hook, because its logic calls one */
+function useButton({ isDisabled, onClick, variant }: UseButtonOptions): UseButtonReturn {
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (isDisabled) return;
+      onClick?.(event);
+    },
+    [isDisabled, onClick],
+  );
   return {
     buttonProps: {
-      className: resolvedClassName,
-      'aria-disabled': props.isDisabled ? 'true' : undefined,
+      className: cx(styles.button, styles[`variant-${variant}`]),
+      'aria-disabled': isDisabled ? 'true' : undefined,
+      onClick: handleClick,
     },
   };
 }
@@ -411,6 +420,20 @@ function useButton(props: ButtonProps) {
 export function Button(props: ButtonProps) {
   const { buttonProps } = useButton(props); // ✅ Pure JSX template shell
   return <button {...buttonProps} />;
+}
+
+/* ✅ Correct: Stateless Component Decoupled via a Plain Function, because its logic calls no hook */
+function getLogoProps({ lockup, size }: GetLogoPropsOptions): GetLogoPropsReturn {
+  return {
+    rootProps: { className: cx(styles.logo, styles[`lockup-${lockup}`], styles[`size-${size}`]) },
+  };
+}
+
+/* ❌ Incorrect: a `use` prefix on a function that calls no hook */
+function useLogo({ lockup, size }: UseLogoOptions): UseLogoReturn {
+  return {
+    rootProps: { className: cx(styles.logo, styles[`lockup-${lockup}`], styles[`size-${size}`]) },
+  };
 }
 ```
 
@@ -657,7 +680,7 @@ export function useViewportWidth(): number {
 - [ ] Named exports only; explicit `index.ts` public surface; one component per file (RX-04, RX-05, RX-06)
 - [ ] Controlled + uncontrolled supported via discriminated unions and `useControllableState` (RX-07)
 - [ ] Slots via compound sub-components, not boolean flags (RX-08)
-- [ ] Stateful/stateless split; logic in hooks (RX-09)
+- [ ] Stateful/stateless split; stateless logic in `use[Name]` when it calls a hook, otherwise in `get[Name]Props` (RX-09)
 - [ ] `internalProps` → `mergeProps(internalProps, htmlAttributes)` → `mergedProps` as the single spread (RX-10)
 - [ ] `'use client'` only where interactivity requires it (RX-11)
 - [ ] IDs via `useResolvedId` (RX-12)
