@@ -193,7 +193,7 @@ export function checkSpec({
   checkRows('API', api, 'Prop');
   if (sections.has('API') && !api.some((row) => row.Prop?.startsWith('...'))) {
     errors.push(
-      'API: no ...htmlAttributes row. Every component extends its native attributes (TS-01), and /build checks them against this row.',
+      'API: no ...htmlAttributes row. Every component extends its native attributes (TS-01), and /implement checks them against this row.',
     );
   }
   checkRows('Out of scope', outOfScope, 'Item');

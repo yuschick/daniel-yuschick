@@ -44,15 +44,15 @@ export function listGates({ component, base }) {
     {
       name: 'checker',
       command:
-        'node --test .claude/skills/build/scripts/*.test.js .claude/skills/spec/scripts/*.test.js',
+        'node --test .claude/skills/implement/scripts/*.test.js .claude/skills/spec/scripts/*.test.js',
     },
     {
       name: 'approval',
-      command: `node .claude/skills/build/scripts/preflight.js --component ${component} --approval-only`,
+      command: `node .claude/skills/implement/scripts/preflight.js --component ${component} --approval-only`,
     },
     {
       name: 'component',
-      command: `node .claude/skills/build/scripts/check-component.js --component ${component} --base ${base}`,
+      command: `node .claude/skills/implement/scripts/check-component.js --component ${component} --base ${base}`,
     },
     {
       name: 'turbo',

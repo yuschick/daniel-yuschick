@@ -149,7 +149,7 @@ describe('checkSpec', () => {
 
   it('requires a ...htmlAttributes row in the API table (TS-01)', () => {
     assert.deepEqual(run({ restRow: '' }), [
-      'API: no ...htmlAttributes row. Every component extends its native attributes (TS-01), and /build checks them against this row.',
+      'API: no ...htmlAttributes row. Every component extends its native attributes (TS-01), and /implement checks them against this row.',
     ]);
   });
 

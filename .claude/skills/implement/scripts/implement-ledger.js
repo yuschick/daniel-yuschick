@@ -141,7 +141,7 @@ function main() {
     },
   });
   if (!values.component)
-    throw new Error('Usage: build-ledger.js --component <name>');
+    throw new Error('Usage: implement-ledger.js --component <name>');
 
   const paths = componentPaths(values.component);
   const markdown = readFileSync(resolve(paths.spec), 'utf8');

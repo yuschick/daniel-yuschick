@@ -7,7 +7,7 @@ import {
   buildLedger,
   buildReviewerPrompt,
   buildStandardsLedger,
-} from './build-ledger.js';
+} from './implement-ledger.js';
 import {
   parseCompilerOutput,
   readTypeExpression,
@@ -93,7 +93,7 @@ const spec = parseSpec(SPEC);
 
 describe('preflight', () => {
   const clean = {
-    branch: 'build/chip',
+    branch: 'implement/chip',
     component: 'chip',
     trackedChanges: '',
     spec: { local: SPEC, approved: SPEC },
@@ -118,8 +118,8 @@ describe('preflight', () => {
   });
 
   it('rejects any branch the hooks do not guard', () => {
-    for (const branch of ['main', 'feat/build-skill', 'build/other']) {
-      assert.match(checkPreflight({ ...clean, branch })[0], /build\/chip/);
+    for (const branch of ['main', 'feat/build-skill', 'implement/other']) {
+      assert.match(checkPreflight({ ...clean, branch })[0], /implement\/chip/);
     }
   });
 
@@ -332,7 +332,7 @@ describe('API check', () => {
     assert.equal(labels.get(inventedLine + 1), 'Invented prop');
     assert.deepEqual(
       parseCompilerOutput({
-        output: `node_modules/.cache/build/chip/api-check.ts(${inventedLine + 1},14): error TS2322: Type '"isLoading"' is not assignable to type 'never'.\n`,
+        output: `node_modules/.cache/implement/chip/api-check.ts(${inventedLine + 1},14): error TS2322: Type '"isLoading"' is not assignable to type 'never'.\n`,
         labels,
       }),
       [
@@ -657,7 +657,7 @@ describe('gates', () => {
       gates.map(({ name }) => name),
       ['checker', 'approval', 'component', 'turbo', 'format'],
     );
-    assert.match(gates[0].command, /build\/scripts\/\*\.test\.js/);
+    assert.match(gates[0].command, /implement\/scripts\/\*\.test\.js/);
     assert.match(gates[1].command, /--approval-only/);
   });
 

@@ -113,7 +113,9 @@ Each step is its own session and PR.
 
 1. **Conventions** (this page).
 2. **`/retro`**, written to these conventions from the start. Done; it added the first fields of `project.json` (approver, default branch, `gh`).
-3. **Foundation:** extend `project.json` with the rest of the profile, add `_shared/`, move cross-skill imports into `_shared/`, replace hard-coded names and paths, rename `/build` to `/implement` (branch prefix, hooks, AGENTS.md). No behaviour change; the skill tests prove it.
+3. **Foundation**, in two PRs with no behaviour change, proven by the skill tests:
+   1. Rename `/build` to `/implement`: the folder, its scripts, the `implement/` branch prefix, the `node_modules/.cache/implement/` cache, the hooks and AGENTS.md. Done.
+   2. Extend `project.json` with names, paths, packages and commands; add `_shared/` and move cross-skill imports into it; replace hard-coded values, with `<placeholders>` for paths in prose. Stack-specific generators (`check-api.js`, `capture-story.js`) stay as they are until the portability step.
 4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure.
 5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`.
 6. **Refine:** trim each `SKILL.md` to the shape above, a folder per spec, skill tests in CI.
