@@ -49,7 +49,7 @@ Ask the approver which findings to act on, by number. Never act on one they didn
 Skip this step if no small finding was picked.
 
 1. Stop if `git status --porcelain` isn't empty: say the session's own work must be landed or parked first, and leave the small findings as follow-ups.
-2. `git fetch origin <default>`, then `git switch -c retro/<YYYY-MM-DD>-<topic> origin/<default>`.
+2. If the session's own branch isn't merged yet and a picked finding changes a file on it, ask the approver whether to commit on that branch instead. Otherwise: `git fetch origin <default>`, then `git switch -c retro/<YYYY-MM-DD>-<topic> origin/<default>`.
 3. Make exactly the change each finding proposed. Run `pnpm exec prettier --write` on the changed files, then `pnpm turbo run lint check-types build test` and `pnpm format:check`. On a failure, fix it only if the fix is part of the proposal; otherwise stop and report.
 4. Commit each finding separately, as `docs(<scope>): <change>`, ending with the attribution lines your harness specifies.
 5. Write the handoff to `node_modules/.cache/skills/retro/<YYYY-MM-DD>-<topic>/handoff.json`, as `.claude/skills/README.md` describes: `skill`, `branch`, `title`, `draft: false`, `verify` (`pnpm turbo run lint check-types build test && pnpm format:check`), and `body` with a section per finding (its evidence and change) and the list of follow-ups.
