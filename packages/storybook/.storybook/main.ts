@@ -13,7 +13,9 @@ const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   // One instance documents every package. Stories are read from source, so a
   // package's own tsconfig paths and CSS Modules apply, not its built output.
+  // Foundations pages document the system across packages, so they live here.
   stories: [
+    '../src/**/*.mdx',
     '../../react/src/**/*.mdx',
     '../../react/src/**/*.stories.@(ts|tsx)',
   ],

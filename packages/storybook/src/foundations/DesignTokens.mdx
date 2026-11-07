@@ -1,0 +1,201 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+import { ColorTokenTable } from './blocks/ColorTokenTable';
+import { ContrastTable } from './blocks/ContrastTable';
+import { DimensionTokenTable } from './blocks/DimensionTokenTable';
+import { MotionTokenTable } from './blocks/MotionTokenTable';
+import { TokenSummary } from './blocks/TokenSummary';
+import { TypographyTokenTable } from './blocks/TypographyTokenTable';
+import { UndocumentedTokens } from './blocks/UndocumentedTokens';
+
+<Meta title="Foundations/Design Tokens" parameters={{ docs: { toc: true } }} />
+
+# Design Tokens
+
+Design tokens are the named decisions behind every color, space, size, type style and motion in the DY Design System. Components never use raw values. They use these tokens, so a decision changes in one place and reaches everything built on it.
+
+Everything on this page is read from `@dy/tokens/manifest.json`, which the token build writes alongside the CSS. The swatches and specimens use the live custom properties, so this page shows exactly what ships.
+
+<TokenSummary />
+
+<UndocumentedTokens />
+
+## How tokens are organized
+
+Figma variables are the source of truth. The `/sync-tokens` skill exports them as [W3C DTCG](https://www.designtokens.org/tr/drafts/format/) files, and Style Dictionary builds them to CSS. A token changes in Figma and arrives through a reviewed pull request, never by editing the generated files.
+
+Tokens are layered in three tiers, and only the last one reaches the browser:
+
+1. **Primitives** are raw values, such as the 11-step color ramps. They exist only to be referenced.
+2. **Theme roles** map primitives to roles, such as primary or neutral, for one theme.
+3. **Semantic tokens** name a purpose, such as `surface-page` or `text-subtle`. They are the only tokens in the CSS, and the only ones documented here.
+
+Because components only ever see the semantic tier, a theme or color mode can change every value underneath without a component changing.
+
+### Reading a token name
+
+Each name reads from the general to the specific, and matches the Figma variable's path:
+
+```
+--dy-color-surface-action-brand-hover
+  │    │      │       │     │     └─ state
+  │    │      │       │     └─────── intent
+  │    │      │       └───────────── role
+  │    │      └───────────────────── property
+  │    └──────────────────────────── category
+  └───────────────────────────────── system prefix
+```
+
+### Using tokens
+
+Load `@dy/css/global.css` once, which brings the reset, the fonts and every token. Then reference tokens with `var()`. A component maps them to its own custom properties first, so its variants and states only swap values (CSS-07).
+
+```css
+@layer dy.react {
+  .card {
+    --card-color-surface: var(--dy-color-surface-raised);
+
+    background-color: var(--card-color-surface);
+    border: var(--dy-border-width-default) solid var(--dy-color-border-subtle);
+    border-radius: var(--dy-border-radius-rounded);
+    padding: var(--dy-space-l);
+  }
+}
+```
+
+### Color modes
+
+Colors are documented with one column per color mode. Today the system has a single mode, light. Each swatch sets its own `color-scheme`, so when dark mode arrives through `light-dark()`, it appears here as a second column without changes to this page.
+
+## Color
+
+### Surface
+
+Backgrounds: the page itself, containers raised or sunken against it, interactive surfaces in each state, and status backgrounds.
+
+<ColorTokenTable prefix="dy-color-surface" labelText="Surface color tokens" />
+
+### Text
+
+Foreground colors for text and icons. Each is verified against the surfaces it's meant for; see [Contrast pairs](#contrast-pairs).
+
+<ColorTokenTable prefix="dy-color-text" labelText="Text color tokens" />
+
+### Border
+
+Boundaries, dividers and the focus indicator. `border-focus` is the same in every theme and is drawn as an `outline` with `outline-offset`, so the page shows between it and the component.
+
+<ColorTokenTable prefix="dy-color-border" labelText="Border color tokens" />
+
+## Space
+
+Gaps, padding and margins. Spacing is set in `rem`, so it scales with the reader's font size.
+
+<DimensionTokenTable prefix="dy-space" labelText="Space tokens" />
+
+## Size
+
+### Component
+
+The block size of interactive components. The default, `m`, meets the 44px touch target the system aims for (A11Y-09).
+
+<DimensionTokenTable
+  prefix="dy-size-component"
+  labelText="Component size tokens"
+  visual="square"
+/>
+
+### Icon
+
+<DimensionTokenTable
+  prefix="dy-size-icon"
+  labelText="Icon size tokens"
+  visual="square"
+/>
+
+### Layout
+
+The widest a page and its content may grow.
+
+<DimensionTokenTable
+  prefix="dy-size-content"
+  labelText="Content size tokens"
+  visual="none"
+/>
+
+<DimensionTokenTable
+  prefix="dy-size-page"
+  labelText="Page size tokens"
+  visual="none"
+/>
+
+## Shape
+
+### Border radius
+
+Each radius names a silhouette rather than a size. `pill` and `circle` are fully rounded at any size, which is why they ship as `9999px` and `50%`.
+
+<DimensionTokenTable
+  prefix="dy-border-radius"
+  labelText="Border radius tokens"
+  visual="radius"
+/>
+
+### Border width
+
+Border widths stay in `px`, so a hairline stays a hairline when text is zoomed.
+
+<DimensionTokenTable
+  prefix="dy-border-width"
+  labelText="Border width tokens"
+  visual="stroke"
+/>
+
+## Typography
+
+### Family
+
+<TypographyTokenTable kind="family" labelText="Font family tokens" />
+
+### Size
+
+Body sizes are for running text. Heading sizes are for headings, whatever their level.
+
+<TypographyTokenTable kind="size" labelText="Font size tokens" />
+
+### Weight
+
+<TypographyTokenTable kind="weight" labelText="Font weight tokens" />
+
+### Line height
+
+Line heights are unitless ratios, so any of them can pair with any font size. The tinted background shows each line box.
+
+<TypographyTokenTable kind="line-height" labelText="Line height tokens" />
+
+## Motion
+
+Components only move when the reader allows motion, so every transition sits behind `prefers-reduced-motion: no-preference` (CSS-03).
+
+### Duration
+
+<MotionTokenTable prefix="dy-motion-duration" labelText="Duration tokens" />
+
+### Easing
+
+Each curve plots progress, upward, over time, to the right. `bounce` overshoots its end before it settles.
+
+<MotionTokenTable prefix="dy-motion-easing" labelText="Easing tokens" />
+
+## Contrast pairs
+
+Every pairing below is checked by the token build in every theme, and the build fails if one falls short. Each ratio is the build's own measurement, rounded down so it never overstates.
+
+- **Text, 4.5:1** is the WCAG 2.2 AA minimum for text (1.4.3). Pairs reaching 7:1 also meet AAA (1.4.6).
+- **Non-text, 3:1** is the minimum for borders, focus indicators and the edges of interactive surfaces (1.4.11). WCAG sets no AAA level for these.
+- **`text-disabled` is exempt.** WCAG excludes inactive controls from both minimums, so it has no pair. Its focus indicator is not exempt.
+- **`border-focus` needs `outline-offset`.** It meets 3:1 against the page and raised surfaces, but not against every action surface, so the page has to show between them.
+
+A pairing not listed here is not verified. Before pairing two color tokens in a new way, add the pair to `packages/tokens/contrast-pairs.json`, so the build checks it in every theme and mode from then on.
+
+<ContrastTable labelText="Verified contrast pairs" />
