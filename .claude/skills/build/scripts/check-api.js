@@ -118,6 +118,16 @@ export function parseCompilerOutput({ output, labels }) {
  * @returns {string[]}
  */
 export function checkApiTypes({ spec, cache }) {
+  const hasRestRow = (spec.sections.get('API')?.rows.slice(1) ?? []).some(
+    ([prop]) => prop.startsWith('...'),
+  );
+  if (!hasRestRow) {
+    // Without it every native attribute reads as an invented prop, which
+    // buries the real cause.
+    return [
+      "API: the spec's API table has no ...htmlAttributes row, so the native attributes can't be checked. The spec needs one (TS-01).",
+    ];
+  }
   const { source, labels } = renderApiCheck(spec);
   const directory = resolve(cache);
   mkdirSync(directory, { recursive: true });

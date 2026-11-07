@@ -48,6 +48,7 @@ function specMarkdown({
   status,
   hash = facts.hash,
   apiRows = '| size | Size | m, l | m | size | figma |\n| children | ReactNode | - | - | label | figma |',
+  restRow = '| ...htmlAttributes | `SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>` | - | - | - | D1 |',
   tokenRows = '| root | fill | all | `--dy-color-a` | figma |\n| root | height | m | `--dy-size-m` | figma |\n| root | height | l | `--dy-size-l` | figma |',
   additionalRows = '| `--dy-motion-fast` | Hover | D1 |',
   behaviorRows = '| Stays focusable when disabled | A11Y-05 |',
@@ -72,6 +73,7 @@ Text.
 | Prop | Type | Values | Default | Figma | Source |
 | :-- | :-- | :-- | :-- | :-- | :-- |
 ${apiRows}
+${restRow}
 
 ## Figma tokens
 
@@ -132,17 +134,23 @@ describe('renderTokenRows', () => {
 });
 
 describe('parseSpec', () => {
-  it('keeps escaped pipes inside a table cell', () => {
+  it('keeps an escaped pipe inside its cell, unescaped', () => {
     const { sections } = parseSpec(
       '## API\n\n| Type | Default |\n| `a \\| b` | a |\n',
     );
-    assert.deepEqual(sections.get('API').rows[1], ['a \\| b', 'a']);
+    assert.deepEqual(sections.get('API').rows[1], ['a | b', 'a']);
   });
 });
 
 describe('checkSpec', () => {
   it('passes a spec where every row has a source', () => {
     assert.deepEqual(run(), []);
+  });
+
+  it('requires a ...htmlAttributes row in the API table (TS-01)', () => {
+    assert.deepEqual(run({ restRow: '' }), [
+      'API: no ...htmlAttributes row. Every component extends its native attributes (TS-01), and /build checks them against this row.',
+    ]);
   });
 
   it('rejects an invented prop with no source', () => {

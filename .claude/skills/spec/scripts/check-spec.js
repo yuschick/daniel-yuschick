@@ -48,7 +48,10 @@ export function parseSpec(markdown) {
           line
             .slice(1, -1)
             .split(/(?<!\\)\|/)
-            .map((cell) => cell.trim().replaceAll('`', '')),
+            // An escaped pipe is part of the cell, such as a union in a type.
+            .map((cell) =>
+              cell.trim().replaceAll('`', '').replaceAll('\\|', '|'),
+            ),
         );
       }
     }
@@ -188,6 +191,11 @@ export function checkSpec({
   const api = tableRows(sections.get('API'));
   const outOfScope = tableRows(sections.get('Out of scope'));
   checkRows('API', api, 'Prop');
+  if (sections.has('API') && !api.some((row) => row.Prop?.startsWith('...'))) {
+    errors.push(
+      'API: no ...htmlAttributes row. Every component extends its native attributes (TS-01), and /build checks them against this row.',
+    );
+  }
   checkRows('Out of scope', outOfScope, 'Item');
   checkRows(
     'Behavior and accessibility',
