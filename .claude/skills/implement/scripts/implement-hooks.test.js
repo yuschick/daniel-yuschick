@@ -20,10 +20,12 @@ import {
   decideTool,
   isExpectedCommand,
   parseCommand,
+} from './implement-hooks.js';
+import {
   readReport,
   readReportFromTranscript,
-} from './implement-hooks.js';
-import { classifyPath, treeHash } from './shared.js';
+} from '../../_shared/scripts/check-review.js';
+import { classifyPath, treeHash } from '../../_shared/scripts/verification.js';
 
 const HOOKS = resolve(
   dirname(fileURLToPath(import.meta.url)),

@@ -25,8 +25,11 @@ import {
   checkTokensExist,
   expectedTokens,
   isExampleFile,
-} from './check-component.js';
-import { processLatestReport } from './check-review.js';
+} from '../../_shared/scripts/check-component.js';
+import {
+  processLatestReport,
+  readReport,
+} from '../../_shared/scripts/check-review.js';
 import { lintStyleSheet } from './lint-styles.js';
 import {
   classifyPath,
@@ -43,7 +46,7 @@ import {
   readRun,
   REVIEW_HOOK_ERROR,
   treeHash,
-} from './shared.js';
+} from '../../_shared/scripts/verification.js';
 
 /*
  ** Claude Code runs these hooks, so the author can't choose to skip them. They
@@ -400,52 +403,6 @@ function findReviewerProblem({ input, cache }) {
   return input.prompt?.trim() === readFileSync(promptPath, 'utf8').trim()
     ? null
     : 'Give the reviewer exactly the prompt implement-ledger.js wrote, and nothing else, so it stays cold.';
-}
-
-/**
- * A reviewer can finish by handing its report back through a tool, which leaves
- * no final text message, so the transcript is the fallback.
- *
- * @param {string} transcript JSONL, as Claude Code writes it.
- * @returns {string | null} The reviewer's last report, or null if it has none.
- */
-export function readReportFromTranscript(transcript) {
-  for (const line of transcript.trim().split('\n').reverse()) {
-    let entry;
-    try {
-      entry = JSON.parse(line);
-    } catch {
-      continue;
-    }
-    if (entry.type !== 'assistant') continue;
-    for (const part of entry.message?.content ?? []) {
-      const text =
-        part.type === 'text'
-          ? part.text
-          : part.type === 'tool_use' && part.name === 'SubagentHandback'
-            ? part.input?.message
-            : null;
-      if (typeof text === 'string' && text.includes('VERDICT:')) return text;
-    }
-  }
-  return null;
-}
-
-/**
- * The reviewer's own transcript comes first, because with `SubagentHandback` the
- * last message is at most closing text, not the report. `transcript_path` is
- * never read: it's the author's session, which must not be able to write a report.
- *
- * @param {{ agent_transcript_path?: string, last_assistant_message?: string }} input
- * @returns {string | null}
- */
-export function readReport(input) {
-  const path = input.agent_transcript_path;
-  const report =
-    path && existsSync(path)
-      ? readReportFromTranscript(readFileSync(path, 'utf8'))
-      : null;
-  return report ?? input.last_assistant_message ?? null;
 }
 
 function handleReview({ input, component }) {
