@@ -298,6 +298,9 @@ importers:
       storybook:
         specifier: 10.6.2
         version: 10.6.2(@types/react@19.2.18)(prettier@3.9.6)(react@19.2.8)
+      stylelint:
+        specifier: 17.16.0
+        version: 17.16.0(supports-color@10.2.2)(typescript@7.0.2)
       typescript:
         specifier: 7.0.2
         version: 7.0.2

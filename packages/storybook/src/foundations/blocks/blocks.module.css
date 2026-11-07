@@ -1,0 +1,246 @@
+/*
+ * Doc blocks for the Foundations pages. They're Storybook's own UI rather
+ * than components, so they sit in dy.base, the layer @dy/css leaves to apps
+ * and Storybook. Each block renders inside <Unstyled>, so Storybook's
+ * unlayered docs typography doesn't reach them.
+ *
+ * Values that differ per token (a swatch's color, a bar's length) come from
+ * the manifest as inline custom properties; everything else is a token.
+ */
+@layer dy.base {
+  .block {
+    color: var(--dy-color-text-default);
+    font: var(--dy-font-size-body-m) / var(--dy-font-line-height-default)
+      var(--dy-font-family-body);
+    margin-block: var(--dy-space-l) var(--dy-space-2xl);
+  }
+
+  .scroller {
+    overflow: auto;
+    /* Contains the visually hidden captions, which would otherwise sit at their
+       place in a wide table and widen the page */
+    position: relative;
+  }
+
+  .table {
+    border-collapse: collapse;
+    inline-size: 100%;
+    text-align: start;
+  }
+
+  .table th,
+  .table td {
+    border-block-end: var(--dy-border-width-default) solid
+      var(--dy-color-border-subtle);
+    padding: var(--dy-space-s) var(--dy-space-m) var(--dy-space-s) 0;
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  .table thead th {
+    border-block-end-color: var(--dy-color-border-default);
+    color: var(--dy-color-text-subtle);
+    font-size: var(--dy-font-size-body-s);
+    font-weight: var(--dy-font-weight-strong);
+  }
+
+  .table tbody th {
+    font-weight: var(--dy-font-weight-body);
+  }
+
+  .group-heading {
+    font-size: var(--dy-font-size-body-s);
+    font-weight: var(--dy-font-weight-strong);
+    padding-block-start: var(--dy-space-l);
+  }
+
+  .table .group-heading {
+    color: var(--dy-color-text-strong);
+    font-weight: var(--dy-font-weight-strong);
+  }
+
+  .name {
+    color: var(--dy-color-text-strong);
+    font-size: var(--dy-font-size-body-s);
+    white-space: nowrap;
+  }
+
+  .value {
+    color: var(--dy-color-text-subtle);
+    font-size: var(--dy-font-size-body-s);
+    white-space: nowrap;
+  }
+
+  .description {
+    color: var(--dy-color-text-subtle);
+    font-size: var(--dy-font-size-body-s);
+    max-inline-size: 40ch;
+  }
+
+  .mode {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dy-space-s);
+    /* The table widens the column instead of wrapping a value under its swatch */
+    min-inline-size: max-content;
+  }
+
+  .swatch {
+    background-color: var(--swatch-color);
+    block-size: var(--dy-size-component-m);
+    border: var(--dy-border-width-default) solid var(--dy-color-border-subtle);
+    border-radius: var(--dy-border-radius-rounded);
+    flex-shrink: 0;
+    inline-size: var(--dy-size-component-l);
+  }
+
+  .bar {
+    background-color: var(--dy-color-surface-action-brand-default);
+    block-size: var(--dy-space-m);
+    inline-size: var(--bar-size);
+  }
+
+  .square {
+    background-color: var(--dy-color-surface-action-subtle-active);
+    block-size: var(--square-size);
+    border: var(--dy-border-width-default) solid var(--dy-color-border-default);
+    inline-size: var(--square-size);
+  }
+
+  .radius {
+    background-color: var(--dy-color-surface-action-subtle-active);
+    block-size: var(--dy-size-component-xl);
+    border: var(--dy-border-width-focus) solid var(--dy-color-border-strong);
+    border-radius: var(--tile-border-radius);
+    inline-size: var(--dy-size-component-xl);
+  }
+
+  .stroke {
+    block-size: var(--dy-size-component-m);
+    border-block-start: var(--stroke-size) solid var(--dy-color-border-strong);
+    inline-size: var(--dy-size-component-xl);
+  }
+
+  .specimen {
+    color: var(--dy-color-text-strong);
+    font: var(--specimen-font-weight, var(--dy-font-weight-body))
+      var(--specimen-font-size, var(--dy-font-size-body-l)) /
+      var(--specimen-line-height, var(--dy-font-line-height-tight))
+      var(--specimen-font-family, var(--dy-font-family-body));
+  }
+
+  .leading {
+    background-color: var(--dy-color-surface-notice-subtle);
+    max-inline-size: 32ch;
+  }
+
+  .curve {
+    block-size: var(--dy-size-component-xl);
+    inline-size: var(--dy-size-component-xl);
+    overflow: visible;
+  }
+
+  .curve-axis {
+    fill: none;
+    stroke: var(--dy-color-border-subtle);
+    stroke-width: var(--dy-border-width-default);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .curve-line {
+    fill: none;
+    stroke: var(--dy-color-border-primary);
+    stroke-width: var(--dy-border-width-focus);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .sample {
+    align-items: center;
+    background-color: var(--sample-color-background);
+    block-size: var(--dy-size-component-m);
+    border: var(--dy-border-width-default) solid var(--dy-color-border-subtle);
+    border-radius: var(--dy-border-radius-rounded);
+    color: var(--sample-color-foreground);
+    display: inline-flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    font-weight: var(--dy-font-weight-strong);
+    inline-size: var(--dy-size-component-l);
+    justify-content: center;
+  }
+
+  .sample-ring {
+    block-size: var(--dy-size-icon-l);
+    border: var(--dy-border-width-focus) solid var(--sample-color-foreground);
+    border-radius: var(--dy-border-radius-circle);
+    inline-size: var(--dy-size-icon-l);
+  }
+
+  .ratio {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .level {
+    border: var(--dy-border-width-default) solid var(--dy-color-border-positive);
+    border-radius: var(--dy-border-radius-pill);
+    color: var(--dy-color-text-positive);
+    font-size: var(--dy-font-size-body-s);
+    font-weight: var(--dy-font-weight-strong);
+    padding: 0 var(--dy-space-xs);
+  }
+
+  .level-fails {
+    border-color: var(--dy-color-border-negative);
+    color: var(--dy-color-text-negative);
+  }
+
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dy-space-m);
+    /* An empty marker rather than none, so Safari still announces a list */
+    list-style-type: '';
+    padding: 0;
+  }
+
+  .summary-item {
+    background-color: var(--dy-color-surface-raised);
+    border: var(--dy-border-width-default) solid var(--dy-color-border-subtle);
+    border-radius: var(--dy-border-radius-rounded);
+    display: flex;
+    flex: 1 1 10rem;
+    flex-direction: column-reverse;
+    padding: var(--dy-space-m);
+  }
+
+  .summary-value {
+    color: var(--dy-color-text-strong);
+    font-size: var(--dy-font-size-heading-s);
+    font-weight: var(--dy-font-weight-heading);
+    line-height: var(--dy-font-line-height-tight);
+  }
+
+  .summary-label {
+    color: var(--dy-color-text-subtle);
+    font-size: var(--dy-font-size-body-s);
+  }
+
+  .callout {
+    background-color: var(--dy-color-surface-attention-subtle);
+    border-inline-start: var(--dy-border-width-focus) solid
+      var(--dy-color-border-attention);
+    color: var(--dy-color-text-default);
+    padding: var(--dy-space-m);
+  }
+
+  .visually-hidden {
+    block-size: 1px;
+    clip-path: inset(50%);
+    inline-size: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+}

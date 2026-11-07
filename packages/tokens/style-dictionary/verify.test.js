@@ -5,6 +5,7 @@ import {
   findContrastFailures,
   findHiddenTokens,
   findUnresolvedReferences,
+  measureContrast,
 } from './verify.js';
 
 describe('findHiddenTokens', () => {
@@ -85,5 +86,34 @@ describe('findContrastFailures', () => {
       ],
     });
     assert.match(failure ?? '', /doesn't exist/);
+  });
+});
+
+describe('measureContrast', () => {
+  const colors = new Map([
+    ['dy-color-text-default', 'oklch(0 0 0)'],
+    ['dy-color-surface-page', 'oklch(1 0 0)'],
+  ]);
+
+  it('measures black on white as 21:1', () => {
+    assert.equal(
+      measureContrast({
+        colors,
+        foreground: 'dy-color-text-default',
+        background: 'dy-color-surface-page',
+      }),
+      21,
+    );
+  });
+
+  it('returns null when a color does not ship', () => {
+    assert.equal(
+      measureContrast({
+        colors,
+        foreground: 'dy-color-text-missing',
+        background: 'dy-color-surface-page',
+      }),
+      null,
+    );
   });
 });

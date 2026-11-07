@@ -90,12 +90,15 @@ const exportedCollections = [
     name: 'Portfolio Color',
     mode: 'Light',
     variables: [
-      variable({
-        name: 'dy/color/surface/page',
-        type: 'COLOR',
-        value: alias(neutral50),
-        mode: 'Light',
-      }),
+      {
+        ...variable({
+          name: 'dy/color/surface/page',
+          type: 'COLOR',
+          value: alias(neutral50),
+          mode: 'Light',
+        }),
+        description: 'Default page background.',
+      },
       variable({
         name: 'dy/color/surface/action/primary/default',
         type: 'COLOR',
@@ -229,7 +232,40 @@ describe('buildTokens', () => {
       await readFile(join(workDir, 'dist/manifest.json'), 'utf8'),
     );
     assert.equal(manifest.defaultTheme, 'rhubarb');
+    assert.deepEqual(manifest.modes, ['light']);
     assert.equal(Object.keys(manifest.tokens).length, 9);
+  });
+
+  it('documents descriptions, and color values per mode', async () => {
+    const { tokens } = JSON.parse(
+      await readFile(join(workDir, 'dist/manifest.json'), 'utf8'),
+    );
+    assert.deepEqual(tokens['dy-color-surface-page'], {
+      type: 'color',
+      value: 'oklch(0.9759 0.0093 292.8)',
+      description: 'Default page background.',
+      modes: { light: 'oklch(0.9759 0.0093 292.8)' },
+    });
+    assert.deepEqual(tokens['dy-space-m'], {
+      type: 'dimension',
+      value: '1rem',
+    });
+  });
+
+  it('documents every contrast pair with its ratio per mode, rounded down', async () => {
+    const { contrast } = JSON.parse(
+      await readFile(join(workDir, 'dist/manifest.json'), 'utf8'),
+    );
+    assert.equal(contrast.length, pairs.length);
+    for (const [index, entry] of contrast.entries()) {
+      assert.equal(entry.foreground, pairs[index]?.foreground);
+      assert.equal(entry.minimum, pairs[index]?.minimum);
+      assert.ok(entry.ratios.light >= entry.minimum);
+      assert.equal(
+        entry.ratios.light,
+        Math.floor(entry.ratios.light * 100) / 100,
+      );
+    }
   });
 
   it('fails when a contrast pair falls below its minimum', async () => {

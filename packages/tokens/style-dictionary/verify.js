@@ -30,6 +30,28 @@ export function findUnresolvedReferences({ css }) {
 }
 
 /**
+ * The WCAG contrast ratio of one pair, measured on the exact hex each oklch()
+ * value round-trips to.
+ *
+ * @param {{ colors: Map<string, string>, foreground: string, background: string }} options
+ *   `colors` maps CSS custom property names (without `--`) to oklch() values
+ * @returns {number | null} null when either color doesn't ship
+ */
+export function measureContrast({ colors, foreground, background }) {
+  const foregroundValue = colors.get(foreground);
+  const backgroundValue = colors.get(background);
+
+  if (!foregroundValue || !backgroundValue) {
+    return null;
+  }
+
+  return contrastRatio({
+    foreground: oklchToHex(parseOklch({ value: foregroundValue })),
+    background: oklchToHex(parseOklch({ value: backgroundValue })),
+  });
+}
+
+/**
  * Contrast pairs below their minimum, or naming a color that doesn't ship.
  *
  * @param {{ colors: Map<string, string>, pairs: ContrastPair[] }} options
@@ -40,20 +62,15 @@ export function findContrastFailures({ colors, pairs }) {
   const failures = [];
 
   for (const { foreground, background, minimum } of pairs) {
-    const foregroundValue = colors.get(foreground);
-    const backgroundValue = colors.get(background);
+    const ratio = measureContrast({ colors, foreground, background });
 
-    if (!foregroundValue || !backgroundValue) {
+    if (ratio === null) {
       failures.push(
-        `${foreground} on ${background}: ${!foregroundValue ? foreground : background} doesn't exist`,
+        `${foreground} on ${background}: ${!colors.has(foreground) ? foreground : background} doesn't exist`,
       );
       continue;
     }
 
-    const ratio = contrastRatio({
-      foreground: oklchToHex(parseOklch({ value: foregroundValue })),
-      background: oklchToHex(parseOklch({ value: backgroundValue })),
-    });
     if (ratio < minimum) {
       failures.push(
         `${foreground} on ${background}: ${ratio.toFixed(2)}:1, needs ${String(minimum)}:1`,
