@@ -5,7 +5,7 @@ const NODE_ID = '__NODE_ID__';
 // Hidden layers are still design facts, so they must be read too.
 figma.skipInvisibleInstanceChildren = false;
 
-// Identical to packages/tokens/scripts/hash.js, so a saved result can be
+// Identical to .claude/skills/_shared/scripts/hash.js (hash.test.js checks), so a saved result can be
 // checked against the hash computed in Figma.
 function fnv1a(text) {
   let hash = 0x811c9dc5;

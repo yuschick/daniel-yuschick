@@ -1,5 +1,53 @@
 {
   "approver": "Daniel",
   "defaultBranch": "main",
-  "gh": ["gh", "/opt/homebrew/bin/gh"]
+  "gh": ["gh", "/opt/homebrew/bin/gh"],
+  "figma": {
+    "fileKey": "HiDiGLs2OsVWyqnCo7aEjF"
+  },
+  "packages": {
+    "components": "@dy/react",
+    "storybook": "@dy/storybook",
+    "tokens": "@dy/tokens"
+  },
+  "paths": {
+    "componentsPackage": "packages/react",
+    "components": "packages/react/src/components",
+    "barrels": [
+      "packages/react/src/components/index.ts",
+      "packages/react/src/index.ts"
+    ],
+    "entry": "packages/react/src/index.ts",
+    "typeRegistry": "packages/react/src/types",
+    "specs": "packages/react/specs",
+    "standards": "brain/standards",
+    "tokensPackage": "packages/tokens",
+    "tokensManifest": "packages/tokens/dist/manifest.json",
+    "prTemplate": ".github/pull_request_template.md",
+    "reviewed": [
+      "brain/standards",
+      "packages/configs",
+      "packages/react/specs",
+      "packages/react/src",
+      "packages/storybook/.storybook",
+      "packages/tokens/src"
+    ]
+  },
+  "tokens": {
+    "prefix": "--dy-"
+  },
+  "rules": {
+    "domains": ["A11Y", "CSS", "FS", "GEN", "PROP", "RX", "TS"]
+  },
+  "commands": {
+    "buildTokens": "pnpm --filter @dy/tokens build",
+    "verify": [
+      "pnpm turbo run lint check-types build test",
+      "pnpm format:check"
+    ]
+  },
+  "reviewers": {
+    "spec": "spec-reviewer",
+    "component": "component-reviewer"
+  }
 }

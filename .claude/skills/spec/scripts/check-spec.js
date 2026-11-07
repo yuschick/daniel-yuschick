@@ -3,6 +3,12 @@ import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
+import {
+  RULE_ID,
+  TOKEN_REFERENCE,
+  project,
+} from '../../_shared/scripts/project.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import { checkFacts, toManifestName } from './check-facts.js';
 
 const REQUIRED_SECTIONS = [
@@ -17,47 +23,10 @@ const REQUIRED_SECTIONS = [
   'Open questions',
 ];
 
-const RULE_ID = /^(A11Y|CSS|FS|GEN|PROP|RX|TS)-\d+$/;
 const DECISION_ID = /^D\d+$/;
-const TOKEN_REFERENCE = /--dy-[a-z0-9-]+/g;
 const TOKEN_FIELDS_WITH_NONE = new Set(['fill', 'stroke', 'strokeWidth']);
 
 const propertyName = (name) => name.split('#')[0];
-
-/** @param {string} markdown */
-export function parseSpec(markdown) {
-  const frontMatter = markdown.match(/^---\n([\s\S]*?)\n---/);
-  const meta = Object.fromEntries(
-    (frontMatter ? frontMatter[1].split('\n') : []).map((line) => {
-      const [key, ...value] = line.split(':');
-      return [key.trim(), value.join(':').trim()];
-    }),
-  );
-
-  const sections = new Map();
-  let current = null;
-  for (const line of markdown.split('\n')) {
-    const heading = line.match(/^## (.+)$/);
-    if (heading) {
-      current = { text: [], rows: [] };
-      sections.set(heading[1], current);
-    } else if (current) {
-      current.text.push(line);
-      if (/^\|/.test(line) && !/^\|\s*:?-/.test(line)) {
-        current.rows.push(
-          line
-            .slice(1, -1)
-            .split(/(?<!\\)\|/)
-            // An escaped pipe is part of the cell, such as a union in a type.
-            .map((cell) =>
-              cell.trim().replaceAll('`', '').replaceAll('\\|', '|'),
-            ),
-        );
-      }
-    }
-  }
-  return { meta, sections };
-}
 
 function tableRows(section) {
   if (!section) return [];
@@ -156,7 +125,7 @@ export function checkSpec({
 
   if ('status' in meta) {
     errors.push(
-      'Remove status: a spec is approved by merging it into main, not by a field.',
+      `Remove status: a spec is approved by merging it into ${project.defaultBranch}, not by a field.`,
     );
   }
   if (meta.factsHash !== facts.hash) {
@@ -271,13 +240,15 @@ export function checkSpec({
 
   for (const [token] of markdown.matchAll(TOKEN_REFERENCE)) {
     if (!(token.slice(2) in manifest.tokens)) {
-      errors.push(`Token ${token} doesn't exist in @dy/tokens.`);
+      errors.push(
+        `Token ${token} doesn't exist in ${project.packages.tokens}.`,
+      );
     }
   }
 
   for (const row of decisions) {
     const sources = splitSources(row.Source ?? '').filter(
-      (source) => source !== 'Daniel',
+      (source) => source !== project.approver,
     );
     if (!row.Source?.trim())
       errors.push(`Decisions: "${row.ID}" has no source.`);
@@ -327,9 +298,9 @@ async function main() {
       ready: { type: 'boolean', default: false },
       manifest: {
         type: 'string',
-        default: 'packages/tokens/dist/manifest.json',
+        default: project.paths.tokensManifest,
       },
-      standards: { type: 'string', default: 'brain/standards' },
+      standards: { type: 'string', default: project.paths.standards },
     },
   });
   if (!values.facts) throw new Error('--facts is required');

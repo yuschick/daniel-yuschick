@@ -2,6 +2,8 @@ import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { project } from '../../_shared/scripts/project.js';
+
 /*
  ** Stylelint for the fast loop. The gates lint every style sheet too, but the
  ** package's lint script runs ESLint first and stops on its errors, so a style
@@ -9,7 +11,7 @@ import { resolve } from 'node:path';
  ** on its own, so it's linted straight after each edit instead.
  */
 
-const PACKAGE = 'packages/react';
+const PACKAGE = project.paths.componentsPackage;
 const BINARY = `${PACKAGE}/node_modules/.bin/stylelint`;
 
 /**

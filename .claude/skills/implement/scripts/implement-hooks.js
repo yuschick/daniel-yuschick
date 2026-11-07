@@ -17,7 +17,8 @@ import {
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { parseSpec } from '../../spec/scripts/check-spec.js';
+import { TOKEN_REFERENCE, project } from '../../_shared/scripts/project.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import {
   checkInlineStyles,
   checkSuppressions,
@@ -54,10 +55,10 @@ const IMPLEMENT_BRANCH = /^implement\/(.+)$/;
 const FILE_TOOLS = new Set(['Edit', 'NotebookEdit', 'Write']);
 const SUBAGENT_TOOLS = new Set(['Agent', 'Task']);
 const RESET_FLAG = '--reset';
-const REVIEWER = 'component-reviewer';
+const REVIEWER = project.reviewers.component;
 const SCRIPTS_DIRECTORY = '.claude/skills/implement/scripts';
-const MANIFEST = 'packages/tokens/dist/manifest.json';
-const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
+const MANIFEST = project.paths.tokensManifest;
+const SYSTEM_TOKEN = TOKEN_REFERENCE;
 // The docs confirm a hook's `ask` reaches a person in these. Elsewhere it may
 // not, and a rule change no one saw is the one thing this guard exists to stop.
 const PROMPTING_MODES = new Set(['auto', 'default']);
@@ -200,8 +201,11 @@ export function isExpectedCommand(tokens, component) {
     if (first === 'turbo') return second === 'run';
     if (first === '--filter') {
       return (
-        (second === '@dy/tokens' && third === 'build') ||
-        (['@dy/react', '@dy/storybook'].includes(second) && third === 'test')
+        (second === project.packages.tokens && third === 'build') ||
+        ([project.packages.components, project.packages.storybook].includes(
+          second,
+        ) &&
+          third === 'test')
       );
     }
     if (first === 'exec' && second === 'prettier') {
@@ -224,7 +228,7 @@ export function isExpectedCommand(tokens, component) {
       )
     );
   }
-  if (program === 'gh' || program === '/opt/homebrew/bin/gh') {
+  if (project.gh.includes(program)) {
     return first === 'pr' && (second === 'view' || second === 'create');
   }
   return false;
@@ -521,7 +525,7 @@ function handlePost({ input, component, mode }) {
     return;
   }
   if (
-    !file.startsWith('packages/react/src/components/') ||
+    !file.startsWith(`${project.paths.components}/`) ||
     access !== 'allow' ||
     !existsSync(resolve(file))
   ) {
@@ -549,7 +553,7 @@ function handlePost({ input, component, mode }) {
 }
 
 function hasComponentFolder(component) {
-  const directory = resolve('packages/react/src/components');
+  const directory = resolve(project.paths.components);
   return (
     existsSync(directory) &&
     readdirSync(directory).some((entry) => entry.toLowerCase() === component)
@@ -572,7 +576,7 @@ function handleStop({ input, component }) {
     );
     return;
   }
-  // One push back, never a loop: the warning below still reaches Daniel.
+  // One push back, never a loop: the warning below still reaches the approver.
   console.log(
     JSON.stringify(
       input.stop_hook_active
@@ -582,7 +586,7 @@ function handleStop({ input, component }) {
           }
         : {
             decision: 'block',
-            reason: `The gates haven't passed on this code. Run run-gates.js, or if you need Daniel, run: node .claude/skills/implement/scripts/implement-hooks.js pause --reason "<why>"`,
+            reason: `The gates haven't passed on this code. Run run-gates.js, or if you need ${project.approver}, run: node .claude/skills/implement/scripts/implement-hooks.js pause --reason "<why>"`,
           },
     ),
   );

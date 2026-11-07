@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
-import { parseSpec } from '../../spec/scripts/check-spec.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import {
   buildLedger,
   buildReviewerPrompt,

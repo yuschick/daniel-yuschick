@@ -3,7 +3,8 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { fnv1a } from '../../../../packages/tokens/scripts/hash.js';
+import { fnv1a } from '../../_shared/scripts/hash.js';
+import { project } from '../../_shared/scripts/project.js';
 
 /**
  * Layout mechanics that have no token by design, so they aren't questions.
@@ -80,7 +81,7 @@ export function checkFacts({ facts, manifest }) {
           const tokenName = part.slice('token:'.length);
           if (!(toManifestName(tokenName) in manifest.tokens)) {
             errors.push(
-              `${location}: token ${tokenName} doesn't exist in @dy/tokens.`,
+              `${location}: token ${tokenName} doesn't exist in ${project.packages.tokens}.`,
             );
           }
         } else if (
@@ -110,7 +111,7 @@ async function main() {
       facts: { type: 'string' },
       manifest: {
         type: 'string',
-        default: 'packages/tokens/dist/manifest.json',
+        default: project.paths.tokensManifest,
       },
     },
   });

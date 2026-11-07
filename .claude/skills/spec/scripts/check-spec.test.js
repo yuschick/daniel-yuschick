@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { fnv1a } from '../../../../packages/tokens/scripts/hash.js';
-import { checkSpec, parseSpec, renderTokenRows } from './check-spec.js';
+import { fnv1a } from '../../_shared/scripts/hash.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
+import { checkSpec, renderTokenRows } from './check-spec.js';
 
 const payload = {
   properties: {

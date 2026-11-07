@@ -4,10 +4,9 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { parseSpec } from '../../spec/scripts/check-spec.js';
+import { APPROVAL_REF, project } from '../../_shared/scripts/project.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import { componentPaths, git } from './shared.js';
-
-const APPROVAL_REF = 'origin/main';
 
 /**
  * A spec is approved when it is on `main`: merging its PR is the approval, and
@@ -84,7 +83,7 @@ async function main() {
   }
 
   const paths = componentPaths(values.component);
-  if (!git(['fetch', 'origin', 'main', '--quiet']).ok) {
+  if (!git(['fetch', 'origin', project.defaultBranch, '--quiet']).ok) {
     console.error(`ERROR: Couldn't fetch ${APPROVAL_REF}.`);
     process.exitCode = 1;
     return;
