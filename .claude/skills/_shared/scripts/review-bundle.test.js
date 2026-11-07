@@ -5,7 +5,7 @@ import {
   buildBundle,
   collectCitedRules,
   extractSection,
-} from './bundle-review.js';
+} from './review-bundle.js';
 
 const standards = {
   'a11y.md': `## Rules

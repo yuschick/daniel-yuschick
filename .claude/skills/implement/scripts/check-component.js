@@ -3,7 +3,12 @@ import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { parseSpec } from '../../spec/scripts/check-spec.js';
+import {
+  APPROVAL_REF,
+  TOKEN_REFERENCE,
+  project,
+} from '../../_shared/scripts/project.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import { checkApiTypes } from './check-api.js';
 import {
   classifyPath,
@@ -13,7 +18,7 @@ import {
   readApprovals,
 } from './shared.js';
 
-const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
+const SYSTEM_TOKEN = TOKEN_REFERENCE;
 const INLINE_STYLE = /\bstyle\s*=\s*\{|\bstyle\s*:|\.style\b/;
 const RAW_COLOR =
   /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\(/i;
@@ -21,8 +26,8 @@ const SUPPRESSION =
   /(eslint-disable(?:-next-line|-line)?|stylelint-disable(?:-next-line|-line)?|@ts-expect-error|@ts-ignore)\b/g;
 const ISSUE_REFERENCE = /#\d+|\/issues\/\d+/;
 const STORY_EXPORT = /^export const ([A-Z]\w*)\b/gm;
-const MANIFEST = 'packages/tokens/dist/manifest.json';
-const COMPONENTS = 'packages/react/src/components';
+const MANIFEST = project.paths.tokensManifest;
+const COMPONENTS = project.paths.components;
 
 const dataRows = (section) => section?.rows.slice(1) ?? [];
 
@@ -39,7 +44,10 @@ export function expectedTokens({ sections }) {
   const tokens = new Set();
   for (const [, property, , token] of dataRows(sections.get('Figma tokens'))) {
     // Backticks, so a word in the prose can't silently drop a required token.
-    if (token.startsWith('--dy-') && !outOfScope.includes(`\`${property}\``)) {
+    if (
+      token.startsWith(project.tokens.prefix) &&
+      !outOfScope.includes(`\`${property}\``)
+    ) {
       tokens.add(token);
     }
   }
@@ -331,7 +339,7 @@ export function checkScope({
       errors.push(`${file} is outside the build's scope.`);
     } else if (access === 'ask' && !isApproved(file)) {
       errors.push(
-        `${file} is a shared rule, changed without human approval. Only Daniel can approve it, when prompted.`,
+        `${file} is a shared rule, changed without human approval. Only ${project.approver} can approve it, when prompted.`,
       );
     }
   }
@@ -361,7 +369,7 @@ function main() {
   const { values } = parseArgs({
     options: {
       component: { type: 'string' },
-      base: { type: 'string', default: 'origin/main' },
+      base: { type: 'string', default: APPROVAL_REF },
     },
   });
   if (!values.component)
@@ -432,12 +440,8 @@ function main() {
     ) {
       errors.push(`${COMPONENTS}/index.ts doesn't export ${name}.`);
     }
-    if (
-      !readFileSync(resolve('packages/react/src/index.ts'), 'utf8').includes(
-        name,
-      )
-    ) {
-      errors.push(`packages/react/src/index.ts doesn't export ${name}.`);
+    if (!readFileSync(resolve(project.paths.entry), 'utf8').includes(name)) {
+      errors.push(`${project.paths.entry} doesn't export ${name}.`);
     }
   }
   const approvals = readApprovals(paths.cache);

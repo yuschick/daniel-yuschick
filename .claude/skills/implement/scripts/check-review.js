@@ -3,7 +3,8 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { parseSpec } from '../../spec/scripts/check-spec.js';
+import { project } from '../../_shared/scripts/project.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import {
   componentPaths,
   isReportRecorded,
@@ -174,7 +175,7 @@ export function processLatestReport(component) {
     return {
       result: 'MISSING',
       errors: [
-        `The reviewer's report wasn't saved. ${cause} Stop and tell Daniel. Never write a report yourself.`,
+        `The reviewer's report wasn't saved. ${cause} Stop and tell ${project.approver}. Never write a report yourself.`,
       ],
       lines: [],
     };
@@ -184,7 +185,7 @@ export function processLatestReport(component) {
   const readSource = (path) => {
     const found = [
       resolve(path),
-      resolve('packages/react/src/components', name, path),
+      resolve(project.paths.components, name, path),
     ].find((candidate) => existsSync(candidate));
     return found ? readFileSync(found, 'utf8') : null;
   };
@@ -208,7 +209,9 @@ export function processLatestReport(component) {
       errors,
       lines:
         updated.invalid.length >= MAX_INVALID_REPORTS
-          ? [`STOP: ${updated.invalid.length} invalid reports. Show Daniel.`]
+          ? [
+              `STOP: ${updated.invalid.length} invalid reports. Show ${project.approver}.`,
+            ]
           : [],
     };
   }
@@ -238,7 +241,7 @@ export function processLatestReport(component) {
       `ROUND: ${failures} of ${MAX_REVIEW_ROUNDS} used.`,
       ...(report.verdict !== 'PASS' && failures >= MAX_REVIEW_ROUNDS
         ? [
-            `STOP: ${MAX_REVIEW_ROUNDS} rounds failed. Show Daniel. No PR, and no more reviews unless he resets them.`,
+            `STOP: ${MAX_REVIEW_ROUNDS} rounds failed. Show ${project.approver}. No PR, and no more reviews unless they reset them.`,
           ]
         : []),
     ],
@@ -256,7 +259,7 @@ function main() {
     throw new Error('Usage: check-review.js --component <name> [--reset]');
   }
 
-  // The hooks ask Daniel before this runs: more rounds are only his to give.
+  // The hooks ask the approver before this runs: more rounds are only theirs to give.
   if (values.reset) {
     const { cache } = componentPaths(values.component);
     const state = readReviewState(cache);

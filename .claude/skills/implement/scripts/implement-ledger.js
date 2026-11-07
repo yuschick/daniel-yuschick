@@ -3,13 +3,17 @@ import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { buildBundle } from '../../spec/scripts/bundle-review.js';
-import { parseSpec } from '../../spec/scripts/check-spec.js';
+import {
+  APPROVAL_REF,
+  CITED_RULE,
+  project,
+} from '../../_shared/scripts/project.js';
+import { buildBundle } from '../../_shared/scripts/review-bundle.js';
+import { parseSpec } from '../../_shared/scripts/spec.js';
 import { componentPaths, git, readRun, treeHash } from './shared.js';
 
 const SENTENCE_END = /(?<=\.)\s+(?=[A-Z`])/;
 const CHECKLIST_ITEM = /^- \[ \] (.+)$/gm;
-const CITED_RULE = /\b(?:A11Y|CSS|FS|GEN|PROP|RX|TS)-\d+\b/g;
 // Rules lint or a gate fully enforces (see AGENTS.md), so a reviewer needn't repeat them.
 const TOOL_ENFORCED = new Set([
   'CSS-01',
@@ -136,7 +140,7 @@ function main() {
   const { values } = parseArgs({
     options: {
       component: { type: 'string' },
-      standards: { type: 'string', default: 'brain/standards' },
+      standards: { type: 'string', default: project.paths.standards },
       screenshot: { type: 'string', multiple: true, default: [] },
     },
   });
@@ -157,7 +161,7 @@ function main() {
   );
 
   const ledger = [...buildLedger(spec), ...buildStandardsLedger(standards)];
-  const directory = `packages/react/src/components/${spec.meta.component}`;
+  const directory = `${project.paths.components}/${spec.meta.component}`;
   const code = collectFiles(directory);
   const gates = JSON.parse(
     readFileSync(resolve(paths.cache, 'gates.json'), 'utf8'),
@@ -170,12 +174,11 @@ function main() {
   }
   const sharedDiff = git([
     'diff',
-    readRun(paths.cache)?.base ?? 'origin/main',
+    readRun(paths.cache)?.base ?? APPROVAL_REF,
     '--',
-    'brain/standards',
-    'packages/react/src/types',
-    'packages/react/src/index.ts',
-    'packages/react/src/components/index.ts',
+    project.paths.standards,
+    project.paths.typeRegistry,
+    ...project.paths.barrels,
   ]).output;
 
   const bundle = [

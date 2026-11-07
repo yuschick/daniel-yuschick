@@ -9,22 +9,22 @@ import {
 } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { project } from '../../_shared/scripts/project.js';
+
 /** Everything that decides what a component does or how it's judged, so a review stays pinned to it. */
 const REVIEWED_PATHS = [
   '.claude/agents',
+  '.claude/skills/_shared',
   '.claude/skills/implement',
-  'brain/standards',
-  'packages/configs',
-  'packages/react/specs',
-  'packages/react/src',
-  'packages/storybook/.storybook',
-  'packages/tokens/src',
+  '.claude/skills/project.json',
+  ...project.paths.reviewed,
 ];
-const BARRELS = [
-  'packages/react/src/components/index.ts',
-  'packages/react/src/index.ts',
-];
-const SHARED_RULES = ['brain/standards/', 'packages/react/src/types/'];
+const lower = (path) => path.toLowerCase();
+const COMPONENTS = lower(project.paths.components);
+const BARRELS = project.paths.barrels.map(lower);
+const SHARED_RULES = [project.paths.standards, project.paths.typeRegistry].map(
+  (path) => `${lower(path)}/`,
+);
 
 /**
  * The one table of what a build may touch, used by the hooks before a write and
@@ -38,7 +38,7 @@ const SHARED_RULES = ['brain/standards/', 'packages/react/src/types/'];
 export function classifyPath(file, component) {
   const path = file.toLowerCase();
   if (
-    path.startsWith(`packages/react/src/components/${component}/`) ||
+    path.startsWith(`${COMPONENTS}/${component}/`) ||
     BARRELS.includes(path)
   ) {
     return 'allow';
@@ -110,10 +110,10 @@ export function writeReviewState(cache, state) {
 export function findReviewLimit({ rounds, invalid }) {
   const failures = rounds.filter(({ verdict }) => verdict === 'FAIL').length;
   if (failures >= MAX_REVIEW_ROUNDS) {
-    return `${failures} review rounds have failed, which is the limit. Only Daniel can decide what happens next.`;
+    return `${failures} review rounds have failed, which is the limit. Only ${project.approver} can decide what happens next.`;
   }
   return invalid.length >= MAX_INVALID_REPORTS
-    ? `${invalid.length} reports were invalid, which is the limit. Show Daniel.`
+    ? `${invalid.length} reports were invalid, which is the limit. Show ${project.approver}.`
     : null;
 }
 
@@ -167,7 +167,7 @@ export function git(args) {
 
 /** @param {string} component Lowercase component name, as in the spec's file name. */
 export function componentPaths(component) {
-  const specs = 'packages/react/specs';
+  const { specs } = project.paths;
   return {
     spec: `${specs}/${component}.md`,
     facts: `${specs}/${component}.facts.json`,

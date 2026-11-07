@@ -44,7 +44,7 @@ export function listGates({ component, base }) {
     {
       name: 'checker',
       command:
-        'node --test .claude/skills/implement/scripts/*.test.js .claude/skills/spec/scripts/*.test.js',
+        'node --test .claude/skills/implement/scripts/*.test.js .claude/skills/spec/scripts/*.test.js .claude/skills/_shared/scripts/*.test.js',
     },
     {
       name: 'approval',
