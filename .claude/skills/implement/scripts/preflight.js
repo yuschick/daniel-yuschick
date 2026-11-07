@@ -1,12 +1,12 @@
-import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
 import { APPROVAL_REF, project } from '../../_shared/scripts/project.js';
+import { readSpecErrors } from '../../_shared/scripts/check-spec.js';
 import { parseSpec } from '../../_shared/scripts/spec.js';
-import { componentPaths, git } from './shared.js';
+import { componentPaths, git } from '../../_shared/scripts/verification.js';
 
 /**
  * A spec is approved when it is on `main`: merging its PR is the approval, and
@@ -53,17 +53,6 @@ export function checkPreflight({ trackedChanges, ...approval }) {
       ? [`Commit or stash tracked changes first:\n${trackedChanges}`]
       : []),
   ];
-}
-
-function runValidator(script, args) {
-  const result = spawnSync(
-    'node',
-    [`.claude/skills/spec/scripts/${script}`, ...args],
-    { encoding: 'utf8' },
-  );
-  return result.status === 0
-    ? []
-    : [`${script} failed:\n${result.stdout}${result.stderr}`.trim()];
 }
 
 async function main() {
@@ -116,14 +105,11 @@ async function main() {
           .output,
       });
   errors.push(
-    ...runValidator('check-facts.js', ['--facts', paths.facts]),
-    ...runValidator('check-spec.js', [
-      '--ready',
-      '--facts',
-      paths.facts,
-      '--spec',
-      paths.spec,
-    ]),
+    ...(await readSpecErrors({
+      spec: paths.spec,
+      facts: paths.facts,
+      isReady: true,
+    })),
   );
 
   for (const error of errors) console.error(`ERROR: ${error}`);

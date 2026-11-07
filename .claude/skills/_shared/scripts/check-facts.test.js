@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { fnv1a } from '../../_shared/scripts/hash.js';
+import { fnv1a } from './hash.js';
 import { checkFacts, toManifestName } from './check-facts.js';
 
 const manifest = { tokens: { 'dy-space-xs': {}, 'dy-color-text-default': {} } };

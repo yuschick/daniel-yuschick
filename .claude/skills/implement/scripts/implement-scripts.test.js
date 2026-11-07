@@ -7,12 +7,12 @@ import {
   buildLedger,
   buildReviewerPrompt,
   buildStandardsLedger,
-} from './implement-ledger.js';
+} from '../../_shared/scripts/review-ledger.js';
 import {
   parseCompilerOutput,
   readTypeExpression,
   renderApiCheck,
-} from './check-api.js';
+} from '../../_shared/scripts/check-api.js';
 import {
   checkDefaults,
   checkInlineStyles,
@@ -22,16 +22,19 @@ import {
   checkTokens,
   checkTokensExist,
   expectedTokens,
-} from './check-component.js';
+} from '../../_shared/scripts/check-component.js';
 import {
   checkReport,
   findRepeats,
   parseReport,
   recordReview,
-} from './check-review.js';
+} from '../../_shared/scripts/check-review.js';
 import { checkApproval, checkPreflight } from './preflight.js';
-import { listGates, runGates } from './run-gates.js';
-import { findReviewLimit, hasPassingReview } from './shared.js';
+import { listGates, runGates } from '../../_shared/scripts/run-gates.js';
+import {
+  findReviewLimit,
+  hasPassingReview,
+} from '../../_shared/scripts/verification.js';
 
 const SPEC = `---
 component: Chip

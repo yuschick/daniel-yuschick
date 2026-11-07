@@ -9,7 +9,7 @@ import {
 } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { project } from '../../_shared/scripts/project.js';
+import { project } from './project.js';
 
 /** Everything that decides what a component does or how it's judged, so a review stays pinned to it. */
 const REVIEWED_PATHS = [
