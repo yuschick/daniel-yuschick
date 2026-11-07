@@ -39,7 +39,7 @@ Figma's MCP returns exports to the agent rather than to disk, so each export is 
 | `css/dy.css`             | Everything below: what `@dy/css/global.css` imports (`@dy/tokens/css`)  |
 | `css/tokens.css`         | Theme-neutral tokens in `@layer dy.tokens` on `:root`                   |
 | `css/themes/<theme>.css` | Colors in `@layer dy.themes`; the default theme also applies to `:root` |
-| `manifest.json`          | Every shipped token with its type and CSS value                         |
+| `manifest.json`          | Every shipped token, and the measured ratio of every contrast pair      |
 
 The CSS fills the `dy.tokens` and `dy.themes` layers but doesn't declare their order: [`@dy/css`](../css/README.md) owns the cascade. Load the tokens through `@dy/css/global.css`, or after `@dy/css/reset.css`, so the order is set before any layer appears.
 
@@ -55,6 +55,8 @@ How Figma values become CSS ([`style-dictionary/config.js`](style-dictionary/con
 | Duration    | `150ms`                                                                                                 |
 | Easing      | `cubic-bezier(…)`                                                                                       |
 | Shape       | `circle` → `50%` and `pill` → `9999px`, which Figma can't express                                       |
+
+The manifest is what documentation reads (Storybook's Foundations pages, the `/spec` and `/build` checks). Each token has its `type`, CSS `value` and Figma `description`. Colors also carry `modes`, their value in each color mode, and `contrast` lists every pair from `contrast-pairs.json` with its ratio per mode, rounded down. Values are keyed by mode now so dark mode adds a key rather than changing the shape.
 
 Before writing anything, the build checks that no primitive or theme-role token appears in the CSS, that no `{dy.…}` reference is left unresolved, and that every pair in [`contrast-pairs.json`](contrast-pairs.json) meets its WCAG minimum in every theme. Any failure stops the build. Until `/sync-tokens` has run, `src/` doesn't exist and the build skips with a message.
 
