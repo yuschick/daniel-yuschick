@@ -644,12 +644,12 @@ describe('the skill', () => {
     );
 
     assert.doesNotMatch(frontMatter, /SubagentStop/);
-    assert.equal(hooks.SubagentStop.length, 1);
-    assert.equal(hooks.SubagentStop[0].matcher, 'component-reviewer');
-    assert.match(
-      hooks.SubagentStop[0].hooks[0].command,
-      /run-hooks\.js" review$/,
+    const builds = hooks.SubagentStop.filter(({ hooks: [hook] }) =>
+      hook.command.includes('/implement/scripts/'),
     );
+    assert.equal(builds.length, 1);
+    assert.equal(builds[0].matcher, 'component-reviewer');
+    assert.match(builds[0].hooks[0].command, /run-hooks\.js" review$/);
   });
 });
 
@@ -660,7 +660,7 @@ describe('gates', () => {
       gates.map(({ name }) => name),
       ['checker', 'approval', 'component', 'turbo', 'format'],
     );
-    assert.match(gates[0].command, /implement\/scripts\/\*\.test\.js/);
+    assert.match(gates[0].command, /skills\/\*\/scripts\/\*\.test\.js/);
     assert.match(gates[1].command, /--approval-only/);
   });
 

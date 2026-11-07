@@ -17,6 +17,7 @@ const REVIEWED_PATHS = [
   '.claude/skills/_shared',
   '.claude/skills/implement',
   '.claude/skills/project.json',
+  '.claude/skills/review',
   ...project.paths.reviewed,
 ];
 const lower = (path) => path.toLowerCase();
@@ -166,12 +167,12 @@ export function git(args) {
 }
 
 /** @param {string} component Lowercase component name, as in the spec's file name. */
-export function componentPaths(component) {
+export function componentPaths(component, skill = 'implement') {
   const { specs } = project.paths;
   return {
     spec: `${specs}/${component}.md`,
     facts: `${specs}/${component}.facts.json`,
-    cache: `node_modules/.cache/implement/${component}`,
+    cache: `node_modules/.cache/${skill}/${component}`,
   };
 }
 

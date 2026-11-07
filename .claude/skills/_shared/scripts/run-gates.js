@@ -6,6 +6,7 @@ import { parseArgs } from 'node:util';
 import { componentPaths, readRun, treeHash } from './verification.js';
 
 const OUTPUT_TAIL_LINES = 40;
+const IMPLEMENT_SCRIPTS = '.claude/skills/implement/scripts';
 
 /** Removes terminal colors, so a saved log stays readable to a reviewer. */
 const stripColors = (text) => text.replace(/\u001b\[[0-9;]*m/g, '');
@@ -35,23 +36,22 @@ export function runGates(gates, run) {
 /**
  * The checker runs first: a gate that can't catch its seeded defects proves nothing.
  *
- * @param {{ component: string, base: string }} options
+ * @param {{ component: string, base: string, scripts?: string }} options `scripts` is the calling skill's folder, which provides `preflight.js --approval-only` and `check-component.js`.
  * @returns {{ name: string, command: string }[]}
  */
-export function listGates({ component, base }) {
+export function listGates({ component, base, scripts = IMPLEMENT_SCRIPTS }) {
   return [
     {
       name: 'checker',
-      command:
-        'node --test .claude/skills/implement/scripts/*.test.js .claude/skills/spec/scripts/*.test.js .claude/skills/_shared/scripts/*.test.js',
+      command: 'node --test .claude/skills/*/scripts/*.test.js',
     },
     {
       name: 'approval',
-      command: `node .claude/skills/implement/scripts/preflight.js --component ${component} --approval-only`,
+      command: `node ${scripts}/preflight.js --component ${component} --approval-only`,
     },
     {
       name: 'component',
-      command: `node .claude/skills/implement/scripts/check-component.js --component ${component} --base ${base}`,
+      command: `node ${scripts}/check-component.js --component ${component} --base ${base}`,
     },
     {
       name: 'turbo',
@@ -63,19 +63,22 @@ export function listGates({ component, base }) {
   ];
 }
 
-export function main() {
+export function main({
+  skill = 'implement',
+  scripts = IMPLEMENT_SCRIPTS,
+} = {}) {
   const { values } = parseArgs({
     options: { component: { type: 'string' } },
   });
   if (!values.component)
     throw new Error('Usage: run-gates.js --component <name>');
 
-  const run = readRun(componentPaths(values.component).cache);
+  const run = readRun(componentPaths(values.component, skill).cache);
   if (run === null) throw new Error('Run preflight.js first.');
 
   const before = treeHash();
   const gates = runGates(
-    listGates({ component: values.component, base: run.base }),
+    listGates({ component: values.component, base: run.base, scripts }),
     (command) => {
       const result = spawnSync(command, { shell: true, encoding: 'utf8' });
       return { status: result.status, output: result.stdout + result.stderr };
@@ -84,7 +87,7 @@ export function main() {
   const hash = treeHash();
   const passed = before === hash && gates.every((gate) => gate.passed);
 
-  const { cache } = componentPaths(values.component);
+  const { cache } = componentPaths(values.component, skill);
   mkdirSync(resolve(cache), { recursive: true });
   writeFileSync(
     resolve(cache, 'gates.json'),

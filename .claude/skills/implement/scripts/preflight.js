@@ -1,45 +1,32 @@
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 
-import { APPROVAL_REF, project } from '../../_shared/scripts/project.js';
+import {
+  checkSpecApproval,
+  readApproval,
+} from '../../_shared/scripts/approval.js';
 import { readSpecErrors } from '../../_shared/scripts/check-spec.js';
-import { parseSpec } from '../../_shared/scripts/spec.js';
+import { APPROVAL_REF } from '../../_shared/scripts/project.js';
 import { componentPaths, git } from '../../_shared/scripts/verification.js';
 
 /**
- * A spec is approved when it is on `main`: merging its PR is the approval, and
- * nothing in the file records it. The gates rerun this, so a build can't pass
- * them without preflight's core check.
+ * The spec's approval, plus the branch the hooks guard. The gates rerun this,
+ * so a build can't pass them without preflight's core check.
  *
- * @param {{ branch: string, component: string, spec: { local: string, approved: string | null }, facts: { local: string, approved: string | null } }} options
+ * @param {{ branch: string, component: string } & Parameters<typeof checkSpecApproval>[0]} options
  * @returns {string[]}
  */
 export function checkApproval({ branch, component, spec, facts }) {
-  const errors = [];
-  if (branch !== `implement/${component}`) {
-    errors.push(
-      `Build on implement/${component}, not ${branch}. The hooks only guard that branch.`,
-    );
-  }
-  for (const [label, file] of Object.entries({ spec, facts })) {
-    if (file.approved === null) {
-      errors.push(
-        `The ${label} isn't on ${APPROVAL_REF}, so it isn't approved.`,
-      );
-    } else if (file.approved !== file.local) {
-      errors.push(
-        `The ${label} differs from the approved copy on ${APPROVAL_REF}.`,
-      );
-    }
-  }
-  const { sections } = parseSpec(spec.local);
-  const openQuestions = sections.get('Open questions')?.text.join('\n').trim();
-  if (openQuestions !== 'None.') {
-    errors.push('The spec has open questions.');
-  }
-  return errors;
+  return [
+    ...(branch === `implement/${component}`
+      ? []
+      : [
+          `Build on implement/${component}, not ${branch}. The hooks only guard that branch.`,
+        ]),
+    ...checkSpecApproval({ spec, facts }),
+  ];
 }
 
 /**
@@ -72,30 +59,17 @@ async function main() {
   }
 
   const paths = componentPaths(values.component);
-  if (!git(['fetch', 'origin', project.defaultBranch, '--quiet']).ok) {
-    console.error(`ERROR: Couldn't fetch ${APPROVAL_REF}.`);
+  const read = await readApproval(paths);
+  if ('error' in read) {
+    console.error(`ERROR: ${read.error}`);
     process.exitCode = 1;
     return;
   }
 
-  const readApproved = (file) => {
-    const { ok, output } = git(['show', `${APPROVAL_REF}:${file}`]);
-    return ok ? output : null;
-  };
-  const readLocal = async (file) =>
-    (await readFile(resolve(file), 'utf8')).trim();
-
   const approval = {
     branch: git(['branch', '--show-current']).output,
     component: values.component,
-    spec: {
-      local: await readLocal(paths.spec),
-      approved: readApproved(paths.spec),
-    },
-    facts: {
-      local: await readLocal(paths.facts),
-      approved: readApproved(paths.facts),
-    },
+    ...read,
   };
   const errors = isApprovalOnly
     ? checkApproval(approval)
