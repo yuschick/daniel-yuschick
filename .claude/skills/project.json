@@ -1,0 +1,5 @@
+{
+  "approver": "Daniel",
+  "defaultBranch": "main",
+  "gh": ["gh", "/opt/homebrew/bin/gh"]
+}
