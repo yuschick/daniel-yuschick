@@ -1,0 +1,48 @@
+@layer dy.react {
+  .logo {
+    align-items: center;
+    color: var(--dy-color-text-strong);
+    display: inline-flex;
+    flex-wrap: nowrap;
+    /* Unset in the mark lockup, which has one child, so it computes to normal. */
+    gap: var(--logo-space-gap);
+    vertical-align: middle;
+
+    & .mark {
+      block-size: var(--logo-size-block);
+      flex-shrink: 0;
+      inline-size: auto;
+    }
+
+    /* The name, in the full lockup. */
+    & > span {
+      font: var(--dy-font-weight-heading) var(--logo-font-size) /
+        var(--dy-font-line-height-none) var(--dy-font-family-heading);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    &.lockup-full.size-l {
+      --logo-space-gap: var(--dy-space-m);
+    }
+
+    &.lockup-full:is(.size-m, .size-s) {
+      --logo-space-gap: var(--dy-space-s);
+    }
+
+    &.size-l {
+      --logo-font-size: var(--dy-font-size-heading-s);
+      --logo-size-block: var(--dy-size-component-l);
+    }
+
+    &.size-m {
+      --logo-font-size: var(--dy-font-size-heading-xs);
+      --logo-size-block: var(--dy-size-component-m);
+    }
+
+    &.size-s {
+      --logo-font-size: var(--dy-font-size-heading-xs);
+      --logo-size-block: var(--dy-size-component-s);
+    }
+  }
+}
