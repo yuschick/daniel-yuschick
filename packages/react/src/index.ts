@@ -1,2 +1,2 @@
-export { Button } from './components';
-export type { ButtonProps } from './components';
+export { Button, Logo } from './components';
+export type { ButtonProps, Lockup, LogoProps } from './components';
