@@ -46,16 +46,16 @@ import {
 
 /*
  ** Claude Code runs these hooks, so the author can't choose to skip them. They
- ** register for the whole session once /build runs, so they only act on a
- ** `build/*` branch, leaving /spec and /sync-tokens alone.
+ ** register for the whole session once /implement runs, so they only act on a
+ ** `implement/*` branch, leaving /spec and /sync-tokens alone.
  */
 
-const BUILD_BRANCH = /^build\/(.+)$/;
+const IMPLEMENT_BRANCH = /^implement\/(.+)$/;
 const FILE_TOOLS = new Set(['Edit', 'NotebookEdit', 'Write']);
 const SUBAGENT_TOOLS = new Set(['Agent', 'Task']);
 const RESET_FLAG = '--reset';
 const REVIEWER = 'component-reviewer';
-const SCRIPTS_DIRECTORY = '.claude/skills/build/scripts';
+const SCRIPTS_DIRECTORY = '.claude/skills/implement/scripts';
 const MANIFEST = 'packages/tokens/dist/manifest.json';
 const SYSTEM_TOKEN = /--dy-[a-z0-9-]+/g;
 // The docs confirm a hook's `ask` reaches a person in these. Elsewhere it may
@@ -185,14 +185,14 @@ export function isExpectedCommand(tokens, component) {
     if (first === 'switch') {
       return args
         .slice(1)
-        .every((arg) => arg === '-c' || BUILD_BRANCH.test(arg));
+        .every((arg) => arg === '-c' || IMPLEMENT_BRANCH.test(arg));
     }
     return (
       first === 'push' &&
       args.length === 4 &&
       second === '-u' &&
       third === 'origin' &&
-      args[3] === `build/${component}`
+      args[3] === `implement/${component}`
     );
   }
   if (program === 'pnpm') {
@@ -218,7 +218,7 @@ export function isExpectedCommand(tokens, component) {
     return (
       scripts.length > 0 &&
       scripts.every((script) =>
-        /^\.claude\/skills\/(build|spec)\/scripts\/[\w*.-]+\.js$/.test(
+        /^\.claude\/skills\/(implement|spec)\/scripts\/[\w*.-]+\.js$/.test(
           script ?? '',
         ),
       )
@@ -288,7 +288,7 @@ export function decideTool({
     if (repoPath === null) return allow();
     const access = classifyPath(repoPath, component);
     if (access === 'deny') {
-      return deny(`${repoPath} is outside what a /build may change.`);
+      return deny(`${repoPath} is outside what /implement may change.`);
     }
     if (run === null) {
       return deny(
@@ -360,9 +360,9 @@ export function decideTool({
       });
     return touchesProtected
       ? deny(
-          'This command names a path a /build may not change, and it is not one a build expects, so it is denied even if it only reads. Use the Read tool, or a command from the skill.',
+          'This command names a path /implement may not change, and it is not one a build expects, so it is denied even if it only reads. Use the Read tool, or a command from the skill.',
         )
-      : ask('This command is outside what a /build normally runs.', mode);
+      : ask('This command is outside what /implement normally runs.', mode);
   }
 
   return allow();
@@ -392,10 +392,10 @@ function findReviewerProblem({ input, cache }) {
     return `${latest} hasn't been recorded. Run check-review.js before another review, so no failed round goes uncounted.`;
   }
   const promptPath = resolve(cache, 'reviewer-prompt.txt');
-  if (!existsSync(promptPath)) return 'Run build-ledger.js first.';
+  if (!existsSync(promptPath)) return 'Run implement-ledger.js first.';
   return input.prompt?.trim() === readFileSync(promptPath, 'utf8').trim()
     ? null
-    : 'Give the reviewer exactly the prompt build-ledger.js wrote, and nothing else, so it stays cold.';
+    : 'Give the reviewer exactly the prompt implement-ledger.js wrote, and nothing else, so it stays cold.';
 }
 
 /**
@@ -567,7 +567,7 @@ function handleStop({ input, component }) {
   if (pause?.treeHash === treeHash()) {
     console.log(
       JSON.stringify({
-        systemMessage: `/build paused with the gates not passing: ${pause.reason}`,
+        systemMessage: `/implement paused with the gates not passing: ${pause.reason}`,
       }),
     );
     return;
@@ -578,11 +578,11 @@ function handleStop({ input, component }) {
       input.stop_hook_active
         ? {
             systemMessage:
-              '/build stopped without passing gates and without saying why.',
+              '/implement stopped without passing gates and without saying why.',
           }
         : {
             decision: 'block',
-            reason: `The gates haven't passed on this code. Run run-gates.js, or if you need Daniel, run: node .claude/skills/build/scripts/build-hooks.js pause --reason "<why>"`,
+            reason: `The gates haven't passed on this code. Run run-gates.js, or if you need Daniel, run: node .claude/skills/implement/scripts/implement-hooks.js pause --reason "<why>"`,
           },
     ),
   );
@@ -594,10 +594,10 @@ function handlePause(argv) {
     options: { reason: { type: 'string' } },
   });
   const { output: branch } = git(['branch', '--show-current']);
-  const component = branch.match(BUILD_BRANCH)?.[1];
+  const component = branch.match(IMPLEMENT_BRANCH)?.[1];
   if (!component || !values.reason) {
     throw new Error(
-      'Usage, on a build branch: build-hooks.js pause --reason <why>',
+      'Usage, on a build branch: implement-hooks.js pause --reason <why>',
     );
   }
   const { cache } = componentPaths(component);
@@ -619,7 +619,7 @@ function main() {
   const input = JSON.parse(readFileSync(0, 'utf8'));
   process.chdir(input.cwd);
   const { output: branch } = git(['branch', '--show-current']);
-  const component = branch.match(BUILD_BRANCH)?.[1];
+  const component = branch.match(IMPLEMENT_BRANCH)?.[1];
   if (!component) return;
 
   const { output: root } = git(['rev-parse', '--show-toplevel']);
@@ -668,7 +668,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   } catch (error) {
     // Exit code 2 blocks: a guard that crashes must never wave a call through.
     // Elsewhere it would trap the session or a finished reviewer.
-    console.error(`build-hooks: ${error.message}`);
+    console.error(`implement-hooks: ${error.message}`);
     process.exitCode = process.argv[2] === 'pre' ? 2 : 1;
   }
 }

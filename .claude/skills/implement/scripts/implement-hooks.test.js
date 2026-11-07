@@ -22,12 +22,12 @@ import {
   parseCommand,
   readReport,
   readReportFromTranscript,
-} from './build-hooks.js';
+} from './implement-hooks.js';
 import { classifyPath, treeHash } from './shared.js';
 
 const HOOKS = resolve(
   dirname(fileURLToPath(import.meta.url)),
-  'build-hooks.js',
+  'implement-hooks.js',
 );
 const REPO_ROOT = resolve(dirname(HOOKS), '../../../..');
 
@@ -50,9 +50,9 @@ describe('what a build may touch', () => {
     ['pnpm-lock.yaml', 'deny'],
     ['turbo.json', 'deny'],
     ['AGENTS.md', 'deny'],
-    ['.claude/skills/build/SKILL.md', 'deny'],
+    ['.claude/skills/implement/SKILL.md', 'deny'],
     ['.claude/settings.json', 'deny'],
-    ['node_modules/.cache/build/chip/gates.json', 'deny'],
+    ['node_modules/.cache/implement/chip/gates.json', 'deny'],
     ['apps/web/page.tsx', 'deny'],
   ]) {
     it(`${expected}: ${path}`, () => {
@@ -72,15 +72,15 @@ describe('shell commands', () => {
   for (const command of [
     'git status --short',
     'git add packages/react/src/components/Chip && git commit -m "a; b > c"',
-    'git switch -c build/chip',
-    'git push -u origin build/chip',
+    'git switch -c implement/chip',
+    'git push -u origin implement/chip',
     'pnpm turbo run lint check-types build test --ui=stream',
     'pnpm format:check 2>&1 | tail -3',
     'pnpm --filter @dy/tokens build',
     'pnpm --filter @dy/react test',
     'pnpm exec prettier --write packages/react/src/components/Chip/Chip.tsx',
-    'node .claude/skills/build/scripts/run-gates.js --component chip',
-    'node --test .claude/skills/build/scripts/*.test.js',
+    'node .claude/skills/implement/scripts/run-gates.js --component chip',
+    'node --test .claude/skills/implement/scripts/*.test.js',
     'grep -n token packages/react/specs/chip.md > /dev/null',
     '/opt/homebrew/bin/gh pr create --draft --title a',
   ]) {
@@ -115,7 +115,7 @@ describe('shell commands', () => {
     'git stash',
     'git diff --output=a.md',
     'git push origin main',
-    'git push -u origin build/other',
+    'git push -u origin implement/other',
     'pnpm add left-pad',
     'pnpm format',
     'pnpm exec prettier --write packages/react/specs/chip.md',
@@ -299,7 +299,7 @@ describe('hook decisions', () => {
       '/repo/packages/react/specs/chip.md',
       'packages/react/specs/chip.md',
       '/repo/packages/react/src/../specs/chip.md',
-      '/repo/node_modules/.cache/build/chip/gates.json',
+      '/repo/node_modules/.cache/implement/chip/gates.json',
     ]) {
       assert.equal(decide('Edit', { file_path }).decision, 'deny', file_path);
     }
@@ -333,7 +333,7 @@ describe('hook decisions', () => {
 
   it('asks a person before resetting the review rounds', () => {
     const command =
-      'node .claude/skills/build/scripts/check-review.js --component chip --reset';
+      'node .claude/skills/implement/scripts/check-review.js --component chip --reset';
     assert.equal(decide('Bash', { command }).decision, 'ask');
     assert.equal(
       decide('Bash', { command }, { mode: 'bypassPermissions' }).decision,
@@ -342,7 +342,7 @@ describe('hook decisions', () => {
     assert.equal(
       decide('Bash', {
         command:
-          'node .claude/skills/build/scripts/check-review.js --component chip',
+          'node .claude/skills/implement/scripts/check-review.js --component chip',
       }).decision,
       'allow',
     );
@@ -369,7 +369,7 @@ describe('hook decisions', () => {
       'echo hacked > packages/react/specs/chip.md',
       'rm packages/tokens/dist/manifest.json',
       'git checkout -- packages/configs/eslint/index.js',
-      'sed -i "" s/a/b/ .claude/skills/build/SKILL.md',
+      'sed -i "" s/a/b/ .claude/skills/implement/SKILL.md',
     ]) {
       assert.equal(decide('Bash', { command }).decision, 'deny', command);
     }
@@ -420,7 +420,7 @@ describe('hook decisions', () => {
     for (const command of [
       'git commit -m a',
       'git add a.ts && git commit -m a',
-      'git push -u origin build/chip',
+      'git push -u origin implement/chip',
       'gh pr create --draft --title a',
       '/opt/homebrew/bin/gh pr create --draft --title a',
     ]) {
@@ -532,7 +532,7 @@ describe('the hooks, as Claude Code runs them', () => {
   };
 
   before(() => {
-    repo = realpathSync(mkdtempSync(join(tmpdir(), 'dy-build-hooks-')));
+    repo = realpathSync(mkdtempSync(join(tmpdir(), 'dy-implement-hooks-')));
     git('init', '--quiet', '-b', 'main');
     write('.gitignore', 'node_modules\n');
     write('packages/react/specs/chip.md', SPEC);
@@ -577,20 +577,20 @@ describe('the hooks, as Claude Code runs them', () => {
   it('blocks when the hook itself fails', () => {
     const { status, stderr } = runHook('pre', {}, 'not json');
     assert.equal(status, 2);
-    assert.match(stderr, /build-hooks/);
+    assert.match(stderr, /implement-hooks/);
   });
 
   describe('on a build branch', () => {
     before(() => {
-      git('switch', '--quiet', '-c', 'build/chip');
+      git('switch', '--quiet', '-c', 'implement/chip');
       write(
-        'node_modules/.cache/build/chip/run.json',
+        'node_modules/.cache/implement/chip/run.json',
         JSON.stringify({ staging: false, step: false, base: 'origin/main' }),
       );
     });
 
     it('denies a component write until preflight has recorded a pass', () => {
-      const run = join(repo, 'node_modules/.cache/build/chip/run.json');
+      const run = join(repo, 'node_modules/.cache/implement/chip/run.json');
       const saved = readFileSync(run, 'utf8');
       rmSync(run);
       const { output } = runHook('pre', {
@@ -606,7 +606,7 @@ describe('the hooks, as Claude Code runs them', () => {
     });
 
     it('denies a commit when preflight recorded a staging build', () => {
-      const run = join(repo, 'node_modules/.cache/build/chip/run.json');
+      const run = join(repo, 'node_modules/.cache/implement/chip/run.json');
       const saved = readFileSync(run, 'utf8');
       writeFileSync(run, JSON.stringify({ staging: true }));
       const { output } = runHook('pre', {
@@ -654,7 +654,7 @@ describe('the hooks, as Claude Code runs them', () => {
       runHook('post', { tool_name: 'Edit', tool_input: { file_path: file } });
       const approvals = JSON.parse(
         readFileSync(
-          join(repo, 'node_modules/.cache/build/chip/approvals.json'),
+          join(repo, 'node_modules/.cache/implement/chip/approvals.json'),
           'utf8',
         ),
       );
@@ -730,7 +730,7 @@ describe('the hooks, as Claude Code runs them', () => {
 
     it('stays quiet when the gates passed on this exact code', () => {
       write(
-        'node_modules/.cache/build/chip/gates.json',
+        'node_modules/.cache/implement/chip/gates.json',
         JSON.stringify({ passed: true, treeHash: inRepo(treeHash) }),
       );
       const { status, output } = runHook('stop', { stop_hook_active: false });
@@ -739,7 +739,7 @@ describe('the hooks, as Claude Code runs them', () => {
     });
 
     describe('saving a report', () => {
-      const CACHE = 'node_modules/.cache/build/chip';
+      const CACHE = 'node_modules/.cache/implement/chip';
       const readState = () =>
         JSON.parse(readFileSync(join(repo, `${CACHE}/rounds.json`), 'utf8'));
       const failingReport = () =>
@@ -783,7 +783,7 @@ describe('the hooks, as Claude Code runs them', () => {
         const recheck = spawnSync(
           'node',
           [
-            HOOKS.replace('build-hooks.js', 'check-review.js'),
+            HOOKS.replace('implement-hooks.js', 'check-review.js'),
             '--component',
             'chip',
           ],
@@ -801,7 +801,7 @@ describe('the hooks, as Claude Code runs them', () => {
     });
 
     describe('starting a reviewer', () => {
-      const CACHE = 'node_modules/.cache/build/chip';
+      const CACHE = 'node_modules/.cache/implement/chip';
       const PROMPT = 'Spec: a.md\nBundle: b.md\nFacts: c.json';
       const startReviewer = (overrides = {}) =>
         runHook('pre', {
@@ -829,7 +829,10 @@ describe('the hooks, as Claude Code runs them', () => {
 
       it('refuses without the generated prompt', () => {
         setGates();
-        assert.match(startReviewer().permissionDecisionReason, /build-ledger/);
+        assert.match(
+          startReviewer().permissionDecisionReason,
+          /implement-ledger/,
+        );
       });
 
       it('allows only the exact generated prompt', () => {
@@ -884,7 +887,7 @@ describe('the hooks, as Claude Code runs them', () => {
     });
 
     describe('opening a pull request', () => {
-      const CACHE = 'node_modules/.cache/build/chip';
+      const CACHE = 'node_modules/.cache/implement/chip';
       const openPullRequest = () =>
         runHook('pre', {
           tool_name: 'Bash',

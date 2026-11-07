@@ -19,9 +19,9 @@ const APPROVAL_REF = 'origin/main';
  */
 export function checkApproval({ branch, component, spec, facts }) {
   const errors = [];
-  if (branch !== `build/${component}`) {
+  if (branch !== `implement/${component}`) {
     errors.push(
-      `Build on build/${component}, not ${branch}. The hooks only guard that branch.`,
+      `Build on implement/${component}, not ${branch}. The hooks only guard that branch.`,
     );
   }
   for (const [label, file] of Object.entries({ spec, facts })) {

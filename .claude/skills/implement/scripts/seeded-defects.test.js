@@ -299,7 +299,7 @@ const SEEDED_DEFECTS = [
     file: 'packages/react/src/types/common.ts',
     edit: (source) => {
       writeFileSync(
-        join(repo, 'node_modules/.cache/build/chip/approvals.json'),
+        join(repo, 'node_modules/.cache/implement/chip/approvals.json'),
         JSON.stringify({ 'packages/react/src/types/common.ts': 'stale' }),
       );
       return `// A changed rule.\n${source}`;
@@ -367,7 +367,7 @@ describe('seeded defects', () => {
     git('tag', BASE_TAG);
     writeFiles(BUILD_FILES);
     commitAll('build');
-    mkdirSync(join(repo, 'node_modules/.cache/build/chip'), {
+    mkdirSync(join(repo, 'node_modules/.cache/implement/chip'), {
       recursive: true,
     });
   });

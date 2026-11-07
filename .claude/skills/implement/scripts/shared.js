@@ -12,7 +12,7 @@ import { resolve } from 'node:path';
 /** Everything that decides what a component does or how it's judged, so a review stays pinned to it. */
 const REVIEWED_PATHS = [
   '.claude/agents',
-  '.claude/skills/build',
+  '.claude/skills/implement',
   'brain/standards',
   'packages/configs',
   'packages/react/specs',
@@ -171,7 +171,7 @@ export function componentPaths(component) {
   return {
     spec: `${specs}/${component}.md`,
     facts: `${specs}/${component}.facts.json`,
-    cache: `node_modules/.cache/build/${component}`,
+    cache: `node_modules/.cache/implement/${component}`,
   };
 }
 

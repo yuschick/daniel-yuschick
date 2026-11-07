@@ -5,7 +5,7 @@ import { dirname, resolve } from 'node:path';
 
 const CHECK_FILE = 'api-check.ts';
 const COMPILER_ERROR = /api-check\.ts\((\d+),\d+\): error TS\d+: (.+)/;
-// From node_modules/.cache/build/<component>, where the check is generated.
+// From node_modules/.cache/implement/<component>, where the check is generated.
 const TO_ROOT = '../../../..';
 
 const literal = (value) => `'${value}'`;

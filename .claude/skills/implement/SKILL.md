@@ -1,27 +1,27 @@
 ---
-name: build
-description: Build a component from its approved spec, prove it with deterministic gates and a cold review, and open a draft pull request, or rehearse all of it with --staging. It never edits a spec, approves a PR or merges one. Run only when Daniel invokes /build.
+name: implement
+description: Build a component from its approved spec, prove it with deterministic gates and a cold review, and open a draft pull request, or rehearse all of it with --staging. It never edits a spec, approves a PR or merges one. Run only when Daniel invokes /implement.
 disable-model-invocation: true
 argument-hint: '<component> [--step] [--staging]'
-allowed-tools: Bash(node .claude/skills/build/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *) Bash(git push -u origin build/*) Bash(gh pr create --draft *) Bash(/opt/homebrew/bin/gh pr create --draft *)
+allowed-tools: Bash(node .claude/skills/implement/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *) Bash(git push -u origin implement/*) Bash(gh pr create --draft *) Bash(/opt/homebrew/bin/gh pr create --draft *)
 hooks:
   PreToolUse:
     - matcher: 'Edit|Write|NotebookEdit|Bash|Agent|Task|SendMessage'
       hooks:
         - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" pre'
+          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/implement/scripts/run-hooks.js" pre'
           onFailure: block
           timeout: 30
   PostToolUse:
     - matcher: 'Edit|Write|NotebookEdit'
       hooks:
         - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" post'
+          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/implement/scripts/run-hooks.js" post'
           timeout: 120
   Stop:
     - hooks:
         - type: command
-          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/build/scripts/run-hooks.js" stop'
+          command: 'node "${CLAUDE_PROJECT_DIR}/.claude/skills/implement/scripts/run-hooks.js" stop'
           timeout: 30
 ---
 
@@ -38,14 +38,14 @@ Turns an approved spec into a component and ends at a draft pull request. **The 
 
 ## The hooks
 
-On a `build/*` branch, Claude Code runs [scripts/build-hooks.js](scripts/build-hooks.js), through [scripts/run-hooks.js](scripts/run-hooks.js), around your tools, so these aren't choices you make:
+On an `implement/*` branch, Claude Code runs [scripts/implement-hooks.js](scripts/implement-hooks.js), through [scripts/run-hooks.js](scripts/run-hooks.js), around your tools, so these aren't choices you make:
 
 - **Before a tool runs.** The component folder and barrels are open. A shared rule, meaning `brain/standards/` or `packages/react/src/types/`, prompts Daniel for each edit, because only a person can change one. Everything else is denied, including specs, facts, tokens, configs, dependency files and the skills. Other shell commands prompt Daniel, or are denied if they name a protected path, so use the commands in this skill and `git commit -m`. The only subagent you may start is `component-reviewer`, and a PR must be a draft on code that passed the gates.
 - **After each edit.** The tokens, styles and suppressions in that file are checked, and a style sheet is also run through the package's own Stylelint. Any problem comes straight back to you, so fix it before moving on. ESLint runs at the gates, so half-finished TypeScript isn't judged. To lint sooner, run `pnpm turbo run lint --filter=@dy/react`, because a command that names a package any other way is denied.
 - **Before you finish.** You can't end a turn with the code ahead of the gates without saying why. If you need Daniel, say so first, which also tells him directly:
 
   ```sh
-  node .claude/skills/build/scripts/build-hooks.js pause --reason "<why>"
+  node .claude/skills/implement/scripts/implement-hooks.js pause --reason "<why>"
   ```
 
 Never try to get around a denial. It means the work has gone outside the build, so stop and ask Daniel.
@@ -54,20 +54,20 @@ Never try to get around a denial. It means the work has gone outside the build, 
 
 `$0` is the lowercase component name, which names its spec. Ask if it's missing. The rest of `$ARGUMENTS` can hold two flags:
 
-- **`--step`** pauses after every numbered stage. Run `build-hooks.js pause --reason "<stage> done"`, summarize what the stage produced, and wait for Daniel. Use it whenever he's tuning this skill.
+- **`--step`** pauses after every numbered stage. Run `implement-hooks.js pause --reason "<stage> done"`, summarize what the stage produced, and wait for Daniel. Use it whenever he's tuning this skill.
 - **`--staging`** is a rehearsal on a real component, on top of the unmerged skill. Every check runs as usual, but nothing is committed, pushed or opened as a PR, and the hooks deny all three. The work stays uncommitted for Daniel to inspect, and step 8 reports instead.
 
 ## 1. Preflight
 
 Stop and report on any failure. Don't work around one. **Nothing can be written to the component until this passes.**
 
-If `node_modules/.cache/build/<component>/run.json` exists and you're on `build/<component>`, this build is resuming, so skip to wherever the work stands. The gates recheck the approval either way.
+If `node_modules/.cache/implement/<component>/run.json` exists and you're on `implement/<component>`, this build is resuming, so skip to wherever the work stands. The gates recheck the approval either way.
 
-1. Get on `build/<component>`. If it doesn't exist, create it: from an up-to-date `main`, or from the current branch for `--staging`. If it exists but belongs to earlier work, stop and ask Daniel.
+1. Get on `implement/<component>`. If it doesn't exist, create it: from an up-to-date `main`, or from the current branch for `--staging`. If it exists but belongs to earlier work, stop and ask Daniel.
 2. Run `pnpm --filter @dy/tokens build`, then pass any flags:
 
    ```sh
-   node .claude/skills/build/scripts/preflight.js --component <component> [--staging] [--step]
+   node .claude/skills/implement/scripts/preflight.js --component <component> [--staging] [--step]
    ```
 
    This confirms the spec and facts are on `origin/main` and match it, which is what makes them approved, and that the spec has no open questions. Nothing writes approval into the spec.
@@ -94,7 +94,7 @@ Write the real component until its tests pass, following the spec row by row. Th
 ## 5. Gates
 
 ```sh
-node .claude/skills/build/scripts/run-gates.js --component <component>
+node .claude/skills/implement/scripts/run-gates.js --component <component>
 ```
 
 It runs the skills' own tests, including the seeded defects that prove the checks can fail, then rechecks that the spec is approved, then the component checks, `pnpm turbo run lint check-types build test` and `pnpm format:check`, and pins the results to a hash of the code.
@@ -110,15 +110,15 @@ Run this only when the gates print `GATES: PASS`. Commit first, so each round is
 1. Capture what the reviewer will see:
 
    ```sh
-   node .claude/skills/build/scripts/capture-story.js --story components-<component>--conformance --output node_modules/.cache/build/<component>/story.png
-   node .claude/skills/build/scripts/build-ledger.js --component <component> --screenshot node_modules/.cache/build/<component>/story.png
+   node .claude/skills/implement/scripts/capture-story.js --story components-<component>--conformance --output node_modules/.cache/implement/<component>/story.png
+   node .claude/skills/implement/scripts/implement-ledger.js --component <component> --screenshot node_modules/.cache/implement/<component>/story.png
    ```
 
-2. Start a **new** `component-reviewer` subagent, with the contents of the `reviewer-prompt.txt` that `build-ledger.js` printed as its entire prompt. The hook refuses any other wording, a model override, code that hasn't passed the gates, and a reviewer past the limits, so don't describe the work, your reasoning or earlier rounds.
+2. Start a **new** `component-reviewer` subagent, with the contents of the `reviewer-prompt.txt` that `implement-ledger.js` printed as its entire prompt. The hook refuses any other wording, a model override, code that hasn't passed the gates, and a reviewer past the limits, so don't describe the work, your reasoning or earlier rounds.
 3. A hook saves the reviewer's report and records its verdict as soon as it stops, so you never handle the report, and changing the code can't undo a failed round. Read the result:
 
    ```sh
-   node .claude/skills/build/scripts/check-review.js --component <component>
+   node .claude/skills/implement/scripts/check-review.js --component <component>
    ```
 
    - **`RESULT: MISSING`**: the hook didn't save a report. Stop and tell Daniel. Never write one yourself.
@@ -140,7 +140,7 @@ There are **3 review rounds at most, and never a fourth**. The script counts the
 
 Fix what a flag names, and don't regenerate the component. A rewrite throws away verified work, and new code can introduce new problems.
 
-Whenever you stop for Daniel, record why with `build-hooks.js pause`. If he decides the build should get more rounds, run `node .claude/skills/build/scripts/check-review.js --component <component> --reset`. The hook prompts him for it, and you never run it on your own judgment.
+Whenever you stop for Daniel, record why with `implement-hooks.js pause`. If he decides the build should get more rounds, run `node .claude/skills/implement/scripts/check-review.js --component <component> --reset`. The hook prompts him for it, and you never run it on your own judgment.
 
 ## 8. Draft pull request
 
@@ -148,7 +148,7 @@ Whenever you stop for Daniel, record why with `build-hooks.js pause`. If he deci
 
 Otherwise, a PR only follows a passing review. The hook refuses one unless the gates and the most recent review both passed this exact code. Rerun `check-review.js` first: it must still print `RESULT: PASS`.
 
-Push with `git push -u origin build/<component>` and open a **draft** PR into `main` using the template in `.github/pull_request_template.md`. Always include:
+Push with `git push -u origin implement/<component>` and open a **draft** PR into `main` using the template in `.github/pull_request_template.md`. Always include:
 
 - **Result**: passed, in how many rounds, and any reset Daniel gave, from `rounds.json`.
 - **Findings by round**: what each reviewer flagged and how it was resolved, including anything Daniel dismissed.
@@ -163,7 +163,7 @@ End with the attribution line your harness specifies. Report the URL and stop. M
 - Gates run locally. Until CI exists and `main` requires it, they detect problems rather than block a merge.
 - `--step` relies on you stopping. The hooks can't tell which stage you're in, so it's advisory.
 - `--staging` proves the flow, not delivery: pushing, CI and the PR itself stay untested until a real build.
-- A staging run answers for what changed since its preflight. To try a change to this skill, stash the staging work, `git switch` to the skill branch (the hook prompts Daniel), commit the change, point `build/<component>` at it and rerun preflight, which clears the earlier run's cache.
+- A staging run answers for what changed since its preflight. To try a change to this skill, stash the staging work, `git switch` to the skill branch (the hook prompts Daniel), commit the change, point `implement/<component>` at it and rerun preflight, which clears the earlier run's cache.
 - A build trusts the approved spec, so it won't notice Figma changing after approval. Rerunning `/spec` catches that.
 - Pre-approved tools last only until Daniel's next message, so after a `--step` pause, commands may prompt him.
 - The hooks recognize shell commands, not every effect they can have, so a build script or a command Daniel approves could still write somewhere protected. The scope gate catches that afterwards.
