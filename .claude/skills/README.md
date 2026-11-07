@@ -112,7 +112,7 @@ Keep it to about 100 lines. Limits, templates and long procedures go in `referen
 Each step is its own session and PR.
 
 1. **Conventions** (this page).
-2. **`/retro`**, written to these conventions from the start.
+2. **`/retro`**, written to these conventions from the start. Done; it added the first fields of `project.json` (approver, default branch, `gh`).
 3. **Foundation:** add `project.json` and `_shared/`, move cross-skill imports into `_shared/`, replace hard-coded names and paths, rename `/build` to `/implement` (branch prefix, hooks, AGENTS.md). No behaviour change; the skill tests prove it.
 4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure.
 5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`.
