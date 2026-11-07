@@ -23,13 +23,13 @@ Look for these in the session or the PR record. Each is evidence that something 
 
 ## Destinations
 
-| Destination | Holds                                                                |
-| :---------- | :------------------------------------------------------------------- |
-| `standards` | `brain/standards/`: always a follow-up, changed only by the approver |
-| `skills`    | `.claude/skills/` and `.claude/agents/`                              |
-| `agents-md` | `AGENTS.md`, `CLAUDE.md`, `content/AGENTS.md` and READMEs            |
-| `checks`    | ESLint, Stylelint, gates, hooks, CI, tests and `settings.json`       |
-| `memory`    | Claude's memory: preferences, project state, the park note           |
+| Destination | Holds                                                                  |
+| :---------- | :--------------------------------------------------------------------- |
+| `standards` | `<paths.standards>/`: always a follow-up, changed only by the approver |
+| `skills`    | `.claude/skills/` and `.claude/agents/`                                |
+| `agents-md` | `AGENTS.md`, `CLAUDE.md`, `content/AGENTS.md` and READMEs              |
+| `checks`    | ESLint, Stylelint, gates, hooks, CI, tests and `settings.json`         |
+| `memory`    | Claude's memory: preferences, project state, the park note             |
 
 ## Control labels
 
@@ -37,7 +37,7 @@ How strongly the behaviour a finding concerns is enforced, now and as proposed. 
 
 | Label        | Means                                                                    |
 | :----------- | :----------------------------------------------------------------------- |
-| `blocking`   | A required check stops the merge (CI on `main`).                         |
+| `blocking`   | A required check stops the merge (CI on `<defaultBranch>`).              |
 | `detecting`  | A check fails, but nothing stops a merge (local gates, hooks, a review). |
 | `advisory`   | Written down, and relies on someone reading and following it.            |
 | `unverified` | Not written down or checked anywhere.                                    |

@@ -1,6 +1,6 @@
 ---
 name: spec
-description: Turn a Figma component into a validated, cold-reviewed component spec and open a pull request for human approval. It never builds code. Run only when Daniel invokes /spec.
+description: Turn a Figma component into a validated, cold-reviewed component spec and open a pull request for human approval. It never builds code. Run only when the approver invokes /spec.
 disable-model-invocation: true
 argument-hint: '<figma-url>'
 allowed-tools: Bash(node .claude/skills/spec/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(git status *) Bash(git switch *) Bash(git add packages/react/specs/*) Bash(git commit *) Bash(git push -u origin spec/*) Bash(gh pr create *) Bash(/opt/homebrew/bin/gh pr create *) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__get_screenshot
@@ -8,11 +8,13 @@ allowed-tools: Bash(node .claude/skills/spec/scripts/*) Bash(pnpm --filter @dy/t
 
 # Spec
 
-Turns a Figma component into a spec that says exactly what to build, and ends at a pull request. **A spec is approved only when a human merges it into `main`.** This skill never builds code, approves a PR or merges one.
+Turns a Figma component into a spec that says exactly what to build, and ends at a pull request. **A spec is approved only when a human merges it into `<defaultBranch>`.** This skill never builds code, approves a PR or merges one.
+
+Placeholders that name a field of [project.json](../project.json), such as `<paths.specs>` or `<defaultBranch>`, stand for its value.
 
 ## The rule behind every step
 
-**Uncertainty is a question to Daniel, never a guess.** If Figma, the tokens or `brain/standards/` don't settle something, ask, with a recommendation and its trade-off. Nothing enters the spec unless a source supports it: Figma facts, a standard, or Daniel's recorded decision.
+**Uncertainty is a question to the approver, never a guess.** If Figma, the tokens or `<paths.standards>/` don't settle something, ask, with a recommendation and its trade-off. Nothing enters the spec unless a source supports it: Figma facts, a standard, or the approver's recorded decision.
 
 - Figma wins on names, and `A11Y-*` wins over everything, including Figma.
 - A Figma description is a statement of intent, not a fact. Where it disagrees with the facts or a standard, ask.
@@ -32,23 +34,23 @@ If it prints `ERROR`, report that and stop. Use only the `fileKey` and `nodeId` 
 ## 1. Facts
 
 1. **Stop if Figma is unreachable.** Call `create_session`, then load the `figma-use` skill before the first `use_figma` call. If Figma can't be reached, stop and say so; don't work from memory or screenshots.
-2. **Check the tokens are current.** Run `pnpm --filter @dy/tokens build`. If Figma and `packages/tokens` may have drifted, ask Daniel about running `/sync-tokens` first.
-3. **Extract.** Run [scripts/extract-component.js](scripts/extract-component.js) with only `__NODE_ID__` replaced. `use_figma` can write to Figma, so it isn't pre-approved and each call prompts Daniel. Send only this script, and never change anything in Figma from this skill. It reports what each layer uses, as `token:<name>` or `raw:<value>`, and which variant axes each value depends on.
-4. **Save.** Save the complete result, unchanged, to `packages/react/specs/<component>.facts.json`. Never edit, reformat or summarize it.
+2. **Check the tokens are current.** Run `<commands.buildTokens>`. If Figma and `<paths.tokensPackage>` may have drifted, ask the approver about running `/sync-tokens` first.
+3. **Extract.** Run [scripts/extract-component.js](scripts/extract-component.js) with only `__NODE_ID__` replaced. `use_figma` can write to Figma, so it isn't pre-approved and each call prompts the approver. Send only this script, and never change anything in Figma from this skill. It reports what each layer uses, as `token:<name>` or `raw:<value>`, and which variant axes each value depends on.
+4. **Save.** Save the complete result, unchanged, to `<paths.specs>/<component>.facts.json`. Never edit, reformat or summarize it.
 5. **Check.**
 
    ```sh
-   node .claude/skills/spec/scripts/check-facts.js --facts packages/react/specs/<component>.facts.json
+   node .claude/skills/spec/scripts/check-facts.js --facts <paths.specs>/<component>.facts.json
    ```
 
    - **`ERROR`**: the facts can't be trusted. Stop and report. Re-extract only if the hash failed; don't work around anything else.
-   - **`QUESTION`**: a gap only Daniel can decide. Keep the list for the spec.
+   - **`QUESTION`**: a gap only the approver can decide. Keep the list for the spec.
 
 6. **Look.** On a first spec, or when the facts changed, call `get_screenshot` on the node with `maxDimension` 800 to compare with the facts. An image never overrides them, but a visible disagreement is a question.
 
 ## 2. Draft
 
-**If `packages/react/specs/<component>.md` already exists, this is a rerun.** Keep its Decisions. If its `factsHash` matches, keep the spec as it is and go to step 4. If not, regenerate the Figma tokens table, update `factsHash`, and change only what the new facts require. Ask only about what changed; a recorded decision is never asked again unless the facts contradict it.
+**If `<paths.specs>/<component>.md` already exists, this is a rerun.** Keep its Decisions. If its `factsHash` matches, keep the spec as it is and go to step 4. If not, regenerate the Figma tokens table, update `factsHash`, and change only what the new facts require. Ask only about what changed; a recorded decision is never asked again unless the facts contradict it.
 
 Otherwise, write it from [references/spec-template.md](references/spec-template.md), with `factsHash` set to the facts hash. Produce the Figma tokens table only from the script; never write it by hand:
 
@@ -60,15 +62,15 @@ Read the standards for the component's domain, including what the template lists
 
 ## 3. Ask
 
-Every fact question, and anything else no source settles, goes to Daniel one decision at a time. Record each answer in Decisions. Unanswered ones go under Open questions; never fill them in yourself. Only the Decisions table may cite `Daniel`; other rows cite the decision.
+Every fact question, and anything else no source settles, goes to the approver one decision at a time. Record each answer in Decisions. Unanswered ones go under Open questions; never fill them in yourself. Only the Decisions table may cite `the approver`; other rows cite the decision.
 
 ## 4. Validate
 
 ```sh
-node .claude/skills/spec/scripts/check-spec.js --facts <facts> --spec packages/react/specs/<component>.md
+node .claude/skills/spec/scripts/check-spec.js --facts <facts> --spec <paths.specs>/<component>.md
 ```
 
-Fix every error by correcting the spec or asking. Never loosen the validator to pass. A spec has no `status` field: it's approved by being merged into `main`, so nothing in the file can claim it.
+Fix every error by correcting the spec or asking. Never loosen the validator to pass. A spec has no `status` field: it's approved by being merged into `<defaultBranch>`, so nothing in the file can claim it.
 
 ## 5. Cold review
 
@@ -80,17 +82,17 @@ node .claude/skills/spec/scripts/bundle-review.js --spec <spec> --facts <facts>
 
 Then start a new `spec-reviewer` subagent, with only the spec path, the bundle path it printed and the facts path. Don't describe the work or your reasoning.
 
-Blocking findings go back to step 3, and the review runs again with a fresh agent, **3 rounds at most**. Then stop and show Daniel the findings, even if unresolved. A `Question` always goes to Daniel.
+Blocking findings go back to step 3, and the review runs again with a fresh agent, **3 rounds at most**. Then stop and show the approver the findings, even if unresolved. A `Question` always goes to the approver.
 
 ## 6. Pull request
 
 Continue only when the validator passes with `--ready`, which also requires Open questions to read `None.` CI runs the same check on every spec, so a spec with open questions can't merge.
 
 1. Re-run the validator with `--ready` added.
-2. Create branch `spec/<component>` from an up-to-date `main`, commit only the spec and its facts, push with `git push -u origin spec/<component>`, and open a PR into `main` that contains only those two files.
-3. In the PR body, list every Decision, because only a person can confirm that those citing `Daniel` are real. Also list the last review's remaining findings and the number of review rounds. End with the attribution line your harness specifies.
+2. Create branch `spec/<component>` from an up-to-date `<defaultBranch>`, commit only the spec and its facts, push with `git push -u origin spec/<component>`, and open a PR into `<defaultBranch>` that contains only those two files.
+3. In the PR body, list every Decision, because only a person can confirm that those citing the approver by name are real. Also list the last review's remaining findings and the number of review rounds. End with the attribution line your harness specifies.
 
-Report the PR URL and stop. Merging is a human decision, and it is the approval: nothing may be built from the spec until it's on `main`, and nothing edits the spec to record it.
+Report the PR URL and stop. Merging is a human decision, and it is the approval: nothing may be built from the spec until it's on `<defaultBranch>`, and nothing edits the spec to record it.
 
 ## Limits
 
@@ -98,4 +100,4 @@ Report the PR URL and stop. Merging is a human decision, and it is the approval:
 - Hidden layers are listed, not summarized, so anything inside them needs a question before it's used.
 - The checks can't tell whether a token is the right choice, only that it exists and matches Figma.
 - Figma results are capped at 48KB. A larger component fails rather than truncating, and the extractor would need to split its output.
-- Setting a Figma component's description through a script can re-encode its text, so ask Daniel to edit descriptions by hand.
+- Setting a Figma component's description through a script can re-encode its text, so ask the approver to edit descriptions by hand.

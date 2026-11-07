@@ -62,13 +62,19 @@ A skill that ends at a branch writes a handoff for `/pr` at `node_modules/.cache
 
 Everything specific to this repo lives in [`project.json`](project.json), and nothing else in a skill may hard-code it:
 
-- the approver's name, the default branch and the `gh` path
-- the Figma file key
-- paths: specs, components, standards, the PR template, the tokens package and anything a script imports from outside `.claude/`
-- the verify commands (`pnpm turbo run lint check-types build test`, `pnpm format:check`)
-- which reviewer agent reviews which artifact
+- `approver`, `defaultBranch` and `gh` (every command that may run the GitHub CLI, tried in order)
+- `figma.fileKey`
+- `packages`: the components, Storybook and tokens package names
+- `paths`: the components package and folder, its barrels and public entry, the type registry, specs, standards, the tokens package and manifest, the PR template, and the project paths a review is pinned to
+- `tokens.prefix` and `rules.domains`, which the checks build their patterns from
+- `commands`: building the tokens and the verify commands
+- `reviewers`: which agent reviews which artifact
 
-Skill text says "the approver", not a name. Moving the skills to another project means writing a new `project.json`, not editing skills.
+[`_shared/scripts/project.js`](_shared/scripts/project.js) loads it and stops with a message naming any missing or malformed field, so scripts read `project.<field>` and never a literal.
+
+Skill text says "the approver", not a name, and writes paths and commands as placeholders named for their field, such as `<paths.specs>/<component>.md` or `<commands.buildTokens>`. Each `SKILL.md` says so under its opening paragraph. Moving the skills to another project means writing a new `project.json`, not editing skills.
+
+Not yet portable: `allowed-tools` can't read the profile, so frontmatter repeats concrete commands; `implement/scripts/check-api.js` and `capture-story.js` assume this repo's TypeScript aliases and Storybook; `spec/references/spec-template.md` states this project's design facts; and the tokens pipeline `/sync-tokens` drives lives in the tokens package. The portability step settles these.
 
 ### Folder layout
 
@@ -115,7 +121,7 @@ Each step is its own session and PR.
 2. **`/retro`**, written to these conventions from the start. Done; it added the first fields of `project.json` (approver, default branch, `gh`).
 3. **Foundation**, in two PRs with no behaviour change, proven by the skill tests:
    1. Rename `/build` to `/implement`: the folder, its scripts, the `implement/` branch prefix, the `node_modules/.cache/implement/` cache, the hooks and AGENTS.md. Done.
-   2. Extend `project.json` with names, paths, packages and commands; add `_shared/` and move cross-skill imports into it; replace hard-coded values, with `<placeholders>` for paths in prose. Stack-specific generators (`check-api.js`, `capture-story.js`) stay as they are until the portability step.
+   2. Extend `project.json` with names, paths, packages and commands; add `_shared/` and move cross-skill imports into it; replace hard-coded values, with `<placeholders>` for paths in prose. Stack-specific generators (`check-api.js`, `capture-story.js`) stay as they are until the portability step. Done.
 4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure.
 5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`.
 6. **Refine:** trim each `SKILL.md` to the shape above, a folder per spec, skill tests in CI.

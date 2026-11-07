@@ -10,6 +10,8 @@ allowed-tools: Bash(git status *) Bash(git log *) Bash(git diff *) Bash(git fetc
 
 Turns a session or a pull request into a short list of findings, each backed by something that happened and sorted by where its change belongs. The approver picks which to act on. Small, fully specified changes are committed on a `retro/` branch for `/pr`; everything else becomes a written follow-up. It never pushes, and never changes a standard.
 
+Placeholders that name a field of [project.json](../project.json), such as `<paths.specs>` or `<defaultBranch>`, stand for its value.
+
 ## The rules behind every step
 
 - **Evidence or nothing.** A finding cites what happened: a correction from the approver, a failed check, a hook denial, a review flag, a repeated question, a stale instruction. Advice with nothing behind it is dropped.
@@ -33,7 +35,7 @@ List what happened that a better repo, skill or instruction would have changed. 
 Write the report from [references/report-template.md](references/report-template.md): findings, what worked (keep it), takeaways, and a park note if the work is unfinished. Each finding names its destination, its control now and as proposed, and its size:
 
 - **small:** fully specified, with nothing to argue about after seeing the diff (the test in AGENTS.md), and only prose: a `SKILL.md`, a reference, an agent, `AGENTS.md` or a README.
-- **follow-up:** everything else, including any code, check, config, hook, CI or `settings.json` change, and anything touching `brain/standards/`, a spec, generated files or lockfiles. Write the next step precisely enough to start a session from.
+- **follow-up:** everything else, including any code, check, config, hook, CI or `settings.json` change, and anything touching `<paths.standards>/`, a spec, generated files or lockfiles. Write the next step precisely enough to start a session from.
 
 ## 3. Ask
 
@@ -49,7 +51,7 @@ Ask the approver which findings to act on, by number. Never act on one they didn
 Skip this step if no small finding was picked.
 
 1. Stop if `git status --porcelain` isn't empty: say the session's own work must be landed or parked first, and leave the small findings as follow-ups.
-2. If the session's own branch isn't merged yet and a picked finding changes a file on it, ask the approver whether to commit on that branch instead. Otherwise: `git fetch origin <default>`, then `git switch -c retro/<YYYY-MM-DD>-<topic> origin/<default>`.
+2. If the session's own branch isn't merged yet and a picked finding changes a file on it, ask the approver whether to commit on that branch instead. Otherwise: `git fetch origin <defaultBranch>`, then `git switch -c retro/<YYYY-MM-DD>-<topic> origin/<defaultBranch>`.
 3. Make exactly the change each finding proposed. Run `pnpm exec prettier --write` on the changed files, then `pnpm turbo run lint check-types build test` and `pnpm format:check`. On a failure, fix it only if the fix is part of the proposal; otherwise stop and report.
 4. Commit each finding separately, as `docs(<scope>): <change>`, ending with the attribution lines your harness specifies.
 5. Write the handoff to `node_modules/.cache/skills/retro/<YYYY-MM-DD>-<topic>/handoff.json`, as `.claude/skills/README.md` describes: `skill`, `branch`, `title`, `draft: false`, `verify` (`pnpm turbo run lint check-types build test && pnpm format:check`), and `body` with a section per finding (its evidence and change) and the list of follow-ups.
