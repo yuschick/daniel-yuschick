@@ -1,14 +1,14 @@
 ---
 name: spec
-description: Turn a Figma component into a validated, cold-reviewed component spec and open a pull request for human approval. It never builds code. Run only when the approver invokes /spec.
+description: Turn a Figma component into a validated, cold-reviewed component spec on a branch, and hand it to /pr for human approval. It never builds code. Run only when the approver invokes /spec.
 disable-model-invocation: true
 argument-hint: '<figma-url>'
-allowed-tools: Bash(node .claude/skills/spec/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(git status *) Bash(git switch *) Bash(git add packages/react/specs/*) Bash(git commit *) Bash(git push -u origin spec/*) Bash(gh pr create *) Bash(/opt/homebrew/bin/gh pr create *) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__get_screenshot
+allowed-tools: Bash(node .claude/skills/spec/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(git status *) Bash(git switch *) Bash(git add packages/react/specs/*) Bash(git commit *) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__get_screenshot Edit(node_modules/.cache/skills/**)
 ---
 
 # Spec
 
-Turns a Figma component into a spec that says exactly what to build, and ends at a pull request. **A spec is approved only when a human merges it into `<defaultBranch>`.** This skill never builds code, approves a PR or merges one.
+Turns a Figma component into a spec that says exactly what to build, and ends at a committed branch for `/pr`. **A spec is approved only when a human merges it into `<defaultBranch>`.** This skill never builds code, approves a PR or merges one.
 
 Placeholders that name a field of [project.json](../project.json), such as `<paths.specs>` or `<defaultBranch>`, stand for its value.
 
@@ -84,15 +84,16 @@ Then start a new `spec-reviewer` subagent, with only the spec path, the bundle p
 
 Blocking findings go back to step 3, and the review runs again with a fresh agent, **3 rounds at most**. Then stop and show the approver the findings, even if unresolved. A `Question` always goes to the approver.
 
-## 6. Pull request
+## 6. Hand off
 
 Continue only when the validator passes with `--ready`, which also requires Open questions to read `None.` CI runs the same check on every spec, so a spec with open questions can't merge.
 
 1. Re-run the validator with `--ready` added.
-2. Create branch `spec/<component>` from an up-to-date `<defaultBranch>`, commit only the spec and its facts, push with `git push -u origin spec/<component>`, and open a PR into `<defaultBranch>` that contains only those two files.
-3. In the PR body, list every Decision, because only a person can confirm that those citing the approver by name are real. Also list the last review's remaining findings and the number of review rounds. End with the attribution line your harness specifies.
+2. Create branch `spec/<component>` from an up-to-date `<defaultBranch>`, and commit only the spec and its facts.
+3. Write the PR body to `node_modules/.cache/skills/spec/<component>/body.md`, as `## ` sections: `What's Changed` (the spec and its facts, and nothing else), `Decisions` (every Decision, because only a person can confirm that those citing the approver by name are real), `Review` (the number of review rounds and the last review's remaining findings) and `Figma` (the component's URL).
+4. Run `node .claude/skills/spec/scripts/write-handoff.js --title "docs(specs): add <Name> spec"`.
 
-Report the PR URL and stop. Merging is a human decision, and it is the approval: nothing may be built from the spec until it's on `<defaultBranch>`, and nothing edits the spec to record it.
+Report the branch and `Next: /pr`, and stop. Merging is a human decision, and it is the approval: nothing may be built from the spec until it's on `<defaultBranch>`, and nothing edits the spec to record it.
 
 ## Limits
 

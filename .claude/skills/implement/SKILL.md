@@ -1,9 +1,9 @@
 ---
 name: implement
-description: Build a component from its approved spec, prove it with deterministic gates and a cold review, and open a draft pull request, or rehearse all of it with --staging. It never edits a spec, approves a PR or merges one. Run only when the approver invokes /implement.
+description: Build a component from its approved spec, prove it with deterministic gates and a cold review, and hand a draft pull request to /pr, or rehearse all of it with --staging. It never edits a spec, approves a PR or merges one. Run only when the approver invokes /implement.
 disable-model-invocation: true
 argument-hint: '<component> [--step] [--staging]'
-allowed-tools: Bash(node .claude/skills/implement/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *) Bash(git push -u origin implement/*) Bash(gh pr create --draft *) Bash(/opt/homebrew/bin/gh pr create --draft *)
+allowed-tools: Bash(node .claude/skills/implement/scripts/*) Bash(pnpm --filter @dy/tokens build) Bash(pnpm --filter @dy/react test*) Bash(pnpm --filter @dy/storybook test*) Bash(pnpm exec prettier --write packages/react/src/components/*) Bash(git status *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(git diff *)
 hooks:
   PreToolUse:
     - matcher: 'Edit|Write|NotebookEdit|Bash|Agent|Task|SendMessage'
@@ -27,7 +27,7 @@ hooks:
 
 # Build
 
-Turns an approved spec into a component and ends at a draft pull request. **The author never decides its own work is finished:** scripts prove what can be proved, a cold agent judges the rest, and a person reviews last.
+Turns an approved spec into a component and ends at a reviewed branch that `/pr` opens as a draft pull request. **The author never decides its own work is finished:** scripts prove what can be proved, a cold agent judges the rest, and a person reviews last.
 
 Placeholders that name a field of [project.json](../project.json), such as `<paths.specs>` or `<defaultBranch>`, stand for its value.
 
@@ -144,13 +144,13 @@ Fix what a flag names, and don't regenerate the component. A rewrite throws away
 
 Whenever you stop for the approver, record why with `implement-hooks.js pause`. If they decide the build should get more rounds, run `node .claude/skills/implement/scripts/check-review.js --component <component> --reset`. The hook prompts him for it, and you never run it on your own judgment.
 
-## 8. Draft pull request
+## 8. Hand off
 
-**If this is `--staging`, there's no PR.** Report the result, the rounds used, the findings by round, any shared rules changed, every file written and anything about the flow itself that went wrong or felt off. Then stop, because the approver inspects the work from here.
+**If this is `--staging`, there's no handoff.** Report the result, the rounds used, the findings by round, any shared rules changed, every file written and anything about the flow itself that went wrong or felt off. Then stop, because the approver inspects the work from here.
 
-Otherwise, a PR only follows a passing review. The hook refuses one unless the gates and the most recent review both passed this exact code. Rerun `check-review.js` first: it must still print `RESULT: PASS`.
+Otherwise, hand off only after a passing review: rerun `check-review.js`, which must still print `RESULT: PASS`. `/pr` checks again that the gates and the latest review passed this exact code, so a handoff can't stand in for either.
 
-Push with `git push -u origin implement/<component>` and open a **draft** PR into `<defaultBranch>` using the template in `<paths.prTemplate>`. Always include:
+Write the PR body to `node_modules/.cache/skills/implement/<component>/body.md`, the one file outside the component the hooks let you write, as `## ` sections:
 
 - **Result**: passed, in how many rounds, and any reset the approver gave, from `rounds.json`.
 - **Findings by round**: what each reviewer flagged and how it was resolved, including anything the approver dismissed.
@@ -158,7 +158,7 @@ Push with `git push -u origin implement/<component>` and open a **draft** PR int
 - **Controls**: label each as `blocking`, `detecting`, `advisory` or `unverified`, naming any limits. Without CI, the gates are `detecting`, because nothing stops a merge.
 - **Manual check (A11Y-14)**, as an unchecked box: screen reader output for each state. An agent can't confirm it.
 
-End with the attribution line your harness specifies. Report the URL and stop. Marking it ready and merging are human decisions.
+Then run `node .claude/skills/implement/scripts/write-handoff.js --title "<type>(<scope>): add <Name>"`, using the Conventional Commits type and scope this repo's history uses for components. The PR is always a draft. Report the branch and `Next: /pr`, and stop. Marking the PR ready and merging are human decisions.
 
 ## Limits
 
