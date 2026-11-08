@@ -3,7 +3,7 @@ name: retro
 description: Look back on the current session, or a pull request with --pr, and propose evidence-backed improvements to the repo and the skill flow, sorted by where each change belongs. Applies the small ones the approver picks on a retro branch, and parks the rest. Run only when the approver invokes /retro.
 disable-model-invocation: true
 argument-hint: '[--pr <number>]'
-allowed-tools: Bash(git status *) Bash(git log *) Bash(git diff *) Bash(git fetch *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(gh pr view *) Bash(/opt/homebrew/bin/gh pr view *) Bash(pnpm turbo run lint check-types build test) Bash(pnpm format:check) Bash(pnpm exec prettier --write *) Edit(node_modules/.cache/skills/**)
+allowed-tools: Bash(git status *) Bash(git log *) Bash(git diff *) Bash(git fetch *) Bash(git switch *) Bash(git add *) Bash(git commit *) Bash(gh pr view *) Bash(/opt/homebrew/bin/gh pr view *) Bash(pnpm turbo run lint check-types build test) Bash(pnpm format:check) Bash(pnpm exec prettier --write *) Edit(node_modules/.cache/skills/**) Bash(node .claude/skills/retro/scripts/*)
 ---
 
 # Retro
@@ -54,7 +54,7 @@ Skip this step if no small finding was picked.
 2. If the session's own branch isn't merged yet and a picked finding changes a file on it, ask the approver whether to commit on that branch instead. Otherwise: `git fetch origin <defaultBranch>`, then `git switch -c retro/<YYYY-MM-DD>-<topic> origin/<defaultBranch>`.
 3. Make exactly the change each finding proposed. Run `pnpm exec prettier --write` on the changed files, then `pnpm turbo run lint check-types build test` and `pnpm format:check`. On a failure, fix it only if the fix is part of the proposal; otherwise stop and report.
 4. Commit each finding separately, as `docs(<scope>): <change>`, ending with the attribution lines your harness specifies.
-5. Write the handoff to `node_modules/.cache/skills/retro/<YYYY-MM-DD>-<topic>/handoff.json`, as `.claude/skills/README.md` describes: `skill`, `branch`, `title`, `draft: false`, `verify` (`pnpm turbo run lint check-types build test && pnpm format:check`), and `body` with a section per finding (its evidence and change) and the list of follow-ups.
+5. Write the PR body to `node_modules/.cache/skills/<branch>/body.md`, with a `## ` section per finding (its evidence and change) and a `## Follow-ups` section, then run `node .claude/skills/retro/scripts/write-handoff.js --title "<title>"`.
 
 ## Handoff
 
@@ -64,5 +64,4 @@ Print the branch and commits (if any), the follow-ups and where they were record
 
 - It reads only the current session and pull requests, not stored transcripts of earlier sessions.
 - Its findings on the current session come from the agent that did the work. A PR retro, which reads the record, is less biased.
-- Until `/pr` exists (migration step 5), ask the approver whether to push the retro branch and open its PR by hand.
 - `allowed-tools` can't read `project.json`, so the `gh` path there is repeated in the frontmatter.

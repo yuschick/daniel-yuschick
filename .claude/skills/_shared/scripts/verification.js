@@ -30,7 +30,8 @@ const SHARED_RULES = [project.paths.standards, project.paths.typeRegistry].map(
 /**
  * The one table of what a build may touch, used by the hooks before a write and
  * by the scope gate after it. Anything unlisted is denied. Lowercased because
- * macOS treats `Specs/` and `specs/` as the same folder.
+ * macOS treats `Specs/` and `specs/` as the same folder. The build's PR body is
+ * open too: it's prose for /pr, which verifies the build itself.
  *
  * @param {string} file Path relative to the repo root
  * @param {string} component Lowercase component name
@@ -40,7 +41,8 @@ export function classifyPath(file, component) {
   const path = file.toLowerCase();
   if (
     path.startsWith(`${COMPONENTS}/${component}/`) ||
-    BARRELS.includes(path)
+    BARRELS.includes(path) ||
+    path === `node_modules/.cache/skills/implement/${component}/body.md`
   ) {
     return 'allow';
   }

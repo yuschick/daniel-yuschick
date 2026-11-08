@@ -1,14 +1,14 @@
 ---
 name: sync-tokens
-description: Export Figma variables as W3C DTCG token files into the tokens package and open a pull request. Run only when the approver invokes /sync-tokens.
+description: Export Figma variables as W3C DTCG token files into the tokens package, and hand the sync to /pr. Run only when the approver invokes /sync-tokens.
 disable-model-invocation: true
 argument-hint: '[current | new | <new-branch-name>] [base-branch]'
-allowed-tools: Bash(date *) Bash(mkdir -p node_modules/.cache/sync-tokens/*) Bash(git status *) Bash(git branch --show-current) Bash(git branch -d *) Bash(git check-ref-format *) Bash(git rev-parse *) Bash(git fetch *) Bash(git cat-file *) Bash(git switch *) Bash(git restore *) Bash(git add packages/tokens/*) Bash(git commit *) Bash(git log *) Bash(git push *) Bash(gh auth status) Bash(gh pr create *) Bash(/opt/homebrew/bin/gh auth status) Bash(/opt/homebrew/bin/gh pr create *) Bash(cat node_modules/.cache/sync-tokens/*) Bash(node packages/tokens/scripts/*) Bash(pnpm --filter @dy/tokens build) Edit(node_modules/.cache/sync-tokens/**) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__use_figma
+allowed-tools: Bash(date *) Bash(mkdir -p node_modules/.cache/sync-tokens/*) Bash(git status *) Bash(git branch --show-current) Bash(git branch -d *) Bash(git check-ref-format *) Bash(git rev-parse *) Bash(git fetch *) Bash(git cat-file *) Bash(git switch *) Bash(git restore *) Bash(git add packages/tokens/*) Bash(git commit *) Bash(git log *) Bash(node packages/tokens/scripts/*) Bash(pnpm --filter @dy/tokens build) Edit(node_modules/.cache/sync-tokens/**) mcp__claude_ai_Figma__create_session mcp__claude_ai_Figma__get_figma_skill mcp__claude_ai_Figma__use_figma Edit(node_modules/.cache/skills/**) Bash(node .claude/skills/sync-tokens/scripts/*)
 ---
 
 # Sync tokens from Figma
 
-Figma variables are the source of truth. This skill reads them (read-only), writes them as DTCG JSON into `<paths.tokensPackage>/src/`, and opens a PR. It never edits Figma and never edits token files by hand.
+Figma variables are the source of truth. This skill reads them (read-only), writes them as DTCG JSON into `<paths.tokensPackage>/src/`, and hands the branch to `/pr`. It never edits Figma and never edits token files by hand.
 
 Placeholders that name a field of [project.json](../project.json), such as `<paths.specs>` or `<defaultBranch>`, stand for its value.
 
@@ -20,10 +20,7 @@ The run follows the approver's order: choose the branch the changes land on, syn
 
 ## 1. Preflight
 
-Stop and report if either check fails:
-
-- `git status --porcelain` is empty (the skill may switch branches and commits only its own files).
-- `gh auth status` succeeds. Use the first `gh` entry in project.json that runs, here and for every `gh` command below.
+Stop and report if `git status --porcelain` isn't empty: the skill may switch branches, and it commits only its own files.
 
 Record the current branch with `git branch --show-current` as `<start>`, and create `<work>/raw` with `mkdir -p`.
 
@@ -74,25 +71,18 @@ node <paths.tokensPackage>/scripts/diff-tokens.js --base HEAD --dir <paths.token
 
 `git add <paths.tokensPackage>/src <paths.tokensPackage>/figma-sync.json`, then commit on `<work-branch>` with the message `chore(tokens): sync from Figma`, ending with the attribution lines your harness specifies.
 
-## 7. Destination and PR
+## 7. Destination and handoff
 
 Use `$1` as the destination `<base>` if given. Otherwise ask the approver which branch the PR should target, defaulting to `<defaultBranch>` if they leave it blank.
 
 - If the destination is `<work-branch>` itself, there is nothing to open a PR from: stop and report that the commit is on `<work-branch>`, unpushed.
 - `git fetch origin <base>` and confirm `git cat-file -e origin/<base>:<paths.tokensPackage>/package.json`. If that fails, the destination doesn't contain `<packages.tokens>` yet: say so and ask for another destination. The commit stays on `<work-branch>` either way.
 
-Write `<work>/pr-footer.md` with:
+Write the PR body to `node_modules/.cache/skills/<work-branch>/body.md`, as `## ` sections:
 
-- a line naming the Figma file and the collections the converter exported and reused,
-- if `git log --oneline origin/<base>..HEAD` lists commits other than the sync, a line saying the PR includes them,
-- the PR attribution line your harness specifies.
+- `What's Changed`: `<work>/pr-body.md` from the diff, unchanged.
+- `Additional Information`: a line naming the Figma file and the collections the converter exported and reused, and, if `git log --oneline origin/<base>..HEAD` lists commits other than the sync, a line saying the PR includes them.
 
-Then `git push -u origin <work-branch>` and open the PR, with the body built from the diff summary and the footer:
+Then run `node .claude/skills/sync-tokens/scripts/write-handoff.js --title "chore(tokens): sync from Figma (<YYYY-MM-DD>)" --base <base>`, and stay on `<work-branch>`: `/pr` runs from there.
 
-```sh
-cat <work>/pr-body.md <work>/pr-footer.md | gh pr create --base <base> --head <work-branch> --title "chore(tokens): sync from Figma (<YYYY-MM-DD>)" --body-file -
-```
-
-Finally `git switch <start>` if you're not already on it.
-
-Report the working branch, the PR URL, the collections exported and reused, and the counts from the diff.
+Report the working branch, the collections exported and reused, the counts from the diff, and `Next: /pr`.

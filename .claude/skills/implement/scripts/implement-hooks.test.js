@@ -55,6 +55,9 @@ describe('what a build may touch', () => {
     ['.claude/skills/implement/SKILL.md', 'deny'],
     ['.claude/settings.json', 'deny'],
     ['node_modules/.cache/implement/chip/gates.json', 'deny'],
+    ['node_modules/.cache/skills/implement/chip/body.md', 'allow'],
+    ['node_modules/.cache/skills/implement/chip/handoff.json', 'deny'],
+    ['node_modules/.cache/skills/implement/other/body.md', 'deny'],
     ['apps/web/page.tsx', 'deny'],
   ]) {
     it(`${expected}: ${path}`, () => {

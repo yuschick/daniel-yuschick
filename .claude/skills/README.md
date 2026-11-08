@@ -50,13 +50,12 @@ Figma ──▶ /spec ──▶ /pr ──▶ human merges ──▶ /implement 
 
 ### The handoff
 
-A skill that ends at a branch writes a handoff for `/pr` at `node_modules/.cache/skills/<branch>/handoff.json`:
+A skill that ends at a branch hands it to `/pr` in two parts:
 
-- `skill`, `branch`, `title` and `draft` (code is always a draft).
-- `verify`: the command `/pr` reruns to prove the branch is still the work that passed (for example the gates' tree hash). `/pr` refuses if it fails or if the branch moved since.
-- `body`: the sections the skill owes the PR, such as Decisions, Findings by round, Controls and Manual checks.
+1. It writes the PR body, as `## ` sections, to `node_modules/.cache/skills/<branch>/body.md`: the sections it owes the PR, such as Decisions, Findings by round, Controls and Manual checks.
+2. It runs its own `scripts/write-handoff.js --title "<title>"` (with `--base` or `--draft` when they apply), a wrapper over [`_shared/scripts/handoff.js`](_shared/scripts/handoff.js). That writes `handoff.json` beside the body with the facts nobody types by hand: `skill`, `branch`, the commit (`head`), `base`, `title`, `draft` (always true for `/implement`) and the parsed `body`.
 
-`/pr` fills the repo's PR template from `body`, adds the attribution line, pushes and opens the PR. It never edits code, and a branch with no handoff gets a PR only after the human confirms its title and body.
+The handoff carries content, never a command. `/pr` verifies each skill's branch by that skill's own standard, which it alone defines, and refuses if the branch moved since the handoff. It fills the repo's PR template from the body, matching sections by heading, adds the attribution line, and prints the exact push and PR commands; a guard hook allows only those, on that commit. It never edits code, and a branch with no handoff gets a PR only after the human confirms its title and body.
 
 ### The project profile
 
@@ -123,7 +122,7 @@ Each step is its own session and PR.
    1. Rename `/build` to `/implement`: the folder, its scripts, the `implement/` branch prefix, the `node_modules/.cache/implement/` cache, the hooks and AGENTS.md. Done.
    2. Extend `project.json` with names, paths, packages and commands; add `_shared/` and move cross-skill imports into it; replace hard-coded values, with `<placeholders>` for paths in prose. Stack-specific generators (`check-api.js`, `capture-story.js`) stay as they are until the portability step. Done.
 4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure. Done in two PRs: the verification and review engine moved to `_shared/scripts/`, then `/review` was added, with reports saved by a `SubagentStop` hook and a guard while a reviewer is due.
-5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`.
+5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`. Done: `/pr` verifies each skill's branch itself, rather than running a command from the handoff, and guards the push and PR.
 6. **Refine:** trim each `SKILL.md` to the shape above, a folder per spec, skill tests in CI.
 7. **Portability:** package the skills as a plugin and try them in a scratch repo.
 
