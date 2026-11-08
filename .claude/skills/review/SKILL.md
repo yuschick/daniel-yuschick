@@ -28,7 +28,7 @@ Placeholders that name a field of [project.json](../project.json), such as `<pat
 
 ## Input
 
-Exactly one of `--component <name>` or `--spec <name>`, the lowercase name of the spec in `<paths.specs>/`. Ask if neither is given. Run every command from the repo root.
+Exactly one of `--component <name>` or `--spec <name>`, the lowercase name of the spec's folder in `<paths.specs>/`. Ask if neither is given. Run every command from the repo root.
 
 `/implement` reviews its own builds, so this skill refuses an `implement/*` branch.
 

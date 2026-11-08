@@ -12,7 +12,7 @@ import {
   getConformanceVariants,
   readStyle,
 } from '@package-internal/utils/storybook';
-import facts from '@package-specs/button.facts.json';
+import facts from '@package-specs/button/button.facts.json';
 import { EMPHASES } from '@package-types/common';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent } from 'storybook/test';

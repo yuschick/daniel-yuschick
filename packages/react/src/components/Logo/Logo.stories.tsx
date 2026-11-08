@@ -12,7 +12,7 @@ import {
   getConformanceVariants,
   readStyle,
 } from '@package-internal/utils/storybook';
-import facts from '@package-specs/logo.facts.json';
+import facts from '@package-specs/logo/logo.facts.json';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent } from 'storybook/test';
 
