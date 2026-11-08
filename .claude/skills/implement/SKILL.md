@@ -155,14 +155,14 @@ Write the PR body to `node_modules/.cache/skills/implement/<component>/body.md`,
 - **Result**: passed, in how many rounds, and any reset the approver gave, from `rounds.json`.
 - **Findings by round**: what each reviewer flagged and how it was resolved, including anything the approver dismissed.
 - **Shared rules changed**: each one with the Decision or conversation behind it, or `None.`
-- **Controls**: label each as `blocking`, `detecting`, `advisory` or `unverified`, naming any limits. Without CI, the gates are `detecting`, because nothing stops a merge.
+- **Controls**: label each as `blocking`, `detecting`, `advisory` or `unverified`, naming any limits. The local gates are `detecting`. CI is `blocking` for what it repeats (lint, types, build, tests, format, the spec check and the skill tests), because `<defaultBranch>` requires it; the component checks and the review run only locally.
 - **Manual check (A11Y-14)**, as an unchecked box: screen reader output for each state. An agent can't confirm it.
 
 Then run `node .claude/skills/implement/scripts/write-handoff.js --title "<type>(<scope>): add <Name>"`, using the Conventional Commits type and scope this repo's history uses for components. The PR is always a draft. Report the branch and `Next: /pr`, and stop. Marking the PR ready and merging are human decisions.
 
 ## Limits
 
-- Gates run locally. Until CI exists and `<defaultBranch>` requires it, they detect problems rather than block a merge.
+- The component checks and the cold review run only locally, so they detect problems rather than block a merge. CI repeats the rest and blocks.
 - `--step` relies on you stopping. The hooks can't tell which stage you're in, so it's advisory.
 - `--staging` proves the flow, not delivery: pushing, CI and the PR itself stay untested until a real build.
 - A staging run answers for what changed since its preflight. To try a change to this skill, stash the staging work, `git switch` to the skill branch (the hook prompts the approver), commit the change, point `implement/<component>` at it and rerun preflight, which clears the earlier run's cache.

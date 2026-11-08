@@ -298,3 +298,15 @@ describe('the hooks, as Claude Code runs them', () => {
     assert.equal(existsSync(join(repo, MARKER)), false);
   });
 });
+
+describe('the reviewer', () => {
+  const reviewer = readFileSync(
+    new URL('../../../agents/component-reviewer.md', import.meta.url),
+    'utf8',
+  );
+
+  it('can only read and runs on Opus', () => {
+    assert.match(reviewer, /^tools: Read, Grep, Glob$/m);
+    assert.match(reviewer, /^model: opus$/m);
+  });
+});
