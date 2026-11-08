@@ -48,6 +48,12 @@ jobs:
       - name: Lint, type-check, build and test
         run: pnpm turbo run lint check-types build test --ui=stream
 
+      # The skills' own scripts and their seeded defects, so a change to a check
+      # that stops it catching anything can't merge. Not a workspace package, so
+      # Turborepo doesn't run them.
+      - name: Test the skills
+        run: node --test .claude/skills/*/scripts/*.test.js
+
       # Merging a spec approves it, so every spec must be ready to build: valid
       # against its facts and the built tokens, with no open questions and no
       # `status` field claiming approval. Runs after the build, which writes
