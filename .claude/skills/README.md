@@ -71,7 +71,7 @@ Everything specific to this repo lives in [`project.json`](project.json), and no
 
 [`_shared/scripts/project.js`](_shared/scripts/project.js) loads it and stops with a message naming any missing or malformed field, so scripts read `project.<field>` and never a literal.
 
-Skill text says "the approver", not a name, and writes paths and commands as placeholders named for their field, such as `<paths.specs>/<component>.md` or `<commands.buildTokens>`. Each `SKILL.md` says so under its opening paragraph. Moving the skills to another project means writing a new `project.json`, not editing skills.
+Skill text says "the approver", not a name, and writes paths and commands as placeholders named for their field, such as `<paths.specs>/<component>/<component>.md` or `<commands.buildTokens>`. Each `SKILL.md` says so under its opening paragraph. Moving the skills to another project means writing a new `project.json`, not editing skills.
 
 Not yet portable: `allowed-tools` can't read the profile, so frontmatter repeats concrete commands; `implement/scripts/check-api.js` and `capture-story.js` assume this repo's TypeScript aliases and Storybook; `spec/references/spec-template.md` states this project's design facts; and the tokens pipeline `/sync-tokens` drives lives in the tokens package. The portability step settles these.
 
@@ -123,7 +123,7 @@ Each step is its own session and PR.
    2. Extend `project.json` with names, paths, packages and commands; add `_shared/` and move cross-skill imports into it; replace hard-coded values, with `<placeholders>` for paths in prose. Stack-specific generators (`check-api.js`, `capture-story.js`) stay as they are until the portability step. Done.
 4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure. Done in two PRs: the verification and review engine moved to `_shared/scripts/`, then `/review` was added, with reports saved by a `SubagentStop` hook and a guard while a reviewer is due.
 5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`. Done: `/pr` verifies each skill's branch itself, rather than running a command from the handoff, and guards the push and PR.
-6. **Refine:** trim each `SKILL.md` to the shape above, a folder per spec, skill tests in CI.
+6. **Refine:** trim each `SKILL.md` to the shape above, a folder per spec, skill tests in CI. Done in three PRs: skill tests in CI, trimmed `SKILL.md` files, and specs in `<paths.specs>/<component>/`.
 7. **Portability:** package the skills as a plugin and try them in a scratch repo.
 
 ## Upstream

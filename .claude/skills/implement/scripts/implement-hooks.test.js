@@ -42,9 +42,9 @@ describe('what a build may touch', () => {
     ['packages/react/src/types/common.ts', 'ask'],
     ['packages/react/src/components/Other/Other.tsx', 'deny'],
     ['packages/react/src/internal/utils/cx/cx.ts', 'deny'],
-    ['packages/react/specs/chip.md', 'deny'],
+    ['packages/react/specs/chip/chip.md', 'deny'],
     ['Packages/React/Specs/chip.md', 'deny'],
-    ['packages/react/specs/chip.facts.json', 'deny'],
+    ['packages/react/specs/chip/chip.facts.json', 'deny'],
     ['packages/tokens/src/color.json', 'deny'],
     ['packages/configs/eslint/index.js', 'deny'],
     ['packages/react/package.json', 'deny'],
@@ -86,7 +86,7 @@ describe('shell commands', () => {
     'pnpm exec prettier --write packages/react/src/components/Chip/Chip.tsx',
     'node .claude/skills/implement/scripts/run-gates.js --component chip',
     'node --test .claude/skills/implement/scripts/*.test.js',
-    'grep -n token packages/react/specs/chip.md > /dev/null',
+    'grep -n token packages/react/specs/chip/chip.md > /dev/null',
     '/opt/homebrew/bin/gh pr create --draft --title a',
   ]) {
     it(`expects: ${command}`, () => {
@@ -95,7 +95,7 @@ describe('shell commands', () => {
   }
 
   for (const command of [
-    'echo hacked > packages/react/specs/chip.md',
+    'echo hacked > packages/react/specs/chip/chip.md',
     'cat a.md >> b.md',
     'sed -i "" s/a/b/ a.md',
     'cp a.md b.md',
@@ -123,7 +123,7 @@ describe('shell commands', () => {
     'git push -u origin implement/other',
     'pnpm add left-pad',
     'pnpm format',
-    'pnpm exec prettier --write packages/react/specs/chip.md',
+    'pnpm exec prettier --write packages/react/specs/chip/chip.md',
     'find . -delete',
     'find . -exec rm {} ;',
     'gh pr ready',
@@ -301,9 +301,9 @@ describe('hook decisions', () => {
 
   it('denies a write to a protected file, however it is addressed', () => {
     for (const file_path of [
-      '/repo/packages/react/specs/chip.md',
-      'packages/react/specs/chip.md',
-      '/repo/packages/react/src/../specs/chip.md',
+      '/repo/packages/react/specs/chip/chip.md',
+      'packages/react/specs/chip/chip.md',
+      '/repo/packages/react/src/../specs/chip/chip.md',
       '/repo/node_modules/.cache/implement/chip/gates.json',
     ]) {
       assert.equal(decide('Edit', { file_path }).decision, 'deny', file_path);
@@ -371,7 +371,7 @@ describe('hook decisions', () => {
       'deny',
     );
     for (const command of [
-      'echo hacked > packages/react/specs/chip.md',
+      'echo hacked > packages/react/specs/chip/chip.md',
       'rm packages/tokens/dist/manifest.json',
       'git checkout -- packages/configs/eslint/index.js',
       'sed -i "" s/a/b/ .claude/skills/implement/SKILL.md',
@@ -384,7 +384,7 @@ describe('hook decisions', () => {
     assert.equal(
       decide('Bash', {
         command:
-          'node .claude/skills/spec/scripts/check-spec.js --spec packages/react/specs/chip.md',
+          'node .claude/skills/spec/scripts/check-spec.js --spec packages/react/specs/chip/chip.md',
       }).decision,
       'allow',
     );
@@ -540,7 +540,7 @@ describe('the hooks, as Claude Code runs them', () => {
     repo = realpathSync(mkdtempSync(join(tmpdir(), 'dy-implement-hooks-')));
     git('init', '--quiet', '-b', 'main');
     write('.gitignore', 'node_modules\n');
-    write('packages/react/specs/chip.md', SPEC);
+    write('packages/react/specs/chip/chip.md', SPEC);
     write('packages/tokens/dist/manifest.json', '{"tokens":{"dy-color-a":{}}}');
     write('packages/react/src/types/common.ts', 'export {};\n');
     // The real Stylelint and config, so the check after an edit lints for real.
@@ -573,7 +573,9 @@ describe('the hooks, as Claude Code runs them', () => {
   it('does nothing outside a build branch', () => {
     const { status, output } = runHook('pre', {
       tool_name: 'Write',
-      tool_input: { file_path: join(repo, 'packages/react/specs/chip.md') },
+      tool_input: {
+        file_path: join(repo, 'packages/react/specs/chip/chip.md'),
+      },
     });
     assert.equal(status, 0);
     assert.equal(output, null);
@@ -625,14 +627,16 @@ describe('the hooks, as Claude Code runs them', () => {
     it('denies a protected file', () => {
       const { output } = runHook('pre', {
         tool_name: 'Write',
-        tool_input: { file_path: join(repo, 'packages/react/specs/chip.md') },
+        tool_input: {
+          file_path: join(repo, 'packages/react/specs/chip/chip.md'),
+        },
       });
       assert.equal(output.hookSpecificOutput.permissionDecision, 'deny');
     });
 
     it('sees through a symlink to a protected file', () => {
       symlinkSync(
-        join(repo, 'packages/react/specs/chip.md'),
+        join(repo, 'packages/react/specs/chip/chip.md'),
         join(tmpdir(), `dy-link-${process.pid}.md`),
       );
       try {
@@ -748,7 +752,7 @@ describe('the hooks, as Claude Code runs them', () => {
       const readState = () =>
         JSON.parse(readFileSync(join(repo, `${CACHE}/rounds.json`), 'utf8'));
       const failingReport = () =>
-        `REVIEWED: ${inRepo(treeHash)}\n\n| ID | Verdict | Evidence |\n| B1 | FAIL | packages/react/specs/chip.md:1 |\n\nVERDICT: FAIL\n`;
+        `REVIEWED: ${inRepo(treeHash)}\n\n| ID | Verdict | Evidence |\n| B1 | FAIL | packages/react/specs/chip/chip.md:1 |\n\nVERDICT: FAIL\n`;
 
       before(() => {
         write(

@@ -62,7 +62,7 @@ jobs:
         # Checks every spec before failing, so one run reports them all.
         run: |
           failed=0
-          for spec in packages/react/specs/*.md; do
+          for spec in packages/react/specs/*/*.md; do
             echo "::group::$spec"
             node .claude/skills/spec/scripts/check-spec.js --ready \
               --spec "$spec" --facts "${spec%.md}.facts.json" || failed=1

@@ -221,8 +221,8 @@ describe('component checks', () => {
         'brain/standards/a.md',
       ],
       component: 'chip',
-      spec: 'packages/react/specs/chip.md',
-      facts: 'packages/react/specs/chip.facts.json',
+      spec: 'packages/react/specs/chip/chip.md',
+      facts: 'packages/react/specs/chip/chip.facts.json',
     };
     const refused = checkScope({ ...options, isApproved: () => false });
     assert.equal(refused.length, 2);
@@ -233,8 +233,8 @@ describe('component checks', () => {
   it('rejects spec edits and files outside the component', () => {
     const options = {
       component: 'chip',
-      spec: 'packages/react/specs/chip.md',
-      facts: 'packages/react/specs/chip.facts.json',
+      spec: 'packages/react/specs/chip/chip.md',
+      facts: 'packages/react/specs/chip/chip.facts.json',
       isApproved: () => false,
     };
     assert.deepEqual(
@@ -251,7 +251,10 @@ describe('component checks', () => {
     assert.equal(
       checkScope({
         ...options,
-        changedFiles: ['packages/react/specs/chip.md', 'apps/web/page.tsx'],
+        changedFiles: [
+          'packages/react/specs/chip/chip.md',
+          'apps/web/page.tsx',
+        ],
       }).length,
       2,
     );

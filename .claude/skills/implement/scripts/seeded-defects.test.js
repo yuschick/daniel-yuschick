@@ -88,8 +88,8 @@ const BASE_FILES = {
   'pnpm-lock.yaml': "lockfileVersion: '9.0'\n",
   'packages/tokens/dist/manifest.json': '{ "tokens": { "dy-color-a": {} } }\n',
   'packages/react/package.json': '{ "name": "@dy/react" }\n',
-  'packages/react/specs/chip.md': SPEC,
-  'packages/react/specs/chip.facts.json': '{}\n',
+  'packages/react/specs/chip/chip.md': SPEC,
+  'packages/react/specs/chip/chip.facts.json': '{}\n',
   'packages/react/tsconfig.json': JSON.stringify({
     compilerOptions: {
       jsx: 'react-jsx',
@@ -196,14 +196,14 @@ const SEEDED_DEFECTS = [
   },
   {
     name: 'a spec with no ...htmlAttributes row',
-    file: 'packages/react/specs/chip.md',
+    file: 'packages/react/specs/chip/chip.md',
     edit: (source) => source.replace(/^\| \.\.\.htmlAttributes .*\n/m, ''),
     expected: /no \.\.\.htmlAttributes row/,
   },
   {
     // Only an unescaped union compiles, so this also proves `\|` is read as `|`.
     name: 'native attributes the spec omits with an escaped union',
-    file: 'packages/react/specs/chip.md',
+    file: 'packages/react/specs/chip/chip.md',
     edit: (source) =>
       source.replace(
         '`SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>>`',
@@ -256,7 +256,7 @@ const SEEDED_DEFECTS = [
   },
   {
     name: 'a WAI-ARIA pattern with no keyboard story',
-    file: 'packages/react/specs/chip.md',
+    file: 'packages/react/specs/chip/chip.md',
     edit: (source) =>
       source.replace('A chip.', 'A chip. WAI-ARIA pattern: Button.'),
     expected: /A11Y-14: .*no story uses the keyboard/,
@@ -308,7 +308,7 @@ const SEEDED_DEFECTS = [
   },
   {
     name: 'an edited spec',
-    file: 'packages/react/specs/chip.md',
+    file: 'packages/react/specs/chip/chip.md',
     edit: (source) => source.replace('A chip.', 'A better chip.'),
     expected: /approved spec/,
   },

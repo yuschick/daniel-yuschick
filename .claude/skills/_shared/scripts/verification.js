@@ -172,8 +172,8 @@ export function git(args) {
 export function componentPaths(component, skill = 'implement') {
   const { specs } = project.paths;
   return {
-    spec: `${specs}/${component}.md`,
-    facts: `${specs}/${component}.facts.json`,
+    spec: `${specs}/${component}/${component}.md`,
+    facts: `${specs}/${component}/${component}.facts.json`,
     cache: `node_modules/.cache/${skill}/${component}`,
   };
 }

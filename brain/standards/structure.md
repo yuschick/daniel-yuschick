@@ -30,7 +30,7 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 └── index.ts        # the package's only public entry point (RX-05)
 ```
 
-- Component specs live outside `src`, in `packages/react/specs/<component>.md`, and must be approved before a component is built.
+- Component specs live outside `src`, in a folder of their own, `packages/react/specs/<component>/<component>.md` beside its `<component>.facts.json`, and must be approved before a component is built.
 
 ### FS-02 · Internal Mirrors Public
 
@@ -89,10 +89,10 @@ Rule IDs are permanent: rules may be reordered or retired, but an ID is never re
 
 ```ts
 /* ✅ Correct */
-import facts from '@package-specs/button.facts.json';
+import facts from '@package-specs/button/button.facts.json';
 
 /* ❌ Incorrect */
-import facts from '../../../specs/button.facts.json';
+import facts from '../../../specs/button/button.facts.json';
 ```
 
 ### FS-07 · Storybook Documentation

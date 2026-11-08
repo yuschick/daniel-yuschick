@@ -36,11 +36,11 @@ If it prints `ERROR`, report that and stop. Use only the `fileKey` and `nodeId` 
 1. **Stop if Figma is unreachable.** Call `create_session`, then load the `figma-use` skill before the first `use_figma` call. If Figma can't be reached, stop and say so; don't work from memory or screenshots.
 2. **Check the tokens are current.** Run `<commands.buildTokens>`. If Figma and `<paths.tokensPackage>` may have drifted, ask the approver about running `/sync-tokens` first.
 3. **Extract.** Run [scripts/extract-component.js](scripts/extract-component.js) with only `__NODE_ID__` replaced. `use_figma` can write to Figma, so it isn't pre-approved and each call prompts the approver. Send only this script, and never change anything in Figma from this skill. It reports what each layer uses, as `token:<name>` or `raw:<value>`, and which variant axes each value depends on.
-4. **Save.** Save the complete result, unchanged, to `<paths.specs>/<component>.facts.json`. Never edit, reformat or summarize it.
+4. **Save.** Save the complete result, unchanged, to `<paths.specs>/<component>/<component>.facts.json`. Never edit, reformat or summarize it.
 5. **Check.**
 
    ```sh
-   node .claude/skills/spec/scripts/check-facts.js --facts <paths.specs>/<component>.facts.json
+   node .claude/skills/spec/scripts/check-facts.js --facts <paths.specs>/<component>/<component>.facts.json
    ```
 
    - **`ERROR`**: the facts can't be trusted. Stop and report. Re-extract only if the hash failed; don't work around anything else.
@@ -50,7 +50,7 @@ If it prints `ERROR`, report that and stop. Use only the `fileKey` and `nodeId` 
 
 ## 2. Draft
 
-**If `<paths.specs>/<component>.md` already exists, this is a rerun.** Keep its Decisions. If its `factsHash` matches, keep the spec as it is and go to step 4. If not, regenerate the Figma tokens table, update `factsHash`, and change only what the new facts require. Ask only about what changed; a recorded decision is never asked again unless the facts contradict it.
+**If `<paths.specs>/<component>/<component>.md` already exists, this is a rerun.** Keep its Decisions. If its `factsHash` matches, keep the spec as it is and go to step 4. If not, regenerate the Figma tokens table, update `factsHash`, and change only what the new facts require. Ask only about what changed; a recorded decision is never asked again unless the facts contradict it.
 
 Otherwise, write it from [references/spec-template.md](references/spec-template.md), with `factsHash` set to the facts hash. Produce the Figma tokens table only from the script; never write it by hand:
 
@@ -67,7 +67,7 @@ Every fact question, and anything else no source settles, goes to the approver o
 ## 4. Validate
 
 ```sh
-node .claude/skills/spec/scripts/check-spec.js --facts <facts> --spec <paths.specs>/<component>.md
+node .claude/skills/spec/scripts/check-spec.js --facts <facts> --spec <paths.specs>/<component>/<component>.md
 ```
 
 Fix every error by correcting the spec or asking. Never loosen the validator to pass. A spec has no `status` field: it's approved by being merged into `<defaultBranch>`, so nothing in the file can claim it.
