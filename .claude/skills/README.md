@@ -12,7 +12,7 @@ The skills in this folder take a component from Figma to a merged pull request. 
 Figma ──▶ /spec ──▶ /pr ──▶ human merges ──▶ /implement ──▶ /pr ──▶ human merges
                                              (gates + review loop)
 
-/review: any branch or PR, on its own (the same review /implement runs)
+/review: a component or a spec, on its own (the same review /implement runs)
 /retro:  after any session or PR
 ```
 
@@ -21,7 +21,7 @@ Figma ──▶ /spec ──▶ /pr ──▶ human merges ──▶ /implement 
 | `/sync-tokens` | Exports Figma variables as DTCG tokens and builds them                                    | optional branch arguments | a committed `tokens/sync-<run-id>` branch            | `/pr`                |
 | `/spec`        | Turns a Figma component into a validated, cold-reviewed spec                              | a Figma URL               | a committed `spec/<component>` branch                | `/pr`                |
 | `/implement`   | Builds a component to its spec on `main`, test first, behind gates and a cold review loop | a component name          | a reviewed, committed `implement/<component>` branch | `/pr`                |
-| `/review`      | Cold review of any branch against its spec and `brain/standards/`                         | a branch or PR            | a saved report and a verdict                         | fixes, then `/pr`    |
+| `/review`      | One cold review of a component against its approved spec, or of a spec before it merges   | `--component` or `--spec` | a saved report and `result.json`                     | fixes, then `/pr`    |
 | `/pr`          | Pushes a verified branch and opens its PR from the handoff and template                   | a branch                  | an open PR (draft for code)                          | a human merge        |
 | `/retro`       | Looks back on a session or PR and proposes changes to the repo and flow                   | a session or `--pr <n>`   | a sorted list of proposals and a park note           | whatever it proposes |
 
@@ -122,7 +122,7 @@ Each step is its own session and PR.
 3. **Foundation**, in two PRs with no behaviour change, proven by the skill tests:
    1. Rename `/build` to `/implement`: the folder, its scripts, the `implement/` branch prefix, the `node_modules/.cache/implement/` cache, the hooks and AGENTS.md. Done.
    2. Extend `project.json` with names, paths, packages and commands; add `_shared/` and move cross-skill imports into it; replace hard-coded values, with `<placeholders>` for paths in prose. Stack-specific generators (`check-api.js`, `capture-story.js`) stay as they are until the portability step. Done.
-4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure.
+4. **`/review`:** extract the cold review from `/implement` so it runs on its own, routing a spec to `spec-reviewer` and a component to `component-reviewer`. `/implement` keeps its enforced loop by using the same procedure. Done in two PRs: the verification and review engine moved to `_shared/scripts/`, then `/review` was added, with reports saved by a `SubagentStop` hook and a guard while a reviewer is due.
 5. **`/pr`:** add the handoff, and remove the push and PR steps from `/spec`, `/implement` and `/sync-tokens`.
 6. **Refine:** trim each `SKILL.md` to the shape above, a folder per spec, skill tests in CI.
 7. **Portability:** package the skills as a plugin and try them in a scratch repo.

@@ -360,7 +360,7 @@ function changedSince(base) {
 export const isExampleFile = (file) =>
   /\.(stories|test)\.tsx?$|\.mdx$/.test(file);
 
-export function main() {
+export function main({ skill = 'implement' } = {}) {
   const { values } = parseArgs({
     options: {
       component: { type: 'string' },
@@ -370,7 +370,7 @@ export function main() {
   if (!values.component)
     throw new Error('Usage: check-component.js --component <name>');
 
-  const paths = componentPaths(values.component);
+  const paths = componentPaths(values.component, skill);
   const specText = readFileSync(resolve(paths.spec), 'utf8');
   const spec = parseSpec(specText);
   const name = spec.meta.component;

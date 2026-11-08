@@ -10,6 +10,16 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "matcher": "component-reviewer|spec-reviewer",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/skills/review/scripts/review-hooks.js\" save",
+            "timeout": 30
+          }
+        ]
       }
     ]
   },

@@ -162,8 +162,8 @@ export function findRepeats({ flagged, rounds, file }) {
  * @param {string} component
  * @returns {{ result: 'MISSING' | 'INVALID' | 'PASS' | 'FAIL', errors: string[], lines: string[] }}
  */
-export function processLatestReport(component) {
-  const { cache, spec } = componentPaths(component);
+export function processLatestReport(component, skill = 'implement') {
+  const { cache, spec } = componentPaths(component, skill);
   const state = readReviewState(cache);
   const file = latestReport(cache);
   if (file === null) {
@@ -292,7 +292,7 @@ export function readReport(input) {
       : null;
   return report ?? input.last_assistant_message ?? null;
 }
-export function main() {
+export function main({ skill = 'implement' } = {}) {
   const { values } = parseArgs({
     options: {
       component: { type: 'string' },
@@ -305,7 +305,7 @@ export function main() {
 
   // The hooks ask the approver before this runs: more rounds are only theirs to give.
   if (values.reset) {
-    const { cache } = componentPaths(values.component);
+    const { cache } = componentPaths(values.component, skill);
     const state = readReviewState(cache);
     writeReviewState(cache, {
       rounds: [],
@@ -317,7 +317,10 @@ export function main() {
     return;
   }
 
-  const { result, errors, lines } = processLatestReport(values.component);
+  const { result, errors, lines } = processLatestReport(
+    values.component,
+    skill,
+  );
   for (const error of errors) console.error(`ERROR: ${error}`);
   for (const line of lines) console.log(line);
   console.log(`RESULT: ${result}`);

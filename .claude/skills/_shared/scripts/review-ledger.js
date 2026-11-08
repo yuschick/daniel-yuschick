@@ -131,29 +131,34 @@ function collectFiles(directory) {
     .map((file) => join(directory, file));
 }
 
-export function main() {
-  const { values } = parseArgs({
-    options: {
-      component: { type: 'string' },
-      standards: { type: 'string', default: project.paths.standards },
-      screenshot: { type: 'string', multiple: true, default: [] },
-    },
-  });
-  if (!values.component)
-    throw new Error('Usage: implement-ledger.js --component <name>');
+/** Reads a skill's standards folder, without its README. */
+export function readStandards(directory = project.paths.standards) {
+  return Object.fromEntries(
+    readdirSync(resolve(directory))
+      .filter((file) => file.endsWith('.md') && file !== 'README.md')
+      .map((file) => [file, readFileSync(resolve(directory, file), 'utf8')]),
+  );
+}
 
-  const paths = componentPaths(values.component);
+/**
+ * Writes everything a cold component review starts from into the skill's cache:
+ * the bundle, the ledger and the only prompt the reviewer may receive. The gates
+ * must have passed on this exact code.
+ *
+ * @param {{ component: string, skill?: string, standards?: string, screenshots?: string[] }} options
+ * @returns {{ promptPath: string, rows: number, characters: number }}
+ */
+export function writeComponentReview({
+  component,
+  skill = 'implement',
+  standards: standardsDirectory = project.paths.standards,
+  screenshots = [],
+}) {
+  const paths = componentPaths(component, skill);
   const markdown = readFileSync(resolve(paths.spec), 'utf8');
   const spec = parseSpec(markdown);
   const { payload } = JSON.parse(readFileSync(resolve(paths.facts), 'utf8'));
-  const standards = Object.fromEntries(
-    readdirSync(resolve(values.standards))
-      .filter((file) => file.endsWith('.md') && file !== 'README.md')
-      .map((file) => [
-        file,
-        readFileSync(resolve(values.standards, file), 'utf8'),
-      ]),
-  );
+  const standards = readStandards(standardsDirectory);
 
   const ledger = [...buildLedger(spec), ...buildStandardsLedger(standards)];
   const directory = `${project.paths.components}/${spec.meta.component}`;
@@ -215,10 +220,28 @@ export function main() {
       spec: paths.spec,
       bundle: bundlePath,
       facts: paths.facts,
-      screenshots: values.screenshot,
+      screenshots,
     }),
   );
-  console.log(
-    `${promptPath}\n${ledger.length} ledger rows, ${bundle.length} characters.`,
-  );
+  return { promptPath, rows: ledger.length, characters: bundle.length };
+}
+
+export function main({ skill = 'implement' } = {}) {
+  const { values } = parseArgs({
+    options: {
+      component: { type: 'string' },
+      standards: { type: 'string', default: project.paths.standards },
+      screenshot: { type: 'string', multiple: true, default: [] },
+    },
+  });
+  if (!values.component)
+    throw new Error('Usage: implement-ledger.js --component <name>');
+
+  const { promptPath, rows, characters } = writeComponentReview({
+    component: values.component,
+    skill,
+    standards: values.standards,
+    screenshots: values.screenshot,
+  });
+  console.log(`${promptPath}\n${rows} ledger rows, ${characters} characters.`);
 }
