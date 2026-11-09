@@ -5,10 +5,13 @@
     --anchor-text-decoration-thickness: var(--dy-border-width-default);
 
     color: var(--anchor-color-text);
+    display: var(--anchor-display);
     outline: var(--dy-border-width-focus) var(--anchor-outline-style)
       var(--dy-color-border-focus);
     outline-offset: var(--dy-space-2xs);
+    padding: var(--anchor-space-padding);
     position: relative;
+    text-decoration: var(--anchor-text-decoration);
 
     @media (prefers-reduced-motion: no-preference) {
       transition:
@@ -82,21 +85,22 @@
     &.variant-default {
       --anchor-color-border: var(--anchor-color-border-default);
       --anchor-color-surface: var(--anchor-color-surface-default);
+      --anchor-display: inline-flex;
+      --anchor-space-padding: var(--dy-space-xs)
+        var(--anchor-space-padding-inline);
+      --anchor-text-decoration: none;
 
       align-items: center;
       background-color: var(--anchor-color-surface);
       border: var(--dy-border-width-default) solid var(--anchor-color-border);
       border-radius: var(--dy-border-radius-rounded);
-      display: inline-flex;
       flex-wrap: wrap;
       font: var(--dy-font-weight-strong) var(--anchor-font-size) /
         var(--dy-font-line-height-tight) var(--dy-font-family-body);
       justify-content: center;
       max-inline-size: 100%;
       min-block-size: var(--anchor-size-block-min);
-      padding: var(--dy-space-xs) var(--anchor-space-padding-inline);
       text-align: center;
-      text-decoration: none;
 
       & .label {
         overflow-wrap: anywhere;
@@ -108,10 +112,10 @@
         0px,
         calc((var(--dy-space-l) - 1em) / 2)
       );
-
-      display: inline;
-      padding-block: var(--anchor-space-padding-block);
-      text-decoration: underline var(--anchor-text-decoration-thickness);
+      --anchor-display: inline;
+      --anchor-space-padding: var(--anchor-space-padding-block) 0;
+      --anchor-text-decoration: underline
+        var(--anchor-text-decoration-thickness);
 
       &:focus-visible {
         --anchor-space-padding-block: 0;
