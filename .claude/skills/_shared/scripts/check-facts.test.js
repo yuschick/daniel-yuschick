@@ -56,12 +56,13 @@ describe('checkFacts', () => {
     assert.match(errors[0], /altered after leaving Figma/);
   });
 
-  it('rejects a missing variant', () => {
-    const { errors } = checkFacts({
+  it('asks about a sparse variant grid instead of rejecting it', () => {
+    const { errors, questions } = checkFacts({
       facts: buildFacts({ variantCount: 1 }),
       manifest,
     });
-    assert.match(errors[0], /Expected 2 variants/);
+    assert.deepEqual(errors, []);
+    assert.match(questions[0], /^Variant grid: expected 2 variants/);
   });
 
   it('rejects layers that were not accounted for', () => {

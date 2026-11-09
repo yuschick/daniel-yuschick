@@ -253,9 +253,9 @@ export function checkSpec({
   }
   const resolved = decisions.map((row) => row.Resolves ?? '').join('\n');
   for (const question of checkFacts({ facts, manifest }).questions) {
-    const subject = question.startsWith('Hidden layer ')
-      ? question.split(' ')[2]
-      : question.split(' has no token')[0];
+    let subject = question.split(' has no token')[0];
+    if (question.startsWith('Hidden layer ')) subject = question.split(' ')[2];
+    if (question.startsWith('Variant grid:')) subject = 'Variant grid';
     if (!resolved.includes(subject)) {
       errors.push(`No decision resolves the fact: ${question}`);
     }
