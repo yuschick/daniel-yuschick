@@ -564,6 +564,40 @@ export const OpensInNewTab: Story = {
 };
 
 /**
+ * On an inline link the appended text adds nothing visible, so punctuation right
+ * after the link sits as close as it does after a plain link, while the name
+ * still has its space.
+ */
+export const InlineAppendedText: Story = {
+  render: ({ href, onClick }) => (
+    <>
+      <p>
+        <Anchor href={href} onClick={onClick} variant="inline">
+          docs
+        </Anchor>
+        .
+      </p>
+      <p>
+        <Anchor href={href} onClick={onClick} target="_blank" variant="inline">
+          docs
+        </Anchor>
+        .
+      </p>
+    </>
+  ),
+  play: async ({ canvas }) => {
+    const plain = canvas.getByRole('link', { name: 'docs' });
+    const newTab = canvas.getByRole('link', {
+      name: 'docs (opens in new tab)',
+    });
+
+    await expect(newTab.getBoundingClientRect().width).toBe(
+      plain.getBoundingClientRect().width,
+    );
+  },
+};
+
+/**
  * A download says so in its accessible name, and that text wins when the link
  * also opens a new tab.
  */

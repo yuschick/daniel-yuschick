@@ -7,8 +7,10 @@ import type {
   GetAnchorPropsReturn,
 } from './Anchor.types';
 
-const DOWNLOAD_TEXT = '(downloads file)';
-const NEW_TAB_TEXT = '(opens in new tab)';
+// The leading space separates this from the label in the accessible name. It
+// stays inside the hidden text so an inline link shows no extra space (D19).
+const DOWNLOAD_TEXT = ' (downloads file)';
+const NEW_TAB_TEXT = ' (opens in new tab)';
 
 function getHiddenText({
   htmlAttributes,

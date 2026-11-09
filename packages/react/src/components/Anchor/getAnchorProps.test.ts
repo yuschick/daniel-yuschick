@@ -26,7 +26,7 @@ describe('getAnchorProps', () => {
         htmlAttributes: { target: '_blank' },
       });
 
-      expect(hiddenText).toBe('(opens in new tab)');
+      expect(hiddenText).toBe(' (opens in new tab)');
     });
 
     it('ignores any other target', () => {
@@ -42,7 +42,7 @@ describe('getAnchorProps', () => {
         htmlAttributes: { download },
       });
 
-      expect(hiddenText).toBe('(downloads file)');
+      expect(hiddenText).toBe(' (downloads file)');
     });
 
     it('treats download={false} as no download', () => {
@@ -58,7 +58,7 @@ describe('getAnchorProps', () => {
         htmlAttributes: { download: true, target: '_blank' },
       });
 
-      expect(hiddenText).toBe('(downloads file)');
+      expect(hiddenText).toBe(' (downloads file)');
     });
 
     it.each([

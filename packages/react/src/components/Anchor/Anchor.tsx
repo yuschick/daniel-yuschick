@@ -30,12 +30,7 @@ export const Anchor = function Anchor({
     >
       <span {...labelProps}>
         {children}
-        {hiddenText ? (
-          <>
-            {' '}
-            <span {...hiddenTextProps}>{hiddenText}</span>
-          </>
-        ) : null}
+        {hiddenText ? <span {...hiddenTextProps}>{hiddenText}</span> : null}
       </span>
     </a>
   );
