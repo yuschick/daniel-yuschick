@@ -1,0 +1,357 @@
+{
+  "hash": "31cf2cb3",
+  "payload": {
+    "source": { "id": "222:1022", "name": "Anchor", "type": "COMPONENT_SET" },
+    "description": "The single link component for the system, in two variants: default (styled as a button — 3 intents, 3 emphasis levels, 3 sizes, 4 interaction states, optional leading/trailing icons; 108 variants) and inline (a text link within prose — 3 intents, 4 interaction states; 12 variants). 120 variants in one set. The default variant matches Button visually; semantically every variant is a link.\n\n\nPURPOSE: Every control that navigates — to another page, another site, a file, or a fragment on the same page — and carries a text label. Use Anchor when activation changes the URL; use Button when it performs an action in place (submit, open, toggle). intent communicates meaning (brand for the product's primary path, strong for navigation with no brand weight, subtle for supplementary links). emphasis communicates priority within a screen region (primary for the single most important destination, secondary for supporting ones, tertiary for incidental ones in dense surfaces).\n\n\nBEHAVIOR: The state axis documents default, hover, focus and active. These are presentation states, not a runtime prop — see CODE GENERATION NOTES. There is no disabled state: an &lt;a&gt; cannot be disabled. If a destination is unavailable, don't render the link, or render plain text that explains why. The focus variant adds a dedicated \"Focus ring\" rectangle offset -4px from the anchor bounds, bound to border/focus and border-width/focus.\n\n\nCOMPOSITION (variant=default): Primary emphasis is a solid fill with an inverse label. Secondary is a light surface with a 1px intent-colored border and matching label. Tertiary has no fill or border — label only, with a background wash on hover and active. All sizes use corner-radius/rounded. Optional Icon instances sit either side of the label, toggled by the iconLeading and iconTrailing booleans; label text is the children text property.\n\n\nCOMPOSITION (variant=inline): No padding, fill, border, radius or minimum height — the label only, always underlined. In code it inherits every font style from the surrounding text, including font-family, font-size, font-weight, font-style, line-height and letter-spacing, and sets none of its own. It renders display: inline so it wraps across lines with the sentence. The Figma variants use body/m only to have something to draw; that text style does not apply in code. Color is text/action/{intent}/{state}. Hover and active thicken the underline from 1px to 2px, because the strong intent has no color change between states. Focus uses the same Focus ring offset 2px (not 4px, so it doesn't collide with adjacent lines). The emphasis=primary and size=m values on inline variants are placeholders Figma requires; they do not apply. Inline is recolored inherited text: it defines only the color intent and the link's interactivity and accessibility, so its variants are intentionally not a full grid across emphasis and size.\n\n\nUSAGE: Use variant=inline only inside a run of text (a paragraph, list item or caption); a link that stands on its own uses the default variant. One primary-emphasis anchor per screen region; everything else steps down to secondary or tertiary. Do not mix intents within a group to signal hierarchy — change emphasis instead, and change intent only when the meaning changes. The label names the destination (\"Read the case study\"), never \"Click here\".\n\n\nACCESSIBILITY: Renders as &lt;a&gt; with an href; without an href it is not a link and must not be used. Keyboard: reachable via Tab, activated by Enter only (Space scrolls the page, as with every native link — do not add a Space handler to make it behave like a button). Implement the focus ring as outline with outline-offset on :focus-visible, never as a layout-affecting border. The state variants are visual documentation, not props: hover/focus/active map to CSS pseudo-classes. A link that opens a new tab or downloads a file must say so in its accessible name. Icon-only usage is not supported: the label is always visible text. Inline links keep the underline in every state: subtle and strong are close to body text color, so color alone would fail WCAG 1.4.1 (Use of Color).\n\n\nCODE GENERATION NOTES: This maps to ONE Anchor component rendering a native &lt;a&gt;. intent (brand | subtle | strong) and emphasis (primary | secondary | tertiary) are independent props that select tokens; do not emit a component or class per combination. size maps to l/m/s (56/44/36px heights). Do not emit state as a prop, and do not emit a disabled prop. Bind every color to the named token rather than a literal hex so Light and Dark modes all resolve. iconLeading and iconTrailing are optional ReactNode slots — reuse the existing Icon component rather than inlining SVG. An Anchor has at most one icon: never both iconLeading and iconTrailing at the same time. variant is optional and accepts only 'inline' (from the shared Variant type); unset means the default, button-styled anchor. Model it as a discriminated union (TS-08): when variant='inline', emphasis, size, iconLeading and iconTrailing are never. intent applies to both. When variant='inline', emit no typography styles or tokens: all font properties inherit from the parent.",
+    "properties": {
+      "iconLeading#6660:112": { "type": "BOOLEAN", "defaultValue": false },
+      "iconTrailing#6660:113": { "type": "BOOLEAN", "defaultValue": false },
+      "children#6660:114": { "type": "TEXT", "defaultValue": "Anchor" },
+      "variant": {
+        "type": "VARIANT",
+        "defaultValue": "default",
+        "variantOptions": ["default", "inline"]
+      },
+      "intent": {
+        "type": "VARIANT",
+        "defaultValue": "brand",
+        "variantOptions": ["brand", "subtle", "strong"]
+      },
+      "emphasis": {
+        "type": "VARIANT",
+        "defaultValue": "primary",
+        "variantOptions": ["primary", "secondary", "tertiary"]
+      },
+      "size": {
+        "type": "VARIANT",
+        "defaultValue": "m",
+        "variantOptions": ["l", "m", "s"]
+      },
+      "state": {
+        "type": "VARIANT",
+        "defaultValue": "default",
+        "variantOptions": ["default", "hover", "focus", "active"]
+      }
+    },
+    "axes": ["variant", "intent", "emphasis", "size", "state"],
+    "variantCount": 120,
+    "coverage": {
+      "walked": 510,
+      "summarized": 270,
+      "hidden": 240,
+      "insideHidden": 480
+    },
+    "summarized": [
+      {
+        "path": "root",
+        "name": "variant=default, intent=brand, emphasis=primary, size=m, state=default",
+        "type": "COMPONENT",
+        "visibleInVariants": 120,
+        "facts": [
+          {
+            "field": "height",
+            "dependsOn": ["variant", "size"],
+            "values": {
+              "default|m": "token:dy/size/component/m",
+              "default|l": "token:dy/size/component/l",
+              "default|s": "token:dy/size/component/s",
+              "inline|m": "none"
+            }
+          },
+          { "field": "layoutMode", "value": "raw:HORIZONTAL" },
+          { "field": "alignPrimary", "value": "raw:CENTER" },
+          { "field": "alignCounter", "value": "raw:CENTER" },
+          {
+            "field": "paddingTop",
+            "dependsOn": ["variant"],
+            "values": { "default": "token:dy/space/xs", "inline": "raw:0" }
+          },
+          {
+            "field": "paddingRight",
+            "dependsOn": ["variant", "size"],
+            "values": {
+              "default|m": "token:dy/space/m",
+              "default|l": "token:dy/space/l",
+              "default|s": "token:dy/space/s",
+              "inline|m": "raw:0"
+            }
+          },
+          {
+            "field": "paddingBottom",
+            "dependsOn": ["variant"],
+            "values": { "default": "token:dy/space/xs", "inline": "raw:0" }
+          },
+          {
+            "field": "paddingLeft",
+            "dependsOn": ["variant", "size"],
+            "values": {
+              "default|m": "token:dy/space/m",
+              "default|l": "token:dy/space/l",
+              "default|s": "token:dy/space/s",
+              "inline|m": "raw:0"
+            }
+          },
+          {
+            "field": "itemSpacing",
+            "dependsOn": ["variant"],
+            "values": { "default": "token:dy/space/xs", "inline": "raw:4" }
+          },
+          {
+            "field": "radius",
+            "dependsOn": ["variant"],
+            "values": {
+              "default": "token:dy/border-radius/rounded",
+              "inline": "none"
+            }
+          },
+          {
+            "field": "fill",
+            "dependsOn": ["variant", "intent", "emphasis", "state"],
+            "values": {
+              "default|brand|primary|default": "token:dy/color/surface/action/brand/default",
+              "default|brand|primary|hover": "token:dy/color/surface/action/brand/hover",
+              "default|brand|primary|focus": "token:dy/color/surface/action/brand/default",
+              "default|brand|primary|active": "token:dy/color/surface/action/brand/active",
+              "default|brand|secondary|default": "token:dy/color/surface/page",
+              "default|brand|secondary|hover": "token:dy/color/surface/raised",
+              "default|brand|secondary|focus": "token:dy/color/surface/page",
+              "default|brand|secondary|active": "token:dy/color/surface/sunken",
+              "default|brand|tertiary|default": "none",
+              "default|brand|tertiary|hover": "token:dy/color/surface/raised",
+              "default|brand|tertiary|focus": "none",
+              "default|brand|tertiary|active": "token:dy/color/surface/sunken",
+              "default|subtle|primary|default": "token:dy/color/surface/action/subtle/default",
+              "default|subtle|primary|hover": "token:dy/color/surface/action/subtle/hover",
+              "default|subtle|primary|focus": "token:dy/color/surface/action/subtle/default",
+              "default|subtle|primary|active": "token:dy/color/surface/action/subtle/active",
+              "default|subtle|secondary|default": "token:dy/color/surface/page",
+              "default|subtle|secondary|hover": "token:dy/color/surface/raised",
+              "default|subtle|secondary|focus": "token:dy/color/surface/page",
+              "default|subtle|secondary|active": "token:dy/color/surface/sunken",
+              "default|subtle|tertiary|default": "none",
+              "default|subtle|tertiary|hover": "token:dy/color/surface/raised",
+              "default|subtle|tertiary|focus": "none",
+              "default|subtle|tertiary|active": "token:dy/color/surface/sunken",
+              "default|strong|primary|default": "token:dy/color/surface/action/strong/default",
+              "default|strong|primary|hover": "token:dy/color/surface/action/strong/hover",
+              "default|strong|primary|focus": "token:dy/color/surface/action/strong/default",
+              "default|strong|primary|active": "token:dy/color/surface/action/strong/active",
+              "default|strong|secondary|default": "token:dy/color/surface/page",
+              "default|strong|secondary|hover": "token:dy/color/surface/raised",
+              "default|strong|secondary|focus": "token:dy/color/surface/page",
+              "default|strong|secondary|active": "token:dy/color/surface/sunken",
+              "default|strong|tertiary|default": "none",
+              "default|strong|tertiary|hover": "token:dy/color/surface/raised",
+              "default|strong|tertiary|focus": "none",
+              "default|strong|tertiary|active": "token:dy/color/surface/sunken",
+              "inline|brand|primary|default": "none",
+              "inline|brand|primary|hover": "none",
+              "inline|brand|primary|focus": "none",
+              "inline|brand|primary|active": "none",
+              "inline|subtle|primary|default": "none",
+              "inline|subtle|primary|hover": "none",
+              "inline|subtle|primary|focus": "none",
+              "inline|subtle|primary|active": "none",
+              "inline|strong|primary|default": "none",
+              "inline|strong|primary|hover": "none",
+              "inline|strong|primary|focus": "none",
+              "inline|strong|primary|active": "none"
+            }
+          },
+          {
+            "field": "stroke",
+            "dependsOn": ["intent", "emphasis", "state"],
+            "values": {
+              "brand|primary|default": "none",
+              "brand|primary|hover": "none",
+              "brand|primary|focus": "none",
+              "brand|primary|active": "none",
+              "brand|secondary|default": "token:dy/color/border/primary",
+              "brand|secondary|hover": "token:dy/color/border/primary",
+              "brand|secondary|focus": "token:dy/color/border/primary",
+              "brand|secondary|active": "token:dy/color/border/primary",
+              "brand|tertiary|default": "none",
+              "brand|tertiary|hover": "none",
+              "brand|tertiary|focus": "none",
+              "brand|tertiary|active": "none",
+              "subtle|primary|default": "none",
+              "subtle|primary|hover": "none",
+              "subtle|primary|focus": "none",
+              "subtle|primary|active": "none",
+              "subtle|secondary|default": "token:dy/color/border/default",
+              "subtle|secondary|hover": "token:dy/color/border/default",
+              "subtle|secondary|focus": "token:dy/color/border/default",
+              "subtle|secondary|active": "token:dy/color/border/strong",
+              "subtle|tertiary|default": "none",
+              "subtle|tertiary|hover": "none",
+              "subtle|tertiary|focus": "none",
+              "subtle|tertiary|active": "none",
+              "strong|primary|default": "none",
+              "strong|primary|hover": "none",
+              "strong|primary|focus": "none",
+              "strong|primary|active": "none",
+              "strong|secondary|default": "token:dy/color/border/strong",
+              "strong|secondary|hover": "token:dy/color/border/strong",
+              "strong|secondary|focus": "token:dy/color/border/strong",
+              "strong|secondary|active": "token:dy/color/border/strong",
+              "strong|tertiary|default": "none",
+              "strong|tertiary|hover": "none",
+              "strong|tertiary|focus": "none",
+              "strong|tertiary|active": "none"
+            }
+          },
+          {
+            "field": "strokeWidth",
+            "dependsOn": ["emphasis"],
+            "values": {
+              "primary": "none",
+              "secondary": "token:dy/border-width/default",
+              "tertiary": "none"
+            }
+          }
+        ]
+      },
+      {
+        "path": "root/1:Anchor",
+        "name": "Anchor",
+        "type": "TEXT",
+        "references": { "characters": "children#6660:114" },
+        "visibleInVariants": 120,
+        "facts": [
+          {
+            "field": "fill",
+            "dependsOn": ["variant", "intent", "emphasis", "state"],
+            "values": {
+              "default|brand|primary|default": "token:dy/color/text/on-action",
+              "default|brand|primary|hover": "token:dy/color/text/on-action",
+              "default|brand|primary|focus": "token:dy/color/text/on-action",
+              "default|brand|primary|active": "token:dy/color/text/on-action",
+              "default|brand|secondary|default": "token:dy/color/text/action/brand/default",
+              "default|brand|secondary|hover": "token:dy/color/text/action/brand/hover",
+              "default|brand|secondary|focus": "token:dy/color/text/action/brand/default",
+              "default|brand|secondary|active": "token:dy/color/text/action/brand/active",
+              "default|brand|tertiary|default": "token:dy/color/text/action/brand/default",
+              "default|brand|tertiary|hover": "token:dy/color/text/action/brand/hover",
+              "default|brand|tertiary|focus": "token:dy/color/text/action/brand/default",
+              "default|brand|tertiary|active": "token:dy/color/text/action/brand/active",
+              "default|subtle|primary|default": "token:dy/color/text/action/subtle/default",
+              "default|subtle|primary|hover": "token:dy/color/text/action/subtle/hover",
+              "default|subtle|primary|focus": "token:dy/color/text/action/subtle/default",
+              "default|subtle|primary|active": "token:dy/color/text/action/subtle/active",
+              "default|subtle|secondary|default": "token:dy/color/text/action/subtle/default",
+              "default|subtle|secondary|hover": "token:dy/color/text/action/subtle/hover",
+              "default|subtle|secondary|focus": "token:dy/color/text/action/subtle/default",
+              "default|subtle|secondary|active": "token:dy/color/text/action/subtle/active",
+              "default|subtle|tertiary|default": "token:dy/color/text/action/subtle/default",
+              "default|subtle|tertiary|hover": "token:dy/color/text/action/subtle/hover",
+              "default|subtle|tertiary|focus": "token:dy/color/text/action/subtle/default",
+              "default|subtle|tertiary|active": "token:dy/color/text/action/subtle/active",
+              "default|strong|primary|default": "token:dy/color/text/on-action",
+              "default|strong|primary|hover": "token:dy/color/text/on-action",
+              "default|strong|primary|focus": "token:dy/color/text/on-action",
+              "default|strong|primary|active": "token:dy/color/text/on-action",
+              "default|strong|secondary|default": "token:dy/color/text/action/strong/default",
+              "default|strong|secondary|hover": "token:dy/color/text/action/strong/hover",
+              "default|strong|secondary|focus": "token:dy/color/text/action/strong/default",
+              "default|strong|secondary|active": "token:dy/color/text/action/strong/active",
+              "default|strong|tertiary|default": "token:dy/color/text/action/strong/default",
+              "default|strong|tertiary|hover": "token:dy/color/text/action/strong/hover",
+              "default|strong|tertiary|focus": "token:dy/color/text/action/strong/default",
+              "default|strong|tertiary|active": "token:dy/color/text/action/strong/active",
+              "inline|brand|primary|default": "token:dy/color/text/action/brand/default",
+              "inline|brand|primary|hover": "token:dy/color/text/action/brand/hover",
+              "inline|brand|primary|focus": "token:dy/color/text/action/brand/default",
+              "inline|brand|primary|active": "token:dy/color/text/action/brand/active",
+              "inline|subtle|primary|default": "token:dy/color/text/action/subtle/default",
+              "inline|subtle|primary|hover": "token:dy/color/text/action/subtle/hover",
+              "inline|subtle|primary|focus": "token:dy/color/text/action/subtle/default",
+              "inline|subtle|primary|active": "token:dy/color/text/action/subtle/active",
+              "inline|strong|primary|default": "token:dy/color/text/action/strong/default",
+              "inline|strong|primary|hover": "token:dy/color/text/action/strong/hover",
+              "inline|strong|primary|focus": "token:dy/color/text/action/strong/default",
+              "inline|strong|primary|active": "token:dy/color/text/action/strong/active"
+            }
+          },
+          { "field": "fontFamily", "value": "token:dy/font/family/body" },
+          {
+            "field": "fontStyle",
+            "dependsOn": ["variant"],
+            "values": {
+              "default": "token:dy/font/weight/strong",
+              "inline": "token:dy/font/weight/body"
+            }
+          },
+          {
+            "field": "fontSize",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "token:dy/font/size/body/m",
+              "l": "token:dy/font/size/body/l",
+              "s": "token:dy/font/size/body/s"
+            }
+          },
+          {
+            "field": "lineHeight",
+            "value": "raw:{\"unit\":\"PERCENT\",\"value\":120.00000476837158}"
+          },
+          {
+            "field": "letterSpacing",
+            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
+          },
+          {
+            "field": "textDecoration",
+            "dependsOn": ["variant"],
+            "values": { "default": "none", "inline": "raw:UNDERLINE" }
+          }
+        ]
+      },
+      {
+        "path": "root/3:Focus ring",
+        "name": "Focus ring",
+        "type": "RECTANGLE",
+        "visibleInVariants": 30,
+        "facts": [
+          {
+            "field": "x",
+            "dependsOn": ["variant"],
+            "values": { "default": "raw:-4", "inline": "raw:-2" }
+          },
+          {
+            "field": "y",
+            "dependsOn": ["variant"],
+            "values": { "default": "raw:-4", "inline": "raw:-2" }
+          },
+          {
+            "field": "radius",
+            "dependsOn": ["variant"],
+            "values": {
+              "default": "token:dy/border-radius/rounded",
+              "inline": "none"
+            }
+          },
+          { "field": "fill", "value": "none" },
+          { "field": "stroke", "value": "token:dy/color/border/focus" },
+          { "field": "strokeWidth", "value": "token:dy/border-width/focus" }
+        ]
+      }
+    ],
+    "hidden": [
+      {
+        "path": "root/0:Icon",
+        "name": "Icon",
+        "type": "INSTANCE",
+        "references": { "visible": "iconLeading#6660:112" },
+        "mainComponent": "size=large",
+        "hiddenInVariants": 120
+      },
+      {
+        "path": "root/2:Icon",
+        "name": "Icon",
+        "type": "INSTANCE",
+        "references": { "visible": "iconTrailing#6660:113" },
+        "mainComponent": "size=large",
+        "hiddenInVariants": 120
+      }
+    ]
+  }
+}
