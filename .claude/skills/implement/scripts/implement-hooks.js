@@ -225,7 +225,7 @@ export function isExpectedCommand(tokens, component) {
     return (
       scripts.length > 0 &&
       scripts.every((script) =>
-        /^\.claude\/skills\/(implement|spec)\/scripts\/[\w*.-]+\.js$/.test(
+        /^\.claude\/skills\/(implement|pr|spec)\/scripts\/[\w*.-]+\.js$/.test(
           script ?? '',
         ),
       )
