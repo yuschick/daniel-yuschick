@@ -12,6 +12,8 @@
     padding: var(--anchor-space-padding);
     position: relative;
     text-decoration: var(--anchor-text-decoration);
+    /* A longhand, because Safari rejects a thickness inside the shorthand (CSS-13, CSS-14). */
+    text-decoration-thickness: var(--anchor-text-decoration-thickness);
 
     @media (prefers-reduced-motion: no-preference) {
       transition:
@@ -114,8 +116,7 @@
       );
       --anchor-display: inline;
       --anchor-space-padding: var(--anchor-space-padding-block) 0;
-      --anchor-text-decoration: underline
-        var(--anchor-text-decoration-thickness);
+      --anchor-text-decoration: underline;
 
       &:focus-visible {
         --anchor-space-padding-block: 0;
