@@ -86,6 +86,7 @@ describe('shell commands', () => {
     'pnpm exec prettier --write packages/react/src/components/Chip/Chip.tsx',
     'node .claude/skills/implement/scripts/run-gates.js --component chip',
     'node --test .claude/skills/implement/scripts/*.test.js',
+    'node .claude/skills/pr/scripts/prepare-pr.js --footer "attribution"',
     'grep -n token packages/react/specs/chip/chip.md > /dev/null',
     '/opt/homebrew/bin/gh pr create --draft --title a',
   ]) {

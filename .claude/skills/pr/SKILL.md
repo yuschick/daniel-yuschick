@@ -57,6 +57,6 @@ Report the PR URL and stop. Next: a human review and merge.
 
 ## Limits
 
-- On an `implement/*` branch in a session where `/implement` ran, its hooks also judge these commands, and running `prepare-pr.js` prompts the approver once.
+- On an `implement/*` branch in a session where `/implement` ran, its hooks also judge these commands. They expect `prepare-pr.js`, so it runs without a prompt.
 - The guard judges shell commands that push or open a PR. It can't see a push made outside this session.
 - The rendered body is the handoff's prose. `/pr` proves the branch is ready, not that its description is accurate; the human review does that.
