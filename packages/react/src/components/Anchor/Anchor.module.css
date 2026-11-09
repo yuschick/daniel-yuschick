@@ -1,16 +1,28 @@
 @layer dy.react {
   .anchor {
+    --anchor-color-border: var(--anchor-color-border-default);
+    --anchor-color-surface: var(--anchor-color-surface-default);
     --anchor-color-text: var(--anchor-color-text-default);
     --anchor-outline-style: none;
     --anchor-text-decoration-thickness: var(--dy-border-width-default);
 
+    align-items: var(--anchor-align-items);
+    background-color: var(--anchor-color-surface);
+    border: var(--anchor-border);
+    border-radius: var(--anchor-border-radius);
     color: var(--anchor-color-text);
     display: var(--anchor-display);
+    flex-wrap: var(--anchor-flex-wrap);
+    font: var(--anchor-font);
+    justify-content: var(--anchor-justify-content);
+    max-inline-size: var(--anchor-size-inline-max);
+    min-block-size: var(--anchor-size-block-min);
     outline: var(--dy-border-width-focus) var(--anchor-outline-style)
       var(--dy-color-border-focus);
     outline-offset: var(--dy-space-2xs);
     padding: var(--anchor-space-padding);
     position: relative;
+    text-align: var(--anchor-text-align);
     text-decoration: var(--anchor-text-decoration);
     /* A longhand, because Safari rejects a thickness inside the shorthand (CSS-13, CSS-14). */
     text-decoration-thickness: var(--anchor-text-decoration-thickness);
@@ -22,6 +34,10 @@
         border-color var(--dy-motion-duration-fast)
           var(--dy-motion-easing-standard),
         color var(--dy-motion-duration-fast) var(--dy-motion-easing-standard);
+    }
+
+    & .label {
+      overflow-wrap: var(--anchor-overflow-wrap);
     }
 
     & .hidden-text {
@@ -85,28 +101,21 @@
     }
 
     &.variant-default {
-      --anchor-color-border: var(--anchor-color-border-default);
-      --anchor-color-surface: var(--anchor-color-surface-default);
+      --anchor-align-items: center;
+      --anchor-border: var(--dy-border-width-default) solid
+        var(--anchor-color-border);
+      --anchor-border-radius: var(--dy-border-radius-rounded);
       --anchor-display: inline-flex;
+      --anchor-flex-wrap: wrap;
+      --anchor-font: var(--dy-font-weight-strong) var(--anchor-font-size) /
+        var(--dy-font-line-height-tight) var(--dy-font-family-body);
+      --anchor-justify-content: center;
+      --anchor-overflow-wrap: anywhere;
+      --anchor-size-inline-max: 100%;
       --anchor-space-padding: var(--dy-space-xs)
         var(--anchor-space-padding-inline);
+      --anchor-text-align: center;
       --anchor-text-decoration: none;
-
-      align-items: center;
-      background-color: var(--anchor-color-surface);
-      border: var(--dy-border-width-default) solid var(--anchor-color-border);
-      border-radius: var(--dy-border-radius-rounded);
-      flex-wrap: wrap;
-      font: var(--dy-font-weight-strong) var(--anchor-font-size) /
-        var(--dy-font-line-height-tight) var(--dy-font-family-body);
-      justify-content: center;
-      max-inline-size: 100%;
-      min-block-size: var(--anchor-size-block-min);
-      text-align: center;
-
-      & .label {
-        overflow-wrap: anywhere;
-      }
     }
 
     &.variant-inline {
@@ -114,8 +123,21 @@
         0px,
         calc((var(--dy-space-l) - 1em) / 2)
       );
+      --anchor-align-items: normal;
+      --anchor-border: none;
+      --anchor-border-radius: 0;
+      --anchor-color-surface-active: transparent;
+      --anchor-color-surface-default: transparent;
+      --anchor-color-surface-hover: transparent;
       --anchor-display: inline;
+      --anchor-flex-wrap: nowrap;
+      --anchor-font: inherit;
+      --anchor-justify-content: normal;
+      --anchor-overflow-wrap: inherit;
+      --anchor-size-block-min: auto;
+      --anchor-size-inline-max: none;
       --anchor-space-padding: var(--anchor-space-padding-block) 0;
+      --anchor-text-align: inherit;
       --anchor-text-decoration: underline;
 
       &:focus-visible {
