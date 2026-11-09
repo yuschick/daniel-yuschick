@@ -230,6 +230,35 @@ describe('checkSpec', () => {
     assert.match(errors.join(), /No decision resolves the fact: root x/);
   });
 
+  it('requires a decision for a sparse variant grid', () => {
+    const sparsePayload = { ...payload, variantCount: 1 };
+    const sparseFacts = {
+      hash: fnv1a(JSON.stringify(sparsePayload)),
+      payload: sparsePayload,
+    };
+    const check = (decisionRows) => {
+      const markdown = specMarkdown({ decisionRows, hash: sparseFacts.hash });
+      return checkSpec({
+        spec: parseSpec(markdown),
+        facts: sparseFacts,
+        manifest,
+        ruleIds,
+        markdown,
+      });
+    };
+
+    assert.match(
+      check('| D1 | Offset is a token | root x | Daniel |').join(),
+      /No decision resolves the fact: Variant grid/,
+    );
+    assert.deepEqual(
+      check(
+        '| D1 | Offset is a token, grid is sparse | root x, Variant grid | Daniel |',
+      ),
+      [],
+    );
+  });
+
   it('rejects stale facts', () => {
     assert.match(run({ hash: 'deadbeef' }).join(), /factsHash deadbeef/);
   });

@@ -60,8 +60,8 @@ export function checkFacts({ facts, manifest }) {
     1,
   );
   if (payload.variantCount !== expectedVariants) {
-    errors.push(
-      `Expected ${expectedVariants} variants from the axes, found ${payload.variantCount}. Ask whether the missing combinations are intentional.`,
+    questions.add(
+      `Variant grid: expected ${expectedVariants} variants from the axes, found ${payload.variantCount}. Are the missing combinations intentional?`,
     );
   }
 
