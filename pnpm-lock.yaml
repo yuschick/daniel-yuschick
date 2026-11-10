@@ -228,6 +228,9 @@ importers:
 
   packages/react:
     dependencies:
+      '@dy/icons':
+        specifier: workspace:*
+        version: link:../icons
       react:
         specifier: 19.2.8
         version: 19.2.8
