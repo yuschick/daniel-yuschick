@@ -1,6 +1,8 @@
 # Generated
 pnpm-lock.yaml
 **/next-env.d.ts
+packages/icons/src/react/index.ts
+packages/icons/src/react/icons
 
 # Build output
 **/.next

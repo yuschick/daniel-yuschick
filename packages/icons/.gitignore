@@ -1,0 +1,3 @@
+# Generated from src/icons.json by scripts/generate.js on every build
+src/react/index.ts
+src/react/icons/
