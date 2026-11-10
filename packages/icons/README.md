@@ -54,7 +54,9 @@ Figma's MCP returns exports to the agent rather than to disk, so each slice is h
 | `react/index.js`        | Every icon by name, plus the `IconComponent` types |
 | `react/icons/<Name>.js` | One module per icon, with its `.d.ts`              |
 
-`generate.js` writes the React sources tsdown compiles into `src/react/index.ts` and `src/react/icons/`, both gitignored. They follow `RX-01` and `RX-02`, share the one `IconComponentProps` interface in [`src/react/types.ts`](src/react/types.ts), and are covered by `scripts/generate.test.js` rather than linted.
+`generate.js` writes the React sources tsdown compiles into `src/react/index.ts` and `src/react/icons/`, both gitignored. Each icon is a named component (`RX-01`, `RX-02`) holding its shapes as data and calling [`renderIcon`](src/react/renderIcon.ts), which renders every icon: the defaults, the ref and the shapes. Only that thin template is generated; the logic is hand-written, linted and tested with Vitest.
+
+The defaults live in [`src/react/attributes.ts`](src/react/attributes.ts), hand-written so the package type-checks before a build. `generate.js` stops the build if they no longer match the manifest's house style.
 
 ## License
 

@@ -12,7 +12,7 @@ import {
 import {
   checkManifest,
   generate,
-  renderAttributes,
+  checkStyle,
   renderBarrel,
   renderComponent,
   renderSvg,
@@ -115,32 +115,49 @@ describe('renderComponent', () => {
     const source = renderComponent({ icon: icon({ name: 'chevron-down' }) });
     assert.match(
       source,
-      /export const ChevronDownIcon = function ChevronDownIcon\(\{/,
+      /export const ChevronDownIcon = function ChevronDownIcon\(\{\n {2}ref: externalRef,\n {2}\.\.\.htmlAttributes\n\}: IconComponentProps\)/,
     );
-    assert.match(source, /ref: externalRef,\n {2}\.\.\.htmlAttributes/);
-    assert.match(
-      source,
-      /<svg ref=\{externalRef\} \{\.\.\.ICON_ATTRIBUTES\} \{\.\.\.htmlAttributes\}>/,
-    );
-    assert.match(source, /<path d="m6 9 6 6 6-6" \/>/);
     assert.doesNotMatch(source, /displayName|export default/);
+  });
+
+  it('keeps the shapes as data and hands them to renderIcon', () => {
+    const source = renderComponent({
+      icon: icon({
+        name: 'x',
+        nodes: [
+          ['path', { d: 'M18 6 6 18' }],
+          ['circle', { cx: '12', cy: '12', r: '10' }],
+        ],
+      }),
+    });
+    assert.ok(
+      source.includes(
+        "const NODES = [\n  ['path', { d: 'M18 6 6 18' }],\n  ['circle', { cx: '12', cy: '12', r: '10' }],\n] satisfies IconNode[];",
+      ),
+    );
+    assert.ok(
+      source.includes(
+        'return renderIcon({ htmlAttributes, nodes: NODES, svgRef: externalRef });',
+      ),
+    );
   });
 });
 
-describe('renderAttributes', () => {
-  it('hides icons from assistive tech and sizes them to the text by default', () => {
-    const source = renderAttributes({ manifest: manifestWith({ icons: [] }) });
-    for (const line of [
-      "'aria-hidden': true,",
-      "focusable: 'false',",
-      "width: '1em',",
-      'strokeWidth: 2,',
-      "strokeLinecap: 'round',",
-      "stroke: 'currentColor',",
-      "viewBox: '0 0 24 24',",
-    ]) {
-      assert.ok(source.includes(line), `missing ${line}`);
-    }
+describe('checkStyle', () => {
+  it('accepts the hand-written defaults for the converter’s house style', () => {
+    checkStyle({ manifest: manifestWith({ icons: [] }) });
+  });
+
+  it('names every default that no longer matches the manifest', () => {
+    const manifest = {
+      ...manifestWith({ icons: [] }),
+      viewBox: '0 0 20 20',
+      attributes: { ...ATTRIBUTES, 'stroke-width': 1.5 },
+    };
+    assert.throws(
+      () => checkStyle({ manifest }),
+      /doesn't match the house style in icons.json \(viewBox, strokeWidth\)/,
+    );
   });
 });
 
@@ -189,10 +206,7 @@ describe('generate', async () => {
     });
 
     assert.deepEqual(await readdir(svgDir), ['x.svg']);
-    assert.deepEqual((await readdir(join(reactDir, 'icons'))).sort(), [
-      'XIcon.tsx',
-      'attributes.ts',
-    ]);
+    assert.deepEqual(await readdir(join(reactDir, 'icons')), ['XIcon.ts']);
     assert.doesNotMatch(
       await readFile(join(reactDir, 'index.ts'), 'utf8'),
       /ChevronDown/,

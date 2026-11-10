@@ -14,3 +14,10 @@ export interface IconComponentProps extends SVGAttributes<SVGSVGElement> {
 
 /** Any icon component from `@dy/icons/react`, such as `ChevronDownIcon`. */
 export type IconComponent = (props: IconComponentProps) => ReactElement;
+
+/** The shapes a glyph may contain; the converter allows no others. */
+export type IconShape =
+  'circle' | 'ellipse' | 'line' | 'path' | 'polygon' | 'polyline' | 'rect';
+
+/** One shape of a glyph and its geometry, as stored in `src/icons.json`. */
+export type IconNode = readonly [IconShape, Readonly<Record<string, string>>];

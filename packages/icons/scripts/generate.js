@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { FORMAT_VERSION, ICON_NAME, SHAPES } from './figma-to-icon-manifest.js';
+import { ICON_ATTRIBUTES } from '../src/react/attributes.ts';
 
 const PACKAGE_ROOT = fileURLToPath(new URL('..', import.meta.url));
 
@@ -125,67 +126,66 @@ export function renderSvg({ manifest, icon }) {
 }
 
 /**
- * The defaults every icon component renders with. Props override them.
+ * Throws unless the React defaults in `src/react/attributes.ts` draw in the
+ * manifest's house style. They're hand-written so the package type-checks
+ * before a build, so a style change in the manifest must be made there too.
  *
- * @param {{ manifest: IconManifest }} options
- * @returns {string}
+ * @param {{ manifest: IconManifest, defaults?: Record<string, unknown> }} options
  */
-export function renderAttributes({ manifest }) {
-  // Values are checked safe (checkManifest), so quoting needs no escaping
-  const literal = (/** @type {string | number} */ value) =>
-    typeof value === 'number' ? String(value) : `'${value}'`;
-  const shared = Object.entries(manifest.attributes).map(
-    ([attribute, value]) =>
-      `  ${toReactAttribute(attribute)}: ${literal(value)},`,
-  );
+export function checkStyle({ manifest, defaults = ICON_ATTRIBUTES }) {
+  const expected = {
+    viewBox: manifest.viewBox,
+    ...Object.fromEntries(
+      Object.entries(manifest.attributes).map(([attribute, value]) => [
+        toReactAttribute(attribute),
+        value,
+      ]),
+    ),
+  };
+  const mismatched = Object.entries(expected)
+    .filter(([attribute, value]) => defaults[attribute] !== value)
+    .map(([attribute]) => attribute);
 
-  return [
-    `// ${GENERATED}`,
-    "import type { IconComponentProps } from '../types';",
-    '',
-    '/** Decorative and text-sized by default; every attribute can be overridden. */',
-    'export const ICON_ATTRIBUTES = {',
-    "  'aria-hidden': true,",
-    "  focusable: 'false',",
-    "  width: '1em',",
-    "  height: '1em',",
-    `  viewBox: ${literal(manifest.viewBox)},`,
-    ...shared,
-    '} satisfies IconComponentProps;',
-    '',
-  ].join('\n');
+  if (mismatched.length > 0) {
+    throw new Error(
+      `src/react/attributes.ts doesn't match the house style in icons.json (${mismatched.join(', ')}). Update it to match.`,
+    );
+  }
 }
 
 /**
- * One icon component, named for its icon and following RX-01 and RX-02.
+ * One icon component: its shapes as data, and a named render function
+ * (RX-01) that hands them and its props to `renderIcon`. The ref is
+ * destructured as `externalRef` (RX-02) and passed on as `svgRef`.
  *
  * @param {{ icon: ManifestIcon }} options
  * @returns {string}
  */
 export function renderComponent({ icon }) {
   const componentName = toComponentName({ name: icon.name });
-  const children = icon.nodes.map(([element, attributes]) => {
-    const props = Object.entries(attributes)
-      .map(([attribute, value]) => ` ${attribute}="${value}"`)
-      .join('');
-    return `      <${element}${props} />`;
+  // Values are checked safe (checkManifest), so quoting needs no escaping
+  const nodes = icon.nodes.map(([element, attributes]) => {
+    const geometry = Object.entries(attributes)
+      .map(([attribute, value]) => `${attribute}: '${value}'`)
+      .join(', ');
+    return `  ['${element}', { ${geometry} }],`;
   });
 
   return [
     `// ${GENERATED}`,
-    "import type { IconComponentProps } from '../types';",
-    "import { ICON_ATTRIBUTES } from './attributes';",
+    "import { renderIcon } from '../renderIcon';",
+    "import type { IconComponentProps, IconNode } from '../types';",
+    '',
+    'const NODES = [',
+    ...nodes,
+    '] satisfies IconNode[];',
     '',
     `/** The \`${icon.name}\` icon, from Lucide. */`,
     `export const ${componentName} = function ${componentName}({`,
     '  ref: externalRef,',
     '  ...htmlAttributes',
     '}: IconComponentProps) {',
-    '  return (',
-    '    <svg ref={externalRef} {...ICON_ATTRIBUTES} {...htmlAttributes}>',
-    ...children,
-    '    </svg>',
-    '  );',
+    '  return renderIcon({ htmlAttributes, nodes: NODES, svgRef: externalRef });',
     '};',
     '',
   ].join('\n');
@@ -217,6 +217,7 @@ export function renderBarrel({ manifest }) {
  */
 export async function generate({ manifest, svgDir, reactDir }) {
   checkManifest({ manifest });
+  checkStyle({ manifest });
 
   const iconsDir = join(reactDir, 'icons');
   await rm(svgDir, { recursive: true, force: true });
@@ -230,14 +231,10 @@ export async function generate({ manifest, svgDir, reactDir }) {
       renderSvg({ manifest, icon }),
     );
     await writeFile(
-      join(iconsDir, `${toComponentName({ name: icon.name })}.tsx`),
+      join(iconsDir, `${toComponentName({ name: icon.name })}.ts`),
       renderComponent({ icon }),
     );
   }
-  await writeFile(
-    join(iconsDir, 'attributes.ts'),
-    renderAttributes({ manifest }),
-  );
   await writeFile(join(reactDir, 'index.ts'), renderBarrel({ manifest }));
 }
 
