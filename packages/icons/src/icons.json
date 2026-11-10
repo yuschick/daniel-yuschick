@@ -9,5 +9,141 @@
     "stroke-linecap": "round",
     "stroke-linejoin": "round"
   },
-  "icons": []
+  "icons": [
+    {
+      "name": "arrow-left",
+      "figma": {
+        "id": "259:447",
+        "key": "a23f0d1b5865ad40d2b26a05f9e04754f16140bd"
+      },
+      "description": "Lucide \"arrow-left\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "m12 19-7-7 7-7" }],
+        ["path", { "d": "M19 12H5" }]
+      ]
+    },
+    {
+      "name": "arrow-right",
+      "figma": {
+        "id": "259:451",
+        "key": "2be08a1cee90c88a86dcdb4370a4b73594a1007f"
+      },
+      "description": "Lucide \"arrow-right\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "M5 12h14" }],
+        ["path", { "d": "m12 5 7 7-7 7" }]
+      ]
+    },
+    {
+      "name": "arrow-up-right",
+      "figma": {
+        "id": "259:455",
+        "key": "0754e162a10b75acc05e59e50c58d35b876443ec"
+      },
+      "description": "Lucide \"arrow-up-right\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "M7 7h10v10" }],
+        ["path", { "d": "M7 17 17 7" }]
+      ]
+    },
+    {
+      "name": "check",
+      "figma": {
+        "id": "259:458",
+        "key": "923e1f4e932db1de57c31407bcc6c01839e6ec35"
+      },
+      "description": "Lucide \"check\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [["path", { "d": "M20 6 9 17l-5-5" }]]
+    },
+    {
+      "name": "chevron-down",
+      "figma": {
+        "id": "259:461",
+        "key": "3eff14cc008b4cee3dc9ad8a1ffbf8fc2cf997e8"
+      },
+      "description": "Lucide \"chevron-down\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [["path", { "d": "m6 9 6 6 6-6" }]]
+    },
+    {
+      "name": "chevron-left",
+      "figma": {
+        "id": "259:464",
+        "key": "6d0bf56a36bc5b191537f14365e013d0507c1dde"
+      },
+      "description": "Lucide \"chevron-left\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [["path", { "d": "m15 18-6-6 6-6" }]]
+    },
+    {
+      "name": "chevron-right",
+      "figma": {
+        "id": "259:467",
+        "key": "04a01fdf547e4ce16b26a99b35dbc707f90ba83b"
+      },
+      "description": "Lucide \"chevron-right\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [["path", { "d": "m9 18 6-6-6-6" }]]
+    },
+    {
+      "name": "chevron-up",
+      "figma": {
+        "id": "259:470",
+        "key": "523dba2fb161833b1371007d40535461313328b9"
+      },
+      "description": "Lucide \"chevron-up\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [["path", { "d": "m18 15-6-6-6 6" }]]
+    },
+    {
+      "name": "download",
+      "figma": {
+        "id": "259:475",
+        "key": "c2185dbd5e987a198cb20474dcd6915565a297ae"
+      },
+      "description": "Lucide \"download\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "M12 15V3" }],
+        ["path", { "d": "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }],
+        ["path", { "d": "m7 10 5 5 5-5" }]
+      ]
+    },
+    {
+      "name": "external-link",
+      "figma": {
+        "id": "259:480",
+        "key": "335ead4be63b9af9dccdff95ef0055d2d173e9c9"
+      },
+      "description": "Lucide \"external-link\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "M15 3h6v6" }],
+        ["path", { "d": "M10 14 21 3" }],
+        [
+          "path",
+          { "d": "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" }
+        ]
+      ]
+    },
+    {
+      "name": "menu",
+      "figma": {
+        "id": "259:485",
+        "key": "036122fabfbbcdbce013a2c562f6f2ef762a7648"
+      },
+      "description": "Lucide \"menu\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "M4 5h16" }],
+        ["path", { "d": "M4 12h16" }],
+        ["path", { "d": "M4 19h16" }]
+      ]
+    },
+    {
+      "name": "x",
+      "figma": {
+        "id": "259:489",
+        "key": "14ac0d7b788bd0c69cd0f521ad06949ed9db9885"
+      },
+      "description": "Lucide \"x\" (lucide-static v1.61.0; ISC, or MIT where Lucide derives it from Feather — see @dy/icons LICENSE). 24×24 grid, 2px stroke, round caps and joins. Glyph only: use it through the Icon component's icon property.",
+      "nodes": [
+        ["path", { "d": "M18 6 6 18" }],
+        ["path", { "d": "m6 6 12 12" }]
+      ]
+    }
+  ]
 }
