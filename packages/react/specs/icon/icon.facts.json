@@ -1,0 +1,175 @@
+{
+  "hash": "a5c3f194",
+  "payload": {
+    "source": { "id": "259:508", "name": "Icon", "type": "COMPONENT_SET" },
+    "description": "The single icon component for the system: one glyph from the DY icon set (Lucide; ISC and MIT, see @dy/icons LICENSE) at one of 5 sizes.\nPURPOSE: Every icon in the UI, on its own or inside a component slot such as Button and Anchor iconLeading / iconTrailing.\nBEHAVIOR: size (xs | s | m | l | xl) maps to dy/size/icon/* (12/16/20/24/32px). The icon property swaps the glyph; only components in the Icons section are valid glyphs. Glyphs are drawn on a 24×24 grid with a 2px stroke, and the stroke scales with size, as an SVG viewBox does in code.\nCOMPOSITION: A square frame holding one glyph instance. No padding, fill or border. Color is the stroke, bound to dy/color/text/default here; in code the glyph uses currentColor and inherits the surrounding text color, so containing components override the color, not Icon.\nUSAGE: Pair an icon with a visible text label whenever possible. Pick the size that matches the adjacent text or the containing component’s size, rather than overriding the frame.\nACCESSIBILITY: Decorative by default: hidden from assistive tech (aria-hidden) because the adjacent label carries the meaning. An icon that conveys meaning on its own takes a label, which renders role=&quot;img&quot; with that accessible name. Never rely on an icon alone for an interactive control’s name.\nCODE GENERATION NOTES: Maps to ONE Icon component in @dy/react. icon takes an icon component from @dy/icons/react (e.g. ChevronDownIcon), never a string name or a ReactNode. size is a prop that selects a --dy-size-icon-* token. Do not emit a component per glyph or per size, and do not inline SVG markup.",
+    "properties": {
+      "icon#259:0": {
+        "type": "INSTANCE_SWAP",
+        "defaultValue": "259:461",
+        "preferredValues": [
+          {
+            "type": "COMPONENT",
+            "key": "a23f0d1b5865ad40d2b26a05f9e04754f16140bd"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "2be08a1cee90c88a86dcdb4370a4b73594a1007f"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "0754e162a10b75acc05e59e50c58d35b876443ec"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "923e1f4e932db1de57c31407bcc6c01839e6ec35"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "3eff14cc008b4cee3dc9ad8a1ffbf8fc2cf997e8"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "6d0bf56a36bc5b191537f14365e013d0507c1dde"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "04a01fdf547e4ce16b26a99b35dbc707f90ba83b"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "523dba2fb161833b1371007d40535461313328b9"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "c2185dbd5e987a198cb20474dcd6915565a297ae"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "335ead4be63b9af9dccdff95ef0055d2d173e9c9"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "036122fabfbbcdbce013a2c562f6f2ef762a7648"
+          },
+          {
+            "type": "COMPONENT",
+            "key": "14ac0d7b788bd0c69cd0f521ad06949ed9db9885"
+          }
+        ]
+      },
+      "size": {
+        "type": "VARIANT",
+        "defaultValue": "m",
+        "variantOptions": ["xs", "s", "m", "l", "xl"]
+      }
+    },
+    "axes": ["size"],
+    "variantCount": 5,
+    "coverage": {
+      "walked": 15,
+      "summarized": 15,
+      "hidden": 0,
+      "insideHidden": 0
+    },
+    "summarized": [
+      {
+        "path": "root",
+        "name": "size=m",
+        "type": "COMPONENT",
+        "visibleInVariants": 5,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "token:dy/size/icon/m",
+              "xs": "token:dy/size/icon/xs",
+              "s": "token:dy/size/icon/s",
+              "l": "token:dy/size/icon/l",
+              "xl": "token:dy/size/icon/xl"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "token:dy/size/icon/m",
+              "xs": "token:dy/size/icon/xs",
+              "s": "token:dy/size/icon/s",
+              "l": "token:dy/size/icon/l",
+              "xl": "token:dy/size/icon/xl"
+            }
+          },
+          { "field": "fill", "value": "none" }
+        ]
+      },
+      {
+        "path": "root/0:Glyph",
+        "name": "Glyph",
+        "type": "INSTANCE",
+        "references": { "mainComponent": "icon#259:0" },
+        "mainComponent": "chevron-down",
+        "visibleInVariants": 5,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:20",
+              "xs": "raw:12",
+              "s": "raw:16",
+              "l": "raw:24",
+              "xl": "raw:32"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:20",
+              "xs": "raw:12",
+              "s": "raw:16",
+              "l": "raw:24",
+              "xl": "raw:32"
+            }
+          },
+          { "field": "fill", "value": "none" }
+        ]
+      },
+      {
+        "path": "root/0:Glyph/0:Vector",
+        "name": "Vector",
+        "type": "VECTOR",
+        "visibleInVariants": 5,
+        "facts": [
+          {
+            "field": "width",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:10",
+              "xs": "raw:6",
+              "s": "raw:8",
+              "l": "raw:12",
+              "xl": "raw:16"
+            }
+          },
+          {
+            "field": "height",
+            "dependsOn": ["size"],
+            "values": {
+              "m": "raw:5",
+              "xs": "raw:3",
+              "s": "raw:4",
+              "l": "raw:6",
+              "xl": "raw:8"
+            }
+          },
+          { "field": "fill", "value": "none" },
+          { "field": "stroke", "value": "token:dy/color/text/default" }
+        ]
+      }
+    ],
+    "hidden": []
+  }
+}
