@@ -1,0 +1,217 @@
+@layer dy.react {
+  .anchor {
+    --anchor-color-border: var(--anchor-color-border-default);
+    --anchor-color-surface: var(--anchor-color-surface-default);
+    --anchor-color-text: var(--anchor-color-text-default);
+    --anchor-outline-style: none;
+    --anchor-text-decoration-thickness: var(--dy-border-width-default);
+
+    align-items: var(--anchor-align-items);
+    background-color: var(--anchor-color-surface);
+    border: var(--anchor-border);
+    border-radius: var(--anchor-border-radius);
+    color: var(--anchor-color-text);
+    display: var(--anchor-display);
+    flex-wrap: var(--anchor-flex-wrap);
+    font: var(--anchor-font);
+    justify-content: var(--anchor-justify-content);
+    max-inline-size: var(--anchor-size-inline-max);
+    min-block-size: var(--anchor-size-block-min);
+    outline: var(--dy-border-width-focus) var(--anchor-outline-style)
+      var(--dy-color-border-focus);
+    outline-offset: var(--dy-space-2xs);
+    padding: var(--anchor-space-padding);
+    position: relative;
+    text-align: var(--anchor-text-align);
+    text-decoration: var(--anchor-text-decoration);
+    /* A longhand, because Safari rejects a thickness inside the shorthand (CSS-13, CSS-14). */
+    text-decoration-thickness: var(--anchor-text-decoration-thickness);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        background-color var(--dy-motion-duration-fast)
+          var(--dy-motion-easing-standard),
+        border-color var(--dy-motion-duration-fast)
+          var(--dy-motion-easing-standard),
+        color var(--dy-motion-duration-fast) var(--dy-motion-easing-standard);
+    }
+
+    & .label {
+      overflow-wrap: var(--anchor-overflow-wrap);
+    }
+
+    & .hidden-text {
+      block-size: var(--dy-border-width-default);
+      clip-path: inset(50%);
+      inline-size: var(--dy-border-width-default);
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    &.intent-brand {
+      --anchor-color-border-intent-active: var(--dy-color-border-primary);
+      --anchor-color-border-intent-default: var(--dy-color-border-primary);
+      --anchor-color-surface-intent-active: var(
+        --dy-color-surface-action-brand-active
+      );
+      --anchor-color-surface-intent-default: var(
+        --dy-color-surface-action-brand-default
+      );
+      --anchor-color-surface-intent-hover: var(
+        --dy-color-surface-action-brand-hover
+      );
+      --anchor-color-text-active: var(--dy-color-text-action-brand-active);
+      --anchor-color-text-default: var(--dy-color-text-action-brand-default);
+      --anchor-color-text-hover: var(--dy-color-text-action-brand-hover);
+    }
+
+    &.intent-strong {
+      --anchor-color-border-intent-active: var(--dy-color-border-strong);
+      --anchor-color-border-intent-default: var(--dy-color-border-strong);
+      --anchor-color-surface-intent-active: var(
+        --dy-color-surface-action-strong-active
+      );
+      --anchor-color-surface-intent-default: var(
+        --dy-color-surface-action-strong-default
+      );
+      --anchor-color-surface-intent-hover: var(
+        --dy-color-surface-action-strong-hover
+      );
+      --anchor-color-text-active: var(--dy-color-text-action-strong-active);
+      --anchor-color-text-default: var(--dy-color-text-action-strong-default);
+      --anchor-color-text-hover: var(--dy-color-text-action-strong-hover);
+    }
+
+    &.intent-subtle {
+      --anchor-color-border-intent-active: var(--dy-color-border-strong);
+      --anchor-color-border-intent-default: var(--dy-color-border-default);
+      --anchor-color-surface-intent-active: var(
+        --dy-color-surface-action-subtle-active
+      );
+      --anchor-color-surface-intent-default: var(
+        --dy-color-surface-action-subtle-default
+      );
+      --anchor-color-surface-intent-hover: var(
+        --dy-color-surface-action-subtle-hover
+      );
+      --anchor-color-text-active: var(--dy-color-text-action-subtle-active);
+      --anchor-color-text-default: var(--dy-color-text-action-subtle-default);
+      --anchor-color-text-hover: var(--dy-color-text-action-subtle-hover);
+    }
+
+    &.variant-default {
+      --anchor-align-items: center;
+      --anchor-border: var(--dy-border-width-default) solid
+        var(--anchor-color-border);
+      --anchor-border-radius: var(--dy-border-radius-rounded);
+      --anchor-display: inline-flex;
+      --anchor-flex-wrap: wrap;
+      --anchor-font: var(--dy-font-weight-strong) var(--anchor-font-size) /
+        var(--dy-font-line-height-tight) var(--dy-font-family-body);
+      --anchor-justify-content: center;
+      --anchor-overflow-wrap: anywhere;
+      --anchor-size-inline-max: 100%;
+      --anchor-space-padding: var(--dy-space-xs)
+        var(--anchor-space-padding-inline);
+      --anchor-text-align: center;
+      --anchor-text-decoration: none;
+    }
+
+    &.variant-inline {
+      --anchor-space-padding-block: max(
+        0px,
+        calc((var(--dy-space-l) - 1em) / 2)
+      );
+      --anchor-align-items: normal;
+      --anchor-border: none;
+      --anchor-border-radius: 0;
+      --anchor-color-surface-active: transparent;
+      --anchor-color-surface-default: transparent;
+      --anchor-color-surface-hover: transparent;
+      --anchor-display: inline;
+      --anchor-flex-wrap: nowrap;
+      --anchor-font: inherit;
+      --anchor-justify-content: normal;
+      --anchor-overflow-wrap: inherit;
+      --anchor-size-block-min: auto;
+      --anchor-size-inline-max: none;
+      --anchor-space-padding: var(--anchor-space-padding-block) 0;
+      --anchor-text-align: inherit;
+      --anchor-text-decoration: underline;
+
+      &:focus-visible {
+        --anchor-space-padding-block: 0;
+      }
+    }
+
+    &.emphasis-primary {
+      --anchor-color-border-active: transparent;
+      --anchor-color-border-default: transparent;
+      --anchor-color-surface-active: var(--anchor-color-surface-intent-active);
+      --anchor-color-surface-default: var(
+        --anchor-color-surface-intent-default
+      );
+      --anchor-color-surface-hover: var(--anchor-color-surface-intent-hover);
+    }
+
+    &.emphasis-primary:is(.intent-brand, .intent-strong) {
+      --anchor-color-text-active: var(--dy-color-text-on-action);
+      --anchor-color-text-default: var(--dy-color-text-on-action);
+      --anchor-color-text-hover: var(--dy-color-text-on-action);
+    }
+
+    &.emphasis-secondary {
+      --anchor-color-border-active: var(--anchor-color-border-intent-active);
+      --anchor-color-border-default: var(--anchor-color-border-intent-default);
+      --anchor-color-surface-active: var(--dy-color-surface-sunken);
+      --anchor-color-surface-default: var(--dy-color-surface-page);
+      --anchor-color-surface-hover: var(--dy-color-surface-raised);
+    }
+
+    &.emphasis-tertiary {
+      --anchor-color-border-active: transparent;
+      --anchor-color-border-default: transparent;
+      --anchor-color-surface-active: var(--dy-color-surface-sunken);
+      --anchor-color-surface-default: transparent;
+      --anchor-color-surface-hover: var(--dy-color-surface-raised);
+    }
+
+    &.size-l {
+      --anchor-font-size: var(--dy-font-size-body-l);
+      --anchor-size-block-min: var(--dy-size-component-l);
+      --anchor-space-padding-inline: var(--dy-space-l);
+    }
+
+    &.size-m {
+      --anchor-font-size: var(--dy-font-size-body-m);
+      --anchor-size-block-min: var(--dy-size-component-m);
+      --anchor-space-padding-inline: var(--dy-space-m);
+    }
+
+    &.size-s {
+      --anchor-font-size: var(--dy-font-size-body-s);
+      --anchor-size-block-min: var(--dy-size-component-s);
+      --anchor-space-padding-inline: var(--dy-space-s);
+    }
+
+    &:focus-visible {
+      --anchor-outline-style: solid;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        --anchor-color-surface: var(--anchor-color-surface-hover);
+        --anchor-color-text: var(--anchor-color-text-hover);
+        --anchor-text-decoration-thickness: var(--dy-border-width-focus);
+      }
+    }
+
+    &:active {
+      --anchor-color-border: var(--anchor-color-border-active);
+      --anchor-color-surface: var(--anchor-color-surface-active);
+      --anchor-color-text: var(--anchor-color-text-active);
+      --anchor-text-decoration-thickness: var(--dy-border-width-focus);
+    }
+  }
+}
