@@ -20,17 +20,17 @@ A root `<span>` holding exactly one child: the `<svg>` rendered by the `icon` co
 
 ## API
 
-| Prop              | Type                                                                                                                                                                                                                                                                                                         | Values                                        | Default | Figma | Source          |
-| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------- | :------ | :---- | :-------------- |
-| icon              | `IconComponent` from `@dy/icons/react`, also re-exported by `@dy/react` (D9), required                                                                                                                                                                                                                       | Any icon component, such as `ChevronDownIcon` | -       | icon  | figma, D6       |
-| size              | `Size`                                                                                                                                                                                                                                                                                                       | xs, s, m, l, xl                               | m       | size  | figma, D1       |
-| aria-label        | `string`                                                                                                                                                                                                                                                                                                     | -                                             | -       | -     | D2, D8, A11Y-04 |
-| ref               | `React.Ref<HTMLSpanElement>`                                                                                                                                                                                                                                                                                 | -                                             | -       | -     | TS-01, RX-01    |
-| ...htmlAttributes | `SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>, keyof React.DOMAttributes<HTMLSpanElement> \| 'aria-hidden' \| 'aria-labelledby' \| 'role' \| 'tabIndex'>`, without `className` or `style`. `React.DOMAttributes` covers `children`, `dangerouslySetInnerHTML` and every `on*` event handler | -                                             | -       | -     | TS-01, D2, D10  |
+| Prop              | Type                                                                                                                                                                                                                                                                                                         | Values          | Default | Figma | Source          |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------- | :------ | :---- | :-------------- |
+| icon              | `IconComponent` from `@dy/icons/react`, also re-exported by `@dy/react` (D9), required                                                                                                                                                                                                                       | -               | -       | icon  | figma, D6       |
+| size              | `Size`                                                                                                                                                                                                                                                                                                       | xs, s, m, l, xl | m       | size  | figma, D1       |
+| aria-label        | `string`                                                                                                                                                                                                                                                                                                     | -               | -       | -     | D2, D8, A11Y-04 |
+| ref               | `React.Ref<HTMLSpanElement>`                                                                                                                                                                                                                                                                                 | -               | -       | -     | TS-01, RX-01    |
+| ...htmlAttributes | `SanitizedHTMLAttributes<React.HTMLAttributes<HTMLSpanElement>, keyof React.DOMAttributes<HTMLSpanElement> \| 'aria-hidden' \| 'aria-labelledby' \| 'role' \| 'tabIndex'>`, without `className` or `style`. `React.DOMAttributes` covers `children`, `dangerouslySetInnerHTML` and every `on*` event handler | -               | -       | -     | TS-01, D2, D10  |
 
 `IconProps` extends `SanitizedHTMLAttributes` with the omitted keys passed as its second type argument, exactly as the row writes it and as Logo does, with no separate `Omit`. It has `role`, `aria-hidden`, `aria-labelledby` and `tabIndex` omitted (D2), and every key of `React.DOMAttributes<HTMLSpanElement>` omitted: `children`, `dangerouslySetInnerHTML` and all `on*` event handlers (D10), as the `...htmlAttributes` row states. `title`, `id`, `aria-describedby`, `data-*` and the other remaining attributes pass through to the root. `aria-label` stays, because it's how a consumer makes an icon meaningful.
 
-`icon` takes the component itself (`icon={ChevronDownIcon}`), never an element, a `ReactNode` or a string name (D6). In the props table (FS-07), `size`'s Type is `Size` with `SIZES` as its options, and `icon`'s Type is `IconComponent`.
+`icon` takes the component itself (`icon={ChevronDownIcon}`), never an element, a `ReactNode` or a string name (D6). Any icon component from `@dy/icons/react` is valid, so the row lists no values. In the props table (FS-07), `size`'s Type is `Size` with `SIZES` as its options, and `icon`'s Type is `IconComponent`.
 
 ## Figma tokens
 
@@ -91,17 +91,18 @@ WAI-ARIA pattern: none. Icon is not a widget, so no APG pattern applies. A decor
 
 Anything here appearing in the build is scope creep and fails review.
 
-| Item                                                                                                                          | Figma | Source |
-| :---------------------------------------------------------------------------------------------------------------------------- | :---- | :----- |
-| A `2xl` size, or any size outside the shared `Size`                                                                           | -     | D1     |
-| A color, intent or stroke-width prop; color comes from the parent                                                             | -     | D3     |
-| Accepting a string icon name, a `ReactNode` or an element as `icon`                                                           | -     | D6     |
-| One React component per glyph or per size in `@dy/react`, or inline SVG markup in Icon                                        | -     | D6     |
-| Naming through `aria-labelledby`, a separate `label` prop or SVG `<title>`; event handlers or any other interactivity on Icon | -     | D2     |
-| Adding `icon` props to Button or Anchor; each changes through its own spec PR                                                 | -     | D6     |
-| Adding, removing or changing glyphs; that's a `/sync-icons` PR                                                                | -     | D6     |
-| Animation, such as a spinning icon                                                                                            | -     | D3     |
-| `className` and `style`                                                                                                       | -     | D2     |
+| Item                                                                                                                                             | Figma | Source |
+| :----------------------------------------------------------------------------------------------------------------------------------------------- | :---- | :----- |
+| A `2xl` size, or any size outside the shared `Size`                                                                                              | -     | D1     |
+| A color, intent or stroke-width prop; color comes from the parent                                                                                | -     | D3     |
+| Accepting a string icon name, a `ReactNode` or an element as `icon`                                                                              | -     | D6     |
+| One React component per glyph or per size in `@dy/react`, or inline SVG markup in Icon                                                           | -     | D6     |
+| Naming through `aria-labelledby`, a separate `label` prop or SVG `<title>`; event handlers or any other interactivity on Icon                    | -     | D2     |
+| Adding `icon` props to Button or Anchor; each changes through its own spec PR                                                                    | -     | D6     |
+| Adding, removing or changing glyphs; that's a `/sync-icons` PR                                                                                   | -     | D6     |
+| Animation, such as a spinning icon                                                                                                               | -     | D3     |
+| Applying the Vector `stroke` token, `--dy-color-text-default`: it's Figma's preview color, and the glyph's stroke is its parent's `currentColor` | -     | D3     |
+| `className` and `style`                                                                                                                          | -     | D2     |
 
 ## Decisions
 
