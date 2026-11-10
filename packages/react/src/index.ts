@@ -1,2 +1,9 @@
-export { Anchor, Button, Logo } from './components';
-export type { AnchorProps, ButtonProps, Lockup, LogoProps } from './components';
+export { Anchor, Button, Icon, Logo } from './components';
+export type {
+  AnchorProps,
+  ButtonProps,
+  IconComponent,
+  IconProps,
+  Lockup,
+  LogoProps,
+} from './components';
