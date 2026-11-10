@@ -53,6 +53,5 @@ export interface GetAnchorPropsReturn {
   anchorProps: React.ComponentPropsWithoutRef<'a'>;
   /** The text appended to the accessible name, when there is any (D12). */
   hiddenText: string | undefined;
-  hiddenTextProps: React.ComponentPropsWithoutRef<'span'>;
   labelProps: React.ComponentPropsWithoutRef<'span'>;
 }

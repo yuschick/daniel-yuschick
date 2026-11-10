@@ -40,15 +40,6 @@
       overflow-wrap: var(--anchor-overflow-wrap);
     }
 
-    & .hidden-text {
-      block-size: var(--dy-border-width-default);
-      clip-path: inset(50%);
-      inline-size: var(--dy-border-width-default);
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-    }
-
     &.intent-brand {
       --anchor-color-border-intent-active: var(--dy-color-border-primary);
       --anchor-color-border-intent-default: var(--dy-color-border-primary);

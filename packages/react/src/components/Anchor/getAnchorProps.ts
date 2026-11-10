@@ -39,7 +39,7 @@ function getHiddenText({
  * calls no React hook.
  *
  * @param options - The resolved props and the consumer's remaining attributes.
- * @returns The finished props for the `<a>`, its label and its hidden text.
+ * @returns The finished props for the `<a>` and its label, and the hidden text.
  */
 export function getAnchorProps({
   emphasis,
@@ -65,7 +65,6 @@ export function getAnchorProps({
   return {
     anchorProps: mergeProps(internalProps, htmlAttributes),
     hiddenText: getHiddenText({ htmlAttributes }),
-    hiddenTextProps: { className: styles['hidden-text'] },
     labelProps: { className: styles.label },
   };
 }

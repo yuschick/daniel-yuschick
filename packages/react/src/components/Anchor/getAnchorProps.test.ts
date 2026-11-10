@@ -117,11 +117,10 @@ describe('getAnchorProps', () => {
       expect(anchorProps.className).not.toContain('size-');
     });
 
-    it('resolves the label and hidden text classes', () => {
-      const { hiddenTextProps, labelProps } = renderAnchorProps();
+    it('resolves the label class', () => {
+      const { labelProps } = renderAnchorProps();
 
       expect(labelProps.className).toContain('label');
-      expect(hiddenTextProps.className).toContain('hidden-text');
     });
   });
 });
