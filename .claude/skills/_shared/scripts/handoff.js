@@ -16,6 +16,7 @@ export const HANDOFF_SKILLS = /** @type {const} */ ([
   'implement',
   'retro',
   'spec',
+  'sync-icons',
   'sync-tokens',
 ]);
 

@@ -42,6 +42,7 @@ It reads `node_modules/.cache/skills/<branch>/handoff.json` and checks it was wr
 | `/spec`        | The spec and facts are ready to approve, and formatting             |
 | `/implement`   | The gates and the latest cold review passed this exact code         |
 | `/sync-tokens` | `<commands.buildTokens>`                                            |
+| `/sync-icons`  | `<commands.buildIcons>`                                             |
 | `/retro`       | `<commands.verify>`                                                 |
 | No handoff     | `<commands.verify>`, after the approver confirms the title and body |
 
