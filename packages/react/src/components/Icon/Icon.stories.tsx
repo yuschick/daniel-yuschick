@@ -408,6 +408,7 @@ export const NativeAttributes: Story = {
     'aria-label': LABEL,
     icon: DownloadIcon,
     id: 'icon',
+    title: 'Save as PDF',
   },
   render: (args) => (
     <>
@@ -420,6 +421,8 @@ export const NativeAttributes: Story = {
 
     await expect(root.tagName).toBe('SPAN');
     await expect(root).toHaveAttribute('id', 'icon');
+    await expect(root).toHaveAttribute('title', 'Save as PDF');
+    await expect(root).toHaveAttribute('data-testid', 'icon');
     await expect(root).toHaveAttribute('aria-describedby', 'icon-description');
     await expect(root).toHaveAccessibleDescription('Saves the report as a PDF');
   },
