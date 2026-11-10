@@ -1,0 +1,10 @@
+@layer dy.react {
+  .visually-hidden {
+    block-size: var(--dy-border-width-default);
+    clip-path: inset(50%);
+    inline-size: var(--dy-border-width-default);
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+}

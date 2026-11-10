@@ -1,3 +1,5 @@
+import { VisuallyHidden } from '@package-internal/components/VisuallyHidden';
+
 import type { AnchorProps } from './Anchor.types';
 import { getAnchorProps } from './getAnchorProps';
 
@@ -11,15 +13,14 @@ export const Anchor = function Anchor({
   variant = 'default',
   ...htmlAttributes
 }: AnchorProps) {
-  const { anchorProps, hiddenText, hiddenTextProps, labelProps } =
-    getAnchorProps({
-      emphasis,
-      href,
-      htmlAttributes,
-      intent,
-      size,
-      variant,
-    });
+  const { anchorProps, hiddenText, labelProps } = getAnchorProps({
+    emphasis,
+    href,
+    htmlAttributes,
+    intent,
+    size,
+    variant,
+  });
 
   return (
     <a
@@ -30,7 +31,7 @@ export const Anchor = function Anchor({
     >
       <span {...labelProps}>
         {children}
-        {hiddenText ? <span {...hiddenTextProps}>{hiddenText}</span> : null}
+        {hiddenText ? <VisuallyHidden>{hiddenText}</VisuallyHidden> : null}
       </span>
     </a>
   );
