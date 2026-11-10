@@ -1,0 +1,36 @@
+@layer dy.react {
+  .icon {
+    block-size: var(--icon-size);
+    display: inline-flex;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    inline-size: var(--icon-size);
+    vertical-align: middle;
+
+    /* The glyph fills the root, overriding its 1em width and height attributes (D5). */
+    & > .glyph {
+      block-size: 100%;
+      inline-size: 100%;
+    }
+
+    &.size-xs {
+      --icon-size: var(--dy-size-icon-xs);
+    }
+
+    &.size-s {
+      --icon-size: var(--dy-size-icon-s);
+    }
+
+    &.size-m {
+      --icon-size: var(--dy-size-icon-m);
+    }
+
+    &.size-l {
+      --icon-size: var(--dy-size-icon-l);
+    }
+
+    &.size-xl {
+      --icon-size: var(--dy-size-icon-xl);
+    }
+  }
+}
