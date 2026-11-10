@@ -23,6 +23,7 @@ const BRANCH_PREFIX = {
   implement: 'implement/',
   retro: 'retro/',
   spec: 'spec/',
+  'sync-icons': 'icons/',
   'sync-tokens': 'tokens/',
 };
 
@@ -125,6 +126,9 @@ export async function verifyBranch({ skill, branch, run = runShell }) {
   }
   if (skill === 'sync-tokens') {
     return [shellCheck('tokens', project.commands.buildTokens, run)];
+  }
+  if (skill === 'sync-icons') {
+    return [shellCheck('icons', project.commands.buildIcons, run)];
   }
   return project.commands.verify.map((command) =>
     shellCheck(command, command, run),

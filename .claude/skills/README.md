@@ -8,6 +8,7 @@ The skills in this folder take a component from Figma to a merged pull request. 
 
 ```text
 /sync-tokens ──▶ (tokens on main)
+/sync-icons  ──▶ (icons on main)
                         │
 Figma ──▶ /spec ──▶ /pr ──▶ human merges ──▶ /implement ──▶ /pr ──▶ human merges
                                              (gates + review loop)
@@ -19,6 +20,7 @@ Figma ──▶ /spec ──▶ /pr ──▶ human merges ──▶ /implement 
 | Skill          | Does                                                                                      | Takes                     | Ends at                                              | Next                 |
 | :------------- | :---------------------------------------------------------------------------------------- | :------------------------ | :--------------------------------------------------- | :------------------- |
 | `/sync-tokens` | Exports Figma variables as DTCG tokens and builds them                                    | optional branch arguments | a committed `tokens/sync-<run-id>` branch            | `/pr`                |
+| `/sync-icons`  | Exports the Figma icon glyphs as a JSON manifest and builds SVG and React icons           | optional branch arguments | a committed `icons/sync-<run-id>` branch             | `/pr`                |
 | `/spec`        | Turns a Figma component into a validated, cold-reviewed spec                              | a Figma URL               | a committed `spec/<component>` branch                | `/pr`                |
 | `/implement`   | Builds a component to its spec on `main`, test first, behind gates and a cold review loop | a component name          | a reviewed, committed `implement/<component>` branch | `/pr`                |
 | `/review`      | One cold review of a component against its approved spec, or of a spec before it merges   | `--component` or `--spec` | a saved report and `result.json`                     | fixes, then `/pr`    |
@@ -34,7 +36,7 @@ Figma ──▶ /spec ──▶ /pr ──▶ human merges ──▶ /implement 
 - Short, lowercase, one word where possible: a verb (`implement`, `review`) or the thing the step produces (`spec`, `pr`, `retro`).
 - No project prefix. A plugin namespaces its skills (`<plugin>:spec`) when they're installed elsewhere.
 - Subagents are named for what they review: `<artifact>-reviewer` (`spec-reviewer`, `component-reviewer`).
-- A skill's branch prefix is its name or its artifact: `spec/<component>`, `implement/<component>`, `tokens/sync-<run-id>`. `/review`, `/pr` and `/retro` create no branches.
+- A skill's branch prefix is its name or its artifact: `spec/<component>`, `implement/<component>`, `tokens/sync-<run-id>`, `icons/sync-<run-id>`. `/review`, `/pr` and `/retro` create no branches.
 
 ### One step per command
 
@@ -62,18 +64,18 @@ The handoff carries content, never a command. `/pr` verifies each skill's branch
 Everything specific to this repo lives in [`project.json`](project.json), and nothing else in a skill may hard-code it:
 
 - `approver`, `defaultBranch` and `gh` (every command that may run the GitHub CLI, tried in order)
-- `figma.fileKey`
-- `packages`: the components, Storybook and tokens package names
-- `paths`: the components package and folder, its barrels and public entry, the type registry, specs, standards, the tokens package and manifest, the PR template, and the project paths a review is pinned to
+- `figma.fileKey`, and `figma.iconsSection`: the section holding the icon glyphs
+- `packages`: the components, Storybook, tokens and icons package names
+- `paths`: the components package and folder, its barrels and public entry, the type registry, specs, standards, the tokens package and manifest, the icons package, the PR template, and the project paths a review is pinned to
 - `tokens.prefix` and `rules.domains`, which the checks build their patterns from
-- `commands`: building the tokens and the verify commands
+- `commands`: building the tokens, building the icons, and the verify commands
 - `reviewers`: which agent reviews which artifact
 
 [`_shared/scripts/project.js`](_shared/scripts/project.js) loads it and stops with a message naming any missing or malformed field, so scripts read `project.<field>` and never a literal.
 
 Skill text says "the approver", not a name, and writes paths and commands as placeholders named for their field, such as `<paths.specs>/<component>/<component>.md` or `<commands.buildTokens>`. Each `SKILL.md` says so under its opening paragraph. Moving the skills to another project means writing a new `project.json`, not editing skills.
 
-Not yet portable: `allowed-tools` can't read the profile, so frontmatter repeats concrete commands; `implement/scripts/check-api.js` and `capture-story.js` assume this repo's TypeScript aliases and Storybook; `spec/references/spec-template.md` states this project's design facts; and the tokens pipeline `/sync-tokens` drives lives in the tokens package. The portability step settles these.
+Not yet portable: `allowed-tools` can't read the profile, so frontmatter repeats concrete commands; `implement/scripts/check-api.js` and `capture-story.js` assume this repo's TypeScript aliases and Storybook; `spec/references/spec-template.md` states this project's design facts; and the pipelines `/sync-tokens` and `/sync-icons` drive live in the tokens and icons packages. The portability step settles these.
 
 ### Folder layout
 

@@ -57,6 +57,18 @@ describe('the handoff', () => {
         current,
       ).some((error) => /implement\/ branch/.test(error)),
     );
+    assert.ok(
+      checkHandoff({ ...HANDOFF, skill: 'sync-icons' }, current).some((error) =>
+        /icons\/ branch/.test(error),
+      ),
+    );
+    assert.deepEqual(
+      checkHandoff(
+        { ...HANDOFF, skill: 'sync-icons', branch: 'icons/sync-1' },
+        { ...current, branch: 'icons/sync-1' },
+      ),
+      [],
+    );
   });
 
   it('lets /retro hand off a session’s own branch', () => {
@@ -112,6 +124,13 @@ describe('verifying a branch', () => {
     const run = (command) => (commands.push(command), passing());
     await verifyBranch({ skill: 'sync-tokens', branch: 'tokens/sync-1', run });
     assert.deepEqual(commands, [project.commands.buildTokens]);
+  });
+
+  it('checks an icon sync by building the icons, never a handoff command', async () => {
+    const commands = [];
+    const run = (command) => (commands.push(command), passing());
+    await verifyBranch({ skill: 'sync-icons', branch: 'icons/sync-1', run });
+    assert.deepEqual(commands, [project.commands.buildIcons]);
   });
 
   it('runs the repo checks for a retro or a branch no skill handed off', async () => {

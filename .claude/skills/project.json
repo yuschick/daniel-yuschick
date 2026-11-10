@@ -3,12 +3,14 @@
   "defaultBranch": "main",
   "gh": ["gh", "/opt/homebrew/bin/gh"],
   "figma": {
-    "fileKey": "HiDiGLs2OsVWyqnCo7aEjF"
+    "fileKey": "HiDiGLs2OsVWyqnCo7aEjF",
+    "iconsSection": "259:442"
   },
   "packages": {
     "components": "@dy/react",
     "storybook": "@dy/storybook",
-    "tokens": "@dy/tokens"
+    "tokens": "@dy/tokens",
+    "icons": "@dy/icons"
   },
   "paths": {
     "componentsPackage": "packages/react",
@@ -23,6 +25,7 @@
     "standards": "brain/standards",
     "tokensPackage": "packages/tokens",
     "tokensManifest": "packages/tokens/dist/manifest.json",
+    "iconsPackage": "packages/icons",
     "prTemplate": ".github/pull_request_template.md",
     "reviewed": [
       "brain/standards",
@@ -40,6 +43,7 @@
     "domains": ["A11Y", "CSS", "FS", "GEN", "PROP", "RX", "TS"]
   },
   "commands": {
+    "buildIcons": "pnpm --filter @dy/icons build",
     "buildTokens": "pnpm --filter @dy/tokens build",
     "verify": [
       "pnpm turbo run lint check-types build test",
