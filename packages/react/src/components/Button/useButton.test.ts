@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-import type { UseButtonOptions } from './Button.types';
+import type { UseButtonOptions, UseButtonReturn } from './Button.types';
 import { useButton } from './useButton';
 
 function renderUseButton(options: Partial<UseButtonOptions> = {}) {
@@ -19,12 +19,13 @@ function renderUseButton(options: Partial<UseButtonOptions> = {}) {
 function createClickEvent() {
   const preventDefault = vi.fn();
   const stopPropagation = vi.fn();
-  // The handler only touches these two methods, and a whole synthetic event
-  // can't be built outside React's own event system.
+  // The handlers only touch these two methods, and a whole synthetic event
+  // can't be built outside React's own event system. A pointer event is also a
+  // mouse event, so one fake serves the click, mouse and pointer handlers.
   const event = {
     preventDefault,
     stopPropagation,
-  } as unknown as React.MouseEvent<HTMLButtonElement>;
+  } as unknown as React.PointerEvent<HTMLButtonElement>;
   return { event, preventDefault, stopPropagation };
 }
 
@@ -123,6 +124,70 @@ describe('useButton', () => {
       expect(buttonProps.onClick).toBeTypeOf('function');
       expect(() => buttonProps.onClick?.(event)).not.toThrow();
     });
+  });
+
+  describe('guarding pointer presses', () => {
+    const PRESS_HANDLERS = [
+      'onMouseDown',
+      'onMouseUp',
+      'onPointerDown',
+      'onPointerUp',
+    ] satisfies readonly (keyof UseButtonOptions)[];
+
+    it.each(PRESS_HANDLERS)('calls %s when enabled', (handlerName) => {
+      const handler = vi.fn();
+      const { buttonProps } = renderUseButton({ [handlerName]: handler });
+
+      buttonProps[handlerName]?.(createClickEvent().event);
+
+      expect(handler).toHaveBeenCalledOnce();
+    });
+
+    it.each(PRESS_HANDLERS)('skips %s when disabled', (handlerName) => {
+      const handler = vi.fn();
+      const { event, preventDefault } = createClickEvent();
+      const { buttonProps } = renderUseButton({
+        isDisabled: true,
+        [handlerName]: handler,
+      });
+
+      buttonProps[handlerName]?.(event);
+
+      expect(handler).not.toHaveBeenCalled();
+      expect(preventDefault).not.toHaveBeenCalled();
+    });
+
+    it('still passes move, enter and leave handlers when disabled', () => {
+      const onMouseMove = vi.fn();
+      const onPointerEnter = vi.fn();
+      const onPointerLeave = vi.fn();
+      const { buttonProps } = renderUseButton({
+        htmlAttributes: { onMouseMove, onPointerEnter, onPointerLeave },
+        isDisabled: true,
+      });
+
+      expect(buttonProps.onMouseMove).toBe(onMouseMove);
+      expect(buttonProps.onPointerEnter).toBe(onPointerEnter);
+      expect(buttonProps.onPointerLeave).toBe(onPointerLeave);
+    });
+  });
+
+  describe('resolving the icon size', () => {
+    it.each([
+      { buttonSize: 's', iconSize: 's' },
+      { buttonSize: 'm', iconSize: 'l' },
+      { buttonSize: 'l', iconSize: 'l' },
+    ] satisfies readonly {
+      buttonSize: UseButtonOptions['size'];
+      iconSize: UseButtonReturn['iconProps']['size'];
+    }[])(
+      'uses Icon $iconSize for Button $buttonSize',
+      ({ buttonSize, iconSize }) => {
+        const { iconProps } = renderUseButton({ size: buttonSize });
+
+        expect(iconProps).toEqual({ size: iconSize });
+      },
+    );
   });
 
   describe('merging props', () => {
