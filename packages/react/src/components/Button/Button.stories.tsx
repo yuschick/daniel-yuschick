@@ -17,6 +17,9 @@ import { EMPHASES } from '@package-types/common';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent } from 'storybook/test';
 
+import { ArrowRightIcon, DownloadIcon } from '@dy/icons/react';
+import type { IconComponent } from '@dy/icons/react';
+
 import { Button } from './Button';
 import type { ButtonProps } from './Button.types';
 
@@ -34,10 +37,14 @@ const CONFORMANCE_CASES = deriveConformanceCases({
   facts: facts.payload,
   layers: {
     root: {
-      fields: { ...CONFORMANCE_BOX_FIELDS, height: 'min-block-size' },
+      fields: {
+        ...CONFORMANCE_BOX_FIELDS,
+        height: 'min-block-size',
+        // The gap between the icon and the label (D34).
+        itemSpacing: 'column-gap',
+      },
       // alignCounter, alignPrimary and layoutMode: Anatomy, checked by the Layout story.
-      // itemSpacing: out of scope until icons arrive (D10, D26).
-      ignored: ['alignCounter', 'alignPrimary', 'itemSpacing', 'layoutMode'],
+      ignored: ['alignCounter', 'alignPrimary', 'layoutMode'],
       none: CONFORMANCE_BOX_NONE,
       part: 'root',
     },
@@ -93,6 +100,16 @@ const meta: Meta<typeof Button> = {
       options: EMPHASES,
       type: 'Emphasis',
     }),
+    iconLeading: createArgType({
+      description:
+        'A decorative icon before the label, such as `ChevronDownIcon` from `@dy/icons/react`. A button has at most one icon, so it can’t be set with `iconTrailing`.',
+      type: 'IconComponent',
+    }),
+    iconTrailing: createArgType({
+      description:
+        'A decorative icon after the label, such as `ArrowRightIcon` from `@dy/icons/react`. A button has at most one icon, so it can’t be set with `iconLeading`.',
+      type: 'IconComponent',
+    }),
     intent: createArgType({
       defaultValue: 'brand',
       description: 'The meaning of the action.',
@@ -129,15 +146,21 @@ const meta: Meta<typeof Button> = {
   parameters: {
     docs: {
       description: {
-        component: `Every action that carries a text label. It renders a native \`<button>\` and nothing else. \`intent\` communicates meaning and \`emphasis\` communicates priority within a screen region.
+        component: `Every action that carries a text label, optionally with one decorative icon before or after it. It renders a native \`<button>\` and nothing else. \`intent\` communicates meaning and \`emphasis\` communicates priority within a screen region.
 
 Use one primary-emphasis action per screen region, and step everything else down to secondary or tertiary. A disabled button keeps its focus and its name, so a keyboard or screen reader user can still find it and learn that it's unavailable.
+
+Pass an icon component, not an element, to \`iconLeading\` or \`iconTrailing\`. The button sizes and colors it and hides it from assistive technology, so the label alone names the button.
 
 \`\`\`tsx
 import { Button } from '@dy/react';
 
 <Button intent="brand" emphasis="primary" size="m" onClick={handleSave}>
   Save
+</Button>;
+
+<Button iconLeading={DownloadIcon} onClick={handleDownload}>
+  Download
 </Button>;
 \`\`\``,
       },
@@ -351,6 +374,297 @@ export const LabelWithMarkup: Story = {
 
     await expect(button.children).toHaveLength(1);
     await expect(button.firstElementChild?.tagName).toBe('SPAN');
+  },
+};
+
+interface BothIconsProps {
+  children: string;
+  iconLeading: IconComponent;
+  iconTrailing: IconComponent;
+}
+
+// This only compiles while `ButtonProps` rejects a leading and a trailing icon
+// on one button (TS-08, D37).
+const REJECTS_BOTH_ICONS: BothIconsProps extends ButtonProps ? false : true =
+  true;
+
+/** Reads the rendered children of a button with one icon, in DOM order. */
+function readIconButtonParts(button: HTMLElement) {
+  const icon = button.querySelector('[aria-hidden="true"]');
+  const label = [...button.children].find((child) => child !== icon);
+  if (!(icon instanceof HTMLElement) || !(label instanceof HTMLElement)) {
+    throw new Error('Expected an icon and a label.');
+  }
+  return { icon, label };
+}
+
+/** Measures what an Icon size token resolves to, by laying out a probe. */
+function measureIconSize({
+  canvasElement,
+  token,
+}: {
+  canvasElement: HTMLElement;
+  token: string;
+}) {
+  const probe = document.createElement('div');
+  probe.style.inlineSize = `var(${token})`;
+  canvasElement.append(probe);
+  const width = probe.offsetWidth;
+  probe.remove();
+  return width;
+}
+
+/**
+ * `iconLeading` renders a decorative Icon before the label, separated by a gap.
+ * The Icon is hidden from assistive technology, so the label alone names the
+ * button, and it draws in the button's own text color.
+ */
+export const IconLeading: Story = {
+  args: { children: 'Download', iconLeading: DownloadIcon },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Download' });
+    const { icon, label } = readIconButtonParts(button);
+
+    await expect(button.children).toHaveLength(2);
+    await expect(button.firstElementChild).toBe(icon);
+    await expect(icon).toHaveAttribute('aria-hidden', 'true');
+    await expect(icon).not.toHaveAttribute('aria-label');
+    await expect(icon.querySelector('svg')).not.toBeNull();
+    await expect(label).toHaveTextContent('Download');
+    await expect(
+      label.getBoundingClientRect().left - icon.getBoundingClientRect().right,
+    ).toBeGreaterThan(0);
+    await expect(readStyle({ cssProperty: 'color', element: icon })).toBe(
+      readStyle({ cssProperty: 'color', element: button }),
+    );
+  },
+};
+
+/**
+ * `iconTrailing` renders the decorative Icon after the label instead. A button
+ * has at most one icon, and setting both props fails type-checking.
+ */
+export const IconTrailing: Story = {
+  args: { children: 'Continue', iconTrailing: ArrowRightIcon },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole('button', { name: 'Continue' });
+    const { icon, label } = readIconButtonParts(button);
+
+    await expect(REJECTS_BOTH_ICONS).toBe(true);
+    await expect(button.children).toHaveLength(2);
+    await expect(button.lastElementChild).toBe(icon);
+    await expect(icon).toHaveAttribute('aria-hidden', 'true');
+    await expect(
+      icon.getBoundingClientRect().left - label.getBoundingClientRect().right,
+    ).toBeGreaterThan(0);
+  },
+};
+
+/**
+ * Each button size picks its Icon size: Button `s` uses Icon `s`, and Button `m`
+ * and `l` use Icon `l`.
+ */
+export const IconSizes: Story = {
+  args: { iconLeading: DownloadIcon },
+  render: (args) => (
+    <div
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        gap: 'var(--dy-space-s)',
+      }}
+    >
+      {BUTTON_SIZES.map((size) => (
+        <Button key={size} {...args} size={size}>
+          {size}
+        </Button>
+      ))}
+    </div>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    const ICON_SIZE_TOKENS = {
+      l: '--dy-size-icon-l',
+      m: '--dy-size-icon-l',
+      s: '--dy-size-icon-s',
+    } satisfies Record<(typeof BUTTON_SIZES)[number], string>;
+
+    for (const size of BUTTON_SIZES) {
+      const { icon } = readIconButtonParts(
+        canvas.getByRole('button', { name: size }),
+      );
+      const expected = measureIconSize({
+        canvasElement,
+        token: ICON_SIZE_TOKENS[size],
+      });
+
+      await expect(expected).toBeGreaterThan(0);
+      await expect(icon.offsetWidth).toBe(expected);
+      await expect(icon.offsetHeight).toBe(expected);
+    }
+  },
+};
+
+/**
+ * A long label beside an icon wraps next to it, centered, while the icon keeps
+ * its full size and stays vertically centered.
+ */
+export const IconWithLongLabel: Story = {
+  args: { iconLeading: DownloadIcon },
+  render: (args) => (
+    <div data-testid="container" style={{ inlineSize: '10rem' }}>
+      <Button {...args}>
+        A label that is long enough to wrap onto more lines
+      </Button>
+    </div>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    const container = canvas.getByTestId('container');
+    const button = canvas.getByRole('button');
+    const { icon, label } = readIconButtonParts(button);
+    const iconBox = icon.getBoundingClientRect();
+    const labelBox = label.getBoundingClientRect();
+    const buttonBox = button.getBoundingClientRect();
+    const iconSize = measureIconSize({
+      canvasElement,
+      token: '--dy-size-icon-l',
+    });
+
+    await expect(label.offsetHeight).toBeGreaterThan(iconSize);
+    await expect(icon.offsetWidth).toBe(iconSize);
+    await expect(iconBox.right).toBeLessThanOrEqual(labelBox.left);
+    await expect(
+      Math.abs(
+        iconBox.top +
+          iconBox.height / 2 -
+          (buttonBox.top + buttonBox.height / 2),
+      ),
+    ).toBeLessThanOrEqual(1);
+    await expect(button.offsetWidth).toBeLessThanOrEqual(container.clientWidth);
+    await expect(button.scrollWidth).toBeLessThanOrEqual(button.clientWidth);
+  },
+};
+
+/**
+ * The icon follows the button's text color in every state: at rest, on hover
+ * and press, when disabled, and when disabled in forced-colors mode. It uses
+ * `secondary` emphasis, whose text color changes on hover and press.
+ */
+export const IconStates: Story = {
+  args: { emphasis: 'secondary', iconLeading: DownloadIcon },
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 'var(--dy-space-s)' }}>
+      <Button {...args} data-icon-state="enabled">
+        Enabled
+      </Button>
+      <Button {...args} data-icon-state="disabled" isDisabled>
+        Disabled
+      </Button>
+    </div>
+  ),
+  play: async ({ canvas, step }) => {
+    const commands = getBrowserCommands();
+    if (!commands) {
+      return;
+    }
+    const ENABLED_SELECTOR = '[data-icon-state="enabled"]';
+    const enabled = canvas.getByRole('button', { name: 'Enabled' });
+    const disabled = canvas.getByRole('button', { name: 'Disabled' });
+    const expectIconColor = async (button: HTMLElement) => {
+      const { icon } = readIconButtonParts(button);
+      await expect(readStyle({ cssProperty: 'color', element: icon })).toBe(
+        readStyle({ cssProperty: 'color', element: button }),
+      );
+    };
+
+    await commands.emulateMedia({ reducedMotion: 'reduce' });
+    try {
+      await step('At rest', async () => {
+        await expectIconColor(enabled);
+      });
+
+      for (const pseudoState of ['hover', 'active']) {
+        await step(`On ${pseudoState}`, async () => {
+          const colorAtRest = readStyle({
+            cssProperty: 'color',
+            element: enabled,
+          });
+          await commands.forcePseudoState(ENABLED_SELECTOR, [pseudoState]);
+          await expect(
+            readStyle({ cssProperty: 'color', element: enabled }),
+          ).not.toBe(colorAtRest);
+          await expectIconColor(enabled);
+          await commands.forcePseudoState(ENABLED_SELECTOR, []);
+        });
+      }
+
+      await step('Disabled', async () => {
+        await expectIconColor(disabled);
+      });
+
+      await step('Disabled in forced-colors mode', async () => {
+        await commands.emulateMedia({ forcedColors: 'active' });
+        await expectIconColor(disabled);
+      });
+    } finally {
+      await commands.forcePseudoState(ENABLED_SELECTOR, []);
+      await commands.emulateMedia({ forcedColors: null, reducedMotion: null });
+    }
+  },
+};
+
+/**
+ * While disabled, a press never reaches the consumer's pointer and mouse down
+ * and up handlers, but focus on click stays native, and move and enter handlers
+ * still fire, so a tooltip can explain why the button is unavailable. An
+ * enabled button calls every handler.
+ */
+export const DisabledPointerHandlers: Story = {
+  args: {
+    onMouseDown: fn(),
+    onMouseMove: fn(),
+    onMouseUp: fn(),
+    onPointerDown: fn(),
+    onPointerEnter: fn(),
+    onPointerUp: fn(),
+  },
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 'var(--dy-space-s)' }}>
+      <Button {...args} isDisabled>
+        Disabled
+      </Button>
+      <Button {...args}>Enabled</Button>
+    </div>
+  ),
+  play: async ({ args, canvas, step }) => {
+    const pressHandlers = [
+      args.onMouseDown,
+      args.onMouseUp,
+      args.onPointerDown,
+      args.onPointerUp,
+    ];
+
+    await step('A disabled press skips down and up handlers', async () => {
+      const button = canvas.getByRole('button', { name: 'Disabled' });
+      await userEvent.hover(button);
+      await userEvent.click(button);
+
+      await expect(button).toHaveFocus();
+      for (const handler of pressHandlers) {
+        await expect(handler).not.toHaveBeenCalled();
+      }
+      await expect(args.onPointerEnter).toHaveBeenCalled();
+      await expect(args.onMouseMove).toHaveBeenCalled();
+      await expect(args.onClick).not.toHaveBeenCalled();
+    });
+
+    await step('An enabled press calls them', async () => {
+      await userEvent.click(canvas.getByRole('button', { name: 'Enabled' }));
+
+      for (const handler of pressHandlers) {
+        await expect(handler).toHaveBeenCalledOnce();
+      }
+      await expect(args.onClick).toHaveBeenCalledOnce();
+    });
   },
 };
 

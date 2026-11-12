@@ -13,9 +13,12 @@
     border: var(--dy-border-width-default) solid var(--button-color-border);
     border-radius: var(--dy-border-radius-rounded);
     color: var(--button-color-text);
+    /* Figma's itemSpacing, between the icon and the label (D34). */
+    column-gap: var(--dy-space-xs);
     cursor: var(--button-cursor);
     display: inline-flex;
-    flex-wrap: wrap;
+    /* The label wraps inside its own span, so an icon stays beside it. */
+    flex-wrap: nowrap;
     font: var(--dy-font-weight-strong) var(--button-font-size) /
       var(--dy-font-line-height-tight) var(--dy-font-family-body);
     justify-content: center;

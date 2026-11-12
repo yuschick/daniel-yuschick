@@ -1,5 +1,6 @@
 'use client';
 
+import { Icon } from '../Icon';
 import type { ButtonProps } from './Button.types';
 import { useButton } from './useButton';
 
@@ -9,14 +10,21 @@ export const Button = function Button({
   intent = 'brand',
   size = 'm',
   children,
+  // Intentionally `undefined` by default: no icon renders (RX-03).
+  iconLeading,
+  iconTrailing,
   // Intentionally `undefined` by default, because `??` resolves them in order (RX-03, D15).
   isDisabled,
   disabled,
   'aria-disabled': ariaDisabled,
   onClick,
+  onMouseDown,
+  onMouseUp,
+  onPointerDown,
+  onPointerUp,
   ...htmlAttributes
 }: ButtonProps) {
-  const { buttonProps, labelProps } = useButton({
+  const { buttonProps, iconProps, labelProps } = useButton({
     ariaDisabled,
     buttonRef: externalRef,
     disabled,
@@ -25,6 +33,10 @@ export const Button = function Button({
     intent,
     isDisabled,
     onClick,
+    onMouseDown,
+    onMouseUp,
+    onPointerDown,
+    onPointerUp,
     size,
   });
 
@@ -40,7 +52,9 @@ export const Button = function Button({
       type={buttonProps.type}
       {...buttonProps}
     >
+      {iconLeading ? <Icon icon={iconLeading} {...iconProps} /> : null}
       <span {...labelProps}>{children}</span>
+      {iconTrailing ? <Icon icon={iconTrailing} {...iconProps} /> : null}
     </button>
   );
 };
