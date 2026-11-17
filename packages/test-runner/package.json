@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./node-reporter": "./src/reporters/node.js"
+    "./node-reporter": "./src/reporters/node.js",
+    "./vitest-reporter": "./src/reporters/vitest.js"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
