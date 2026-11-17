@@ -12,6 +12,16 @@ import type {
 const DOWNLOAD_TEXT = ' (downloads file)';
 const NEW_TAB_TEXT = ' (opens in new tab)';
 
+/** The Icon size for each size of the default form, as on Button (D24). */
+const ICON_SIZES = {
+  l: 'l',
+  m: 'l',
+  s: 's',
+} satisfies Record<
+  GetAnchorPropsOptions['size'],
+  GetAnchorPropsReturn['iconProps']['size']
+>;
+
 function getHiddenText({
   htmlAttributes,
 }: Pick<GetAnchorPropsOptions, 'htmlAttributes'>): string | undefined {
@@ -39,17 +49,20 @@ function getHiddenText({
  * calls no React hook.
  *
  * @param options - The resolved props and the consumer's remaining attributes.
- * @returns The finished props for the `<a>` and its label, and the hidden text.
+ * @returns The finished props for the `<a>`, its label, its icon slot and Icon, and the hidden text.
  */
 export function getAnchorProps({
   emphasis,
   href,
   htmlAttributes,
+  iconLeading,
   intent,
   size,
   variant,
 }: GetAnchorPropsOptions): GetAnchorPropsReturn {
   const isInline = variant === 'inline';
+  // An anchor has at most one icon (D23), so the leading icon decides the side.
+  const iconSide = iconLeading ? 'leading' : 'trailing';
 
   const internalProps = {
     href,
@@ -65,6 +78,12 @@ export function getAnchorProps({
   return {
     anchorProps: mergeProps(internalProps, htmlAttributes),
     hiddenText: getHiddenText({ htmlAttributes }),
+    // The inline form's icon is 1em, so it scales with the inherited font size (D26).
+    iconProps: { size: isInline ? 'inherit' : ICON_SIZES[size] },
+    iconSlotProps: {
+      'aria-hidden': 'true',
+      className: styles[`icon-${iconSide}`],
+    },
     labelProps: { className: styles.label },
   };
 }

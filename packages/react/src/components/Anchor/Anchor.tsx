@@ -1,5 +1,6 @@
 import { VisuallyHidden } from '@package-internal/components/VisuallyHidden';
 
+import { Icon } from '../Icon';
 import type { AnchorProps } from './Anchor.types';
 import { getAnchorProps } from './getAnchorProps';
 
@@ -8,19 +9,24 @@ export const Anchor = function Anchor({
   children,
   emphasis = 'primary',
   href,
+  // Intentionally `undefined` by default: no icon renders (RX-03).
+  iconLeading,
+  iconTrailing,
   intent = 'brand',
   size = 'm',
   variant = 'default',
   ...htmlAttributes
 }: AnchorProps) {
-  const { anchorProps, hiddenText, labelProps } = getAnchorProps({
-    emphasis,
-    href,
-    htmlAttributes,
-    intent,
-    size,
-    variant,
-  });
+  const { anchorProps, hiddenText, iconProps, iconSlotProps, labelProps } =
+    getAnchorProps({
+      emphasis,
+      href,
+      htmlAttributes,
+      iconLeading,
+      intent,
+      size,
+      variant,
+    });
 
   return (
     <a
@@ -29,10 +35,20 @@ export const Anchor = function Anchor({
       href={anchorProps.href}
       {...anchorProps}
     >
+      {iconLeading ? (
+        <span {...iconSlotProps}>
+          <Icon icon={iconLeading} {...iconProps} />
+        </span>
+      ) : null}
       <span {...labelProps}>
         {children}
         {hiddenText ? <VisuallyHidden>{hiddenText}</VisuallyHidden> : null}
       </span>
+      {iconTrailing ? (
+        <span {...iconSlotProps}>
+          <Icon icon={iconTrailing} {...iconProps} />
+        </span>
+      ) : null}
     </a>
   );
 };
