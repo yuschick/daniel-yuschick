@@ -27,6 +27,14 @@ import { Icon } from './Icon';
 
 const LABEL = 'Download';
 
+// The shared sizes, plus `inherit`, which Icon declares itself (D11).
+const ICON_SIZES = [...SIZES, 'inherit'] as const;
+
+// `inherit` sizes the root 1em square. Figma binds its variant to the `s` token
+// only so Figma has something to draw, and that binding doesn't apply in code
+// (D11), so its root width and height are checked against 1em instead.
+const INHERIT_FIELDS = ['block-size', 'inline-size'];
+
 // A glyph layer's fill is the SVG `fill` property, which Figma's `none` leaves at `none`.
 const GLYPH_FIELDS = { fill: 'fill' };
 const GLYPH_NONE = { fill: 'none' };
@@ -61,7 +69,13 @@ const CONFORMANCE_CASES = deriveConformanceCases({
       part: 'svg > :first-child',
     },
   },
-});
+}).map((testCase) =>
+  testCase.axes.size === 'inherit' &&
+  testCase.part === 'root' &&
+  INHERIT_FIELDS.includes(testCase.cssProperty)
+    ? { ...testCase, expected: '1em' }
+    : testCase,
+);
 
 const meta: Meta<typeof Icon> = {
   title: 'Components/Icon',
@@ -85,9 +99,10 @@ const meta: Meta<typeof Icon> = {
     }),
     size: createArgType({
       defaultValue: 'm',
-      description: "The scale of the Icon's dimensions.",
-      options: SIZES,
-      type: 'Size',
+      description:
+        "The scale of the Icon's dimensions. `inherit` sizes it `1em` square, so it scales with the surrounding font size.",
+      options: ICON_SIZES,
+      type: "Size | 'inherit'",
     }),
     ...createAdditionalTableGroups({
       htmlAttributes:
@@ -97,7 +112,7 @@ const meta: Meta<typeof Icon> = {
   parameters: {
     docs: {
       description: {
-        component: `The one icon component: a single glyph from \`@dy/icons\` at one of the shared sizes. Pass the icon component itself, never a string name or an element. Icon sets no color, so the glyph takes the text color of whatever contains it.
+        component: `The one icon component: a single glyph from \`@dy/icons\` at one of the shared sizes, or at \`size="inherit"\`, which sizes it \`1em\` square so it scales with the surrounding text, such as an icon inside an inline link. Pass the icon component itself, never a string name or an element. Icon sets no color, so the glyph takes the text color of whatever contains it.
 
 Icon is decorative by default and hidden from assistive tech, because the label beside it carries the meaning. Pair an icon with a visible label whenever possible. An icon that conveys meaning on its own takes an \`aria-label\`, which gives it the \`img\` role and that name.
 
@@ -245,6 +260,58 @@ export const Sizes: Story = {
       await expect(glyphBox.height).toBeCloseTo(rootBox.height, 1);
       previousSize = rootBox.width;
     }
+  },
+};
+
+/**
+ * `size="inherit"` sizes the Icon `1em` square, at two font sizes that are
+ * neither of them an icon size token: in running text, and in a flex row with
+ * text, where a flex item would otherwise stretch to the line height. Either
+ * way the Icon is exactly as tall and as wide as its parent's font size, and
+ * the svg fills it.
+ */
+export const InheritSize: Story = {
+  args: { size: 'inherit' },
+  render: (args) => (
+    <>
+      <p data-testid="small" style={{ fontSize: 'var(--dy-font-size-body-s)' }}>
+        Small text <Icon {...args} />
+      </p>
+      <p
+        data-testid="large"
+        style={{
+          display: 'flex',
+          fontSize: 'var(--dy-font-size-heading-m)',
+          gap: 'var(--dy-space-2xs)',
+        }}
+      >
+        Large text <Icon {...args} />
+      </p>
+    </>
+  ),
+  play: async ({ canvas }) => {
+    const sizes: number[] = [];
+    for (const testId of ['small', 'large']) {
+      const parent = canvas.getByTestId(testId);
+      const root = parent.querySelector('span');
+      const glyph = root?.querySelector('svg');
+      if (!root || !glyph) {
+        throw new Error(`Expected the ${testId} Icon to render.`);
+      }
+      const fontSize = Number.parseFloat(
+        readStyle({ cssProperty: 'font-size', element: parent }),
+      );
+      const rootBox = root.getBoundingClientRect();
+      const glyphBox = glyph.getBoundingClientRect();
+
+      await expect(rootBox.height).toBeCloseTo(fontSize, 1);
+      await expect(rootBox.width).toBeCloseTo(fontSize, 1);
+      await expect(glyphBox.width).toBeCloseTo(rootBox.width, 1);
+      await expect(glyphBox.height).toBeCloseTo(rootBox.height, 1);
+      sizes.push(rootBox.width);
+    }
+
+    await expect(sizes[1]).toBeGreaterThan(sizes[0] ?? 0);
   },
 };
 
@@ -523,7 +590,11 @@ export const Conformance: Story = {
             key={key}
             {...args}
             data-conformance={key}
-            size={getConformanceAxis({ axes, name: 'size', options: SIZES })}
+            size={getConformanceAxis({
+              axes,
+              name: 'size',
+              options: ICON_SIZES,
+            })}
           />
         );
       })}
