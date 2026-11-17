@@ -17,27 +17,29 @@ Ambiguity is a question, not a guess. Ask before making a consequential decision
 - `pnpm install`
 - `pnpm dev`
 - `pnpm turbo run lint check-types build test`
+- `pnpm test` (the design system test report: every package's suites and coverage; `--force` reruns all)
 - `pnpm format:check` (Prettier owns formatting; don't hand-format around it)
 
 Run all of them after every change and report failures plainly, naming what ran. `lint` runs ESLint and Stylelint. Before changing `turbo.json`, read the docs bundled with the installed package (`node -p "require.resolve('turbo/package.json')"`, then `docs/README.md`); Turborepo behavior varies by version.
 
 ## Layout
 
-| Path                 | Holds                                                                                                                         |
-| :------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `apps/web`           | The portfolio site                                                                                                            |
-| `apps/docs`          | Design system documentation                                                                                                   |
-| `packages/react`     | `@dy/react`, the component library (single entry point, `index.ts`)                                                           |
-| `packages/storybook` | `@dy/storybook`: one Storybook for every package; stories run as tests                                                        |
-| `packages/tokens`    | `@dy/tokens`: tokens synced from Figma, built to CSS                                                                          |
-| `packages/icons`     | `@dy/icons`: Lucide icons synced from Figma, built to SVG files and React components                                          |
-| `packages/fonts`     | `@dy/fonts`: self-hosted typefaces as `@font-face` CSS and WOFF2                                                              |
-| `packages/css`       | `@dy/css`: global CSS, starting with the reset                                                                                |
-| `packages/configs`   | `@dy/configs`: ESLint, Stylelint and TypeScript configs                                                                       |
-| `brain/`             | Context: Daniel's identity and voice, catalogs, coding standards                                                              |
-| `content/`           | Writing and speaking work, with its own `AGENTS.md`                                                                           |
-| `.claude/skills/`    | Versioned skills: `/sync-tokens`, `/sync-icons`, `/spec`, `/implement`, `/review`, `/pr`, `/retro`; conventions in its README |
-| `.claude/agents/`    | Versioned subagents: `spec-reviewer`, `component-reviewer`                                                                    |
+| Path                   | Holds                                                                                                                         |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| `apps/web`             | The portfolio site                                                                                                            |
+| `apps/docs`            | Design system documentation                                                                                                   |
+| `packages/react`       | `@dy/react`, the component library (single entry point, `index.ts`)                                                           |
+| `packages/storybook`   | `@dy/storybook`: one Storybook for every package; stories run as tests                                                        |
+| `packages/tokens`      | `@dy/tokens`: tokens synced from Figma, built to CSS                                                                          |
+| `packages/icons`       | `@dy/icons`: Lucide icons synced from Figma, built to SVG files and React components                                          |
+| `packages/fonts`       | `@dy/fonts`: self-hosted typefaces as `@font-face` CSS and WOFF2                                                              |
+| `packages/css`         | `@dy/css`: global CSS, starting with the reset                                                                                |
+| `packages/test-runner` | `@dy/test-runner`: the test report behind `pnpm test`, and the reporters each suite writes its results with                   |
+| `packages/configs`     | `@dy/configs`: ESLint, Stylelint and TypeScript configs                                                                       |
+| `brain/`               | Context: Daniel's identity and voice, catalogs, coding standards                                                              |
+| `content/`             | Writing and speaking work, with its own `AGENTS.md`                                                                           |
+| `.claude/skills/`      | Versioned skills: `/sync-tokens`, `/sync-icons`, `/spec`, `/implement`, `/review`, `/pr`, `/retro`; conventions in its README |
+| `.claude/agents/`      | Versioned subagents: `spec-reviewer`, `component-reviewer`                                                                    |
 
 ## Standards
 

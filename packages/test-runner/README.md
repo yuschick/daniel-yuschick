@@ -58,6 +58,8 @@ A failing suite doesn't stop the others (`--continue=dependencies-successful`). 
 
 Status never depends on color alone: every row has a symbol and words. The brand colors in [`src/palette.js`](src/palette.js) are copies of the 500 shades from `@dy/tokens`, the shades that keep 3:1 against both light and dark terminal backgrounds. That's WCAG's minimum for non-text, so they color only the mark and the `✓` and `✗` symbols. Text stays in the terminal's own color, which always has contrast. [`src/palette.test.js`](src/palette.test.js) fails if a copy drifts from its token or loses contrast.
 
+The mark in [`src/mark.js`](src/mark.js) is the logo's four slashes drawn by hand in blocks: two wide, one column per row, with a `░` shadow and rules after the mark in Kesko's runner by Ariel Salminen. Tracing the logo's exact geometry gives strokes that wobble between widths, so it's a drawing rather than a conversion.
+
 Output that isn't a terminal is plain, with no mark: a screen reader or log reads the block characters as noise. `NO_COLOR` turns color off; chalk doesn't read it on its own, so the CLI does.
 
 ## The results file
