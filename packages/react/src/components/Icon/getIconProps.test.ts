@@ -73,11 +73,14 @@ describe('getIconProps', () => {
   });
 
   describe('resolving classes', () => {
-    it.each(SIZES)('resolves the root class for size %s', (size) => {
-      const { rootProps } = renderIconProps({ size });
+    it.each([...SIZES, 'inherit'] satisfies GetIconPropsOptions['size'][])(
+      'resolves the root class for size %s',
+      (size) => {
+        const { rootProps } = renderIconProps({ size });
 
-      expect(rootProps.className).toContain('icon');
-      expect(rootProps.className).toContain(`size-${size}`);
-    });
+        expect(rootProps.className).toContain('icon');
+        expect(rootProps.className).toContain(`size-${size}`);
+      },
+    );
   });
 });

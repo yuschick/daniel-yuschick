@@ -32,5 +32,11 @@
     &.size-xl {
       --icon-size: var(--dy-size-icon-xl);
     }
+
+    &.size-inherit {
+      /* A recorded CSS-07 exception: 1em has no token, by design, so the icon
+         scales with the inherited font size (D11). */
+      --icon-size: 1em;
+    }
   }
 }

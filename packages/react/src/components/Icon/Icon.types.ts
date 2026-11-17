@@ -16,8 +16,11 @@ export interface IconProps extends SanitizedHTMLAttributes<
   /** The glyph to render: an icon component from `@dy/icons/react`, such as `ChevronDownIcon`. */
   icon: IconComponent;
   ref?: React.Ref<HTMLSpanElement>;
-  /** The scale of the Icon's dimensions. */
-  size?: Size;
+  /**
+   * The scale of the Icon's dimensions. `inherit` sizes it `1em` square, so it
+   * scales with the surrounding font size (D11).
+   */
+  size?: Size | 'inherit';
 }
 
 type IconOwnProps = 'aria-label' | 'icon' | 'ref' | 'size';
