@@ -162,6 +162,9 @@ importers:
       '@dy/configs':
         specifier: workspace:*
         version: link:../configs
+      '@dy/test-runner':
+        specifier: workspace:*
+        version: link:../test-runner
       eslint:
         specifier: 10.12.0
         version: 10.12.0(supports-color@10.2.2)
@@ -186,6 +189,9 @@ importers:
       '@dy/configs':
         specifier: workspace:*
         version: link:../configs
+      '@dy/test-runner':
+        specifier: workspace:*
+        version: link:../test-runner
       '@testing-library/dom':
         specifier: 10.4.2
         version: 10.4.2
@@ -359,11 +365,23 @@ importers:
         specifier: 5.0.5
         version: 5.0.5(@types/node@26.4.1)(@vitest/browser-playwright@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@26.4.1)(esbuild@0.28.2))
 
+  packages/test-runner:
+    devDependencies:
+      '@dy/configs':
+        specifier: workspace:*
+        version: link:../configs
+      eslint:
+        specifier: 10.12.0
+        version: 10.12.0(supports-color@10.2.2)
+
   packages/tokens:
     devDependencies:
       '@dy/configs':
         specifier: workspace:*
         version: link:../configs
+      '@dy/test-runner':
+        specifier: workspace:*
+        version: link:../test-runner
       eslint:
         specifier: 10.12.0
         version: 10.12.0(supports-color@10.2.2)

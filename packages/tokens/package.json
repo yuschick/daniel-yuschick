@@ -11,10 +11,11 @@
   "scripts": {
     "build": "node style-dictionary/build.js",
     "lint": "eslint . --max-warnings 0",
-    "test": "node --test --test-timeout=30000"
+    "test": "node --test --test-timeout=30000 --experimental-test-coverage --test-coverage-exclude='**/*.test.js' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=@dy/test-runner/node-reporter --test-reporter-destination=stdout"
   },
   "devDependencies": {
     "@dy/configs": "workspace:*",
+    "@dy/test-runner": "workspace:*",
     "eslint": "10.12.0",
     "prettier": "3.9.6",
     "style-dictionary": "5.6.1"
