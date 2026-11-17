@@ -1,6 +1,7 @@
 # The same checks AGENTS.md asks of every change, run on every pull request
 # and again on main after each merge. Branch protection on main requires the
-# `checks` job, so a pull request can't merge while it's red.
+# `checks` job, so a pull request can't merge while it's red. A change that
+# touches only specs runs a reduced set; see "Detect a spec-only change".
 name: CI
 
 on:
@@ -26,6 +27,41 @@ jobs:
     steps:
       # Actions are pinned to commit SHAs, so a moved tag can't change what runs.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The full history, so the scope step can diff against the base.
+          fetch-depth: 0
+
+      # A spec is approved before its component is built, in a separate pull
+      # request. When a spec rerun changes the facts of a component that's
+      # already built, such as a new variant, that component's Conformance
+      # story fails until /implement builds the change. So a change that
+      # touches only packages/react/specs skips the build and tests, and runs
+      # formatting, the skills' tests and the spec check. A push to main is
+      # scoped the same way, so main stays green between a spec's merge and its
+      # build. Anything else, and any run without a base to diff against, runs
+      # everything.
+      - name: Detect a spec-only change
+        id: scope
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          case "$EVENT" in
+            pull_request) base="$PR_BASE" ;;
+            push) base="$PUSH_BEFORE" ;;
+            *) base="" ;;
+          esac
+          spec_only=false
+          if [ -n "$base" ] && git cat-file -e "$base^{commit}" 2>/dev/null; then
+            changed=$(git diff --name-only "$base" HEAD)
+            if [ -n "$changed" ] &&
+              ! printf '%s\n' "$changed" | grep -qv '^packages/react/specs/'; then
+              spec_only=true
+            fi
+          fi
+          echo "Spec-only change: $spec_only"
+          echo "spec_only=$spec_only" >> "$GITHUB_OUTPUT"
 
       # Reads the pnpm version from `packageManager` in package.json.
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
@@ -40,13 +76,21 @@ jobs:
 
       # Storybook stories run as tests in a real Chromium (FS-05, A11Y-14).
       - name: Install Chromium for Storybook tests
+        if: steps.scope.outputs.spec_only != 'true'
         run: pnpm --filter @dy/storybook exec playwright install --with-deps chromium
 
       - name: Check formatting
         run: pnpm format:check
 
       - name: Lint, type-check, build and test
+        if: steps.scope.outputs.spec_only != 'true'
         run: pnpm turbo run lint check-types build test --ui=stream
+
+      # The spec check reads the token manifest, which the full build writes
+      # otherwise.
+      - name: Build the tokens
+        if: steps.scope.outputs.spec_only == 'true'
+        run: pnpm turbo run build --filter=@dy/tokens --ui=stream
 
       # The skills' own scripts and their seeded defects, so a change to a check
       # that stops it catching anything can't merge. Not a workspace package, so
@@ -56,7 +100,7 @@ jobs:
 
       # Merging a spec approves it, so every spec must be ready to build: valid
       # against its facts and the built tokens, with no open questions and no
-      # `status` field claiming approval. Runs after the build, which writes
+      # `status` field claiming approval. Runs after a build, which writes
       # the token manifest the check reads.
       - name: Check specs are ready to approve
         # Checks every spec before failing, so one run reports them all.
