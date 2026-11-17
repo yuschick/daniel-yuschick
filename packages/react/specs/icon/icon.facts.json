@@ -1,8 +1,8 @@
 {
-  "hash": "a5c3f194",
+  "hash": "1360b08a",
   "payload": {
     "source": { "id": "259:508", "name": "Icon", "type": "COMPONENT_SET" },
-    "description": "The single icon component for the system: one glyph from the DY icon set (Lucide; ISC and MIT, see @dy/icons LICENSE) at one of 5 sizes.\nPURPOSE: Every icon in the UI, on its own or inside a component slot such as Button and Anchor iconLeading / iconTrailing.\nBEHAVIOR: size (xs | s | m | l | xl) maps to dy/size/icon/* (12/16/20/24/32px). The icon property swaps the glyph; only components in the Icons section are valid glyphs. Glyphs are drawn on a 24×24 grid with a 2px stroke, and the stroke scales with size, as an SVG viewBox does in code.\nCOMPOSITION: A square frame holding one glyph instance. No padding, fill or border. Color is the stroke, bound to dy/color/text/default here; in code the glyph uses currentColor and inherits the surrounding text color, so containing components override the color, not Icon.\nUSAGE: Pair an icon with a visible text label whenever possible. Pick the size that matches the adjacent text or the containing component’s size, rather than overriding the frame.\nACCESSIBILITY: Decorative by default: hidden from assistive tech (aria-hidden) because the adjacent label carries the meaning. An icon that conveys meaning on its own takes a label, which renders role=&quot;img&quot; with that accessible name. Never rely on an icon alone for an interactive control’s name.\nCODE GENERATION NOTES: Maps to ONE Icon component in @dy/react. icon takes an icon component from @dy/icons/react (e.g. ChevronDownIcon), never a string name or a ReactNode. size is a prop that selects a --dy-size-icon-* token. Do not emit a component per glyph or per size, and do not inline SVG markup.",
+    "description": "The single icon component for the system: one glyph from the DY icon set (Lucide; ISC and MIT, see @dy/icons LICENSE) at one of 6 sizes.\nPURPOSE: Every icon in the UI, on its own or inside a component slot such as Button and Anchor iconLeading / iconTrailing.\nBEHAVIOR: size (xs | s | m | l | xl | inherit) maps to dy/size/icon/* (12/16/20/24/32px). inherit is 1em square in code, so the icon scales with the surrounding font-size, such as an inline Anchor’s icon; it has no token, by design, and Figma draws it at 16px, bound to dy/size/icon/s. The icon property swaps the glyph; only components in the Icons section are valid glyphs. Glyphs are drawn on a 24×24 grid with a 2px stroke, and the stroke scales with size, as an SVG viewBox does in code.\nCOMPOSITION: A square frame holding one glyph instance. No padding, fill or border. Color is the stroke, bound to dy/color/text/default here; in code the glyph uses currentColor and inherits the surrounding text color, so containing components override the color, not Icon.\nUSAGE: Pair an icon with a visible text label whenever possible. Pick the size that matches the adjacent text or the containing component’s size, rather than overriding the frame.\nACCESSIBILITY: Decorative by default: hidden from assistive tech (aria-hidden) because the adjacent label carries the meaning. An icon that conveys meaning on its own takes a label, which renders role=&quot;img&quot; with that accessible name. Never rely on an icon alone for an interactive control’s name.\nCODE GENERATION NOTES: Maps to ONE Icon component in @dy/react. icon takes an icon component from @dy/icons/react (e.g. ChevronDownIcon), never a string name or a ReactNode. size is a prop that selects a --dy-size-icon-* token, or, for inherit, 1em. Do not emit a component per glyph or per size, and do not inline SVG markup.",
     "properties": {
       "icon#259:0": {
         "type": "INSTANCE_SWAP",
@@ -61,14 +61,14 @@
       "size": {
         "type": "VARIANT",
         "defaultValue": "m",
-        "variantOptions": ["xs", "s", "m", "l", "xl"]
+        "variantOptions": ["xs", "s", "m", "l", "xl", "inherit"]
       }
     },
     "axes": ["size"],
-    "variantCount": 5,
+    "variantCount": 6,
     "coverage": {
-      "walked": 15,
-      "summarized": 15,
+      "walked": 18,
+      "summarized": 18,
       "hidden": 0,
       "insideHidden": 0
     },
@@ -77,7 +77,7 @@
         "path": "root",
         "name": "size=m",
         "type": "COMPONENT",
-        "visibleInVariants": 5,
+        "visibleInVariants": 6,
         "facts": [
           {
             "field": "width",
@@ -87,7 +87,8 @@
               "xs": "token:dy/size/icon/xs",
               "s": "token:dy/size/icon/s",
               "l": "token:dy/size/icon/l",
-              "xl": "token:dy/size/icon/xl"
+              "xl": "token:dy/size/icon/xl",
+              "inherit": "token:dy/size/icon/s"
             }
           },
           {
@@ -98,7 +99,8 @@
               "xs": "token:dy/size/icon/xs",
               "s": "token:dy/size/icon/s",
               "l": "token:dy/size/icon/l",
-              "xl": "token:dy/size/icon/xl"
+              "xl": "token:dy/size/icon/xl",
+              "inherit": "token:dy/size/icon/s"
             }
           },
           { "field": "fill", "value": "none" }
@@ -110,7 +112,7 @@
         "type": "INSTANCE",
         "references": { "mainComponent": "icon#259:0" },
         "mainComponent": "chevron-down",
-        "visibleInVariants": 5,
+        "visibleInVariants": 6,
         "facts": [
           {
             "field": "width",
@@ -120,7 +122,8 @@
               "xs": "raw:12",
               "s": "raw:16",
               "l": "raw:24",
-              "xl": "raw:32"
+              "xl": "raw:32",
+              "inherit": "raw:16"
             }
           },
           {
@@ -131,7 +134,8 @@
               "xs": "raw:12",
               "s": "raw:16",
               "l": "raw:24",
-              "xl": "raw:32"
+              "xl": "raw:32",
+              "inherit": "raw:16"
             }
           },
           { "field": "fill", "value": "none" }
@@ -141,7 +145,7 @@
         "path": "root/0:Glyph/0:Vector",
         "name": "Vector",
         "type": "VECTOR",
-        "visibleInVariants": 5,
+        "visibleInVariants": 6,
         "facts": [
           {
             "field": "width",
@@ -151,7 +155,8 @@
               "xs": "raw:6",
               "s": "raw:8",
               "l": "raw:12",
-              "xl": "raw:16"
+              "xl": "raw:16",
+              "inherit": "raw:8"
             }
           },
           {
@@ -162,7 +167,8 @@
               "xs": "raw:3",
               "s": "raw:4",
               "l": "raw:6",
-              "xl": "raw:8"
+              "xl": "raw:8",
+              "inherit": "raw:4"
             }
           },
           { "field": "fill", "value": "none" },
