@@ -40,3 +40,6 @@ yarn-error.log*
 
 # Embargoed writing and unannounced talks (see content/AGENTS.md)
 content/private/
+
+# Test results (cached by Turbo, read by @dy/test-runner)
+.test-results

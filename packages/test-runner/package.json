@@ -1,0 +1,17 @@
+{
+  "name": "@dy/test-runner",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./node-reporter": "./src/reporters/node.js"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "test": "node --test --experimental-test-coverage --test-coverage-exclude='**/*.test.js' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./src/reporters/node.js --test-reporter-destination=stdout"
+  },
+  "devDependencies": {
+    "@dy/configs": "workspace:*",
+    "eslint": "10.12.0"
+  }
+}
