@@ -144,4 +144,13 @@ async function main() {
   process.exitCode = exitCode;
 }
 
+// A reader that stops early (`pnpm test | head`) closes the pipe. That's
+// not a failure of the report, so stop quietly instead of throwing.
+process.stdout.on('error', (error) => {
+  if (/** @type {NodeJS.ErrnoException} */ (error).code === 'EPIPE') {
+    process.exit(process.exitCode ?? 0);
+  }
+  throw error;
+});
+
 await main();
