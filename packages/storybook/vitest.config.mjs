@@ -4,6 +4,8 @@ import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 
+import { ResultsReporter } from '@dy/test-runner/vitest-reporter';
+
 import {
   emulateMedia,
   forcePseudoState,
@@ -24,6 +26,20 @@ export default defineConfig({
       provider: playwright(),
       commands: { emulateMedia, forcePseudoState },
       instances: [{ browser: 'chromium' }],
+    },
+    // Writes .test-results/storybook.json for @dy/test-runner
+    reporters: ['default', new ResultsReporter({ suite: 'storybook' })],
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      // The stories render @dy/react's source, so that's what they cover
+      allowExternal: true,
+      include: ['../react/src/**/*.{ts,tsx}'],
+      exclude: [
+        '../react/src/**/*.test.{ts,tsx}',
+        '../react/src/**/*.stories.tsx',
+      ],
+      reporter: ['text-summary'],
     },
   },
 });
