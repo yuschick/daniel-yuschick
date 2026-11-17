@@ -8,7 +8,7 @@
     "format": "prettier --write .",
     "check-types": "turbo run check-types",
     "format:check": "prettier --check .",
-    "test": "turbo run test"
+    "test": "node packages/test-runner/src/cli.js"
   },
   "devDependencies": {
     "prettier": "3.9.6",
