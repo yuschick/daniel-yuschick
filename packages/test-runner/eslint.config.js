@@ -11,4 +11,12 @@ export default [
       'import-x/no-default-export': 'off',
     },
   },
+  {
+    // The rule keeps Turbo's cache honest about the env vars a task reads.
+    // The CLI runs Turbo rather than running inside it, and is never cached.
+    files: ['src/cli.js'],
+    rules: {
+      'turbo/no-undeclared-env-vars': ['error', { allowList: ['^NO_COLOR$'] }],
+    },
+  },
 ];

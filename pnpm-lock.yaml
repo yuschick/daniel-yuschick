@@ -381,6 +381,10 @@ importers:
         version: 5.0.5(@types/node@26.4.1)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@26.4.1)(esbuild@0.28.2))
 
   packages/test-runner:
+    dependencies:
+      chalk:
+        specifier: 5.6.2
+        version: 5.6.2
     devDependencies:
       '@dy/configs':
         specifier: workspace:*
