@@ -17,6 +17,12 @@ import { EMPHASES } from '@package-types/common';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent } from 'storybook/test';
 
+import {
+  ArrowRightIcon,
+  DownloadIcon,
+  ExternalLinkIcon,
+} from '@dy/icons/react';
+
 import { Anchor } from './Anchor';
 import type { AnchorProps } from './Anchor.types';
 
@@ -42,9 +48,11 @@ const DESTINATION = '#destination';
 // for its target size (D10, InlineTarget). fontStyle: it inherits every font
 // property (D3, InlineInheritsTypography). height: it has no minimum height (D3,
 // Inline), and `auto` computes differently on a flex item, as this story renders
-// it, than on the block-level probe the check resolves against.
+// it, than on the block-level probe the check resolves against. itemSpacing:
+// the inline gap is the icon slot's margin, not the root's (D25, InlineIcons).
 const OVERRULED_INLINE_FACTS = new Set([
   'root height',
+  'root itemSpacing',
   'root paddingTop',
   'root paddingBottom',
   'root/1:Anchor fontStyle',
@@ -73,10 +81,14 @@ const CONFORMANCE_CASES = deriveConformanceCases({
   facts: CONFORMANCE_FACTS,
   layers: {
     root: {
-      fields: { ...CONFORMANCE_BOX_FIELDS, height: 'min-block-size' },
+      fields: {
+        ...CONFORMANCE_BOX_FIELDS,
+        height: 'min-block-size',
+        // The gap between the icon and the label on the default form (D20).
+        itemSpacing: 'column-gap',
+      },
       // alignCounter, alignPrimary and layoutMode: Anatomy, checked by the Layout story.
-      // itemSpacing: out of scope until icons arrive (D6).
-      ignored: ['alignCounter', 'alignPrimary', 'itemSpacing', 'layoutMode'],
+      ignored: ['alignCounter', 'alignPrimary', 'layoutMode'],
       // radius: the inline form has none (D3).
       none: { ...CONFORMANCE_BOX_NONE, radius: '0px' },
       part: 'root',
@@ -136,6 +148,16 @@ const meta: Meta<typeof Anchor> = {
       description: "The link's destination. Required.",
       type: 'string',
     }),
+    iconLeading: createArgType({
+      description:
+        'A decorative icon before the label, such as `DownloadIcon` from `@dy/icons/react`, on either form. An anchor has at most one icon, so it can’t be set with `iconTrailing`.',
+      type: 'IconComponent',
+    }),
+    iconTrailing: createArgType({
+      description:
+        'A decorative icon after the label, such as `ExternalLinkIcon` from `@dy/icons/react`, on either form. An anchor has at most one icon, so it can’t be set with `iconLeading`.',
+      type: 'IconComponent',
+    }),
     intent: createArgType({
       defaultValue: 'brand',
       description: 'The meaning of the link.',
@@ -173,7 +195,9 @@ const meta: Meta<typeof Anchor> = {
   parameters: {
     docs: {
       description: {
-        component: `Every control that navigates and carries a text label. It renders a native \`<a href>\`, either styled like Button or, with \`variant="inline"\`, as recolored text inside a run of prose. Use Button when activation performs an action in place.
+        component: `Every control that navigates and carries a text label, optionally with one decorative icon before or after it. It renders a native \`<a href>\`, either styled like Button or, with \`variant="inline"\`, as recolored text inside a run of prose. Use Button when activation performs an action in place.
+
+Pass an icon component, not an element, to \`iconLeading\` or \`iconTrailing\`. The anchor sizes and colors it and hides it from assistive technology, so the label alone names the link. On an inline link the icon scales with the surrounding text and never wraps onto a line by itself. An icon never replaces the new-tab or download text in the name.
 
 Use one primary-emphasis anchor per screen region, and step everything else down to secondary or tertiary. The label names the destination. Anchor has no disabled state: if a destination is unavailable, don't render the link.
 
@@ -384,6 +408,300 @@ export const LongLabel: Story = {
         container.clientWidth,
       );
       await expect(anchor.scrollWidth).toBeLessThanOrEqual(anchor.clientWidth);
+    }
+  },
+};
+
+/**
+ * Reads a token's length in pixels, as the browser resolves it.
+ *
+ * @param token - The custom property, such as `--dy-space-xs`.
+ * @returns Its resolved inline size.
+ */
+function readTokenLength(token: string): number {
+  const probe = document.createElement('div');
+  probe.style.inlineSize = `var(${token})`;
+  document.body.append(probe);
+  const length = probe.getBoundingClientRect().width;
+  probe.remove();
+  return length;
+}
+
+/**
+ * The default form with a leading and a trailing icon. Each Icon sits in an
+ * `aria-hidden` slot that lays out as `display: contents`, so the Icon itself is
+ * the flex item, `--dy-space-xs` from the label. The Icon is decorative, takes
+ * the anchor's color, and is Icon `l` at size `m`. The accessible name is the
+ * label alone.
+ */
+export const Icons: Story = {
+  render: ({ href, onClick }) => (
+    <div style={{ display: 'flex', gap: 'var(--dy-space-s)' }}>
+      <Anchor href={href} iconLeading={DownloadIcon} onClick={onClick}>
+        Download the report
+      </Anchor>
+      <Anchor href={href} iconTrailing={ArrowRightIcon} onClick={onClick}>
+        See the work
+      </Anchor>
+    </div>
+  ),
+  play: async ({ canvas, step }) => {
+    const gap = readTokenLength('--dy-space-xs');
+    const iconSize = readTokenLength('--dy-size-icon-l');
+
+    for (const [name, isLeading] of [
+      ['Download the report', true],
+      ['See the work', false],
+    ] satisfies [string, boolean][]) {
+      await step(name, async () => {
+        const anchor = canvas.getByRole('link', { name });
+        const [first, second] = [...anchor.children];
+        const slot = isLeading ? first : second;
+        const label = isLeading ? second : first;
+        const icon = slot?.firstElementChild;
+        const glyph = icon?.querySelector('svg');
+        if (!slot || !label || !icon || !glyph) {
+          throw new Error(`Expected the ${name} icon and label to render.`);
+        }
+        const iconBox = icon.getBoundingClientRect();
+        const labelBox = label.getBoundingClientRect();
+
+        await expect(anchor).toHaveAccessibleName(name);
+        await expect(anchor.children).toHaveLength(2);
+        await expect(slot).toHaveAttribute('aria-hidden', 'true');
+        await expect(readStyle({ cssProperty: 'display', element: slot })).toBe(
+          'contents',
+        );
+        await expect(icon).toHaveAttribute('aria-hidden', 'true');
+        await expect(readStyle({ cssProperty: 'stroke', element: glyph })).toBe(
+          readStyle({ cssProperty: 'color', element: anchor }),
+        );
+        await expect(iconBox.width).toBeCloseTo(iconSize, 1);
+        await expect(
+          isLeading
+            ? labelBox.left - iconBox.right
+            : iconBox.left - labelBox.right,
+        ).toBeCloseTo(gap, 1);
+      });
+    }
+  },
+};
+
+/**
+ * On the default form the Icon follows the anchor's size: Icon `s` at size `s`,
+ * and Icon `l` at sizes `m` and `l`.
+ */
+export const IconSizes: Story = {
+  render: ({ href, onClick }) => (
+    <div
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        gap: 'var(--dy-space-s)',
+      }}
+    >
+      {ANCHOR_SIZES.map((size) => (
+        <Anchor
+          key={size}
+          href={href}
+          iconTrailing={ArrowRightIcon}
+          onClick={onClick}
+          size={size}
+        >
+          {size}
+        </Anchor>
+      ))}
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const expectedTokens = {
+      l: '--dy-size-icon-l',
+      m: '--dy-size-icon-l',
+      s: '--dy-size-icon-s',
+    } satisfies Record<(typeof ANCHOR_SIZES)[number], string>;
+
+    for (const size of ANCHOR_SIZES) {
+      const icon = canvas
+        .getByRole('link', { name: size })
+        .querySelector('[aria-hidden="true"] > span');
+      if (!icon) {
+        throw new Error(`Expected the ${size} icon to render.`);
+      }
+
+      await expect(icon.getBoundingClientRect().width).toBeCloseTo(
+        readTokenLength(expectedTokens[size]),
+        1,
+      );
+    }
+  },
+};
+
+/**
+ * A long label wraps beside its icon instead of dropping below it, and the icon
+ * stays vertically centered on the wrapped label.
+ */
+export const IconBesideWrappedLabel: Story = {
+  render: ({ href, onClick }) => (
+    <div style={{ inlineSize: '12rem' }}>
+      <Anchor href={href} iconLeading={DownloadIcon} onClick={onClick}>
+        Download the annual report for this year
+      </Anchor>
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const anchor = canvas.getByRole('link');
+    const [slot, label] = [...anchor.children];
+    const icon = slot?.firstElementChild;
+    if (!label || !icon) {
+      throw new Error('Expected the icon and label to render.');
+    }
+    const iconBox = icon.getBoundingClientRect();
+    const labelBox = label.getBoundingClientRect();
+
+    await expect(labelBox.height).toBeGreaterThan(iconBox.height * 1.5);
+    await expect(iconBox.right).toBeLessThanOrEqual(labelBox.left);
+    await expect(iconBox.top + iconBox.height / 2).toBeCloseTo(
+      labelBox.top + labelBox.height / 2,
+      0,
+    );
+  },
+};
+
+/**
+ * Inline links with a leading and a trailing icon, in larger text. Each Icon is
+ * as tall and wide as the surrounding font size, `--dy-space-2xs` from the
+ * label, and takes the link's color. Its slot is an inline, `aria-hidden` span,
+ * so the name is the label alone, plus any new-tab text.
+ */
+export const InlineIcons: Story = {
+  render: ({ href, onClick }) => (
+    <p
+      data-testid="prose"
+      style={{ fontSize: 'var(--dy-font-size-heading-m)' }}
+    >
+      Get{' '}
+      <Anchor
+        href={href}
+        iconLeading={DownloadIcon}
+        onClick={onClick}
+        variant="inline"
+      >
+        the report
+      </Anchor>{' '}
+      or read{' '}
+      <Anchor
+        href={href}
+        iconTrailing={ExternalLinkIcon}
+        onClick={onClick}
+        target="_blank"
+        variant="inline"
+      >
+        the case study
+      </Anchor>
+      .
+    </p>
+  ),
+  play: async ({ canvas, step }) => {
+    const fontSize = Number.parseFloat(
+      readStyle({
+        cssProperty: 'font-size',
+        element: canvas.getByTestId('prose'),
+      }),
+    );
+    const gap = readTokenLength('--dy-space-2xs');
+
+    for (const [name, isLeading] of [
+      ['the report', true],
+      ['the case study (opens in new tab)', false],
+    ] satisfies [string, boolean][]) {
+      await step(name, async () => {
+        const anchor = canvas.getByRole('link', { name });
+        const [first, second] = [...anchor.children];
+        const slot = isLeading ? first : second;
+        const label = isLeading ? second : first;
+        const icon = slot?.firstElementChild;
+        const glyph = icon?.querySelector('svg');
+        const labelBoxes = label ? [...label.getClientRects()] : [];
+        const labelBox = isLeading ? labelBoxes[0] : labelBoxes.at(-1);
+        if (!slot || !icon || !glyph || !labelBox) {
+          throw new Error(`Expected the ${name} icon and label to render.`);
+        }
+        const iconBox = icon.getBoundingClientRect();
+
+        await expect(anchor).toHaveAccessibleName(name);
+        await expect(slot).toHaveAttribute('aria-hidden', 'true');
+        await expect(readStyle({ cssProperty: 'display', element: slot })).toBe(
+          'inline',
+        );
+        await expect(icon).toHaveAttribute('aria-hidden', 'true');
+        await expect(iconBox.width).toBeCloseTo(fontSize, 1);
+        await expect(iconBox.height).toBeCloseTo(fontSize, 1);
+        await expect(readStyle({ cssProperty: 'stroke', element: glyph })).toBe(
+          readStyle({ cssProperty: 'color', element: anchor }),
+        );
+        await expect(
+          isLeading
+            ? labelBox.left - iconBox.right
+            : iconBox.left - labelBox.right,
+        ).toBeCloseTo(gap, 0);
+      });
+    }
+  },
+};
+
+/**
+ * In a container as narrow as its longest word, where the text breaks at every
+ * chance it gets, an inline icon still never wraps onto a line by itself: a
+ * trailing icon stays on its last word's line, and a leading icon on its first.
+ */
+export const InlineIconStaysWithWord: Story = {
+  render: ({ href, onClick }) => (
+    <div style={{ inlineSize: 'min-content' }}>
+      <p>
+        <Anchor
+          href={href}
+          iconTrailing={ExternalLinkIcon}
+          onClick={onClick}
+          variant="inline"
+        >
+          Read the case study
+        </Anchor>
+      </p>
+      <p>
+        <Anchor
+          href={href}
+          iconLeading={DownloadIcon}
+          onClick={onClick}
+          variant="inline"
+        >
+          Download the report
+        </Anchor>
+      </p>
+    </div>
+  ),
+  play: async ({ canvas, step }) => {
+    for (const [name, isLeading] of [
+      ['Read the case study', false],
+      ['Download the report', true],
+    ] satisfies [string, boolean][]) {
+      await step(name, async () => {
+        const anchor = canvas.getByRole('link', { name });
+        const [first, second] = [...anchor.children];
+        const slot = isLeading ? first : second;
+        const label = isLeading ? second : first;
+        const icon = slot?.firstElementChild;
+        const labelBoxes = label ? [...label.getClientRects()] : [];
+        const wordBox = isLeading ? labelBoxes[0] : labelBoxes.at(-1);
+        if (!icon || !wordBox) {
+          throw new Error(`Expected the ${name} icon and label to render.`);
+        }
+        const iconBox = icon.getBoundingClientRect();
+        const iconMiddle = iconBox.top + iconBox.height / 2;
+
+        await expect(labelBoxes.length).toBeGreaterThan(1);
+        await expect(iconMiddle).toBeGreaterThanOrEqual(wordBox.top);
+        await expect(iconMiddle).toBeLessThanOrEqual(wordBox.bottom);
+      });
     }
   },
 };

@@ -11,8 +11,13 @@
     border: var(--anchor-border);
     border-radius: var(--anchor-border-radius);
     color: var(--anchor-color-text);
+    /* Figma's itemSpacing between the icon and the label on the default form
+       (D20). It has no effect on the inline form, whose gap is the icon slot's
+       margin (D25). */
+    column-gap: var(--dy-space-xs);
     display: var(--anchor-display);
-    flex-wrap: var(--anchor-flex-wrap);
+    /* The label wraps inside its own span, so an icon stays beside it. */
+    flex-wrap: nowrap;
     font: var(--anchor-font);
     justify-content: var(--anchor-justify-content);
     max-inline-size: var(--anchor-size-inline-max);
@@ -38,6 +43,32 @@
 
     & .label {
       overflow-wrap: var(--anchor-overflow-wrap);
+    }
+
+    & :is(.icon-leading, .icon-trailing) {
+      /* Each Icon hides itself, and the slot's aria-hidden also keeps the
+         generated word joiner out of the accessible name (D25). */
+      display: var(--anchor-icon-display);
+      white-space: var(--anchor-icon-white-space);
+    }
+
+    & .icon-leading {
+      /* The word joiner faces the label, and on the inline form nowrap stops
+         the break Chromium allows right after the Icon, so the icon never
+         wraps onto a line by itself (D25, D27). */
+      margin-inline-end: var(--anchor-space-icon-gap);
+
+      &::after {
+        content: var(--anchor-icon-joiner);
+      }
+    }
+
+    & .icon-trailing {
+      margin-inline-start: var(--anchor-space-icon-gap);
+
+      &::before {
+        content: var(--anchor-icon-joiner);
+      }
     }
 
     &.intent-brand {
@@ -97,12 +128,16 @@
         var(--anchor-color-border);
       --anchor-border-radius: var(--dy-border-radius-rounded);
       --anchor-display: inline-flex;
-      --anchor-flex-wrap: wrap;
       --anchor-font: var(--dy-font-weight-strong) var(--anchor-font-size) /
         var(--dy-font-line-height-tight) var(--dy-font-family-body);
+      /* The Icon itself is the flex item, so column-gap spaces it (D25). */
+      --anchor-icon-display: contents;
+      --anchor-icon-joiner: none;
+      --anchor-icon-white-space: normal;
       --anchor-justify-content: center;
       --anchor-overflow-wrap: anywhere;
       --anchor-size-inline-max: 100%;
+      --anchor-space-icon-gap: 0;
       --anchor-space-padding: var(--dy-space-xs)
         var(--anchor-space-padding-inline);
       --anchor-text-align: center;
@@ -121,12 +156,18 @@
       --anchor-color-surface-default: transparent;
       --anchor-color-surface-hover: transparent;
       --anchor-display: inline;
-      --anchor-flex-wrap: nowrap;
       --anchor-font: inherit;
+      --anchor-icon-display: inline;
+      /* U+2060 WORD JOINER: zero-width, and no line break on either side. */
+      --anchor-icon-joiner: '\2060';
+      /* Both pieces are needed: the story fails with either removed (D27). */
+      --anchor-icon-white-space: nowrap;
       --anchor-justify-content: normal;
       --anchor-overflow-wrap: inherit;
       --anchor-size-block-min: auto;
       --anchor-size-inline-max: none;
+      /* Figma's inline itemSpacing, as the slot's margin toward the label (D25). */
+      --anchor-space-icon-gap: var(--dy-space-2xs);
       --anchor-space-padding: var(--anchor-space-padding-block) 0;
       --anchor-text-align: inherit;
       --anchor-text-decoration: underline;

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { ArrowRightIcon } from '@dy/icons/react';
+
 import type { GetAnchorPropsOptions } from './Anchor.types';
 import { getAnchorProps } from './getAnchorProps';
 
@@ -121,6 +123,43 @@ describe('getAnchorProps', () => {
       const { labelProps } = renderAnchorProps();
 
       expect(labelProps.className).toContain('label');
+    });
+  });
+
+  describe('resolving the icon', () => {
+    it.each([
+      ['s', 's'],
+      ['m', 'l'],
+      ['l', 'l'],
+    ] satisfies [GetAnchorPropsOptions['size'], string][])(
+      'gives the default form at size %s an Icon of size %s',
+      (size, iconSize) => {
+        const { iconProps } = renderAnchorProps({ size });
+
+        expect(iconProps.size).toBe(iconSize);
+      },
+    );
+
+    it('sizes the inline form’s Icon with the inherited font size', () => {
+      const { iconProps } = renderAnchorProps({ variant: 'inline' });
+
+      expect(iconProps.size).toBe('inherit');
+    });
+
+    it('puts the slot before the label for a leading icon', () => {
+      const { iconSlotProps } = renderAnchorProps({
+        iconLeading: ArrowRightIcon,
+      });
+
+      expect(iconSlotProps.className).toContain('icon-leading');
+      expect(iconSlotProps['aria-hidden']).toBe('true');
+    });
+
+    it('puts the slot after the label otherwise', () => {
+      const { iconSlotProps } = renderAnchorProps();
+
+      expect(iconSlotProps.className).toContain('icon-trailing');
+      expect(iconSlotProps['aria-hidden']).toBe('true');
     });
   });
 });
