@@ -7,6 +7,7 @@ import { parseArgs } from 'node:util';
 import { Chalk } from 'chalk';
 
 import { clearResults, collectRows, findTestedPackages } from './collect.js';
+import { MARK } from './mark.js';
 import { renderHeader, renderReport } from './render.js';
 
 const USAGE = `Usage: pnpm test [--force] [--plain]
@@ -95,7 +96,7 @@ async function main() {
 
   const { chalk, plain } = options;
 
-  process.stdout.write(renderHeader({ chalk, plain, mark: null }));
+  process.stdout.write(renderHeader({ chalk, plain, mark: MARK }));
 
   const packages = await findTestedPackages(packagesDirectory);
   await clearResults(packages);

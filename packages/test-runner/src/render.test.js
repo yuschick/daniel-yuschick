@@ -51,11 +51,16 @@ describe('formatDuration', () => {
 });
 
 describe('renderHeader', () => {
-  test('shows the mark unless output is plain', () => {
-    assert.match(renderHeader({ chalk, plain: false, mark: 'MARK' }), /MARK/);
-    assert.doesNotMatch(
+  test('shows the mark and its bullet unless output is plain', () => {
+    const header = renderHeader({ chalk, plain: false, mark: 'MARK' });
+
+    assert.match(
+      header,
+      /^\n {2}MARK\n\n {2}░█ @dy\/design-system: Running test suites…\n$/,
+    );
+    assert.equal(
       renderHeader({ chalk, plain: true, mark: 'MARK' }),
-      /MARK/,
+      '@dy/design-system: Running test suites…\n',
     );
   });
 });

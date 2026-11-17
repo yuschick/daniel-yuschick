@@ -1,3 +1,4 @@
+import { BULLET } from './mark.js';
 import { palette } from './palette.js';
 
 /** @typedef {import('chalk').ChalkInstance} ChalkInstance */
@@ -103,15 +104,20 @@ function symbolFor(failed, chalk) {
  * @returns {string}
  */
 export function renderHeader({ chalk, plain, mark }) {
-  const lines = [];
+  const brand = chalk.hex(palette.brand);
+  const title = `${chalk.bold('@dy/design-system')}: Running test suites…`;
 
-  if (!plain && mark) {
-    lines.push('', chalk.hex(palette.brand)(mark), '');
+  if (plain || !mark) {
+    return `${title}\n`;
   }
 
-  lines.push(`${chalk.bold('@dy/design-system')}: Running test suites…`);
-
-  return `${lines.join('\n')}\n`;
+  return [
+    '',
+    ...mark.split('\n').map((line) => (line ? `${INDENT}${brand(line)}` : '')),
+    '',
+    `${INDENT}${brand(BULLET)} ${title}`,
+    '',
+  ].join('\n');
 }
 
 /**
