@@ -256,6 +256,9 @@ export function checkSpec({
     let subject = question.split(' has no token')[0];
     if (question.startsWith('Hidden layer ')) subject = question.split(' ')[2];
     if (question.startsWith('Variant grid:')) subject = 'Variant grid';
+    if (question.startsWith('Illustration ')) {
+      subject = `${question.match(/^Illustration (.+?) \(\d+ vector shapes/)?.[1]} illustration`;
+    }
     if (!resolved.includes(subject)) {
       errors.push(`No decision resolves the fact: ${question}`);
     }
