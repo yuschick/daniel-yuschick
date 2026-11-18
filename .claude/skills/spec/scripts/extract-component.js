@@ -152,7 +152,47 @@ const keyOf = (variant, names) =>
   names.map((name) => variant.variantProperties[name]).join('|');
 
 const layers = new Map();
-const coverage = { walked: 0, summarized: 0, hidden: 0, insideHidden: 0 };
+const coverage = {
+  walked: 0,
+  summarized: 0,
+  hidden: 0,
+  insideHidden: 0,
+  insideIllustrations: 0,
+};
+
+// An exported illustration (an imported SVG) holds only vector shapes. It
+// ships to code as an asset, not as tokens, so it's one layer here instead of
+// a fact per shape, which would also outgrow Figma's return limit.
+const SHAPE_TYPES = new Set([
+  'VECTOR',
+  'BOOLEAN_OPERATION',
+  'ELLIPSE',
+  'RECTANGLE',
+  'POLYGON',
+  'STAR',
+  'LINE',
+]);
+const isPlainContainer = (node) =>
+  node.type === 'GROUP' ||
+  (node.type === 'FRAME' && (node.layoutMode ?? 'NONE') === 'NONE');
+
+function countIllustrationShapes(node) {
+  if (!isPlainContainer(node)) return 0;
+  const descendants = node.findAll();
+  const isIllustration =
+    descendants.some(
+      (descendant) =>
+        descendant.type === 'VECTOR' || descendant.type === 'BOOLEAN_OPERATION',
+    ) &&
+    descendants.every(
+      (descendant) =>
+        SHAPE_TYPES.has(descendant.type) || isPlainContainer(descendant),
+    );
+  return isIllustration
+    ? descendants.filter((descendant) => SHAPE_TYPES.has(descendant.type))
+        .length
+    : 0;
+}
 
 function layerRecord(path, node) {
   if (!layers.has(path)) {
@@ -182,6 +222,12 @@ async function walk(node, path, variant) {
   }
   coverage.summarized++;
   record.visibleIn.set(keyOf(variant, axes), await readFacts(node));
+  const shapes = countIllustrationShapes(node);
+  if (shapes > 0) {
+    record.illustrationShapes = shapes;
+    coverage.insideIllustrations += node.findAll().length;
+    return;
+  }
   if ('children' in node) {
     for (const [index, child] of node.children.entries()) {
       await walk(child, `${path}/${index}:${child.name}`, variant);
@@ -233,6 +279,9 @@ for (const [path, record] of layers) {
     base.references = record.references;
   }
   if (record.mainComponent) base.mainComponent = record.mainComponent;
+  if (record.illustrationShapes) {
+    base.illustration = { shapes: record.illustrationShapes };
+  }
   if (record.hiddenIn > 0) {
     hidden.push({ ...base, hiddenInVariants: record.hiddenIn });
   }

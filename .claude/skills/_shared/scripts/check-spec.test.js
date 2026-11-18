@@ -259,6 +259,51 @@ describe('checkSpec', () => {
     );
   });
 
+  it('requires a decision for an illustration', () => {
+    const artPayload = {
+      ...payload,
+      summarized: [
+        ...payload.summarized,
+        {
+          path: 'root/1:art',
+          name: 'art',
+          illustration: { shapes: 3 },
+          facts: [{ field: 'fill', value: 'none' }],
+        },
+      ],
+    };
+    const artFacts = {
+      hash: fnv1a(JSON.stringify(artPayload)),
+      payload: artPayload,
+    };
+    const check = (decisionRows) => {
+      const markdown = specMarkdown({
+        decisionRows,
+        hash: artFacts.hash,
+        tokenRows:
+          '| root | fill | all | `--dy-color-a` | figma |\n| root | height | m | `--dy-size-m` | figma |\n| root | height | l | `--dy-size-l` | figma |\n| art | fill | all | `none` | figma |',
+      });
+      return checkSpec({
+        spec: parseSpec(markdown),
+        facts: artFacts,
+        manifest,
+        ruleIds,
+        markdown,
+      });
+    };
+
+    assert.match(
+      check('| D1 | Offset is a token | root x | Daniel |').join(),
+      /No decision resolves the fact: Illustration root\/1:art/,
+    );
+    assert.deepEqual(
+      check(
+        '| D1 | Offset is a token; the art ships as an SVG asset | root x, root/1:art illustration | Daniel |',
+      ),
+      [],
+    );
+  });
+
   it('rejects stale facts', () => {
     assert.match(run({ hash: 'deadbeef' }).join(), /factsHash deadbeef/);
   });

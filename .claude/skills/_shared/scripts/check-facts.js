@@ -73,6 +73,11 @@ export function checkFacts({ facts, manifest }) {
   }
 
   for (const layer of payload.summarized) {
+    if (layer.illustration) {
+      questions.add(
+        `Illustration ${layer.path} (${layer.illustration.shapes} vector shapes, their fills not read): how does it reach code?`,
+      );
+    }
     for (const { field, value, when } of factValues(layer)) {
       const location = `${layer.path} ${field}${when ? ` (${when})` : ''}`;
       for (const part of value.split(' + ')) {

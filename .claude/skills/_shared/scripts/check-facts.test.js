@@ -150,6 +150,25 @@ describe('checkFacts', () => {
     assert.deepEqual(questions, ['root/ring x has no token: raw:-4']);
   });
 
+  it('asks how an illustration reaches code instead of reading its shapes', () => {
+    const { errors, questions } = checkFacts({
+      facts: buildFacts({
+        summarized: [
+          {
+            path: 'root/1:art',
+            illustration: { shapes: 12 },
+            facts: [{ field: 'fill', value: 'none' }],
+          },
+        ],
+      }),
+      manifest,
+    });
+    assert.deepEqual(errors, []);
+    assert.deepEqual(questions, [
+      'Illustration root/1:art (12 vector shapes, their fills not read): how does it reach code?',
+    ]);
+  });
+
   it('asks whether hidden layers are in scope', () => {
     const { questions } = checkFacts({
       facts: buildFacts({
