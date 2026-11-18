@@ -81,12 +81,16 @@ Coverage counts only the package's own files. A test that imports another worksp
 ## The `node --test` reporter
 
 ```json
-"test": "node --test --experimental-test-coverage --test-coverage-exclude='**/*.test.js' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=@dy/test-runner/node-reporter --test-reporter-destination=stdout"
+"test": "dy-node-test"
 ```
+
+`dy-node-test` runs `node --test` with the flags every package shares, from `src/node-test.js`: coverage of the package's own files, the `spec` reporter for people, and this reporter for the report. Any flags you add, such as `--test-timeout=30000`, go after the shared ones. The command finds the reporter by its own location, so it works from any package.
 
 `spec` keeps the readable output; the second reporter writes `.test-results/node.json` itself, because Node won't create a missing folder for a reporter destination. Node loads a reporter from its default export, so `src/reporters/` is exempt from RX-04's named-exports rule, the same way `*.config.js` files are.
 
-`@dy/configs` points at the reporter by relative path instead of depending on this package, because this package already depends on `@dy/configs` for its ESLint config. Its `turbo.json` lists the reporter as an input, so its suite still reruns when the reporter changes.
+Node 24's `--experimental-config-file` could hold these flags instead, but it prints a warning on every run, and it looks up reporters from the folder the tests run in, which `@dy/configs` can't use.
+
+`@dy/configs` runs the command by relative path (`node ../test-runner/src/bin/dy-node-test.js`) instead of depending on this package, because this package already depends on `@dy/configs` for its ESLint config. Its `turbo.json` lists this package's `src/` as an input, so its suite still reruns when the command or the reporter changes.
 
 ## The Vitest reporter
 

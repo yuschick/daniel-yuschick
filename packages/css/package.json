@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "lint": "eslint . --max-warnings 0 && stylelint \"src/**/*.css\" --max-warnings 0",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude='**/*.test.js' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=@dy/test-runner/node-reporter --test-reporter-destination=stdout"
+    "test": "dy-node-test"
   },
   "dependencies": {
     "@dy/fonts": "workspace:*",

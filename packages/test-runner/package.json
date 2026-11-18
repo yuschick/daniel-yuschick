@@ -3,13 +3,16 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "bin": {
+    "dy-node-test": "./src/bin/dy-node-test.js"
+  },
   "exports": {
     "./node-reporter": "./src/reporters/node.js",
     "./vitest-reporter": "./src/reporters/vitest.js"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude='**/*.test.js' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./src/reporters/node.js --test-reporter-destination=stdout"
+    "test": "node ./src/bin/dy-node-test.js"
   },
   "devDependencies": {
     "@dy/configs": "workspace:*",

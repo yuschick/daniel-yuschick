@@ -21,7 +21,7 @@
     "build": "node scripts/generate.js && tsdown",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
-    "test": "node --test --experimental-test-coverage --test-coverage-exclude='**/*.test.js' --test-reporter=spec --test-reporter-destination=stdout --test-reporter=@dy/test-runner/node-reporter --test-reporter-destination=stdout && vitest run"
+    "test": "dy-node-test && vitest run"
   },
   "peerDependencies": {
     "react": "^19.2.0"
