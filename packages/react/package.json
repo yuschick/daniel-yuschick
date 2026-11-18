@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@dy/configs": "workspace:*",
+    "@dy/test-runner": "workspace:*",
     "@storybook/addon-docs": "10.6.2",
     "@storybook/react-vite": "10.6.2",
     "@testing-library/dom": "10.4.2",
@@ -24,6 +25,7 @@
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
+    "@vitest/coverage-v8": "5.0.5",
     "eslint": "10.12.0",
     "jsdom": "30.1.3",
     "storybook": "10.6.2",

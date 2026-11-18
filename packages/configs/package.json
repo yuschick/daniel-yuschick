@@ -11,7 +11,7 @@
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "test": "node --test"
+    "test": "node ../test-runner/src/bin/dy-node-test.js"
   },
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "4.8.1",

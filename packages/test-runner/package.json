@@ -1,0 +1,24 @@
+{
+  "name": "@dy/test-runner",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "dy-node-test": "./src/bin/dy-node-test.js"
+  },
+  "exports": {
+    "./node-reporter": "./src/reporters/node.js",
+    "./vitest-reporter": "./src/reporters/vitest.js"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "test": "node ./src/bin/dy-node-test.js"
+  },
+  "devDependencies": {
+    "@dy/configs": "workspace:*",
+    "eslint": "10.12.0"
+  },
+  "dependencies": {
+    "chalk": "5.6.2"
+  }
+}
