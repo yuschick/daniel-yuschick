@@ -1,16 +1,17 @@
 {
-  "hash": "a27e3bdb",
+  "hash": "e6cd2d83",
   "payload": {
     "source": { "id": "44:704", "name": "Divider", "type": "COMPONENT" },
-    "description": "The divider component for the system, with one variant. Semantically, renders as a horizontal rule to separate and designate breaks in content.\n\n\nPURPOSE: When a single page contains multiple content types and/or content sections, the divider is used to visually and semantically designate and communicate that break in content. The primary use case is separating content defined by unique heading-level-2 (&lt;h2&gt;) elements as they most clearly communicate a content break within a page. Whereas, heading-level-3 (&lt;h3&gt;) and smaller, &lt;h4&gt;, &lt;h5&gt;, and &lt;h6&gt;, are headings that would exist within the same content section. The divider would also be used when breaking main (&lt;main&gt;) content from footer (&lt;footer&gt;) content but never breaking header (&lt;header&gt;) content from main (&lt;main&gt;) content.\n\n\nBEHAVIOR: A static, visual element that must semantically communicate the separation of content sections. The horizontal rule line must extend the full width of the Divider's container while keeping the floral emojis centered.\n\n\nCOMPOSITION: The divider is made up of a horizontal rule separator which extends the full width of its container, with five alternating floral emojis centered on it. The line stops short of the flowers by a m spacing token (dy-space-m) on each side, and the flowers are spaced from each other by the same token. Nothing is painted behind the flowers, so the divider works on any surface and in light and dark mode.\n\n\n\n\nUSAGE: With only one variant, the divider is used only one way, to separate content sections within a single page as described in the PURPOSE section.\n\n\n\n\nACCESSIBILITY: The underlying &lt;hr&gt; element must be the only semantic communication that happens to assistive technologies. All other elements within the divider must not be communicated or add noise to the core semantic purpose of the horizontal rule (&lt;hr&gt;) element.\n\n\n\n\nCODE GENERATION NOTES: A horizontal rule (&lt;hr&gt;) element must be the primary element, and its visual line must stretch to fill its container. The floral decoration must be visually hidden from assistive technologies and not communicated as textual emojis. The horizontal line must not be visible behind the floral decorations, and a spacing gap of dy-space-m must be used to create space between the floral decorations and the edges of the line to prevent the line from connecting directly to the floral decorations.",
+    "description": "The divider component for the system, with one variant. Semantically, renders as a horizontal rule to separate and designate breaks in content.\n\n\nPURPOSE: When a single page contains multiple content types and/or content sections, the divider is used to visually and semantically designate and communicate that break in content. The primary use case is separating content defined by unique heading-level-2 (&lt;h2&gt;) elements as they most clearly communicate a content break within a page. Whereas, heading-level-3 (&lt;h3&gt;) and smaller, &lt;h4&gt;, &lt;h5&gt;, and &lt;h6&gt;, are headings that would exist within the same content section. The divider would also be used when breaking main (&lt;main&gt;) content from footer (&lt;footer&gt;) content but never breaking header (&lt;header&gt;) content from main (&lt;main&gt;) content.\n\n\nBEHAVIOR: A static, visual element that must semantically communicate the separation of content sections. The horizontal rule line must extend the full width of the Divider's container while keeping the floral illustration centered.\n\n\nCOMPOSITION: The divider is made up of a horizontal rule separator which extends the full width of its container, with a decorative floral illustration of five flowers centered on it. The illustration is an SVG image, added to the codebase as an asset when the component is implemented. The line stops short of the illustration by a m spacing token (dy-space-m) on each side. Nothing is painted behind the illustration, so the divider works on any surface and in light and dark mode.\n\n\nUSAGE: With only one variant, the divider is used only one way, to separate content sections within a single page as described in the PURPOSE section.\n\n\nACCESSIBILITY: The underlying &lt;hr&gt; element must be the only semantic communication that happens to assistive technologies. All other elements within the divider must not be communicated or add noise to the core semantic purpose of the horizontal rule (&lt;hr&gt;) element.\n\n\nCODE GENERATION NOTES: A horizontal rule (&lt;hr&gt;) element must be the primary element, and its visual line must stretch to fill its container. The floral illustration is decorative and must be hidden from assistive technologies. The horizontal line must not be visible behind the illustration, and a spacing gap of dy-space-m must be used between the illustration and the edges of the line so the line never touches it.",
     "properties": {},
     "axes": [],
     "variantCount": 1,
     "coverage": {
-      "walked": 9,
-      "summarized": 9,
+      "walked": 4,
+      "summarized": 4,
       "hidden": 0,
-      "insideHidden": 0
+      "insideHidden": 0,
+      "insideIllustrations": 216
     },
     "summarized": [
       {
@@ -55,117 +56,12 @@
         "path": "root/1:flowers",
         "name": "flowers",
         "type": "FRAME",
+        "illustration": { "shapes": 203 },
         "visibleInVariants": 1,
         "facts": [
-          { "field": "layoutMode", "value": "raw:HORIZONTAL" },
-          { "field": "alignPrimary", "value": "raw:MIN" },
-          { "field": "alignCounter", "value": "raw:CENTER" },
-          { "field": "paddingTop", "value": "raw:0" },
-          { "field": "paddingRight", "value": "raw:0" },
-          { "field": "paddingBottom", "value": "raw:0" },
-          { "field": "paddingLeft", "value": "raw:0" },
-          { "field": "itemSpacing", "value": "token:dy/space/m" },
+          { "field": "width", "value": "raw:157.14285278320312" },
+          { "field": "height", "value": "raw:44" },
           { "field": "fill", "value": "none" }
-        ]
-      },
-      {
-        "path": "root/1:flowers/0:flower",
-        "name": "flower",
-        "type": "TEXT",
-        "visibleInVariants": 1,
-        "facts": [
-          { "field": "fill", "value": "token:dy/color/text/default" },
-          { "field": "fontFamily", "value": "token:dy/font/family/body" },
-          { "field": "fontStyle", "value": "token:dy/font/weight/body" },
-          { "field": "fontSize", "value": "token:dy/font/size/body/l" },
-          {
-            "field": "lineHeight",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":100}"
-          },
-          {
-            "field": "letterSpacing",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
-          }
-        ]
-      },
-      {
-        "path": "root/1:flowers/1:flower",
-        "name": "flower",
-        "type": "TEXT",
-        "visibleInVariants": 1,
-        "facts": [
-          { "field": "fill", "value": "token:dy/color/text/default" },
-          { "field": "fontFamily", "value": "token:dy/font/family/body" },
-          { "field": "fontStyle", "value": "token:dy/font/weight/body" },
-          { "field": "fontSize", "value": "token:dy/font/size/body/l" },
-          {
-            "field": "lineHeight",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":100}"
-          },
-          {
-            "field": "letterSpacing",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
-          }
-        ]
-      },
-      {
-        "path": "root/1:flowers/2:flower",
-        "name": "flower",
-        "type": "TEXT",
-        "visibleInVariants": 1,
-        "facts": [
-          { "field": "fill", "value": "token:dy/color/text/default" },
-          { "field": "fontFamily", "value": "token:dy/font/family/body" },
-          { "field": "fontStyle", "value": "token:dy/font/weight/body" },
-          { "field": "fontSize", "value": "token:dy/font/size/body/l" },
-          {
-            "field": "lineHeight",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":100}"
-          },
-          {
-            "field": "letterSpacing",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
-          }
-        ]
-      },
-      {
-        "path": "root/1:flowers/3:flower",
-        "name": "flower",
-        "type": "TEXT",
-        "visibleInVariants": 1,
-        "facts": [
-          { "field": "fill", "value": "token:dy/color/text/default" },
-          { "field": "fontFamily", "value": "token:dy/font/family/body" },
-          { "field": "fontStyle", "value": "token:dy/font/weight/body" },
-          { "field": "fontSize", "value": "token:dy/font/size/body/l" },
-          {
-            "field": "lineHeight",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":100}"
-          },
-          {
-            "field": "letterSpacing",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
-          }
-        ]
-      },
-      {
-        "path": "root/1:flowers/4:flower",
-        "name": "flower",
-        "type": "TEXT",
-        "visibleInVariants": 1,
-        "facts": [
-          { "field": "fill", "value": "token:dy/color/text/default" },
-          { "field": "fontFamily", "value": "token:dy/font/family/body" },
-          { "field": "fontStyle", "value": "token:dy/font/weight/body" },
-          { "field": "fontSize", "value": "token:dy/font/size/body/l" },
-          {
-            "field": "lineHeight",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":100}"
-          },
-          {
-            "field": "letterSpacing",
-            "value": "raw:{\"unit\":\"PERCENT\",\"value\":0}"
-          }
         ]
       },
       {
