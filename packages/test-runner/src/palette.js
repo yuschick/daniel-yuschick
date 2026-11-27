@@ -10,7 +10,7 @@
  */
 export const palette = {
   /** `dy.color.rhubarb.500`, the theme's primary */
-  brand: '#db465c',
+  brand: '#e23d52',
   /** `dy.color.green.500`, the theme's positive */
   positive: '#2f9c3c',
   /** `dy.color.red.500`, the theme's negative */

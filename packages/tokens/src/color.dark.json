@@ -4,8 +4,8 @@
       "border": {
         "attention": {
           "$type": "color",
-          "$value": "{dy.color.attention.600}",
-          "$description": "Boundary for warnings. Light: dy/color/attention/600.",
+          "$value": "{dy.color.attention.400}",
+          "$description": "Boundary for warnings. Dark: dy/color/attention/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -16,7 +16,7 @@
         "default": {
           "$type": "color",
           "$value": "{dy.color.neutral.500}",
-          "$description": "Control and component boundaries (3:1 non-text contrast). Light: dy/color/neutral/500.",
+          "$description": "Control and component boundaries (3:1 non-text contrast). Dark: dy/color/neutral/500.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -26,8 +26,8 @@
         },
         "focus": {
           "$type": "color",
-          "$value": "{dy.color.blue.600}",
-          "$description": "Universal focus indicator, the same in every theme. Use as an outline with outline-offset so page background separates it from the component (blue on rhubarb alone is only 1.08:1). Light: dy/color/blue/600.",
+          "$value": "{dy.color.blue.400}",
+          "$description": "Universal focus indicator, the same in every theme. Use as an outline with outline-offset so the page background separates it from the component (blue alone can sit close to a brand fill). Dark: dy/color/blue/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -37,8 +37,8 @@
         },
         "negative": {
           "$type": "color",
-          "$value": "{dy.color.negative.600}",
-          "$description": "Boundary for errors and destructive states. Light: dy/color/negative/600.",
+          "$value": "{dy.color.negative.400}",
+          "$description": "Boundary for errors and destructive states. Dark: dy/color/negative/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -48,8 +48,8 @@
         },
         "notice": {
           "$type": "color",
-          "$value": "{dy.color.notice.600}",
-          "$description": "Boundary for information. Light: dy/color/notice/600.",
+          "$value": "{dy.color.notice.400}",
+          "$description": "Boundary for information. Dark: dy/color/notice/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -59,8 +59,8 @@
         },
         "positive": {
           "$type": "color",
-          "$value": "{dy.color.positive.600}",
-          "$description": "Boundary for success. Light: dy/color/positive/600.",
+          "$value": "{dy.color.positive.400}",
+          "$description": "Boundary for success. Dark: dy/color/positive/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -70,8 +70,8 @@
         },
         "primary": {
           "$type": "color",
-          "$value": "{dy.color.primary.600}",
-          "$description": "Boundary for primary. Light: dy/color/primary/600.",
+          "$value": "{dy.color.primary.400}",
+          "$description": "Boundary for primary. Dark: dy/color/primary/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -81,8 +81,8 @@
         },
         "secondary": {
           "$type": "color",
-          "$value": "{dy.color.secondary.600}",
-          "$description": "Boundary for secondary. Light: dy/color/secondary/600.",
+          "$value": "{dy.color.secondary.400}",
+          "$description": "Boundary for secondary. Dark: dy/color/secondary/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -92,8 +92,8 @@
         },
         "strong": {
           "$type": "color",
-          "$value": "{dy.color.neutral.700}",
-          "$description": "High-emphasis boundaries. Light: dy/color/neutral/700.",
+          "$value": "{dy.color.neutral.300}",
+          "$description": "High-emphasis boundaries. Dark: dy/color/neutral/300.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -103,8 +103,8 @@
         },
         "subtle": {
           "$type": "color",
-          "$value": "{dy.color.neutral.200}",
-          "$description": "Decorative dividers. Not for control boundaries (below 3:1). Light: dy/color/neutral/200.",
+          "$value": "{dy.color.neutral.800}",
+          "$description": "Decorative dividers. Not for control boundaries (below 3:1). Dark: dy/color/neutral/800.",
           "$extensions": {
             "com.figma": {
               "scopes": ["STROKE_COLOR"],
@@ -118,8 +118,8 @@
           "brand": {
             "active": {
               "$type": "color",
-              "$value": "{dy.color.primary.800}",
-              "$description": "Brand intent action background while pressed; pair with text/on-action. Light: dy/color/primary/800.",
+              "$value": "{dy.color.primary.200}",
+              "$description": "Brand intent action background while pressed; pair with text/on-action. Dark: dy/color/primary/200.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -129,8 +129,8 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.primary.600}",
-              "$description": "Brand intent action background; pair with text/on-action. Light: dy/color/primary/600.",
+              "$value": "{dy.color.primary.400}",
+              "$description": "Brand intent action background; pair with text/on-action. Dark: dy/color/primary/400.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -140,8 +140,8 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.primary.700}",
-              "$description": "Brand intent action background on hover; pair with text/on-action. Light: dy/color/primary/700.",
+              "$value": "{dy.color.primary.300}",
+              "$description": "Brand intent action background on hover; pair with text/on-action. Dark: dy/color/primary/300.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -153,8 +153,8 @@
           "strong": {
             "active": {
               "$type": "color",
-              "$value": "{dy.color.neutral.950}",
-              "$description": "Strong intent action background while pressed; pair with text/on-action. Light: dy/color/neutral/950.",
+              "$value": "{dy.color.neutral.300}",
+              "$description": "Strong intent action background while pressed; pair with text/on-action. Dark: dy/color/neutral/300.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -164,8 +164,8 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
-              "$description": "Strong intent action background; pair with text/on-action. Light: dy/color/neutral/900.",
+              "$value": "{dy.color.neutral.50}",
+              "$description": "Strong intent action background; pair with text/on-action. Dark: dy/color/neutral/50.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -175,8 +175,8 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.neutral.800}",
-              "$description": "Strong intent action background on hover; pair with text/on-action. Light: dy/color/neutral/800.",
+              "$value": "{dy.color.neutral.200}",
+              "$description": "Strong intent action background on hover; pair with text/on-action. Dark: dy/color/neutral/200.",
               "$extensions": {
                 "com.figma": {
                   "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -188,7 +188,7 @@
           "subtle": {
             "active": {
               "$type": "color",
-              "$value": "{dy.color.neutral.100}",
+              "$value": "{dy.color.neutral.800}",
               "$description": "Subtle intent action surface when pressed.",
               "$extensions": {
                 "com.figma": {
@@ -199,7 +199,7 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.neutral.50}",
+              "$value": "{dy.color.neutral.950}",
               "$description": "Subtle intent action surface.",
               "$extensions": {
                 "com.figma": {
@@ -210,7 +210,7 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.white}",
+              "$value": "{dy.color.neutral.900}",
               "$description": "Subtle intent action surface on hover.",
               "$extensions": {
                 "com.figma": {
@@ -224,8 +224,8 @@
         "attention": {
           "strong": {
             "$type": "color",
-            "$value": "{dy.color.attention.600}",
-            "$description": "Strong background for warnings; pair with text/on-action. Light: dy/color/attention/600.",
+            "$value": "{dy.color.attention.400}",
+            "$description": "Strong background for warnings; pair with text/on-action. Dark: dy/color/attention/400.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -235,8 +235,8 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{dy.color.attention.100}",
-            "$description": "Subtle background for warnings. Light: dy/color/attention/100.",
+            "$value": "{dy.color.attention.950}",
+            "$description": "Subtle background for warnings. Dark: dy/color/attention/950.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -245,10 +245,21 @@
             }
           }
         },
+        "brand": {
+          "$type": "color",
+          "$value": "{dy.color.primary.800}",
+          "$description": "Large brand surfaces, like hero and section panels; pair with text/strong or text/default. Dark: dy/color/primary/800.",
+          "$extensions": {
+            "com.figma": {
+              "scopes": ["FRAME_FILL", "SHAPE_FILL"],
+              "variableId": "VariableID:326:3095"
+            }
+          }
+        },
         "inverse": {
           "$type": "color",
-          "$value": "{dy.color.neutral.900}",
-          "$description": "High-emphasis inverted areas; pair with text/inverse. Light: dy/color/neutral/900.",
+          "$value": "{dy.color.neutral.50}",
+          "$description": "High-emphasis inverted areas; pair with text/inverse. Dark: dy/color/neutral/50.",
           "$extensions": {
             "com.figma": {
               "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -259,8 +270,8 @@
         "negative": {
           "strong": {
             "$type": "color",
-            "$value": "{dy.color.negative.600}",
-            "$description": "Strong background for errors and destructive states; pair with text/on-action. Light: dy/color/negative/600.",
+            "$value": "{dy.color.negative.400}",
+            "$description": "Strong background for errors and destructive states; pair with text/on-action. Dark: dy/color/negative/400.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -270,8 +281,8 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{dy.color.negative.100}",
-            "$description": "Subtle background for errors and destructive states. Light: dy/color/negative/100.",
+            "$value": "{dy.color.negative.950}",
+            "$description": "Subtle background for errors and destructive states. Dark: dy/color/negative/950.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -283,8 +294,8 @@
         "neutral": {
           "disabled": {
             "$type": "color",
-            "$value": "{dy.color.neutral.100}",
-            "$description": "Disabled control background. Light: dy/color/neutral/100.",
+            "$value": "{dy.color.neutral.800}",
+            "$description": "Disabled control background. Dark: dy/color/neutral/800.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -296,8 +307,8 @@
         "notice": {
           "strong": {
             "$type": "color",
-            "$value": "{dy.color.notice.600}",
-            "$description": "Strong background for information; pair with text/on-action. Light: dy/color/notice/600.",
+            "$value": "{dy.color.notice.400}",
+            "$description": "Strong background for information; pair with text/on-action. Dark: dy/color/notice/400.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -307,8 +318,8 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{dy.color.notice.100}",
-            "$description": "Subtle background for information. Light: dy/color/notice/100.",
+            "$value": "{dy.color.notice.950}",
+            "$description": "Subtle background for information. Dark: dy/color/notice/950.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -319,8 +330,8 @@
         },
         "overlay": {
           "$type": "color",
-          "$value": "{dy.color.white}",
-          "$description": "Popovers, menus and dialogs. Light: dy/color/white.",
+          "$value": "{dy.color.neutral.800}",
+          "$description": "Popovers, menus and dialogs. Dark: dy/color/neutral/800.",
           "$extensions": {
             "com.figma": {
               "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -330,8 +341,8 @@
         },
         "page": {
           "$type": "color",
-          "$value": "{dy.color.neutral.50}",
-          "$description": "Page background. Light: dy/color/neutral/50.",
+          "$value": "{dy.color.neutral.950}",
+          "$description": "Page background. Dark: dy/color/neutral/950.",
           "$extensions": {
             "com.figma": {
               "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -342,8 +353,8 @@
         "positive": {
           "strong": {
             "$type": "color",
-            "$value": "{dy.color.positive.600}",
-            "$description": "Strong background for success; pair with text/on-action. Light: dy/color/positive/600.",
+            "$value": "{dy.color.positive.400}",
+            "$description": "Strong background for success; pair with text/on-action. Dark: dy/color/positive/400.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -353,8 +364,8 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{dy.color.positive.100}",
-            "$description": "Subtle background for success. Light: dy/color/positive/100.",
+            "$value": "{dy.color.positive.950}",
+            "$description": "Subtle background for success. Dark: dy/color/positive/950.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -365,8 +376,8 @@
         },
         "raised": {
           "$type": "color",
-          "$value": "{dy.color.white}",
-          "$description": "Cards and panels above the page. Light: dy/color/white.",
+          "$value": "{dy.color.neutral.900}",
+          "$description": "Cards and panels above the page. Dark: dy/color/neutral/900.",
           "$extensions": {
             "com.figma": {
               "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -376,8 +387,8 @@
         },
         "sunken": {
           "$type": "color",
-          "$value": "{dy.color.neutral.100}",
-          "$description": "Wells and inset areas below the page. Light: dy/color/neutral/100.",
+          "$value": "{dy.color.neutral.950}",
+          "$description": "Wells and inset areas below the page. Dark: dy/color/neutral/950.",
           "$extensions": {
             "com.figma": {
               "scopes": ["FRAME_FILL", "SHAPE_FILL"],
@@ -391,7 +402,7 @@
           "brand": {
             "active": {
               "$type": "color",
-              "$value": "{dy.color.primary.700}",
+              "$value": "{dy.color.primary.300}",
               "$description": "Brand intent action label and icon when pressed.",
               "$extensions": {
                 "com.figma": {
@@ -402,7 +413,7 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.primary.700}",
+              "$value": "{dy.color.primary.400}",
               "$description": "Brand intent action label and icon.",
               "$extensions": {
                 "com.figma": {
@@ -413,7 +424,7 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.primary.800}",
+              "$value": "{dy.color.primary.300}",
               "$description": "Brand intent action label and icon on hover.",
               "$extensions": {
                 "com.figma": {
@@ -426,7 +437,7 @@
           "strong": {
             "active": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
+              "$value": "{dy.color.neutral.100}",
               "$description": "Strong intent action label and icon when pressed.",
               "$extensions": {
                 "com.figma": {
@@ -437,7 +448,7 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
+              "$value": "{dy.color.neutral.100}",
               "$description": "Strong intent action label and icon.",
               "$extensions": {
                 "com.figma": {
@@ -448,7 +459,7 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
+              "$value": "{dy.color.neutral.100}",
               "$description": "Strong intent action label and icon on hover.",
               "$extensions": {
                 "com.figma": {
@@ -461,7 +472,7 @@
           "subtle": {
             "active": {
               "$type": "color",
-              "$value": "{dy.color.neutral.900}",
+              "$value": "{dy.color.neutral.100}",
               "$description": "Subtle intent action label and icon when pressed.",
               "$extensions": {
                 "com.figma": {
@@ -472,7 +483,7 @@
             },
             "default": {
               "$type": "color",
-              "$value": "{dy.color.neutral.700}",
+              "$value": "{dy.color.neutral.300}",
               "$description": "Subtle intent action label and icon.",
               "$extensions": {
                 "com.figma": {
@@ -483,7 +494,7 @@
             },
             "hover": {
               "$type": "color",
-              "$value": "{dy.color.neutral.800}",
+              "$value": "{dy.color.neutral.200}",
               "$description": "Subtle intent action label and icon on hover.",
               "$extensions": {
                 "com.figma": {
@@ -496,8 +507,8 @@
         },
         "attention": {
           "$type": "color",
-          "$value": "{dy.color.attention.700}",
-          "$description": "Text for warnings; passes 4.5:1 on page and on surface/attention/subtle. Light: dy/color/attention/700.",
+          "$value": "{dy.color.attention.400}",
+          "$description": "Text for warnings; passes 4.5:1 on page and on surface/attention/subtle. Dark: dy/color/attention/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
@@ -507,8 +518,8 @@
         },
         "default": {
           "$type": "color",
-          "$value": "{dy.color.neutral.900}",
-          "$description": "Body and heading text. Light: dy/color/neutral/900.",
+          "$value": "{dy.color.neutral.100}",
+          "$description": "Body and heading text. Dark: dy/color/neutral/100.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
@@ -519,7 +530,7 @@
         "disabled": {
           "$type": "color",
           "$value": "{dy.color.neutral.500}",
-          "$description": "Disabled text (exempt from contrast minimums; never the only cue). Light: dy/color/neutral/500.",
+          "$description": "Disabled text (exempt from contrast minimums; never the only cue). Dark: dy/color/neutral/500.",
           "$extensions": {
             "com.figma": {
               "scopes": ["SHAPE_FILL", "TEXT_FILL"],
@@ -529,8 +540,8 @@
         },
         "inverse": {
           "$type": "color",
-          "$value": "{dy.color.neutral.50}",
-          "$description": "Text on surface/inverse. Light: dy/color/neutral/50.",
+          "$value": "{dy.color.neutral.950}",
+          "$description": "Text on surface/inverse. Dark: dy/color/neutral/950.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
@@ -541,8 +552,8 @@
         "link": {
           "default": {
             "$type": "color",
-            "$value": "{dy.color.primary.700}",
-            "$description": "Link text. Light: dy/color/primary/700.",
+            "$value": "{dy.color.primary.400}",
+            "$description": "Link text. Dark: dy/color/primary/400.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["TEXT_FILL"],
@@ -552,8 +563,8 @@
           },
           "hover": {
             "$type": "color",
-            "$value": "{dy.color.primary.800}",
-            "$description": "Link text on hover. Light: dy/color/primary/800.",
+            "$value": "{dy.color.primary.300}",
+            "$description": "Link text on hover. Dark: dy/color/primary/300.",
             "$extensions": {
               "com.figma": {
                 "scopes": ["TEXT_FILL"],
@@ -564,8 +575,8 @@
         },
         "negative": {
           "$type": "color",
-          "$value": "{dy.color.negative.700}",
-          "$description": "Text for errors and destructive states; passes 4.5:1 on page and on surface/negative/subtle. Light: dy/color/negative/700.",
+          "$value": "{dy.color.negative.400}",
+          "$description": "Text for errors and destructive states; passes 4.5:1 on page and on surface/negative/subtle. Dark: dy/color/negative/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
@@ -575,8 +586,8 @@
         },
         "notice": {
           "$type": "color",
-          "$value": "{dy.color.notice.700}",
-          "$description": "Text for information; passes 4.5:1 on page and on surface/notice/subtle. Light: dy/color/notice/700.",
+          "$value": "{dy.color.notice.400}",
+          "$description": "Text for information; passes 4.5:1 on page and on surface/notice/subtle. Dark: dy/color/notice/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
@@ -586,8 +597,8 @@
         },
         "on-action": {
           "$type": "color",
-          "$value": "{dy.color.white}",
-          "$description": "Text and icons on action surfaces. Light: dy/color/white.",
+          "$value": "{dy.color.neutral.950}",
+          "$description": "Text and icons on action surfaces. Dark: dy/color/neutral/950.",
           "$extensions": {
             "com.figma": {
               "scopes": ["SHAPE_FILL", "TEXT_FILL"],
@@ -597,8 +608,8 @@
         },
         "positive": {
           "$type": "color",
-          "$value": "{dy.color.positive.700}",
-          "$description": "Text for success; passes 4.5:1 on page and on surface/positive/subtle. Light: dy/color/positive/700.",
+          "$value": "{dy.color.positive.400}",
+          "$description": "Text for success; passes 4.5:1 on page and on surface/positive/subtle. Dark: dy/color/positive/400.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
@@ -608,8 +619,8 @@
         },
         "strong": {
           "$type": "color",
-          "$value": "{dy.color.neutral.950}",
-          "$description": "Highest-contrast text and brand marks, like the Logo. Light: dy/color/neutral/950.",
+          "$value": "{dy.color.neutral.50}",
+          "$description": "Highest-contrast text and brand marks, like the Logo. Dark: dy/color/neutral/50.",
           "$extensions": {
             "com.figma": {
               "scopes": ["SHAPE_FILL", "TEXT_FILL"],
@@ -619,8 +630,8 @@
         },
         "subtle": {
           "$type": "color",
-          "$value": "{dy.color.neutral.700}",
-          "$description": "Secondary text and descriptions. Light: dy/color/neutral/700.",
+          "$value": "{dy.color.neutral.300}",
+          "$description": "Secondary text and descriptions. Dark: dy/color/neutral/300.",
           "$extensions": {
             "com.figma": {
               "scopes": ["TEXT_FILL"],
