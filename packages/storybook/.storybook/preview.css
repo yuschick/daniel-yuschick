@@ -1,5 +1,29 @@
-/* Stories render on the surface components sit on, not the browser's white canvas. */
-body,
-.docs-story {
-  background-color: var(--dy-color-surface-page);
+/*
+ * Storybook's element defaults, the dy.base layer the reset reserves for each
+ * app. Components in dy.react always win over anything here.
+ *
+ * Stories render on the surface components sit on, not the browser's white
+ * canvas, with the text color that pairs with it. The theme is dark-only for
+ * now, so color-scheme tells the browser its own defaults (unstyled links,
+ * scrollbars, form controls) must be dark-mode ones too.
+ */
+@layer dy.base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body,
+  .docs-story {
+    background-color: var(--dy-color-surface-page);
+    color: var(--dy-color-text-default);
+  }
+
+  /*
+   * Plain buttons that stories use as fixtures (focus targets before and
+   * after a component, overlay triggers). The browser's dark button face
+   * is too light for the inherited text, so they get a token surface.
+   */
+  button {
+    background-color: var(--dy-color-surface-raised);
+  }
 }
