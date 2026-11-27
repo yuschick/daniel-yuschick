@@ -3,8 +3,8 @@
   "collections": {
     "VariableCollectionId:112:407": {
       "name": "Portfolio Color",
-      "fingerprint": "01389239",
-      "files": ["color.light.json"]
+      "fingerprint": "b31b90d0",
+      "files": ["color.dark.json"]
     },
     "VariableCollectionId:115:407": {
       "name": "Portfolio Foundation",
@@ -13,7 +13,7 @@
     },
     "VariableCollectionId:107:440": {
       "name": "Portfolio Primitives",
-      "fingerprint": "f2375e47",
+      "fingerprint": "2dde49ef",
       "files": ["primitives.json"]
     },
     "VariableCollectionId:114:414": {
